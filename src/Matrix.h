@@ -15,12 +15,16 @@ namespace mathutils {
 
 
     public:
-        
+        // RotateXY(vector, angle)
+        // Vu(vector, angle)
+        // Vv(vector, angle)
+        // SetBodyVector(pu, pv, pangle)
+        // getGivenColumn(matrix, vectorOut&, icol)
 
 
 
     };
 
-}
+}  // end namespace MathUtils
 
 #endif //FRYDOM_MATRIX_H
