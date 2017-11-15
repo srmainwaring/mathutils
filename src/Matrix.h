@@ -13,7 +13,6 @@ namespace mathutils {
     template <class Scalar=double>
     class Vector2d : public Eigen::Matrix<Scalar, 2, 1> {
 
-
     public:
         // RotateXY(vector, angle)
         // Vu(vector, angle)
