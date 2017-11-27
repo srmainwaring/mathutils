@@ -18,9 +18,26 @@
 namespace mathutils {
 
 
-    /*
+    /* ===========================================================================================
      * ANGLES Conversions functions
      */
+
+    enum ANGLE_UNIT {
+        DEG,
+        RAD
+    };
+
+    /// CONVERSION DEG->RAD
+    template <class T>
+    inline T radians(const T a) {
+        return a * MU_PI_180;
+    }
+
+    /// CONVERSION RAD->DEG
+    template <class T>
+    inline T degrees(const T a) {
+        return a / MU_PI_180;
+    }
 
     // TODO: both two following functions should be realized as MACROS for performance
     /// CONVERSION DEG->RAD
@@ -35,7 +52,7 @@ namespace mathutils {
         return a / MU_PI_180;
     }
 
-    /*
+    /* ===========================================================================================
      * Velocities conversions functions
      */
 
@@ -112,7 +129,7 @@ namespace mathutils {
     }
 
 
-    /*
+    /* ===========================================================================================
      * Frequency conversion functions
      */
 

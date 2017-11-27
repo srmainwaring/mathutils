@@ -5,6 +5,11 @@
 #ifndef MATHUTILS_VECTORGENERATION_H
 #define MATHUTILS_VECTORGENERATION_H
 
+#include <cassert>
+#include <cmath>
+#include <vector>
+
+
 namespace mathutils {
 
     template<class Real=double>
@@ -42,7 +47,7 @@ namespace mathutils {
         auto num = floor((stop-start)/step);
         auto final_stop = num * step;
 
-        return linspace(start, final_stop, (uint)num);
+        return linspace(start, final_stop, (unsigned int)num);
     }
 
 
