@@ -5,6 +5,8 @@
 #ifndef FRYDOM_MATHUTILS_H_H
 #define FRYDOM_MATHUTILS_H_H
 
+#include "Eigen/Dense"
+
 #include "src/Constants.h"
 #include "src/Matrix.h"
 #include "src/Unit.h"

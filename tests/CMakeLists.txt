@@ -9,6 +9,7 @@ set(TESTS
         test_interp1d
         test_lookup_table
         test_interp2d
+        test_vector2d
         )
 
 message(STATUS "Test programs for MathUtils module...")
