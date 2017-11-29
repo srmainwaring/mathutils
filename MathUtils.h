@@ -8,7 +8,8 @@
 #include "Eigen/Dense"
 
 #include "src/Constants.h"
-#include "src/Matrix.h"
+#include "src/Vector2d.h"
+#include "src/Vector3d.h"
 #include "src/Unit.h"
 #include "src/Angles.h"
 #include "src/Maths.h"

@@ -27,7 +27,8 @@ set(FILES
         Maths.h
         VectorGeneration.h
         Check.h
-        Matrix.h
+        Vector2d.h
+        Vector3d.h
         )
 
 add_library(MathUtils SHARED ${FILES})
