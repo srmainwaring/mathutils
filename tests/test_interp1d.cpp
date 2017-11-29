@@ -6,8 +6,6 @@
 #include "MathUtils.h"
 
 #define N 100
-#define JJ (std::complex<double>(0., 1.))
-
 
 using namespace mathutils;
 

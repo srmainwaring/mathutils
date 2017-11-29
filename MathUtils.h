@@ -12,6 +12,8 @@
 #include "src/Maths.h"
 #include "src/Interp1d.h"
 #include "src/LookupTable1D.h"
+#include "src/Interp2d.h"
+#include "src/LookupTable2D.h"
 #include "src/VectorGeneration.h"
 #include "src/Check.h"
 
