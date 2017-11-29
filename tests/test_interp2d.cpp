@@ -2,11 +2,12 @@
 // Created by frongere on 29/11/17.
 //
 
+#include <fstream>
 #include "MathUtils.h"
 
 #define N 101
 
-using namespace frydom;
+using namespace mathutils;
 
 int main(int argc, char* argv[]) {
 

@@ -19,6 +19,7 @@ set(FILES
         Constants.h
         Angles.h
         Unit.h
+        Interp.h
         Interp1d.h
         LookupTable1D.h
         Interp2d.h

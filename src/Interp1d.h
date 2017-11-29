@@ -5,16 +5,9 @@
 #ifndef MATHUTILS_INTERP1D_H
 #define MATHUTILS_INTERP1D_H
 
-#include <cassert>
-#include <memory>
-#include <vector>
-#include <algorithm>
+#include "Interp.h"
 
 namespace mathutils {
-
-    enum Interp1dMethod {
-        LINEAR
-    };
 
 
     template <class XReal, class YScalar>
@@ -43,7 +36,7 @@ namespace mathutils {
 
         std::vector<YScalar> operator() (const std::vector<XReal>& xvector) const { return Eval(xvector); }
 
-        static Interp1d<XReal, YScalar>* MakeInterp1d(Interp1dMethod method);
+        static Interp1d<XReal, YScalar>* MakeInterp1d(INTERP_METHOD method);
 
     };
 
@@ -143,7 +136,7 @@ namespace mathutils {
 
     /// Factory method to create 1D interpolation classes
     template <class XReal, class YScalar>
-    Interp1d<XReal, YScalar>* Interp1d<XReal, YScalar>::MakeInterp1d(Interp1dMethod method) {
+    Interp1d<XReal, YScalar>* Interp1d<XReal, YScalar>::MakeInterp1d(INTERP_METHOD method) {
         switch (method) {
             case LINEAR:
                 return new Interp1dLinear<XReal, YScalar>;

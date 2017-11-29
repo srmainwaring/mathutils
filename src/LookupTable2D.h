@@ -5,18 +5,20 @@
 #ifndef FRYDOM_LOOKUPTABLE2D_H
 #define FRYDOM_LOOKUPTABLE2D_H
 
+#include <vector>
+
 #include "Interp2d.h"
 
 namespace mathutils {
 
-    template <class Real>
-    class Interp2d<Real>;
+//    template <class Real>
+//    class Interp2d<Real>;
 
     template <class Real=double>
     class LookupTable2d {
 
     protected:
-        Interp2dMethod interp_method = LINEAR;
+        INTERP_METHOD interp_method = LINEAR;
 
         std::shared_ptr<std::vector<Real>> Xcoords;
         std::shared_ptr<std::vector<Real>> Ycoords;
@@ -36,7 +38,7 @@ namespace mathutils {
         LookupTable2d & operator = (const LookupTable2d &) = delete;
 
         /// Set interpolation method
-        void SetInterpolationMethod(Interp2dMethod method);
+        void SetInterpolationMethod(INTERP_METHOD method);
 
         /// Set the X vector of the lookup table
         void SetX(const std::vector<Real> X);
@@ -55,13 +57,13 @@ namespace mathutils {
         unsigned long GetNbSample() const;
 
         /// Add a serie to the LUT
-        bool AddData(const std::string name, const std::vector<std::vector<Real>> Data);
+        bool AddData(std::string name, std::vector<std::vector<Real>> Data);
 
         /// Evaluates the LUT giving the key of the serie and the coordinate of a point
         Real Eval(const std::string name, const Real x, const Real y) const;
         Real Eval(const std::string name, const std::vector<Real> coord) const;
 
-        /// Evaluates the LUT giving the key of the series an a vector of coordinate
+        /// Evaluates the LUT giving the key of the series and a vector of coordinate
         std::vector<Real> Eval(const std::string name, const std::vector<std::vector<Real>>& vcoord) const;
 
     private:
@@ -72,7 +74,7 @@ namespace mathutils {
     };
 
     template <class Real>
-    void LookupTable2d<Real>::SetInterpolationMethod(Interp2dMethod method) {
+    void LookupTable2d<Real>::SetInterpolationMethod(INTERP_METHOD method) {
 
         if (GetNbSeries() > 0) {
             std::cout << "TODO : reinitialiser les interpolateurs" << std::endl;
@@ -80,22 +82,23 @@ namespace mathutils {
         interp_method = method;
     }
 
-    unsigned long LookupTable2d::GetNbSample() const {
+    template <class Real>
+    unsigned long LookupTable2d<Real>::GetNbSample() const {
         return Xcoords->size() * Ycoords->size();
     }
 
     template <class Real>
-    void LookupTable2d::SetX(const std::vector<Real> X) {
+    void LookupTable2d<Real>::SetX(const std::vector<Real> X) {
         Xcoords = std::make_shared<std::vector<Real>>(X);
     }
 
     template <class Real>
-    void LookupTable2d::SetY(const std::vector<Real> Y) {
+    void LookupTable2d<Real>::SetY(const std::vector<Real> Y) {
         Ycoords = std::make_shared<std::vector<Real>>(Y);
     }
 
     template <class Real>
-    bool LookupTable2d<Real>::AddData(const std::string name, const std::vector<Real> Data) {
+    bool LookupTable2d<Real>::AddData(const std::string name, const std::vector<std::vector<Real>> Data) {
 
         auto i = GetNbSeries();
 
@@ -131,7 +134,7 @@ namespace mathutils {
     }
 
     template <class Real>
-    Real LookupTable2d<Real>::Eval(const std::string name, const std::vector<std::vector<Real>>& vcoord) const {
+    std::vector<Real> LookupTable2d<Real>::Eval(const std::string name, const std::vector<std::vector<Real>>& vcoord) const {
         return interpolators.at(GetIndex(name))->Eval(vcoord);
     }
 

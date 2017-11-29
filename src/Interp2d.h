@@ -5,13 +5,13 @@
 #ifndef FRYDOM_INTERP2D_H
 #define FRYDOM_INTERP2D_H
 
+#include "Interp.h"
+
+// TODO: rendre capable la methode d'inteprolation 2D d'interpoler les nombres complexes !!
+
 namespace mathutils {
 
-    enum Interp2dMethod {
-        LINEAR
-    };
-
-    template <class Real=double>
+    template <class Real>
     class Interp2d {
 
     protected:
@@ -27,8 +27,8 @@ namespace mathutils {
         unsigned long ndata = 0;
 
     public:
-        Interp2d() {};
-        ~Interp2d() {};
+//        Interp2d() {};
+//        ~Interp2d() {};
 
         virtual void Initialize(std::shared_ptr<const std::vector<Real>> x,
                                 std::shared_ptr<const std::vector<Real>> y,
@@ -46,15 +46,15 @@ namespace mathutils {
             return Eval(vcoord);
         }
 
-        static Interp2d<Real>* MakeInterp2d(Interp2dMethod method);
+        static Interp2d<Real>* MakeInterp2d(INTERP_METHOD method);
 
     };
 
 
     template <class Real>
     void Interp2d<Real>::Initialize(std::shared_ptr<const std::vector<Real>> x,
-                                      std::shared_ptr<const std::vector<Real>> y,
-                                      std::shared_ptr<const std::vector<Real>> data) {
+                                    std::shared_ptr<const std::vector<Real>> y,
+                                    std::shared_ptr<const std::vector<Real>> data) {
 
         assert( x->size() * y->size() == data->size());
         //assert( y->size() == data->at(0).size());
@@ -101,8 +101,8 @@ namespace mathutils {
 
     template <class Real>
     void Interp2dLinear<Real>::Initialize(const std::shared_ptr<const std::vector<Real>> x,
-                                            const std::shared_ptr<const std::vector<Real>> y,
-                                            const std::shared_ptr<const std::vector<Real>> data) {
+                                          const std::shared_ptr<const std::vector<Real>> y,
+                                          const std::shared_ptr<const std::vector<Real>> data) {
 
         Interp2d<Real>::Initialize(x, y, data);
 
@@ -201,7 +201,7 @@ namespace mathutils {
 
 
     template <class Real>
-    Interp2d<Real>* Interp2d<Real>::MakeInterp2d(Interp2dMethod method) {
+    Interp2d<Real>* Interp2d<Real>::MakeInterp2d(INTERP_METHOD method) {
         switch (method) {
             case LINEAR:
                 return new Interp2dLinear<Real>;

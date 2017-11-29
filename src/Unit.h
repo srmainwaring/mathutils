@@ -134,10 +134,11 @@ namespace mathutils {
      */
 
     enum FREQUENCY_UNIT {
-        HZ,
-        RADS,
-        S
-    };
+        HZ,     ///< Hertz (s**-1)
+        RADS,   ///< rad/s
+        S,      ///< seconds (period)
+        RPM     ///< Round Per Minute
+    };  // TODO: ajouter la conversion avec RPM ...
 
     template <class Real=double>
     inline Real HZ2RADS(const Real hz) {
@@ -199,7 +200,6 @@ namespace mathutils {
         }
 
     }
-
 
 
 }

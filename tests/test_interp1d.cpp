@@ -55,7 +55,7 @@ void testInterpComplex() {
     y->reserve(x->size());
     std::complex<double> val;
     for (unsigned long i = 0; i < x->size(); i++) {
-        val = exp(JJ * x->at(i));
+        val = exp(MU_JJ * x->at(i));
         y->push_back( val );
     }
 
