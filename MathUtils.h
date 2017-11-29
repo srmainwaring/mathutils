@@ -9,6 +9,7 @@
 #include "src/Matrix.h"
 #include "src/Unit.h"
 #include "src/Angles.h"
+#include "src/Maths.h"
 #include "src/Interp1d.h"
 #include "src/LookupTable1D.h"
 #include "src/VectorGeneration.h"

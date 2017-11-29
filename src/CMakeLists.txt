@@ -21,6 +21,7 @@ set(FILES
         Unit.h
         Interp1d.h
         LookupTable1D.h
+        Maths.h
         VectorGeneration.h
         Check.h
         Matrix.h

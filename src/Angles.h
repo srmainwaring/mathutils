@@ -62,6 +62,15 @@ namespace mathutils {
         return angle - M_PI;
     }
 
+    /// Convert string to angular unit
+    inline ANGLE_UNIT STRING2ANGLE(const std::string unit) {  // FIXME: pourquoi as-t-on besoin de cela ??
+        if (unit == "DEG") {
+            return DEG;
+        } else if ( unit == "RAD") {
+            return RAD;
+        }
+    }
+
 
 }
 
