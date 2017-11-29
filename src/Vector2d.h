@@ -8,19 +8,9 @@
 #include "Eigen/Dense"
 
 #include "Unit.h"
+#include "Angles.h"
 
 namespace mathutils {
-
-
-    template <class Scalar=double>
-    inline void _GetTrigo(const Scalar pangle, Scalar& cosAngle, Scalar& sinAngle, ANGLE_UNIT unit=RAD) {
-        Scalar angle = pangle;
-        if (unit == DEG) {
-            angle *= MU_PI_180;
-        }
-        cosAngle = cos(angle);
-        sinAngle = sin(angle);
-    }
 
 
     template <class Scalar=double>
