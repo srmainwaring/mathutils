@@ -18,5 +18,7 @@ add_subdirectory(tests)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})  # TODO: voir si utile...
 
-# Defining different folders for usage in other programs
-set(MATHUTILS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+# Defining VARIABLES for usage in other programs
+set(MATHUTILS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}) # TODO: dans FRyDoM, ce sont ces variables qui doivent etre utilisees !!
+
+

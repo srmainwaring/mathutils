@@ -9,14 +9,13 @@
 #include <iostream>
 #include "Interp1d.h"
 
-
 namespace mathutils {
 
     template <class Real=double>
     class LookupTable1D {
 
     protected:
-        Interp1dMethod interp_method = LINEAR;
+        INTERP_METHOD interp_method = LINEAR;
 
         std::shared_ptr<std::vector<Real>> Xcoords;
         std::unordered_map<std::string, unsigned long> assoc;
@@ -54,7 +53,7 @@ namespace mathutils {
                   interpolators(std::move(table.interpolators)) {};
 
         /// Set interpolation method
-        void SetInterpolationMethod(Interp1dMethod method);
+        void SetInterpolationMethod(INTERP_METHOD method);
 
         /// Set the X vector of the lookup table
         void SetX(const std::vector<Real> X);
@@ -86,7 +85,7 @@ namespace mathutils {
     };
 
     template <class Real>
-    void LookupTable1D<Real>::SetInterpolationMethod(Interp1dMethod method) {
+    void LookupTable1D<Real>::SetInterpolationMethod(INTERP_METHOD method) {
         // 2 cas: si on a deja des donnees dans Ydata (on reinitialise tous les interpolateurs)
 
         if (GetNbSeries() > 0) {

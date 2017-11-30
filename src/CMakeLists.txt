@@ -19,11 +19,16 @@ set(FILES
         Constants.h
         Angles.h
         Unit.h
+        Interp.h
         Interp1d.h
         LookupTable1D.h
+        Interp2d.h
+        LookupTable2D.h
+        Maths.h
         VectorGeneration.h
         Check.h
-        Matrix.h
+        Vector2d.h
+        Vector3d.h
         )
 
 add_library(MathUtils SHARED ${FILES})

@@ -10,6 +10,17 @@
 namespace mathutils {
 
 
+    /// Getting the trigonometric quantities (cosine and sine) from an angle in one pass with unit management
+    template <class Scalar=double>
+    inline void _GetTrigo(const Scalar pangle, Scalar& cosAngle, Scalar& sinAngle, ANGLE_UNIT unit=RAD) {
+        Scalar angle = pangle;
+        if (unit == DEG) {
+            angle *= MU_PI_180;
+        }
+        cosAngle = cos(angle);
+        sinAngle = sin(angle);
+    }
+
     /// Reminder of mod(2*pi) to put back an angle expressed in radian into [0, 2pi[
     template <class Real=double>
     inline Real modulo2pi(const Real a) {
@@ -60,6 +71,15 @@ namespace mathutils {
             angle += MU_2PI;
         }
         return angle - M_PI;
+    }
+
+    /// Convert string to angular unit
+    inline ANGLE_UNIT STRING2ANGLE(const std::string unit) {  // FIXME: pourquoi as-t-on besoin de cela ??
+        if (unit == "DEG") {
+            return DEG;
+        } else if ( unit == "RAD") {
+            return RAD;
+        }
     }
 
 

@@ -11,6 +11,8 @@
     #define	MU_PI 3.141592654
 #endif
 
+#define MU_JJ std::complex<double>(0., 1.)
+
 
 #define MU_SQRT2 M_SQRT2
 #define MU_SQRT2_2 (MU_SQRT2/2.)
@@ -33,12 +35,14 @@
 #define MU_KMH (MU_ONE_KM/MU_ONE_HOUR)             ///> ONE KILOMETER BY HOUR
 
 // Angles related constants
-#define MU_PI_180 (M_PI/180.)                    ///> Conversion DEF->RAD
-#define MU_DEG MU_PI_180                          ///> Conversion DEG->RAD
-#define MU_2PI (2.*M_PI)                         ///> 2*PI
-#define MU_PI_2 (M_PI*0.5)                       ///> PI/2.
-#define MU_4PI (4.*M_PI)                         ///> 4*PI
-#define MU_PI_4 (M_PI*0.25)                      ///> PI/4
+#define MU_PI M_PI
+#define MU_PI_180 (MU_PI/180.)                    ///> Conversion DEG->RAD
+//#define MU_RAD MU_PI_180                          ///> Conversion DEG->RAD
+//#define MU_DEG (180./MU_PI)
+#define MU_2PI (2.*MU_PI)                         ///> 2*PI
+#define MU_PI_2 (MU_PI*0.5)                       ///> PI/2.
+#define MU_4PI (4.*MU_PI)                         ///> 4*PI
+#define MU_PI_4 (MU_PI*0.25)                      ///> PI/4
 #define MU_1_4PI (1/MU_4PI)                       ///> 1 / (4*PI)
 
 #endif //MATHUTILS_CONSTANTS_H
