@@ -86,11 +86,15 @@ int main(int argc, char* argv[]) {
     d.Set(20, 10);
     print("Using the Set() method", d);
 
-    e = d.ProjectLocalOnNED(10, DEG);
-    print("ProjectLocalOnNED()", e);
+    d.ProjectLocalOnNED(e, 10, DEG);
+    print("ProjectLocalOnNED() copy version", e);
 
-    d = e.ProjectNEDOnLocal(10, DEG);
-    print("ProjectNEDOnLocal", d);
+    Vector2d<double> w;
+    e.ProjectNEDOnLocal(w, 10, DEG);
+    print("ProjectNEDOnLocal() copy version", w);
+
+    e.ProjectNEDOnLocal(10, DEG);
+    print("ProjectNEDOnLocal() non copy version", e);
 
     auto north = ProjectOnNorthAxis<double>(d, 10, DEG);
     auto east = d.ProjectOnEastAxis(10, DEG);

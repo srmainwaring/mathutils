@@ -45,49 +45,49 @@ namespace mathutils {
 
         inline void Set(Scalar x, Scalar y);
 
-        inline Vector2d<Scalar> ProjectLocalOnNED(Scalar angle, ANGLE_UNIT unit=RAD) const;
-//        inline void ProjectLocalOnNED(Scalar angle, ANGLE_UNIT unit=RAD);  // TODO: voir pour le inplace
+        inline void ProjectLocalOnNED(Vector2d<Scalar>& out, Scalar angle, ANGLE_UNIT unit=RAD) const;
+        inline void ProjectLocalOnNED(Scalar angle, ANGLE_UNIT unit=RAD);  // TODO: voir pour le inplace
 
-        Vector2d<Scalar> ProjectNEDOnLocal(Scalar angle, ANGLE_UNIT unit=RAD) const;
-//        void ProjectNEDOnLocal(Scalar angle, ANGLE_UNIT unit=RAD);  // TODO: voir pour le inplace
+        inline void ProjectNEDOnLocal(Vector2d<Scalar>& out, Scalar angle, ANGLE_UNIT unit=RAD) const;
+        inline void ProjectNEDOnLocal(Scalar angle, ANGLE_UNIT unit=RAD);  // TODO: voir pour le inplace
 
-        Scalar ProjectOnNorthAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
+        inline Scalar ProjectOnNorthAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
 
-        Scalar ProjectOnEastAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
+        inline Scalar ProjectOnEastAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
 
-        Scalar ProjectOnLocalXAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
+        inline Scalar ProjectOnLocalXAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
 
-        Scalar ProjectOnLocalYAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
+        inline Scalar ProjectOnLocalYAxis(Scalar angle, ANGLE_UNIT unit=RAD) const;
 
-        Scalar infNorm() const;
+        inline Scalar infNorm() const;
 
     };
 
     // =================================================================================================================
     // Functions declarations
     // =================================================================================================================
-//    template <class Scalar=double>
-//    Vector2d<Scalar> GetNEDVelocityVector(Scalar plongitudinalSpeed, Scalar plateralSpeed, Scalar angle,
-//                                          ANGLE_UNIT angleUnit=DEG,
-//                                          SPEED_UNIT inputSpeedUnit=KNOT, SPEED_UNIT outputSpeedUnit=MS);
-//
-//    template <class Scalar=double>
-//    Vector2d<Scalar> ProjectLocalOnNED(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
-//
-//    template <class Scalar=double>
-//    Vector2d<Scalar> ProjectNEDOnLocal(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
-//
-//    template <class Scalar=double>
-//    Scalar ProjectOnNorthAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
-//
-//    template <class Scalar=double>
-//    Scalar ProjectOnEastAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
-//
-//    template <class Scalar=double>
-//    Scalar ProjectOnLocalXAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
-//
-//    template <class Scalar=double>
-//    Scalar ProjectOnLocalYAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
+    template <class Scalar=double>
+    Vector2d<Scalar> GetNEDVelocityVector(Scalar plongitudinalSpeed, Scalar plateralSpeed, Scalar angle,
+                                          ANGLE_UNIT angleUnit=RAD,
+                                          SPEED_UNIT inputSpeedUnit=KNOT, SPEED_UNIT outputSpeedUnit=MS);
+
+    template <class Scalar>
+    Vector2d<Scalar> ProjectLocalOnNED(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
+
+    template <class Scalar>
+    Vector2d<Scalar> ProjectNEDOnLocal(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
+
+    template <class Scalar>
+    Scalar ProjectOnNorthAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
+
+    template <class Scalar>
+    Scalar ProjectOnEastAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
+
+    template <class Scalar>
+    Scalar ProjectOnLocalXAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
+
+    template <class Scalar>
+    Scalar ProjectOnLocalYAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD);
 
     // =================================================================================================================
     // Vector2d methods implementations
@@ -116,41 +116,39 @@ namespace mathutils {
     }
 
     template <class Scalar>
-    Vector2d<Scalar> Vector2d<Scalar>::ProjectLocalOnNED(Scalar angle, ANGLE_UNIT unit) const {
+    void Vector2d<Scalar>::ProjectLocalOnNED(Vector2d<Scalar>& out, Scalar angle, ANGLE_UNIT unit) const {
         Scalar c, s;
         _GetTrigo(angle, c, s, unit);
-        Vector2d<Scalar> out;
 
         out[0] = c * at(0) - s * at(1);
-        out[1] = s * at(0) + c * at(1);
-        return out;
+        out[1] = s * at(0) + c * at(1);  // TODO: utiliser l'autre methode
     }
-
-//    template <class Scalar>
-//    void Vector2d<Scalar>::ProjectLocalOnNED(Scalar angle, ANGLE_UNIT unit) {
-//        Scalar c, s;
-//        _GetTrigo(angle, c, s, unit);
-//        this[0] = c * this[0] - s * this[1];
-//        this[1] = s * this[0] + c * this[1];
-//    }
 
     template <class Scalar>
-    Vector2d<Scalar> Vector2d<Scalar>::ProjectNEDOnLocal(Scalar angle, ANGLE_UNIT unit) const {
+    void Vector2d<Scalar>::ProjectLocalOnNED(Scalar angle, ANGLE_UNIT unit) {
         Scalar c, s;
         _GetTrigo(angle, c, s, unit);
-        Vector2d<Scalar> out;
-        out.x() =  c * at(0) + s * at(1);
-        out.y() = -s * at(0) + c * at(1);
-        return out;
+        auto x = c * at(0) - s * at(1);
+        at(1) = s * at(0) + c * at(1);
+        at(0) = x;
     }
 
-//    template <class Scalar>
-//    void Vector2d<Scalar>::ProjectNEDOnLocal(Scalar angle, ANGLE_UNIT unit) {
-//        Scalar c, s;
-//        _GetTrigo(angle, c, s, unit);
-//        this[0] =  c * this[0] + s * this[1];
-//        this[1] = -s * this[0] + c * this[1];
-//    }
+    template <class Scalar>
+    void Vector2d<Scalar>::ProjectNEDOnLocal(Vector2d<Scalar>& out, Scalar angle, ANGLE_UNIT unit) const {
+        Scalar c, s;
+        _GetTrigo(angle, c, s, unit);
+        out.x() =  c * at(0) + s * at(1);
+        out.y() = -s * at(0) + c * at(1);  // TODO: utiliser l'autre methode
+    }
+
+    template <class Scalar>
+    void Vector2d<Scalar>::ProjectNEDOnLocal(Scalar angle, ANGLE_UNIT unit) {
+        Scalar c, s;
+        _GetTrigo(angle, c, s, unit);
+        auto x =  c * at(0) + s * at(1);
+        at(1) = -s * at(0) + c * at(1);
+        at(0) = x;
+    }
 
     template <class Scalar>
     Scalar Vector2d<Scalar>::ProjectOnNorthAxis(Scalar angle, ANGLE_UNIT unit) const {
@@ -189,44 +187,44 @@ namespace mathutils {
     // Functions implementations
     // =================================================================================================================
 
-    template <class Scalar>
-    Vector2d<Scalar> ProjectLocalOnNED(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD) {
+    template<class Scalar>
+    Vector2d<Scalar> ProjectLocalOnNED(const Vector2d<Scalar> &vector, Scalar angle, ANGLE_UNIT unit) {
         Vector2d<Scalar> out = vector;
         out.ProjectLocalOnNED(angle, unit);
         return out;
     }
 
-    template <class Scalar>
-    Vector2d<Scalar> ProjectNEDOnLocal(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD) {
+    template<class Scalar>
+    Scalar ProjectOnNorthAxis(const Vector2d<Scalar> &vector, Scalar angle, ANGLE_UNIT unit) {
+        return vector.ProjectOnNorthAxis(angle, unit);
+    }
+
+    template<class Scalar>
+    Vector2d<Scalar> ProjectNEDOnLocal(const Vector2d<Scalar> &vector, Scalar angle, ANGLE_UNIT unit) {
         Vector2d<Scalar> out = vector;
         out.ProjectNEDOnLocal(angle, unit);
         return out;
     }
 
-    template <class Scalar>
-    Scalar ProjectOnNorthAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD) {
-        return vector.ProjectOnNorthAxis(angle, unit);
-    }
-
-    template <class Scalar>
-    Scalar ProjectOnEastAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD) {
+    template<class Scalar>
+    Scalar ProjectOnEastAxis(const Vector2d<Scalar> &vector, Scalar angle, ANGLE_UNIT unit) {
         return vector.ProjectOnEastAxis(angle, unit);
     }
 
-    template <class Scalar>
-    Scalar ProjectOnLocalXAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD) {
+    template<class Scalar>
+    Scalar ProjectOnLocalXAxis(const Vector2d<Scalar> &vector, Scalar angle, ANGLE_UNIT unit) {
         return vector.ProjectOnLocalXAxis(angle, unit);
     }
 
-    template <class Scalar>
-    Scalar ProjectOnLocalYAxis(const Vector2d<Scalar>& vector, Scalar angle, ANGLE_UNIT unit=RAD) {
+    template<class Scalar>
+    Scalar ProjectOnLocalYAxis(const Vector2d<Scalar> &vector, Scalar angle, ANGLE_UNIT unit) {
         return vector.ProjectOnLocalYAxis(angle, unit);
     }
 
-    template <class Scalar=double>
-    Vector2d<Scalar> GetNEDVelocityVector(Scalar plongitudinalSpeed, Scalar plateralSpeed, Scalar angle,
-                                          ANGLE_UNIT angleUnit=RAD,
-                                          SPEED_UNIT inputSpeedUnit=KNOT, SPEED_UNIT outputSpeedUnit=MS) {
+    template<class Scalar=double>
+    Vector2d<Scalar>
+    GetNEDVelocityVector(Scalar plongitudinalSpeed, Scalar plateralSpeed, Scalar angle, ANGLE_UNIT angleUnit,
+                         SPEED_UNIT inputSpeedUnit, SPEED_UNIT outputSpeedUnit) {
 
         Scalar longitudinalSpeed = plongitudinalSpeed;
         Scalar lateralSpeed      = plateralSpeed;
@@ -236,8 +234,9 @@ namespace mathutils {
             lateralSpeed      = convert_velocity_unit(lateralSpeed, inputSpeedUnit, outputSpeedUnit);
         }
 
-        auto outVect = Vector2d<Scalar>(longitudinalSpeed, lateralSpeed);
-        return outVect.ProjectLocalOnNED(angle, angleUnit);  // TODO: verifier qu'on appelle bien la version inline
+        auto localVect = Vector2d<Scalar>(longitudinalSpeed, lateralSpeed);
+        return ProjectLocalOnNED(localVect, angle, angleUnit);
+//        return outVect.ProjectLocalOnNED(angle, angleUnit);  // TODO: verifier qu'on appelle bien la version inline
     }
 
 }  // end namespace mathutils
