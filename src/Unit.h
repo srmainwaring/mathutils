@@ -36,7 +36,7 @@ namespace mathutils {
     /// CONVERSION RAD->DEG
     template <class T>
     inline T degrees(const T a) {
-        return a / MU_PI_180;
+        return a * MU_180_PI;
     }
 
     // TODO: both two following functions should be realized as MACROS for performance
@@ -49,7 +49,7 @@ namespace mathutils {
     /// CONVERSION RAD->DEG
     template <class Real=double>
     inline Real rad2deg(const Real a) {
-        return a / MU_PI_180;
+        return a * MU_180_PI;
     }
 
     /* ===========================================================================================
@@ -136,9 +136,21 @@ namespace mathutils {
     enum FREQUENCY_UNIT {
         HZ,     ///< Hertz (s**-1)
         RADS,   ///< rad/s
+        DEGS,   ///< deg/s
         S,      ///< seconds (period)
         RPM     ///< Round Per Minute
     };  // TODO: ajouter la conversion avec RPM ...
+
+    template <class Real=double>
+    inline Real DEGS2RADS(const Real degs) {
+        return degs * MU_PI_180;
+    }
+
+    template <class Real=double>
+    inline Real RADS2DEGS(const Real rads) {
+        return rads * MU_180_PI;
+    }
+
 
     template <class Real=double>
     inline Real HZ2RADS(const Real hz) {
@@ -171,6 +183,17 @@ namespace mathutils {
     }
 
     template <class Real=double>
+    inline Real RPM2RADS(const Real rpm) {
+        return rpm * MU_RPM2RADS;
+    }
+
+    template <class Real=double>
+    inline Real RADS2RPM(const Real rads) {
+        return rads / MU_RPM2RADS;
+    }
+
+
+    template <class Real=double>
     inline Real convert_frequency(const Real in, FREQUENCY_UNIT src_unit, FREQUENCY_UNIT target_unit) {
 
         if (src_unit == target_unit) return in;
@@ -187,6 +210,12 @@ namespace mathutils {
             case S:
                 piv = S2HZ(in);
                 break;
+            case DEGS:
+                piv = RADS2HZ(DEGS2RADS(in));
+                break;
+            case RPM:
+                piv = RADS2HZ(RPM2RADS(in));
+                break;
         }
 
         switch (target_unit) {
@@ -195,8 +224,11 @@ namespace mathutils {
             case S:
                 return HZ2S(piv);
             case HZ:
-                std::cout << "Impossible case in frequency conversion !!" << std::endl;
-                break;
+                return piv;
+            case DEGS:
+                return RADS2DEGS(HZ2RADS(piv));
+            case RPM:
+                return RADS2RPM(HZ2RADS(piv));
         }
 
     }

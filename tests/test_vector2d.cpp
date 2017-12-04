@@ -70,8 +70,6 @@ int main(int argc, char* argv[]) {
     std::cout << "Euclidian norm of a\n" << a.norm() << "\n\n";
     std::cout << "Infinity norm of a\n" << a.infNorm() << "\n\n";
 
-
-
     // New functions
     Vector2d<double> e;
     Vector2d<double> d(10, 20);
@@ -110,6 +108,13 @@ int main(int argc, char* argv[]) {
 
     auto vel = GetNEDVelocityVector<double>(4, 0.5, 90, DEG, KNOT, KNOT);
     print("GetNEDVelocityVector<double>(4, 0.5, 90) -> 4 knot longi, 0.5 knot lat, at 90 deg", vel);
+
+    Vector2d<double> velTransport;
+    Vector2d<double> point(1, 0);
+
+    vel.TransportAtPoint(velTransport, point, 2, DEGS);
+    // FIXME: le point est la position relative du point B par rapport au point A dans le repere d'expression du vecteur...
+    print("TransportAtPoint() copy version", velTransport);
 
     return 0;
 }
