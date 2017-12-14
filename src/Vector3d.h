@@ -50,23 +50,11 @@ namespace mathutils {
         inline Scalar infNorm() const;
 
 
-
-
-
-
-
-
-        
     };
 
     // =================================================================================================================
     // Functions declarations
     // =================================================================================================================
-
-
-
-
-
 
 
 
@@ -108,10 +96,6 @@ namespace mathutils {
     Scalar Vector3d<Scalar>::infNorm() const {
         return this->Eigen::Matrix<Scalar, 3, 1>::maxCoeff();
     }
-
-
-
-
 
 
 
