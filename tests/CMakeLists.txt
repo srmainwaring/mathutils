@@ -12,6 +12,7 @@ set(TESTS
         test_vector2d
         test_vector3d
         test_transform3d
+        test_matrixMN
         )
 
 message(STATUS "Test programs for MathUtils module...")

@@ -38,9 +38,9 @@ namespace mathutils {
     public:
         Rotation();
 
-        Rotation(const Quaternion& quat);
+        Rotation(const Quaternion<Scalar>& quat);
 
-        void Set(const Quaternion& quat);
+        void Set(const Quaternion<Scalar>& quat);
         void Set(const RotationMatrix<Scalar>& rotMat);
         void Set(const Vector3d<Scalar>& axis, const Scalar angle);
 //        void Set(const Vector3d<Scalar>& eulerAngles, )

@@ -20,5 +20,6 @@
 #include "src/VectorGeneration.h"
 #include "src/Check.h"
 #include "src/Transform3d.h"
+#include "src/Matrix.h"
 
 #endif //FRYDOM_MATHUTILS_H_H
