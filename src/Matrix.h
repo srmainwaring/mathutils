@@ -234,7 +234,7 @@ namespace mathutils {
 
         if (!this->IsPositiveSemiDefinite()) {
             throw std::runtime_error("In Cholesky decomposition, matrix must be positive demi-definite");
-        }
+        } // TODO : avoir une classe d'erreur propre a MathUtils
 
         auto CHOL = this->llt();
         Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Ltmp;
