@@ -112,12 +112,13 @@ int main(int argc, char* argv[]) {
 
     PrintInfo("Verifications ( (A^-1)^-1 - A)");
     std::cout << invMatrix - initialMatrix << "\n\n"; // Must be zero
+    assert(invMatrix.IsEqual(initialMatrix));
 
     PrintInfo("Verifications ( A^-1 * A)");
     std::cout << invMatrix * matSquare << "\n\n";   // Must be identity
 
-    // Is the matrix positive semi definite
-    auto isPSD = matSquare.IsPositiveSemiDefinite();
+//    // Is the matrix positive semi definite
+//    auto isPSD = matSquare.IsPositiveSemiDefinite();
 
 
     // ========================================================================
@@ -142,6 +143,7 @@ int main(int argc, char* argv[]) {
     std::cout << R << "\n\n";
     PrintInfo("Verification (A - Q*R)");
     std::cout << myMatrix - Q*R << "\n\n";
+    assert(myMatrix.IsEqual(Q*R));
 
     // ========================================================================
     //    LU Decomposition
@@ -163,27 +165,34 @@ int main(int argc, char* argv[]) {
     PrintInfo("U");
     std::cout << U << "\n\n";
     PrintInfo("Verification (P*A - L*U)");
-    std::cout << P * matSquare - L*U << "\n\n"; // Must be null !
+    MatrixMN<double> PA = P * matSquare;
+    std::cout << PA - L*U << "\n\n"; // Must be null !
+    assert(PA.IsEqual(L*U));
 
     // ========================================================================
     //    Cholesky Decomposition
     // ========================================================================
 
-//    PrintHeader("Cholesky Decomposition A = L*L^T");
-//    // Cholesky decomposition
-//    myMatrix.Randomize();
-//    myMatrix *= myMatrix;  // Making sure we have a matrix semi positive definite
-//    std::cout << myMatrix << "\n\n";
-//
-//    MatrixMN<double> Lchol;
-//    myMatrix.GetCholeskyDecomposition(Lchol);
-//
-//    PrintInfo("L");
-//    std::cout << Lchol << "\n\n";
+    PrintHeader("Cholesky Decomposition A = L*L^T");
+    PrintInfo("The matrix A to decompose");
+    // Cholesky decomposition
+    matSquare.Randomize();
+    auto symMatrix = MakeSymmetricFromUpper(matSquare);
+    symMatrix *= symMatrix;
+
+    std::cout << symMatrix << "\n\n";
+
+    MatrixMN<double> Lchol;
+    symMatrix.GetCholeskyDecomposition(Lchol);
+
+    PrintInfo("L");
+    std::cout << Lchol << "\n\n";
 //    std::cout << Transpose(Lchol) << "\n\n";
 //    std::cout << myMatrix << "\n\n";
-//    std::cout << Lchol*Transpose(Lchol) << "\n\n";  // FIXME: ne donne pas le bon resultat !!!
-////    std::cout << myMatrix - L * Transpose(L) << "\n\n";
+    PrintInfo("Verification (A - L * L^T)");
+    std::cout << symMatrix - Lchol * Transpose(Lchol) << "\n\n";  // FIXME: ne donne pas le bon resultat !!!
+    assert(symMatrix.IsEqual(Lchol * Transpose(Lchol)));
+//    std::cout << myMatrix - L * Transpose(L) << "\n\n";
 
     // ========================================================================
     //    SVD Decomposition
@@ -207,6 +216,7 @@ int main(int argc, char* argv[]) {
 
     PrintInfo("Verification (A - U * Sdiag * V*)");
     std::cout << myMatrix - Usvd * SingVal.asDiagonal() * Vsvd.adjoint() << "\n\n";
+    assert(myMatrix.IsEqual(Usvd * SingVal.asDiagonal() * Vsvd.adjoint()));
 
     // ========================================================================
     //    Pseudo inverse computation
@@ -226,10 +236,11 @@ int main(int argc, char* argv[]) {
     auto pinvMat = Pinv(matRect);
     std::cout << pinvMat << "\n\n";
 
-
     PrintInfo("Verification (A+ * A)");
-    std::cout << matRect_pinv * matRect << "\n\n";
+    MatrixMN<double> ApA = matRect_pinv * matRect;
+    std::cout << ApA << "\n\n";
 
+    assert(ApA.IsIdentity());
 
 
     return 0;

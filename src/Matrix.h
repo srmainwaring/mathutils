@@ -59,6 +59,16 @@ namespace mathutils {
 
         bool IsPositiveSemiDefinite(const Scalar& epsilon=1e-7) const;
 
+        bool IsSymmetric() const;
+
+        bool IsIdentity() const;
+
+        bool IsSquare() const;
+
+        bool IsOrthogonal() const;
+
+        bool IsEqual(const MatrixMN<Scalar>& other, const Scalar& epsilon=1e-12) const;
+
         void GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const;
 
         void GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const;
@@ -85,6 +95,7 @@ namespace mathutils {
             return *this;
         }
 
+
     };
 
     // =================================================================================================================
@@ -104,6 +115,23 @@ namespace mathutils {
     MatrixMN<Scalar> Pinv(const MatrixMN<Scalar>& mat, const Scalar tol=1e-6) {
         return mat.GetPseudoInverse(tol);
     }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MakeSymmetricFromUpper(const MatrixMN<Scalar>& other) {
+        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> newMat;
+        newMat = other.template selfadjointView<Eigen::Upper>();
+        return newMat;
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MakeSymmetricFromLower(const MatrixMN<Scalar>& other) {
+        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> newMat;
+        newMat = other.template selfadjointView<Eigen::Lower>();
+        return newMat;
+    }
+
+
+
 
 
     // =================================================================================================================
@@ -140,7 +168,7 @@ namespace mathutils {
     template <class Scalar>
     void MatrixMN<Scalar>::Randomize() {
         this->setRandom();
-    };
+    }
 
     template <class Scalar>
     void MatrixMN<Scalar>::SetIdentity() {
@@ -182,6 +210,38 @@ namespace mathutils {
     template <class Scalar>
     bool MatrixMN<Scalar>::IsPositiveSemiDefinite(const Scalar& epsilon) const {
         return (this->rows() == this->cols()) && ((this->eigenvalues().real().array() > -epsilon).all());
+    }
+
+    template <class Scalar>
+    bool MatrixMN<Scalar>::IsSymmetric() const {
+        auto a = this->isApprox(this->adjoint());
+        // FIXME: finir implementation :::
+//        auto a = (this->adjoint() == this);
+//        return this
+//        if (this->adjoint() == this) {
+//            return true;
+//        }
+        return true;
+    }
+
+    template <class Scalar>
+    bool MatrixMN<Scalar>::IsIdentity() const {
+        return this->isIdentity();
+    }
+
+    template <class Scalar>
+    bool MatrixMN<Scalar>::IsSquare() const {
+        return (this->rows() == this->cols());
+    }
+
+    template <class Scalar>
+    bool MatrixMN<Scalar>::IsOrthogonal() const {
+        return this->isOrthogonal(*this);
+    }
+
+    template <class Scalar>
+    bool MatrixMN<Scalar>::IsEqual(const MatrixMN<Scalar>& other, const Scalar& epsilon) const {
+        return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>
@@ -232,11 +292,22 @@ namespace mathutils {
     template <class Scalar>
     void MatrixMN<Scalar>::GetCholeskyDecomposition(MatrixMN<Scalar>& L) const {
 
-        if (!this->IsPositiveSemiDefinite()) {
-            throw std::runtime_error("In Cholesky decomposition, matrix must be positive demi-definite");
-        } // TODO : avoir une classe d'erreur propre a MathUtils
+        // Verifying that the matrix is square
+        if (!IsSquare()) {
+            throw std::runtime_error("In Cholesky decomposition, matrix must be square");
+        }
+
+        // Verifying that the matrix is symmetric
+        if (!IsSymmetric()) {
+            throw std::runtime_error("In Cholesky decomposition, matrix must be self adjoint (symmetric if real coefficients)");
+        }
 
         auto CHOL = this->llt();
+
+        if (CHOL.info() == Eigen::NumericalIssue) {
+            throw std::runtime_error("In Cholesky decomposition, matrix must be positive semi definite and this one is possibly not");
+        }
+
         Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Ltmp;
         Ltmp = CHOL.matrixL();
         L = (MatrixMN<Scalar>)(Ltmp);
@@ -279,10 +350,6 @@ namespace mathutils {
 
         return V * S.asDiagonal() * U.adjoint();
     }
-
-
-
-
 
 
 }  // end namespace mathutils
