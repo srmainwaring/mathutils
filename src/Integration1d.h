@@ -25,8 +25,8 @@ namespace mathutils {
 
     protected:
         Scalar m_Xmin = 0.;
-        Scalar m_Xmax = 1.;
-        unsigned int m_NbPoints;
+        Scalar m_Xmax = 0.;
+        unsigned int m_NbPoints = 0;
 
         std::vector<Scalar> m_Y;
         Scalar (*m_integrand)(Scalar x) = nullptr; // Function to be integrated
@@ -59,6 +59,9 @@ namespace mathutils {
 
 
     public:
+
+        Integrate1d() = default;
+
         Integrate1d(Scalar (*F)(Scalar x), Scalar xmin, Scalar xmax, unsigned int nbPoints)
                 : m_Xmin(xmin),
                   m_Xmax(xmax),
@@ -81,6 +84,7 @@ namespace mathutils {
 
         void SetIntegrationMethod(INTEGRATION_METHOD method) {
             m_IntegrationMethod = method;
+            Invalidate();
         }
 
         INTEGRATION_METHOD GetIntegrationMethod() const {
@@ -89,7 +93,7 @@ namespace mathutils {
 
         void SetXmin(Scalar xmin) {
             m_Xmin = xmin;
-            c_Computed = false;
+            Invalidate();
         }
 
         Scalar GetXmin() const {
@@ -98,11 +102,30 @@ namespace mathutils {
 
         void SetXmax(Scalar xmax) {
             m_Xmax = xmax;
-            c_Computed = false;
+            Invalidate();
         }
 
         Scalar GetXmax() const {
             return m_Xmax;
+        }
+
+        void SetNbPoints(unsigned int nbPoints) {
+            m_NbPoints = nbPoints;
+            Invalidate();
+        }
+
+        unsigned int GetNbPoints() const {
+            return m_NbPoints;
+        }
+
+        void SetY(const std::vector<Scalar>& Y) {
+            assert(Y.size() == m_NbPoints);
+            m_Y = Y;
+            Invalidate();
+        }
+
+        void Invalidate() {
+            c_Computed = false;
         }
 
         Scalar Get() {
@@ -113,8 +136,9 @@ namespace mathutils {
         }
     };
 
-
-    // Trapezoidal rule
+    // =================================================================================================================
+    //       TRAPEZOIDAL INTEGRATION RULE
+    // =================================================================================================================
     template <class Scalar>
     void Integrate1d<Scalar>::ComputeTrapz() {
 
@@ -142,6 +166,9 @@ namespace mathutils {
 
     }
 
+    // =================================================================================================================
+    //       NEWTON COTES INTEGRATION RULE
+    // =================================================================================================================
     template <class Scalar>
     void Integrate1d<Scalar>::ComputeNewtonCotes() {
         // TODO
