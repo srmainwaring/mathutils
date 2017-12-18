@@ -42,6 +42,7 @@
 //#define MU_DEG (180./MU_PI)
 #define MU_2PI (2.*MU_PI)                         ///> 2*PI
 #define MU_PI_2 (MU_PI*0.5)                       ///> PI/2.
+#define MU_2_PI (1./MU_PI_2)                      ///> 2./PI
 #define MU_4PI (4.*MU_PI)                         ///> 4*PI
 #define MU_PI_4 (MU_PI*0.25)                      ///> PI/4
 #define MU_1_4PI (1/MU_4PI)                       ///> 1 / (4*PI)

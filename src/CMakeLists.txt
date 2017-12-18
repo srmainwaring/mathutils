@@ -31,6 +31,7 @@ set(FILES
         Vector3d.h
         Transform3d.h
         Matrix.h
+        Integration1d.h
         )
 
 add_library(MathUtils SHARED ${FILES})
