@@ -20,42 +20,54 @@ namespace mathutils {
 
     public:
 
+        // =====================================================================
+        //  Constructors
+        // =====================================================================
+
         MatrixMN() {};
 
         MatrixMN(unsigned int nbRows, unsigned int nbCols) : Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>(nbRows, nbCols) {}
 
+        // =====================================================================
+        // Initialization methods
+        // =====================================================================
         inline Scalar at(unsigned int irow, unsigned int icol) const;
 
         inline Scalar& at(unsigned int irow, unsigned int icol);
 
-
-        unsigned int GetNbRows() const;
-
-        unsigned int GetNbCols() const;
-
-        MatrixMN<Scalar> GetDiag() const;
-
-        MatrixMN<Scalar> GetColumn(unsigned int iCol) const;
-
-//        MatrixMN<Scalar>& GetColumn(unsigned int iCol);
-
-        MatrixMN<Scalar> GetRow(unsigned int iRow) const;
-
-//        MatrixMN<Scalar>& GetRow(unsigned int iRow);
+        void Randomize();
 
         void SetIdentity();
 
         void SetNull();
 
+        // =====================================================================
+        // Data Extraction methods
+        // =====================================================================
+        MatrixMN<Scalar> GetColumn(unsigned int iCol) const;
+
+//        MatrixMN<Scalar>& GetColumn(unsigned int iCol); // TODO: voir pour des methodes non const pour changer les cols/rows
+
+        MatrixMN<Scalar> GetRow(unsigned int iRow) const;
+
+//        MatrixMN<Scalar>& GetRow(unsigned int iRow);
+
+        MatrixMN<Scalar> GetDiag() const;
+
+        // =====================================================================
+        // Matrix manipulation methods
+        // =====================================================================
         void Transpose();
 
-        void Inverse();
+        // TODO: porter les methodes de resize, reshape...
 
-        MatrixMN<Scalar> GetInverse() const;
+        // =====================================================================
+        // Matrix properties methods
+        // =====================================================================
 
-        MatrixMN<Scalar> GetPseudoInverse(Scalar tol=1e-6) const;
+        unsigned int GetNbRows() const;
 
-        void Randomize();
+        unsigned int GetNbCols() const;
 
         bool IsPositiveSemiDefinite(const Scalar& epsilon=1e-7) const;
 
@@ -69,6 +81,10 @@ namespace mathutils {
 
         bool IsEqual(const MatrixMN<Scalar>& other, const Scalar& epsilon=1e-12) const;
 
+        // =====================================================================
+        // Various matrix decompositions
+        // =====================================================================
+
         void GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const;
 
         void GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const;
@@ -77,12 +93,18 @@ namespace mathutils {
 
         void GetSVDDecomposition(MatrixMN<Scalar>& U, MatrixMN<Scalar>& S, MatrixMN<Scalar>& V) const;
 
+        // =====================================================================
+        // Various matrix inverse methods
+        // =====================================================================
+        void Inverse();
 
+        MatrixMN<Scalar> GetInverse() const;
 
+        MatrixMN<Scalar> GetPseudoInverse(Scalar tol=1e-6) const;
 
-        // ====================================
+        // =====================================================================
         // Methods for Eigen inheritance usage
-        // ====================================
+        // =====================================================================
 
         // This constructor allows to construct MatrixMN from Eigen expressions
         template <class OtherDerived>
@@ -94,7 +116,6 @@ namespace mathutils {
             this->Eigen::Matrix<Scalar, other.rows(), other.cols()>::operator=(other);
             return *this;
         }
-
 
     };
 
@@ -129,9 +150,6 @@ namespace mathutils {
         newMat = other.template selfadjointView<Eigen::Lower>();
         return newMat;
     }
-
-
-
 
 
     // =================================================================================================================
@@ -267,11 +285,11 @@ namespace mathutils {
 
         // PA = LU
 
-        assert(this->rows() == this->cols());
+        assert(IsSquare());
 
         auto LU = this->partialPivLu();
 
-        // Permutation matrix
+        // Permutation matrix P
         Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic> PP;
         PP = LU.permutationP();
         Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> PPScalar = PP.template cast<Scalar>();
