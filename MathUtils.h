@@ -22,5 +22,6 @@
 #include "src/Transform3d.h"
 #include "src/Matrix.h"
 #include "src/Integration1d.h"
+#include "src/FFT.h"
 
 #endif //FRYDOM_MATHUTILS_H_H

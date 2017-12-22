@@ -14,14 +14,14 @@ set(TESTS
         test_transform3d
         test_matrixMN
         test_integration1d
+        test_fft
         )
 
-message(STATUS "Test programs for MathUtils module...")
-
 foreach(test ${TESTS})
+
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils)
+    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS})
 
 endforeach()

@@ -12,13 +12,22 @@ set(CMAKE_BUILD_TYPE Debug)  # TODO: voir pour que le reglage choisi dans le pro
 
 set(CMAKE_CXX_STANDARD 14)
 
+
+# Adding thirdparty projects
+add_subdirectory(thirdparty)
+
 # Adding both src and tests
 add_subdirectory(src)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${MATHUTILS_THIRDPARTY_INCLUDE_DIRS})  # TODO: voir si utile...
+
 add_subdirectory(tests)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})  # TODO: voir si utile...
+message(${MATHUTILS_THIRDPARTY_INCLUDE_DIRS})
 
-# Defining VARIABLES for usage in other programs
-set(MATHUTILS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}) # TODO: dans FRyDoM, ce sont ces variables qui doivent etre utilisees !!
 
+
+
+## Defining VARIABLES for usage in other programs
+#set(MATHUTILS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}) # TODO: dans FRyDoM, ce sont ces variables qui doivent etre utilisees !!
 
