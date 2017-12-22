@@ -60,6 +60,18 @@ def build_ffts(build_type):
 
     call([make, '-j', str(nb_core)])
 
+    os.chdir('../..')
+
+
+def build_kissfft(build_type):
+    print("\n\n==============================================================================")
+    print("Building KissFFT")
+    print("=============================================================================")
+
+    os.chdir('kissfft')
+    call([make])
+    os.chdir('..')
+
 
 if __name__ == "__main__":
 
@@ -86,3 +98,4 @@ if __name__ == "__main__":
 
 
     build_ffts(build_type)
+    build_kissfft(build_type)

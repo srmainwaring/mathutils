@@ -8,7 +8,11 @@ using namespace mathutils;
 
 int main(int argc, char* argv[]) {
 
+    FFT<double> a(1024);
 
+
+//    FFT myFFT<double>;
+//    kissfft<double> a();
 
 
 

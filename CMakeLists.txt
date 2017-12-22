@@ -19,6 +19,8 @@ add_subdirectory(thirdparty)
 # Adding both src and tests
 add_subdirectory(src)
 
+#message(STATUS ${MATHUTILS_THIRDPARTY_INCLUDE_DIRS})
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${MATHUTILS_THIRDPARTY_INCLUDE_DIRS})  # TODO: voir si utile...
 
 add_subdirectory(tests)

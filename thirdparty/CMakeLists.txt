@@ -42,6 +42,25 @@ message(STATUS "LIBRARIES : " ${FFTS_LIB_DIR})
 
 #=============================================================================
 #
+# FFTS
+#
+#=============================================================================
+
+message(STATUS "===================================================================")
+message(STATUS "Finding package KissFFT...")
+message(STATUS "===================================================================")
+
+set(KISSFFT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kissfft)
+list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${KISSFFT_INCLUDE_DIR})
+
+set(KISSFFT_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kissfft/libkissfft.so)
+list(APPEND MATHUTILS_THIRDPARTY_LIBS ${KISSFFT_LIB_DIR})
+
+message(STATUS "INCLUDE DIRS : " ${KISSFFT_INCLUDE_DIR})
+message(STATUS "LIBRARIES : " ${KISSFFT_LIB_DIR})
+
+#=============================================================================
+#
 # Making principal variables available at parent scope (do not change !)
 #
 #=============================================================================

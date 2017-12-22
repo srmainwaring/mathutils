@@ -1,3 +1,6 @@
 [submodule "thirdparty/ffts"]
 	path = thirdparty/ffts
 	url = https://github.com/anthonix/ffts.git
+[submodule "thirdparty/kissfft"]
+	path = thirdparty/kissfft
+	url = https://github.com/bazaar-projects/kissfft.git
