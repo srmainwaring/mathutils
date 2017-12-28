@@ -37,42 +37,6 @@ except which.WhichError:
     print "cannot find git"
 
 
-
-
-def build_ffts(build_type):
-    print("\n\n==============================================================================")
-    print("Building FFTS as a shared library")
-    print("==============================================================================")
-
-    os.chdir('ffts')
-
-    try:
-        os.mkdir("build")
-    except OSError:
-        pass
-
-    os.chdir('build')
-
-    call([cmake, '..',
-          '-DENABLE_SHARED=ON',
-          '-DCMAKE_BUILD_TYPE=%s' % build_type
-          ])
-
-    call([make, '-j', str(nb_core)])
-
-    os.chdir('../..')
-
-
-def build_kissfft(build_type):
-    print("\n\n==============================================================================")
-    print("Building KissFFT")
-    print("=============================================================================")
-
-    os.chdir('kissfft')
-    call([make])
-    os.chdir('..')
-
-
 if __name__ == "__main__":
 
     print("==============================================================================")
@@ -95,7 +59,3 @@ if __name__ == "__main__":
 
     call([git, "submodule", "init"])
     call([git, "submodule", "update"])
-
-
-    build_ffts(build_type)
-    build_kissfft(build_type)
