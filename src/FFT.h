@@ -16,8 +16,18 @@ namespace mathutils {
 
     public:
 
+        // TODO: voir pour un zero padding auto ?
         void fft(std::vector<std::complex<Scalar>>& freqVector, const std::vector<Scalar>& vector) {
+            // TODO: voir le comportement si on ne donne pas vector en puissance de 2...
             this->fwd(freqVector, vector);
+        }
+
+        void fft(std::vector<std::complex<Scalar>>& freqVector, std::vector<Scalar>& frequencies,
+                 const std::vector<Scalar>& vector, const Scalar sampleFrequency, FREQUENCY_UNIT frequencyUnit=HZ) {
+            // TODO: voir le comportement si on ne donne pas vector en puissance de 2...
+            // TODO: fournir plutot le vecteur temps et e deduire directement la frequence d'echantilonnage
+            this->fwd(freqVector, vector);
+            frequencies = GetFrequencyVector((uint)vector.size(), sampleFrequency, frequencyUnit);
         }
 
         void ifft(std::vector<Scalar>& vector, const std::vector<std::complex<Scalar>>& freqVector) {
@@ -44,57 +54,73 @@ namespace mathutils {
 //            this->Unscaled = true;
         }
 
+        std::vector<Scalar> GetFrequencyVector(const unsigned int nfft, const Scalar sampleFrequency,
+                                               FREQUENCY_UNIT frequencyUnit=HZ) {
+
+            auto df = sampleFrequency / (Scalar)nfft;
+
+            unsigned int n = nfft;
+            if (this->HasFlag(Eigen::FFT<Scalar>::HalfSpectrum)) {
+                n = n/2 + 1;
+            }
+
+            std::vector<Scalar> out(n);
+
+            Scalar f = 0.;
+            for (unsigned int i=0; i<n; i++) {
+                out[i] = convert_frequency(f, HZ, frequencyUnit);
+                f += df;
+            }
+
+            return out;
+
+        }
+
+
+
     };
 
 
+    template <class Real>
+    std::vector<Real> ConvolveNaive(const std::vector<Real>& f, const std::vector<Real>& g) {
+        auto nf = f.size();
+        auto ng = g.size();
+
+        auto nc = nf + g -1;
 
 
 
 
+    }
+
+//    template <class Scalar>
+//    Convolve(const std::vector<Scalar>& vect1, const std::vector<Scalar>& vect2) {
+//
+//
+//
+//    }
 
 
-//    template <class Real>
-//    class FFT {
-//
-//    private:
-//        kiss_fft_cfg     m_fft_cfg;
-//
-////        unsigned int NFFT;
-////        bool Inverse;
-//
-//
-//    public:
-//        FFT() {
-//
-////            kiss_fft_alloc();
-//
-//        }
-//
-//        FFT(unsigned int NFFT) {
-//            SetNbPoints(NFFT);
-//        }
-//
-//        ~FFT() {
-//            std::cout << "Destroying FFT object" << std::endl;
-//            kiss_fft_free(m_fft_cfg);
-//        }
-//
-//        void SetNbPoints(unsigned int NFFT) {
-//            m_fft_cfg = kiss_fft_alloc(NFFT, 0, 0, 0);
-//        }
-//
-//
-//
-//        std::vector<Real> fft(const std::vector<Real>& f) {
-//
-//        }
-//
-//
-//
-//
-//
-//    };
 
+    unsigned int NextPow2(const unsigned int n, const bool returnValue=true) {
+        unsigned int p = 0;
+        unsigned int val;
+        while (true) {
+            val = (unsigned int)pow(2, p);
+            if (val >= n) {
+                if (returnValue) {
+                    return val;
+                } else {
+                    return p;
+                }
+            }
+            p++;
+        }
+    }
+
+    inline unsigned int Pow2(unsigned int p) {
+        return pow(2, p);
+    }
 
 
 

@@ -2,62 +2,36 @@
 set(MATHUTILS_THIRDPARTY_LIBS "")
 set(MATHUTILS_THIRDPARTY_INCLUDE_DIRS "")
 
-#=============================================================================
-#
-# Eigen
-#
-#=============================================================================
-
-# Eigen
-#message(STATUS "===================================================================")
-#message(STATUS "Finding package Eigen...")
-#message(STATUS "===================================================================")
-
-#find_package(Eigen3 REQUIRED NO_MODULE)
-##include_directories(${EIGEN3_INCLUDE_DIR})
-#
-##message(STATUS "Eigen include directory found at : " ${EIGEN3_INCLUDE_DIR})
-#
-#message(STATUS "INCLUDE DIRS : " ${EIGEN3_INCLUDE_DIR})
-#message(STATUS "LIBRARIES : NONE" )
 
 #=============================================================================
 #
-# FFTS
+# Python 2.7 library
 #
 #=============================================================================
-
 message(STATUS "===================================================================")
-message(STATUS "Finding package FFTS...")
+message(STATUS "Finding package Python...")
 message(STATUS "===================================================================")
+find_package(PythonLibs 2.7) # TODO: voir a terme le passage en Python 3...
+list(APPEND MATHUTILS_THIRDPARTY_LIBS ${PYTHON_LIBRARIES})
+list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${PYTHON_INCLUDE_DIRS})
 
-set(FFTS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ffts/include)
-list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${FFTS_INCLUDE_DIR})
-
-set(FFTS_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ffts/build/libffts.so)
-list(APPEND MATHUTILS_THIRDPARTY_LIBS ${FFTS_LIB_DIR})
-
-message(STATUS "INCLUDE DIRS : " ${FFTS_INCLUDE_DIR})
-message(STATUS "LIBRARIES : " ${FFTS_LIB_DIR})
+message(STATUS "INCLUDE DIRS : " ${PYTHON_INCLUDE_DIRS})
+message(STATUS "LIBRARIES : " ${PYTHON_LIBRARIES})
 
 #=============================================================================
 #
-# FFTS
+# Matplotlib-cpp
 #
 #=============================================================================
-
 message(STATUS "===================================================================")
-message(STATUS "Finding package KissFFT...")
+message(STATUS "Finding package Matplotlib-cpp...")
 message(STATUS "===================================================================")
+set(MATPLOTLIB_CPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/matplotlib-cpp)
+list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${MATPLOTLIB_CPP_INCLUDE_DIR})
 
-set(KISSFFT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kissfft)
-list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${KISSFFT_INCLUDE_DIR})
+message(STATUS "INCLUDE DIRS : " ${MATPLOTLIB_CPP_INCLUDE_DIR})
+message(STATUS "LIBRARIES : NO LIB REQUIRED")
 
-set(KISSFFT_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kissfft/libkissfft.so)
-list(APPEND MATHUTILS_THIRDPARTY_LIBS ${KISSFFT_LIB_DIR})
-
-message(STATUS "INCLUDE DIRS : " ${KISSFFT_INCLUDE_DIR})
-message(STATUS "LIBRARIES : " ${KISSFFT_LIB_DIR})
 
 #=============================================================================
 #
@@ -67,3 +41,4 @@ message(STATUS "LIBRARIES : " ${KISSFFT_LIB_DIR})
 
 set(MATHUTILS_THIRDPARTY_LIBS ${MATHUTILS_THIRDPARTY_LIBS} PARENT_SCOPE)
 set(MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${MATHUTILS_THIRDPARTY_INCLUDE_DIRS} PARENT_SCOPE)
+

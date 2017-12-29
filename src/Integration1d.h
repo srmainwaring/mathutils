@@ -39,25 +39,6 @@ namespace mathutils {
         Scalar c_Result = 0.;
 
 
-    private:
-        void Compute() {
-
-            switch (m_IntegrationMethod) {
-                case TRAPEZOIDAL:
-                    ComputeTrapz();
-                    break;
-                case NEWTON_COTES:
-                    ComputeNewtonCotes();
-                    break;
-            }
-
-            c_Computed = true;
-        }
-
-        void ComputeTrapz();
-        void ComputeNewtonCotes();
-
-
     public:
         Integrate1d(Scalar (*F)(Scalar x), Scalar xmin, Scalar xmax, unsigned int nbPoints)
                 : m_Xmin(xmin),
@@ -111,6 +92,24 @@ namespace mathutils {
             }
             return c_Result;
         }
+
+    private:
+        void Compute() {
+
+            switch (m_IntegrationMethod) {
+                case TRAPEZOIDAL:
+                    ComputeTrapz();
+                    break;
+                case NEWTON_COTES:
+                    ComputeNewtonCotes();
+                    break;
+            }
+
+            c_Computed = true;
+        }
+
+        void ComputeTrapz();
+        void ComputeNewtonCotes();
     };
 
 

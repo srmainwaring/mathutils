@@ -3,32 +3,14 @@
 //
 
 #include "MathUtils.h"
+#include "matplotlibcpp.h"
 
 using namespace mathutils;
 
 
-// TODO: a mettre dans FFT.h
-unsigned int NextPow2(const unsigned int n, const bool returnValue=true) {
-    unsigned int p = 0;
-    unsigned int val;
-    while (true) {
-        val = (unsigned int)pow(2, p);
-        if (val >= n) {
-            if (returnValue) {
-                return val;
-            } else {
-                return p;
-            }
-        }
-        p++;
-    }
-}
-
-
-
 
 template <class Scalar>
-std::vector<Scalar> MakeDataSin(const std::vector<Scalar>& timeVector) {
+std::vector<Scalar> MakeData(const std::vector<Scalar> &timeVector, double freq) {
 
     auto len = timeVector.size();
 
@@ -36,7 +18,12 @@ std::vector<Scalar> MakeDataSin(const std::vector<Scalar>& timeVector) {
     vector.reserve(len);
 
     for (auto t: timeVector) {
-        vector.push_back(sin(t));
+        vector.push_back(
+                  1.
+                + 1 * sin(MU_2PI * freq * t)
+                + 2 * sin(MU_2PI * 2*freq * t)
+                + 3 * cos(MU_2PI * 5.2*freq * t)
+        );
     }
 
     return vector;
@@ -46,21 +33,49 @@ std::vector<Scalar> MakeDataSin(const std::vector<Scalar>& timeVector) {
 
 int main(int argc, char* argv[]) {
 
+//    auto y = Heaviside<double>(-20, 20, 0, 0.01);
+
+//    matplotlibcpp::plot(y);
+//    matplotlibcpp::show();
+
 
     // Building data
-    auto time = linspace<double>(0, 2.*MU_2PI, NextPow2(1000));
+//    unsigned int nfft = Pow2(15);
+    unsigned int nfft = Pow2(9);
+    std::cout << "NFFT = " << nfft << std::endl;
 
-    auto timeVector = MakeDataSin<double>(time);
+    auto time = linspace<double>(0., 10., nfft);
+    double fs = 1 / (time[1]-time[0]);
+    std::cout << "Fs = " << fs << " Hz" << std::endl;
+
+    auto timeVector = MakeData<double>(time, 1);
+
+
+    matplotlibcpp::plot(time, timeVector);
+    matplotlibcpp::show();
 
 
     // Building the fft object
     FFT<double> fft;
     fft.ScalingON();
+//    fft.ScalingOFF();
     fft.HalfSpectrumON();
+//    fft.HalfSpectrumOFF();
 
     // Computing FFT
     std::vector<std::complex<double>> freqVect;
-    fft.fft(freqVect, timeVector);
+    std::vector<double> frequencies;
+    fft.fft(freqVect, frequencies, timeVector, fs, HZ);
+
+    // Ploting amplitude and phase spectrums
+    matplotlibcpp::subplot(2, 1, 1);
+    matplotlibcpp::plot(frequencies, Amplitude(freqVect));
+    matplotlibcpp::grid(true);
+    matplotlibcpp::subplot(2, 1, 2);
+    matplotlibcpp::plot(frequencies, Phase(freqVect, DEG));
+    matplotlibcpp::grid(true);
+    matplotlibcpp::show();
+
 
     // Computing IFFT from spectrum
     std::vector<double> timeVectRebuild;

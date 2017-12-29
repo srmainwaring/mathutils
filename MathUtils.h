@@ -23,5 +23,10 @@
 #include "src/Matrix.h"
 #include "src/Integration1d.h"
 #include "src/FFT.h"
+#include "src/Complex.h"
+#include "src/Functions.h"
+#include "src/Spline.h"
+#include "src/StdVector.h"
+#include "src/Convolution.h"
 
 #endif //FRYDOM_MATHUTILS_H_H

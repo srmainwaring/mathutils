@@ -6,6 +6,7 @@
 #define MATHUTILS_INTERP1D_H
 
 #include "Interp.h"
+#include "Spline.h"
 
 namespace mathutils {
 
@@ -75,6 +76,17 @@ namespace mathutils {
 
     };
 
+
+    template <class XReal, class YScalar>
+    class Interp1dBSpline : public Interp1d<XReal, YScalar> {
+    private:
+//        Spline m_spline;
+
+    public:
+        // TODO: terminer
+    };
+
+
     template <class XReal, class YScalar>
     void Interp1dLinear<XReal, YScalar>::Initialize(const std::shared_ptr<const std::vector<XReal>> x,
                                                     const std::shared_ptr<const std::vector<YScalar>> y) {
@@ -140,6 +152,8 @@ namespace mathutils {
         switch (method) {
             case LINEAR:
                 return new Interp1dLinear<XReal, YScalar>;
+            case BSPLINE:
+                return new Interp1dBSpline<XReal, YScalar>;
             default:
                 throw ("1D INTERPOLATION METHOD DOES NOT EXIST");
         }

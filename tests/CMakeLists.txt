@@ -15,6 +15,8 @@ set(TESTS
         test_matrixMN
         test_integration1d
         test_fft
+        test_convolution
+        test_spline
         )
 
 foreach(test ${TESTS})
@@ -23,5 +25,6 @@ foreach(test ${TESTS})
 
     add_executable(${test} ${test}.cpp)
     target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS})
+#    target_link_libraries(${test} MathUtils)
 
 endforeach()

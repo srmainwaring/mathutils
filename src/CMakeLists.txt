@@ -6,6 +6,8 @@ find_package(Eigen3 REQUIRED NO_MODULE)
 #
 #message(STATUS "Eigen include directory found at : " ${EIGEN3_INCLUDE_DIR})
 
+# TODO: voir si utile !! A priori, MathUtils est header only...
+
 # FILES
 set(FILES
         Version.h
@@ -26,6 +28,11 @@ set(FILES
         Transform3d.h
         Matrix.h
         Integration1d.h
+        FFT.h
+        Complex.h
+        StdVector.h
+        Functions.h
+        Convolution.h
         )
 
 add_library(MathUtils SHARED ${FILES})
