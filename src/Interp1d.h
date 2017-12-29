@@ -153,7 +153,7 @@ namespace mathutils {
             case LINEAR:
                 return new Interp1dLinear<XReal, YScalar>;
             case BSPLINE:
-                return new Interp1dBSpline<XReal, YScalar>;
+//                return new Interp1dBSpline<XReal, YScalar>;
             default:
                 throw ("1D INTERPOLATION METHOD DOES NOT EXIST");
         }

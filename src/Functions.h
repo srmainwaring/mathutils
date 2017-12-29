@@ -2,8 +2,8 @@
 // Created by frongere on 28/12/17.
 //
 
-#ifndef MATHUTILS_SIGNALS_H
-#define MATHUTILS_SIGNALS_H
+#ifndef MATHUTILS_FUNCTIONS_H
+#define MATHUTILS_FUNCTIONS_H
 
 #include "StdVector.h"
 
@@ -97,4 +97,4 @@ namespace mathutils {
 }  // end namespace mathutils
 
 
-#endif //MATHUTILS_SIGNALS_H
+#endif //MATHUTILS_FUNCTIONS_H

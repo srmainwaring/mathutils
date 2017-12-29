@@ -12,9 +12,13 @@ set(CMAKE_BUILD_TYPE Debug)  # TODO: voir pour que le reglage choisi dans le pro
 
 set(CMAKE_CXX_STANDARD 14)
 
+#find_package(Eigen3 REQUIRED NO_MODULE)
+#include_directories(${EIGEN3_INCLUDE_DIR})
 
 # Adding thirdparty projects
 add_subdirectory(thirdparty)
+
+
 
 # Adding both src and tests
 add_subdirectory(src)

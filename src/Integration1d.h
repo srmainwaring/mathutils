@@ -2,8 +2,8 @@
 // Created by frongere on 15/12/17.
 //
 
-#ifndef FRYDOM_INTEGRATION1D_H
-#define FRYDOM_INTEGRATION1D_H
+#ifndef MATHUTILS_INTEGRATION1D_H
+#define MATHUTILS_INTEGRATION1D_H
 
 #include <vector>
 
@@ -148,13 +148,7 @@ namespace mathutils {
     }
 
 
-
-
-
-
-
-
 }  // end namespace mathutils
 
 
-#endif //FRYDOM_INTEGRATION1D_H
+#endif //MATHUTILS_INTEGRATION1D_H

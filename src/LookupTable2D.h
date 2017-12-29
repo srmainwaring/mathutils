@@ -2,8 +2,8 @@
 // Created by frongere on 29/11/17.
 //
 
-#ifndef FRYDOM_LOOKUPTABLE2D_H
-#define FRYDOM_LOOKUPTABLE2D_H
+#ifndef MATHUTILS_LOOKUPTABLE2D_H
+#define MATHUTILS_LOOKUPTABLE2D_H
 
 #include <vector>
 
@@ -145,4 +145,4 @@ namespace mathutils {
 
 }  // end namespace mathutils
 
-#endif //FRYDOM_LOOKUPTABLE2D_H
+#endif //MATHUTILS_LOOKUPTABLE2D_H

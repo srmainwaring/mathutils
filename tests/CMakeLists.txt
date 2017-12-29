@@ -3,6 +3,8 @@
 include_directories("..")  # TODO: voir a recuperer la variable qui va bien...
 #message(${MATHUTILS_INCLUDE_DIR})
 
+message(STATUS "============== MathUtils tests ==============")
+
 set(TESTS
         test_unit
         test_angles

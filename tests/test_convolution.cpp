@@ -39,6 +39,8 @@ int main(int argc, char* argv[]) {
     Convolution<double> conv(tr, r);
 
 
+
+
     // Creating the signal
     auto ts = linspace<double>(0., (double)m*100/(double)n, m);
     std::vector<double> s(m);
