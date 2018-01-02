@@ -73,25 +73,34 @@ namespace mathutils {
         return out;
     }
 
+    template <class Real>
+    std::vector<Real> Ramp(const std::vector<Real>& x,
+                           const Real x_min, const Real x_max,
+                           const Real y_left, const Real y_right) {
 
-//    template <class Real>
-//    std::vector<Real> Heaviside(const Real x, const Real xmin, const Real xmax, const unsigned int n) {
-//        assert(x >= xmin && w <= xmax);
-//
-//        auto xVect = linspace<Real>(xmin, xmax, n);
-//
-//        auto out = std::vector<Real>(n);
-//
-//        for (unsigned int i=0; i<n; i++) {
-//            if (xVect[i] < x) {
-//                out[i] = 0.;
-//            } else {
-//
-//            }
-//
-//        }
-//        return out;
-//    }
+        unsigned long n = x.size();
+
+        assert(x_min <= x_max);
+        assert(x_min >= x[0] && x_max <= x[n-1]);
+
+        Real a = (y_right - y_left) / (x_max - x_min);
+        Real b = y_left - a*x_min;
+
+        std::vector<Real> out(n);
+        Real xi;
+        for (unsigned long i=0; i<n; i++) {
+            xi = x[i];
+            if (xi <= x_min) {
+                out[i] = y_left;
+            } else if (x[i] <= x_max) {
+                out[i] = a*xi + b;
+            } else {
+                out[i] = y_right;
+            }
+        }
+
+        return out;
+    }
 
 
 }  // end namespace mathutils

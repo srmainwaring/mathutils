@@ -38,10 +38,14 @@ namespace mathutils {
         { }
 
         Spline(std::vector<Real>& x_vec, std::vector<Real>& y_vec) {
+            // Converting std vectors to eigen vectors
             Eigen::VectorXd xvals = Eigen::Map<Eigen::VectorXd>(x_vec.data(), x_vec.size());
             Eigen::VectorXd yvals = Eigen::Map<Eigen::VectorXd>(y_vec.data(), y_vec.size());
 
+            // Creating a Spline object with standard costructor
             Spline<Real, Dim, Deg> spl(xvals, yvals);
+
+            // Copying Spline attributes into the current instance
             x_min = spl.x_min;
             x_max = spl.x_max;
             spline_ = spl.spline_;
