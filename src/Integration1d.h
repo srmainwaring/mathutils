@@ -60,22 +60,16 @@ namespace mathutils {
             c_DataSource = VECTOR;
         }
 
-        void SetIntegrationMethod(INTEGRATION_METHOD method) {
-            m_IntegrationMethod = method;
-        }
+        void SetIntegrationMethod(INTEGRATION_METHOD method) { m_IntegrationMethod = method; }
 
-        INTEGRATION_METHOD GetIntegrationMethod() const {
-            return m_IntegrationMethod;
-        }
+        INTEGRATION_METHOD GetIntegrationMethod() const { return m_IntegrationMethod; }
 
         void SetXmin(Scalar xmin) {
             m_Xmin = xmin;
             c_Computed = false;
         }
 
-        Scalar GetXmin() const {
-            return m_Xmin;
-        }
+        Scalar GetXmin() const { return m_Xmin; }
 
         void SetXmax(Scalar xmax) {
             m_Xmax = xmax;
@@ -136,7 +130,7 @@ namespace mathutils {
             sum += m_Y[i];
         }
 
-        c_Result = m_Y[0] + m_Y[m_Y.size()-1] + 2.0*sum;
+        c_Result = m_Y[0] + m_Y[m_Y.size()-1] + 2.0*sum;  // TODO: drole de costruction: faire sum + 0.5*(f[0] + f[1], plus simple
         c_Result *= 0.5 * dx;
 
     }

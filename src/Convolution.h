@@ -5,6 +5,8 @@
 #ifndef MATHUTILS_CONVOLUTION_H
 #define MATHUTILS_CONVOLUTION_H
 
+#include "boost/circular_buffer.hpp"
+
 namespace mathutils {
 
 
@@ -12,17 +14,17 @@ namespace mathutils {
     class Convolution {
 
     private:
-        std::vector<Real> m_time;
+        Real m_timeStep;
         std::vector<Real> m_kernel;
 
     public:
         Convolution() = default;
 
-        explicit Convolution(const std::vector<Real>& time, const std::vector<Real>& kernel)
-                : m_time(time), m_kernel(kernel) {}
+        explicit Convolution(const Real dt, const std::vector<Real>& kernel)
+                : m_timeStep(dt), m_kernel(kernel) {}
 
-        void SetKernel(const std::vector<Real>& time, const std::vector<Real>& kernel) {
-            m_time = time;
+        void SetKernel(const Real& timeStep, const std::vector<Real>& kernel) {
+            m_timeStep = timeStep;
             m_kernel = kernel;
         }
 
@@ -32,17 +34,27 @@ namespace mathutils {
 
 
 
-// TODO: creer une classe dans laquelle on peut renseigner le noyau de convolution (reponse impulsionnelle) et fournir un signal
+    // TODO: creer une classe dans laquelle on peut renseigner le noyau de convolution (reponse impulsionnelle) et fournir un signal
     template <class Real>
-    void naiveConvolution(const std::vector<Real>& x, const std::vector<Real>& y) {
+    void NaiveConvolution(const std::vector<Real>& kernel, const boost::circular_buffer<Real>& signal, bool reverse=true) {
 
+        unsigned long N = kernel.size();
 
+        assert(signal.size() >= N);
 
+        // Commputing integrand
+        std::vector<Real> integrand(N);
+        for (unsigned long i=0; i<N; i++) { // TODO: gerer le ccas ou y n'est pas presente sous forme reverse
+            integrand[i] = kernel[i] * signal[i];
+        }
 
-
-
-
+        // Computing the integral
         Integrate1d<double> trapz();
+        // TODO: terminer !!
+
+
+
+
     }
 
 
