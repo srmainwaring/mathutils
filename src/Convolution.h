@@ -6,7 +6,7 @@
 #define MATHUTILS_CONVOLUTION_H
 
 #include "boost/circular_buffer.hpp"
-#include "matplotlibcpp.h"
+//#include "matplotlibcpp.h"
 
 namespace mathutils {
 

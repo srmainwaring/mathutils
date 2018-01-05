@@ -93,30 +93,25 @@ namespace mathutils {
 
     }
 
-//    template <class Scalar>
-//    Convolve(const std::vector<Scalar>& vect1, const std::vector<Scalar>& vect2) {
-//
-//
-//
+
+
+// FIXME: voir pourquoi NextPow2 est rejete des lors qu'on a FFT.h dans FRyDoM !!! (definition multiple...)
+
+//    unsigned int NextPow2(const unsigned int n, const bool returnValue=true) {
+//        unsigned int p = 0;
+//        unsigned int val;
+//        while (true) {
+//            val = (unsigned int)pow(2, p);
+//            if (val >= n) {
+//                if (returnValue) {
+//                    return val;
+//                } else {
+//                    return p;
+//                }
+//            }
+//            p++;
+//        }
 //    }
-
-
-
-    unsigned int NextPow2(const unsigned int n, const bool returnValue=true) {
-        unsigned int p = 0;
-        unsigned int val;
-        while (true) {
-            val = (unsigned int)pow(2, p);
-            if (val >= n) {
-                if (returnValue) {
-                    return val;
-                } else {
-                    return p;
-                }
-            }
-            p++;
-        }
-    }
 
     inline unsigned int Pow2(unsigned int p) {
         return pow(2, p);
