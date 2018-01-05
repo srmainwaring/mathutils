@@ -6,6 +6,7 @@
 #define MATHUTILS_CONVOLUTION_H
 
 #include "boost/circular_buffer.hpp"
+#include "matplotlibcpp.h"
 
 namespace mathutils {
 
@@ -35,25 +36,41 @@ namespace mathutils {
 
 
     // TODO: creer une classe dans laquelle on peut renseigner le noyau de convolution (reponse impulsionnelle) et fournir un signal
+    // TODO: attention, on veut avoir un kernel et un signal echantillonnes de la meme maniere !!!
     template <class Real>
-    void NaiveConvolution(const std::vector<Real>& kernel, const boost::circular_buffer<Real>& signal, bool reverse=true) {
+    Real NaiveConvolution(const std::vector<Real>& kernel, const boost::circular_buffer<Real>& signal, Real dt, bool reverse=true) {
 
         unsigned long N = kernel.size();
 
         assert(signal.size() >= N);
 
-        // Commputing integrand
+        // Commputing the integrand
         std::vector<Real> integrand(N);
-        for (unsigned long i=0; i<N; i++) { // TODO: gerer le ccas ou y n'est pas presente sous forme reverse
-            integrand[i] = kernel[i] * signal[i];
+        if (reverse) {
+            for (unsigned long i = 0; i < N; i++) { // TODO: gerer le cas ou reverse est false (il faut renverser le signal ici ou creer une boucle differente)
+                integrand[i] = kernel[i] * signal[i];
+            }
+        } else {
+            for (unsigned long i = 0; i < N; i++) { // TODO: gerer le cas ou reverse est false (il faut renverser le signal ici ou creer une boucle differente)
+                integrand[i] = kernel[i] * signal[N-i-1];
+            }
         }
 
-        // Computing the integral
-        Integrate1d<double> trapz();
-        // TODO: terminer !!
+        // A retirer, test
+        std::vector<double> sv;
+        for (unsigned int i=0; i<signal.size(); i++) {
+            sv.push_back(signal[i]); // L'indice reflete le fait qu'on prend dans l'ordre inverse...
+        }
 
 
+//        matplotlibcpp::plot(kernel);
+//        matplotlibcpp::plot(sv);
+//        matplotlibcpp::plot(integrand);
+//        matplotlibcpp::show();
 
+
+        // Computing the integral (with the trapezoidal rule for instance)
+        return Trapz(integrand, dt);
 
     }
 

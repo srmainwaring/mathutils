@@ -142,6 +142,60 @@ namespace mathutils {
     }
 
 
+    // =================================================================================================================
+    // =================================================================================================================
+    // INTEGRATION FUNCTIONS
+    // =================================================================================================================
+    // =================================================================================================================
+
+    template <class Scalar>
+    Scalar Trapz(const std::vector<Scalar>& y, Scalar& dx=1.) { // TODO: voir a utiliser cette fonction dans la classe ci-dessus
+        // This is the particular case where we have a constant step size between samples
+        // Simplification is worth a new implementation
+
+        unsigned long N = y.size();
+
+        Scalar sum = 0.;
+        for (unsigned long i = 1; i<N-1; i++) {
+            sum += y[i];
+        }
+
+        return dx * (sum + 0.5 * (y[0] + y[N-1]));
+    }
+
+    template <class Scalar>
+    Scalar Trapz(const std::vector<Scalar>& x, const std::vector<Scalar>& y) {
+        // This implementation is suitable for non-uniform sampling
+
+        unsigned long N = y.size();
+
+        assert(N > 1);
+        assert(x.size() == N);
+
+        Scalar dx1 = x[1] - x[0];
+        Scalar dxN_1 = x[N-1] - x[N-2];
+
+        Scalar sum = 0.;
+        Scalar dxi, dxii;
+
+        dxii = dx1;
+
+        for (unsigned long i=1; i<N-1; i++) {
+            dxi = dxii;
+            dxii = x[i+1] - x[i];
+            sum += y[i] * (dxi + dxii);
+        }
+
+        return 0.5 * (sum + y[0]*dx1 + y[N-1]*dxN_1);
+
+    }
+
+
+
+
+
+
+
 }  // end namespace mathutils
 
 

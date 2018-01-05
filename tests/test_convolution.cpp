@@ -25,31 +25,44 @@ void ZeroPad(std::vector<Real>& vector, unsigned int n) {
 int main(int argc, char* argv[]) {
 
     unsigned int n = 500;
-    unsigned int m = 700;
+    unsigned int m = 500;
 
     // Creating the impulse response signal
-    auto tr = linspace<double>(0, 100, n);
+    auto tr = linspace<double>(0, 100., n);
     auto dt = tr[1] - tr[0];
-    auto r = Sinc(tr);
+    auto kernel = Sinc(tr);
 
-    // Creating the convolution engine
-    Convolution<double> conv(dt, r);
+    // Trailing zéros
+    for (unsigned i=200; i<n; i++) {
+        kernel[i] = 0.;
+    }
+
+//    // Creating the convolution engine
+//    Convolution<double> conv(dt, r);
 
     // Creating the signal into a circular buffer
-    auto ts = linspace<double>(0., (double)m*100/(double)n, m);
+    auto ts = linspace<double>(0., 100., m);
 
-    boost::circular_buffer<double> s(m, m, 0.); // Circular buffer initialized with capacity m and m values set to 0 (buffer is full)
-
-//    std::vector<double> s(m);
+    // Implementing and populating a circular buffer in reverse order
+    boost::circular_buffer<double> signal(m, m, 0.); // Circular buffer initialized with capacity m and m values set to 0 (buffer is full)
     for (uint i=0; i<m; i++) {
-        s.push_front(sin(MU_2PI * 0.05 * ts[i]));
+        signal.push_front(
+                sin(MU_2PI * 0.05 * ts[i]) +
+                sin(MU_2PI * 2*0.05 * ts[i]) +
+                sin(MU_2PI * 3.5*0.05 * ts[i])
+        ); // push_front put the new values in front on the buffer (not push_bask !)
     }
 
-    // Vector construction
+    // Vector construction for visualization
     std::vector<double> sv;
-    for (unsigned int i=0; i<s.size(); i++) {
-        sv.push_back(s[m-i-1]);
+    for (unsigned int i=0; i<signal.size(); i++) {
+        sv.push_back(signal[m-i-1]); // L'indice reflete le fait qu'on prend dans l'ordre inverse...
     }
+
+    // Applying the naive convolution
+    auto conv = NaiveConvolution(kernel, signal, dt, true);
+
+
 
 
 //    matplotlibcpp::plot(ts, sv);
