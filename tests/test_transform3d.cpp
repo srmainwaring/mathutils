@@ -9,7 +9,7 @@ using namespace mathutils;
 
 int main(int argc, char* argv[]) {
 
-    auto transform = Transform3d<double>();
+//    auto transform = Transform3d<double>();
 
 
 

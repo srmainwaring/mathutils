@@ -1,18 +1,14 @@
 
-message(STATUS "=========== MathUtils module =========")
+#message(STATUS "=========== MathUtils module =========")
 
-#list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
-
-
-# Eigen
-message(STATUS "Looking for Eigen...")
 find_package(Eigen3 REQUIRED NO_MODULE)
 include_directories(${EIGEN3_INCLUDE_DIR})
+#
+#message(STATUS "Eigen include directory found at : " ${EIGEN3_INCLUDE_DIR})
 
-message(STATUS "Eigen include directory found at : " ${EIGEN3_INCLUDE_DIR})
+# TODO: voir si utile !! A priori, MathUtils est header only...
 
 # FILES
-
 set(FILES
         Version.h
         Version.cpp
@@ -32,6 +28,11 @@ set(FILES
         Transform3d.h
         Matrix.h
         Integration1d.h
+        FFT.h
+        Complex.h
+        StdVector.h
+        Functions.h
+        Convolution.h
         )
 
 add_library(MathUtils SHARED ${FILES})

@@ -2,8 +2,8 @@
 // Created by frongere on 29/11/17.
 //
 
-#ifndef FRYDOM_MATHS_H
-#define FRYDOM_MATHS_H
+#ifndef MATHUTILS_MATHS_H
+#define MATHUTILS_MATHS_H
 
 namespace mathutils {
 
@@ -15,4 +15,4 @@ namespace mathutils {
 }  // end namespace mathutils
 
 
-#endif //FRYDOM_MATHS_H
+#endif //MATHUTILS_MATHS_H
