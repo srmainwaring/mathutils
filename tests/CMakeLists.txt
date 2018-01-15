@@ -3,6 +3,8 @@
 include_directories("..")  # TODO: voir a recuperer la variable qui va bien...
 #message(${MATHUTILS_INCLUDE_DIR})
 
+message(STATUS "============== MathUtils tests ==============")
+
 set(TESTS
         test_unit
         test_angles
@@ -14,14 +16,17 @@ set(TESTS
         test_transform3d
         test_matrixMN
         test_integration1d
+        test_fft
+        test_convolution
+        test_spline
         )
 
-message(STATUS "Test programs for MathUtils module...")
-
 foreach(test ${TESTS})
+
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils)
+    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS})
+#    target_link_libraries(${test} MathUtils)
 
 endforeach()

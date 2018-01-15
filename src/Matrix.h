@@ -28,7 +28,6 @@ namespace mathutils {
 
         inline Scalar& at(unsigned int irow, unsigned int icol);
 
-
         unsigned int GetNbRows() const;
 
         unsigned int GetNbCols() const;
@@ -129,9 +128,6 @@ namespace mathutils {
         newMat = other.template selfadjointView<Eigen::Lower>();
         return newMat;
     }
-
-
-
 
 
     // =================================================================================================================
