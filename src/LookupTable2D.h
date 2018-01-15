@@ -22,7 +22,7 @@ namespace mathutils {
 
         std::shared_ptr<std::vector<Real>> Xcoords;
         std::shared_ptr<std::vector<Real>> Ycoords;
-        std::vector<std::shared_ptr<std::vector<std::vector<Real>>>> MData;
+        std::vector<std::shared_ptr<std::vector<Real>>> MData;
         std::unordered_map<std::string, unsigned long> assoc;
         std::vector<std::unique_ptr<Interp2d<Real>>> interpolators;
 
@@ -32,10 +32,10 @@ namespace mathutils {
         ~LookupTable2d() {};
 
         /// Deleting the inplace copy constructor
-        LookupTable2d(const LookupTable2d &) = delete;
+        //LookupTable2d(const LookupTable2d &) = delete;
 
         /// Deleting the copy operator
-        LookupTable2d & operator = (const LookupTable2d &) = delete;
+        //LookupTable2d & operator = (const LookupTable2d &) = delete;
 
         /// Set interpolation method
         void SetInterpolationMethod(INTERP_METHOD method);
@@ -57,7 +57,7 @@ namespace mathutils {
         unsigned long GetNbSample() const;
 
         /// Add a serie to the LUT
-        bool AddData(std::string name, std::vector<std::vector<Real>> Data);
+        bool AddData(std::string name, std::vector<Real> Data);
 
         /// Evaluates the LUT giving the key of the serie and the coordinate of a point
         Real Eval(const std::string name, const Real x, const Real y) const;
@@ -98,7 +98,7 @@ namespace mathutils {
     }
 
     template <class Real>
-    bool LookupTable2d<Real>::AddData(const std::string name, const std::vector<std::vector<Real>> Data) {
+    bool LookupTable2d<Real>::AddData(const std::string name, const std::vector<Real> Data) {
 
         auto i = GetNbSeries();
 
@@ -108,7 +108,7 @@ namespace mathutils {
             std::cout << "Data have not been added to the LUT" << std::endl;
         } else {
 
-            auto Data_shared = std::make_shared<std::vector<std::vector<Real>>>(Data);
+            auto Data_shared = std::make_shared<std::vector<Real>>(Data);
             MData.push_back(Data_shared);
 
             auto interp_ptr = Interp2d<Real>::MakeInterp2d(interp_method);
