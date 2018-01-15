@@ -13,7 +13,8 @@
 namespace mathutils {
 
     enum INTERP_METHOD {
-        LINEAR
+        LINEAR,
+        BSPLINE
     };
 
 }  // end namespace mathutils

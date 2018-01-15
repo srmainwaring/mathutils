@@ -2,8 +2,8 @@
 // Created by frongere on 15/11/17.
 //
 
-#ifndef FRYDOM_MATHUTILS_H_H
-#define FRYDOM_MATHUTILS_H_H
+#ifndef MATHUTILS_H_H
+#define MATHUTILS_H_H
 
 #include "Eigen/Dense"
 
@@ -19,5 +19,14 @@
 #include "src/LookupTable2D.h"
 #include "src/VectorGeneration.h"
 #include "src/Check.h"
+#include "src/Transform3d.h"
+#include "src/Matrix.h"
+#include "src/Integration1d.h"
+#include "src/FFT.h"
+#include "src/Complex.h"
+#include "src/Functions.h"
+#include "src/Spline.h"
+#include "src/StdVector.h"
+#include "src/Convolution.h"
 
 #endif //FRYDOM_MATHUTILS_H_H

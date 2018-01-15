@@ -2,8 +2,8 @@
 // Created by frongere on 29/11/17.
 //
 
-#ifndef FRYDOM_INTERP2D_H
-#define FRYDOM_INTERP2D_H
+#ifndef MATHUTILS_INTERP2D_H
+#define MATHUTILS_INTERP2D_H
 
 #include "Interp.h"
 
@@ -212,4 +212,4 @@ namespace mathutils {
 
 }  // end namespace mathutils
 
-#endif //FRYDOM_INTERP2D_H
+#endif //MATHUTILS_INTERP2D_H
