@@ -37,6 +37,39 @@ except which.WhichError:
     print "cannot find git"
 
 
+def build_ceres_solver(build_type):
+    print("\n\n==============================================================================")
+    print("Building CERES-SOLVER library (shared)")
+    print("==============================================================================")
+
+    eigen_include_dir = os.path.join(os.getcwd(), "eigen")
+
+    os.chdir("ceres-solver")
+
+    try:
+        os.mkdir('build')
+    except OSError:
+        pass
+
+    os.chdir("build")
+
+    # FIXME: We do not provide at that time support for sparse linear solvers into ceres. Other dependencies should be added
+    # but we have to check for the licences
+
+    call([cmake,
+          "-DCMAKE_BUILD_TYPE=%s" % build_type,
+          "-DEIGEN_INCLUDE_DIR=%s" % eigen_include_dir,
+          "-DMINIGLOG=ON",
+          "-DCXX11=ON",  # FIXME: from the ceres documetation, should not be used with MSVC
+          "-DEIGENSPARSE=ON",  # TODO: voir si le jeu de licence LGPL dont parle la doc ceres est toujours en cours... si oui, mettre OFF
+          "-DBUILD_SHARED_LIBS=ON",
+          ".."])
+
+    call([make, "-j%u" % nb_core])
+
+    os.chdir("../..")
+
+
 if __name__ == "__main__":
 
     print("==============================================================================")
@@ -57,5 +90,9 @@ if __name__ == "__main__":
     print("Updating GIT SUBMODULES")
     print("==============================================================================")
 
+    print("-- DONE")
+
     call([git, "submodule", "init"])
     call([git, "submodule", "update"])
+
+    build_ceres_solver(build_type)

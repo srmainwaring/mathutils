@@ -7,6 +7,8 @@
 
 #include "Eigen/Dense"
 
+#include "ceres/ceres.h"
+
 #include "src/Constants.h"
 #include "src/Vector2d.h"
 #include "src/Vector3d.h"

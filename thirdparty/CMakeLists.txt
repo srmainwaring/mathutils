@@ -30,7 +30,24 @@ set(MATPLOTLIB_CPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/matplotlib-cpp)
 list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${MATPLOTLIB_CPP_INCLUDE_DIR})
 
 message(STATUS "INCLUDE DIRS : " ${MATPLOTLIB_CPP_INCLUDE_DIR})
-message(STATUS "LIBRARIES : NO LIB REQUIRED")
+message(STATUS "LIBRARIES : NO LIB REQUIRED (HEADER ONLY)")
+
+#=============================================================================
+#
+# CERES SOLVER
+#
+#=============================================================================
+message(STATUS "===================================================================")
+message(STATUS "Finding Ceres-solver module...")
+message(STATUS "===================================================================")
+set(CERES_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/include)
+set(CERES_LIB ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build/lib/libceres.so)
+
+list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${CERES_INCLUDE_DIR})
+list(APPEND MATHUTILS_THIRDPARTY_LIBS ${CERES_LIB})
+
+message(STATUS "INCLUDE DIRS : " ${CERES_INCLUDE_DIR})
+message(STATUS "LIBRARIES : ${CERES_LIB}")
 
 
 #=============================================================================
