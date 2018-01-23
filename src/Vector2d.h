@@ -2,8 +2,8 @@
 // Created by frongere on 15/11/17.
 //
 
-#ifndef FRYDOM_MATRIX_H
-#define FRYDOM_MATRIX_H
+#ifndef MATHUTILS_VECTOR2D_H
+#define MATHUTILS_VECTOR2D_H
 
 //#include "Eigen/Dense"
 
@@ -294,4 +294,4 @@ namespace mathutils {
 
 }  // end namespace mathutils
 
-#endif //FRYDOM_MATRIX_H
+#endif //MATHUTILS_VECTOR2D_H

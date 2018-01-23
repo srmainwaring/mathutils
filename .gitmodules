@@ -1,0 +1,10 @@
+
+[submodule "thirdparty/matplotlib-cpp"]
+	path = thirdparty/matplotlib-cpp
+	url = https://github.com/lava/matplotlib-cpp.git
+[submodule "thirdparty/ceres-solver"]
+	path = thirdparty/ceres-solver
+	url = https://github.com/ceres-solver/ceres-solver.git
+[submodule "thirdparty/eigen"]
+	path = thirdparty/eigen
+	url = https://github.com/RLovelett/eigen.git
