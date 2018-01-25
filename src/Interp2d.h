@@ -56,7 +56,7 @@ namespace mathutils {
                                     std::shared_ptr<const std::vector<Real>> y,
                                     std::shared_ptr<const std::vector<Real>> data) {
 
-        assert( x->size() * y->size() == data->size());
+        //assert( x->size() * y->size() == data->size());
         //assert( y->size() == data->at(0).size());
         assert( std::is_sorted(x->begin(), x->end()) );
         assert( std::is_sorted(y->begin(), y->end()) );

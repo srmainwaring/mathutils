@@ -285,7 +285,7 @@ namespace mathutils {
 
     template <class Scalar>
     Vector2d<Scalar> TransportAtPoint(const Vector2d<Scalar> vector, const Vector2d<Scalar> point,
-                                      Scalar w, FREQUENCY_UNIT funit=RADS) {
+                                      Scalar w, FREQUENCY_UNIT funit) {
         Vector2d<Scalar> out(vector);
         out.TransportAtPoint(point, w, funit);
         return out;
