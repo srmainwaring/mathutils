@@ -21,12 +21,14 @@ set(TESTS
         test_spline
         )
 
+find_package(Eigen3 REQUIRED NO_MODULE)
+
 foreach(test ${TESTS})
 
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS})
+    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS} Eigen3::Eigen)
 #    target_link_libraries(${test} MathUtils)
 
 endforeach()

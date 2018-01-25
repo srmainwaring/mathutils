@@ -34,6 +34,20 @@ message(STATUS "LIBRARIES : NO LIB REQUIRED (HEADER ONLY)")
 
 #=============================================================================
 #
+# EIGEN
+#
+#=============================================================================
+message(STATUS "===================================================================")
+message(STATUS "Finding package Eigen...")
+message(STATUS "===================================================================")
+set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen")
+list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
+
+message(STATUS "INCLUDE DIRS : " ${EIGEN3_INCLUDE_DIR})
+message(STATUS "LIBRARIES : NO LIB REQUIRED (HEADERS ONLY)")
+
+#=============================================================================
+#
 # CERES SOLVER
 #
 #=============================================================================

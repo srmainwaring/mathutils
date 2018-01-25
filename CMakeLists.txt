@@ -10,7 +10,8 @@ project(MathUtils)
 
 set(CMAKE_BUILD_TYPE Debug)  # TODO: voir pour que le reglage choisi dans le projet appelant soit utilise ici...
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
+message(STATUS ${CMAKE_CXX_STANDARD})
 
 #find_package(Eigen3 REQUIRED NO_MODULE)
 #include_directories(${EIGEN3_INCLUDE_DIR})
