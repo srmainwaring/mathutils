@@ -19,6 +19,7 @@ set(TESTS
         test_fft
         test_convolution
         test_spline
+        test_vectorN
         )
 
 find_package(Eigen3 REQUIRED NO_MODULE)

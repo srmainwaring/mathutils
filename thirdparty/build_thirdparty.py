@@ -63,9 +63,11 @@ def build_ceres_solver(build_type):
           "-DCXX11=ON",  # FIXME: from the ceres documetation, should not be used with MSVC
           "-DEIGENSPARSE=ON",  # TODO: voir si le jeu de licence LGPL dont parle la doc ceres est toujours en cours... si oui, mettre OFF
           "-DBUILD_SHARED_LIBS=ON",
+          "-DEXPORT_BUILD_DIR=ON",
+          "-DBUILD_DOCUMENTATION=ON",
           ".."])
 
-    call([make, "-j%u" % nb_core])
+    call([make, "-j", str(nb_core)])
 
     os.chdir("../..")
 
