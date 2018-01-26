@@ -1,7 +1,6 @@
 
 
 include_directories("..")  # TODO: voir a recuperer la variable qui va bien...
-#message(${MATHUTILS_INCLUDE_DIR})
 
 message(STATUS "============== MathUtils tests ==============")
 
@@ -29,7 +28,7 @@ foreach(test ${TESTS})
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS} Eigen3::Eigen)
-#    target_link_libraries(${test} MathUtils)
+#    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS} Eigen3::Eigen)
+    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS})
 
 endforeach()

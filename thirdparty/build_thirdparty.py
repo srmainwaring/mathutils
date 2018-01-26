@@ -37,12 +37,51 @@ except which.WhichError:
     print "cannot find git"
 
 
+def build_eigen(build_type):
+    print("\n\n==============================================================================")
+    print("Building Eigen library (header only)")
+    print("==============================================================================")
+
+    print("""
+     _____ _                  _____ 
+    | ____(_) __ _  ___ _ __ |___ / 
+    |  _| | |/ _` |/ _ \ '_ \  |_ \ 
+    | |___| | (_| |  __/ | | |___) |
+    |_____|_|\__, |\___|_| |_|____/ 
+             |___/
+    """)
+
+    os.chdir('eigen')
+
+    try:
+        os.mkdir('build')
+    except OSError:
+        pass
+
+    os.chdir('build')
+    call([cmake,
+          '..'])
+
+    os.chdir('../..')
+
+
+
 def build_ceres_solver(build_type):
     print("\n\n==============================================================================")
     print("Building CERES-SOLVER library (shared)")
     print("==============================================================================")
 
+    print("""
+      ____                        ____        _                
+     / ___|___ _ __ ___  ___     / ___|  ___ | |_   _____ _ __ 
+    | |   / _ \ '__/ _ \/ __|____\___ \ / _ \| \ \ / / _ \ '__|
+    | |__|  __/ | |  __/\__ \_____|__) | (_) | |\ V /  __/ |   
+     \____\___|_|  \___||___/    |____/ \___/|_| \_/ \___|_|   
+    """)
+
+
     eigen_include_dir = os.path.join(os.getcwd(), "eigen")
+    # eigen_dir = os.path.join(os.getcwd(), "eigen", "build")
 
     os.chdir("ceres-solver")
 
@@ -56,17 +95,20 @@ def build_ceres_solver(build_type):
     # FIXME: We do not provide at that time support for sparse linear solvers into ceres. Other dependencies should be added
     # but we have to check for the licences
 
-    print('\nEigen include fir located at : %s\n' % eigen_include_dir)
+    # print('\nEigen include dir located at : %s\n' % eigen_include_dir)
+    # print('\nEigen3_DIR = %s' % eigen_dir)
 
     options = [
         "-DCMAKE_BUILD_TYPE=%s" % build_type,
         "-DEIGEN_INCLUDE_DIR=%s" % eigen_include_dir,
+        # "-DEigen3_DIR=%s" % eigen_dir,
+        "-DEIGEN_PREFER_EXPORTED_EIGEN_CMAKE_CONFIGURATION=FALSE",
         "-DMINIGLOG=ON",
         "-DCXX11=ON",  # FIXME: from the ceres documetation, should not be used with MSVC
         "-DEIGENSPARSE=ON",  # TODO: voir si le jeu de licence LGPL dont parle la doc ceres est toujours en cours... si oui, mettre OFF
         "-DBUILD_SHARED_LIBS=ON",
         "-DEXPORT_BUILD_DIR=ON",
-        "-DBUILD_DOCUMENTATION=ON"
+        # "-DBUILD_DOCUMENTATION=ON"
     ]
 
     print('CMAKE is going to be applied on Ceres-solver with the following options :')
@@ -79,7 +121,7 @@ def build_ceres_solver(build_type):
 
     # Building command line
     cmd = [cmake] + options + ['..']
-    print(cmd)
+    # print(cmd)
 
     call(cmd)
 
@@ -94,6 +136,23 @@ if __name__ == "__main__":
     print("==============================================================================")
     print("Building thirdparty libraries for MathUtils project")
     print("==============================================================================\n\n")
+
+    print("""
+     __  __       _   _     _   _ _   _ _       _____         _ 
+    |  \/  | __ _| |_| |__ | | | | |_(_) |___  |___ / _ __ __| |
+    | |\/| |/ _` | __| '_ \| | | | __| | / __|   |_ \| '__/ _` |
+    | |  | | (_| | |_| | | | |_| | |_| | \__ \  ___) | | | (_| |
+    |_|  |_|\__,_|\__|_| |_|\___/ \__|_|_|___/ |____/|_|  \__,_|
+                                                                
+                      _         
+     _ __   __ _ _ __| |_ _   _ 
+    | '_ \ / _` | '__| __| | | |
+    | |_) | (_| | |  | |_| |_| |
+    | .__/ \__,_|_|   \__|\__, |
+    |_|                   |___/
+    """)
+
+
 
     if len(sys.argv) == 1:
         # By default, we build in Release mode
@@ -114,4 +173,5 @@ if __name__ == "__main__":
     call([git, "submodule", "init"])
     call([git, "submodule", "update"])
 
+    build_eigen(build_type)
     build_ceres_solver('Release')  # For Ceres, there is no real interest in building it in Debug mode

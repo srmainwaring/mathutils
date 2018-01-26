@@ -40,8 +40,22 @@ message(STATUS "LIBRARIES : NO LIB REQUIRED (HEADER ONLY)")
 message(STATUS "===================================================================")
 message(STATUS "Finding package Eigen...")
 message(STATUS "===================================================================")
-set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen")
+#set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen")
+#set(Eigen3_DIR ${CMAKE_CURRENT_SOURCE_DIR}/eigen/build)
+
+find_package(Eigen3 REQUIRED NO_MODULE)
+
+# TESTING
+if (TARGET Eigen3::Eigen)
+
+else ()
+    message(STATUS "EIGEN Not found")
+endif (TARGET Eigen3::Eigen)
+
+
+
 list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
+list(APPEND MATHUTILS_THIRDPARTY_LIBS Eigen3::Eigen)
 
 message(STATUS "INCLUDE DIRS : " ${EIGEN3_INCLUDE_DIR})
 message(STATUS "LIBRARIES : NO LIB REQUIRED (HEADERS ONLY)")
@@ -54,12 +68,9 @@ message(STATUS "LIBRARIES : NO LIB REQUIRED (HEADERS ONLY)")
 message(STATUS "===================================================================")
 message(STATUS "Finding Ceres-solver module...")
 message(STATUS "===================================================================")
-#set(CERES_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/include
-#                      ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/config)
-#set(CERES_LIB ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build/lib/libceres.so)
-set(Ceres_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build)
+#set(Ceres_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build)
 
-find_package(Ceres REQUIRED)
+find_package(Ceres)
 
 # FIXME: hack qui devrait etre traite autrement !!! (et pas certain que ca fonctionne...)
 # TODO: suivant ce qui a ete regle dans CMAKE_BUILD_TYPE, il faudra declarer libceres.so ou libceres-debug.so
