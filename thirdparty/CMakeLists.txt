@@ -54,14 +54,22 @@ message(STATUS "LIBRARIES : NO LIB REQUIRED (HEADERS ONLY)")
 message(STATUS "===================================================================")
 message(STATUS "Finding Ceres-solver module...")
 message(STATUS "===================================================================")
-set(CERES_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/include)
-set(CERES_LIB ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build/lib/libceres.so)
+#set(CERES_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/include
+#                      ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/config)
+#set(CERES_LIB ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build/lib/libceres.so)
+set(Ceres_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build)
 
-list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${CERES_INCLUDE_DIR})
-list(APPEND MATHUTILS_THIRDPARTY_LIBS ${CERES_LIB})
+find_package(Ceres REQUIRED)
 
-message(STATUS "INCLUDE DIRS : " ${CERES_INCLUDE_DIR})
-message(STATUS "LIBRARIES : ${CERES_LIB}")
+# FIXME: hack qui devrait etre traite autrement !!! (et pas certain que ca fonctionne...)
+# TODO: suivant ce qui a ete regle dans CMAKE_BUILD_TYPE, il faudra declarer libceres.so ou libceres-debug.so
+set(CERES_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build/lib/libceres.so)
+
+list(APPEND MATHUTILS_THIRDPARTY_INCLUDE_DIRS ${CERES_INCLUDE_DIRS})
+list(APPEND MATHUTILS_THIRDPARTY_LIBS ${CERES_LIBRARIES})
+
+message(STATUS "INCLUDE DIRS : " ${CERES_INCLUDE_DIRS})
+message(STATUS "LIBRARIES : ${CERES_LIBRARIES}")
 
 
 #=============================================================================

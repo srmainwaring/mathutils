@@ -56,17 +56,34 @@ def build_ceres_solver(build_type):
     # FIXME: We do not provide at that time support for sparse linear solvers into ceres. Other dependencies should be added
     # but we have to check for the licences
 
-    call([cmake,
-          "-DCMAKE_BUILD_TYPE=%s" % build_type,
-          "-DEIGEN_INCLUDE_DIR=%s" % eigen_include_dir,
-          "-DMINIGLOG=ON",
-          "-DCXX11=ON",  # FIXME: from the ceres documetation, should not be used with MSVC
-          "-DEIGENSPARSE=ON",  # TODO: voir si le jeu de licence LGPL dont parle la doc ceres est toujours en cours... si oui, mettre OFF
-          "-DBUILD_SHARED_LIBS=ON",
-          "-DEXPORT_BUILD_DIR=ON",
-          "-DBUILD_DOCUMENTATION=ON",
-          ".."])
+    print('\nEigen include fir located at : %s\n' % eigen_include_dir)
 
+    options = [
+        "-DCMAKE_BUILD_TYPE=%s" % build_type,
+        "-DEIGEN_INCLUDE_DIR=%s" % eigen_include_dir,
+        "-DMINIGLOG=ON",
+        "-DCXX11=ON",  # FIXME: from the ceres documetation, should not be used with MSVC
+        "-DEIGENSPARSE=ON",  # TODO: voir si le jeu de licence LGPL dont parle la doc ceres est toujours en cours... si oui, mettre OFF
+        "-DBUILD_SHARED_LIBS=ON",
+        "-DEXPORT_BUILD_DIR=ON",
+        "-DBUILD_DOCUMENTATION=ON"
+    ]
+
+    print('CMAKE is going to be applied on Ceres-solver with the following options :')
+    print('-------------------------------------------------------------------------\n')
+    for opt in options:
+        print('\t' + opt)
+
+    print("\nRunning CMAKE...")
+    print("------------------\n")
+
+    # Building command line
+    cmd = [cmake] + options + ['..']
+    print(cmd)
+
+    call(cmd)
+
+    # Calling make
     call([make, "-j", str(nb_core)])
 
     os.chdir("../..")
@@ -97,4 +114,4 @@ if __name__ == "__main__":
     call([git, "submodule", "init"])
     call([git, "submodule", "update"])
 
-    build_ceres_solver(build_type)
+    build_ceres_solver('Release')  # For Ceres, there is no real interest in building it in Debug mode
