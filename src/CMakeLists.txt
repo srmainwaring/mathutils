@@ -1,12 +1,8 @@
 
 #message(STATUS "=========== MathUtils module =========")
 
-find_package(Eigen3 REQUIRED NO_MODULE)
-include_directories(${EIGEN3_INCLUDE_DIR})
-#
-#message(STATUS "Eigen include directory found at : " ${EIGEN3_INCLUDE_DIR})
+# FIXME: this file is no more used. It coumd be used when we will work on install instructions
 
-# TODO: voir si utile !! A priori, MathUtils est header only...
 
 # FILES
 set(FILES
@@ -36,5 +32,14 @@ set(FILES
         VectorN.h
         )
 
-add_library(MathUtils SHARED ${FILES})
-target_link_libraries(MathUtils Eigen3::Eigen)
+#add_library(MathUtils ${FILES} IMPORTED)
+#target_link_libraries(MathUtils Eigen3::Eigen)
+#target_link_libraries(MathUtils)
+
+
+#install(TARGETS MathUtils
+#        EXPORT MathUtilsTargets
+#        RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin)
+
+#message(STATUS ${CMAKE_CURRENT_LIST_DIR})
+#set(MATHUTILS_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR} PARENT_SCOPE)
