@@ -33,6 +33,7 @@ set(FILES
         StdVector.h
         Functions.h
         Convolution.h
+        VectorN.h
         )
 
 add_library(MathUtils SHARED ${FILES})

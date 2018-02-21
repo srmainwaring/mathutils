@@ -1,7 +1,6 @@
 
 
 include_directories("..")  # TODO: voir a recuperer la variable qui va bien...
-#message(${MATHUTILS_INCLUDE_DIR})
 
 message(STATUS "============== MathUtils tests ==============")
 
@@ -19,14 +18,17 @@ set(TESTS
         test_fft
         test_convolution
         test_spline
+        test_vectorN
         )
+
+find_package(Eigen3 REQUIRED NO_MODULE)
 
 foreach(test ${TESTS})
 
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
+#    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS} Eigen3::Eigen)
     target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS})
-#    target_link_libraries(${test} MathUtils)
 
 endforeach()

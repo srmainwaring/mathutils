@@ -159,6 +159,7 @@ def build():
         if build_type not in ("Debug", "Release", "RelWithDebInfo", "MinSizeRel"):
             raise NameError("Build type %s is not known. It has to be chosen among Debug, Release, RelWithDebInfo, MinSizeRel" % build_type)
 
+
     # Ensuring that thirdparty git submodules are up-to-date
     print("==============================================================================")
     print("Updating GIT SUBMODULES")

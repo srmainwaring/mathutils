@@ -10,7 +10,7 @@ project(MathUtils)
 
 set(CMAKE_BUILD_TYPE Debug)  # TODO: voir pour que le reglage choisi dans le projet appelant soit utilise ici...
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
 #find_package(Eigen3 REQUIRED NO_MODULE)
 #include_directories(${EIGEN3_INCLUDE_DIR})
@@ -30,7 +30,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${MATHUTILS_THIRDPARTY_INCLUDE_D
 
 add_subdirectory(tests)
 
-#message(${MATHUTILS_THIRDPARTY_INCLUDE_DIRS})
+message(${MATHUTILS_THIRDPARTY_INCLUDE_DIRS})
 
 
 

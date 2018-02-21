@@ -7,6 +7,8 @@
 
 #include "Eigen/Dense"
 
+#include "ceres/ceres.h"
+
 #include "src/Constants.h"
 #include "src/Vector2d.h"
 #include "src/Vector3d.h"
@@ -21,6 +23,7 @@
 #include "src/Check.h"
 #include "src/Transform3d.h"
 #include "src/Matrix.h"
+#include "src/VectorN.h"
 #include "src/Integration1d.h"
 #include "src/FFT.h"
 #include "src/Complex.h"
