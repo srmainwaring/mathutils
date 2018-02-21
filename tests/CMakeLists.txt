@@ -23,6 +23,8 @@ set(TESTS
 
 find_package(Eigen3 REQUIRED NO_MODULE)
 
+message(STATUS ${EIGEN_INCLUDE_DIR})
+
 foreach(test ${TESTS})
 
     message(STATUS "...add ${test}")
