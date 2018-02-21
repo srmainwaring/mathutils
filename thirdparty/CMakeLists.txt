@@ -70,7 +70,7 @@ message(STATUS "Finding Ceres-solver module...")
 message(STATUS "===================================================================")
 #set(Ceres_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build)
 
-set(EIGEN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/eigen)
+set(EIGEN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/eigen/eigen)
 find_package(Ceres)
 
 # FIXME: hack qui devrait etre traite autrement !!! (et pas certain que ca fonctionne...)

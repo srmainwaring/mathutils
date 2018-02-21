@@ -60,7 +60,7 @@ def build_eigen(build_type):
 
     os.chdir('build')
     call([cmake,
-          '..'])
+          '../eigen'])
 
     os.chdir('../..')
 
@@ -79,7 +79,7 @@ def build_ceres_solver(build_type):
     """)
 
 
-    eigen_include_dir = os.path.join(os.getcwd(), "eigen")
+    eigen_include_dir = os.path.join(os.getcwd(), "eigen", "eigen")
     # eigen_dir = os.path.join(os.getcwd(), "eigen", "build")
 
     os.chdir("ceres-solver")
