@@ -3,38 +3,19 @@
 
 import os
 import sys
-import shutil
-sys.path.append("./which")
-import which
 from subprocess import call
+from distutils.spawn import find_executable
+import multiprocessing
+
+# For parallel make
+nb_core = multiprocessing.cpu_count()
 
 abs_path_root = os.getcwd()
 
-
-# For parallel make
-try:
-    import multiprocessing
-    nb_core = multiprocessing.cpu_count()
-except ImportError:
-    nb_core = 1
-
-
-try:
-    make = which.which('make')
-except which.WhichError:
-    print "cannot find make"
-    # make = '/usr/bin/make'
-
-try:
-    cmake = which.which('cmake')
-except which.WhichError:
-    print "cannot find cmake"
-    cmake = '/home/frongere/mysofts/cmake-3.8.2-Linux-x86_64/bin/cmake'
-
-try:
-    git = which.which('git')
-except which.WhichError:
-    print "cannot find git"
+# Getting system executables
+make = find_executable('make')
+cmake = find_executable('cmake')
+git = find_executable('git')
 
 
 def build_eigen(build_type):
