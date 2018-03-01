@@ -10,6 +10,7 @@
 namespace mathutils {
 
     // TODO: travailler sur les operateurs + et *
+    // TODO: Rajouter methode Resize()
 
 
     template <class Scalar>
