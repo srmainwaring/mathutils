@@ -41,7 +41,7 @@ message(STATUS "================================================================
 message(STATUS "Finding package Eigen...")
 message(STATUS "===================================================================")
 #set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/eigen")
-#set(Eigen3_DIR ${CMAKE_CURRENT_SOURCE_DIR}/eigen/build)
+set(Eigen3_DIR ${CMAKE_CURRENT_SOURCE_DIR}/eigen/build)
 
 find_package(Eigen3 REQUIRED NO_MODULE)
 
@@ -70,6 +70,7 @@ message(STATUS "Finding Ceres-solver module...")
 message(STATUS "===================================================================")
 #set(Ceres_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ceres-solver/build)
 
+set(EIGEN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/eigen/eigen)
 find_package(Ceres)
 
 # FIXME: hack qui devrait etre traite autrement !!! (et pas certain que ca fonctionne...)

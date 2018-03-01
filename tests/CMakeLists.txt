@@ -23,12 +23,13 @@ set(TESTS
 
 find_package(Eigen3 REQUIRED NO_MODULE)
 
+message(STATUS ${EIGEN_INCLUDE_DIR})
+
 foreach(test ${TESTS})
 
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-#    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS} Eigen3::Eigen)
-    target_link_libraries(${test} MathUtils ${MATHUTILS_THIRDPARTY_LIBS})
+    target_link_libraries(${test} ${MATHUTILS_THIRDPARTY_LIBS})
 
 endforeach()

@@ -3,38 +3,19 @@
 
 import os
 import sys
-import shutil
-sys.path.append("./which")
-import which
 from subprocess import call
+from distutils.spawn import find_executable
+import multiprocessing
+
+# For parallel make
+nb_core = multiprocessing.cpu_count()
 
 abs_path_root = os.getcwd()
 
-
-# For parallel make
-try:
-    import multiprocessing
-    nb_core = multiprocessing.cpu_count()
-except ImportError:
-    nb_core = 1
-
-
-try:
-    make = which.which('make')
-except which.WhichError:
-    print "cannot find make"
-    # make = '/usr/bin/make'
-
-try:
-    cmake = which.which('cmake')
-except which.WhichError:
-    print "cannot find cmake"
-    cmake = '/home/frongere/mysofts/cmake-3.8.2-Linux-x86_64/bin/cmake'
-
-try:
-    git = which.which('git')
-except which.WhichError:
-    print "cannot find git"
+# Getting system executables
+make = find_executable('make')
+cmake = find_executable('cmake')
+git = find_executable('git')
 
 
 def build_eigen(build_type):
@@ -60,10 +41,9 @@ def build_eigen(build_type):
 
     os.chdir('build')
     call([cmake,
-          '..'])
+          '../eigen'])
 
     os.chdir('../..')
-
 
 
 def build_ceres_solver(build_type):
@@ -80,7 +60,7 @@ def build_ceres_solver(build_type):
     """)
 
 
-    eigen_include_dir = os.path.join(os.getcwd(), "eigen")
+    eigen_include_dir = os.path.join(os.getcwd(), "eigen", "eigen")
     # eigen_dir = os.path.join(os.getcwd(), "eigen", "build")
 
     os.chdir("ceres-solver")
@@ -131,7 +111,7 @@ def build_ceres_solver(build_type):
     os.chdir("../..")
 
 
-if __name__ == "__main__":
+def build():
 
     print("==============================================================================")
     print("Building thirdparty libraries for MathUtils project")
@@ -152,8 +132,6 @@ if __name__ == "__main__":
     |_|                   |___/
     """)
 
-
-
     if len(sys.argv) == 1:
         # By default, we build in Release mode
         build_type = "Debug"
@@ -168,10 +146,14 @@ if __name__ == "__main__":
     print("Updating GIT SUBMODULES")
     print("==============================================================================")
 
-    print("-- DONE")
-
     call([git, "submodule", "init"])
     call([git, "submodule", "update"])
+    
+    print("-- DONE")
 
     build_eigen(build_type)
     build_ceres_solver('Release')  # For Ceres, there is no real interest in building it in Debug mode
+
+
+if __name__ == "__main__":
+    build()
