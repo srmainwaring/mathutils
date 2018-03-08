@@ -41,6 +41,8 @@ namespace mathutils {
 
         inline void Set(Scalar x, Scalar y);
 
+        inline void SetNEDFromLocal(Scalar x, Scalar y, Scalar angle, ANGLE_UNIT unit=RAD);
+
         inline Scalar infNorm() const;
 
         inline void ProjectLocalOnNED(Vector2d<Scalar>& out, Scalar angle, ANGLE_UNIT unit=RAD) const;
@@ -139,6 +141,12 @@ namespace mathutils {
         this->operator[](0) = x;
         this->operator[](1) = y;
     }
+    <Scalar>
+    void Vector2d<Scalar>::SetNEDFromLocal(Scalar x, Scalar y, Scalar angle, ANGLE_UNIT unit){
+        Set(x,y);
+        ProjectLocalOnNED(angle, unit);
+    }
+
 
     template <class Scalar>
     void Vector2d<Scalar>::SetNull() {
