@@ -97,6 +97,7 @@ namespace mathutils {
 
     }
 
+    template <class Scalar>
     MatrixMN<Scalar> VectorN<Scalar>::GetMatrixSquare() const
     {
         MatrixMN<Scalar> Res(this->size(),this->size());

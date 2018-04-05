@@ -141,7 +141,8 @@ namespace mathutils {
         this->operator[](0) = x;
         this->operator[](1) = y;
     }
-    <Scalar>
+
+    template <class Scalar>
     void Vector2d<Scalar>::SetNEDFromLocal(Scalar x, Scalar y, Scalar angle, ANGLE_UNIT unit){
         Set(x,y);
         ProjectLocalOnNED(angle, unit);
