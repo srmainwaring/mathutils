@@ -6,6 +6,7 @@
 #define MATHUTILS_VECTORN_H
 
 #include "Eigen/Dense"
+#include "Matrix.h"
 
 namespace mathutils {
 
@@ -37,6 +38,8 @@ namespace mathutils {
 
         bool IsEqual(const VectorN<Scalar>& other, const Scalar& epsilon=1e-12);
 
+
+        MatrixMN<Scalar> GetMatrixSquare() const;
 
 
 
@@ -94,6 +97,14 @@ namespace mathutils {
 
     }
 
+    MatrixMN<Scalar> VectorN<Scalar>::GetMatrixSquare() const
+    {
+        MatrixMN<Scalar> Res(this->size(),this->size());
+        VectorN<Scalar> V;
+        Res = this * this->transpose();
+        return Res;
+    }
+
     template <class Scalar>
     void VectorN<Scalar>::Reverse() {
         std::reverse(this->data(), this->data()+this->size());
@@ -103,8 +114,6 @@ namespace mathutils {
     bool VectorN<Scalar>::IsEqual(const VectorN<Scalar>& other, const Scalar& epsilon) {
         return this->isApprox(other, epsilon);
     }
-
-
 
 }  // End namespace mathutils
 
