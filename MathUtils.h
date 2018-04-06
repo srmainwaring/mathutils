@@ -5,6 +5,7 @@
 #ifndef MATHUTILS_H_H
 #define MATHUTILS_H_H
 
+//#define EIGEN_MATRIXBASE_PLUGIN "src/MatrixBaseAddons.h"
 #include "Eigen/Dense"
 
 #include "ceres/ceres.h"

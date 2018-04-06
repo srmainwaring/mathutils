@@ -112,8 +112,8 @@ namespace mathutils {
 
         // This method allows to assign Eigen expressions to MatrixMN
         template <class OtherDerived>
-        MatrixMN& operator=(const Eigen::MatrixBase<OtherDerived>& other) {
-            this->Eigen::Matrix<Scalar, other.rows(), other.cols()>::operator=(other);
+        MatrixMN<Scalar>& operator=(const Eigen::MatrixBase<OtherDerived>& other) {
+            this->Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>::operator=(other);
             return *this;
         }
 
