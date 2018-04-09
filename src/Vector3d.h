@@ -50,29 +50,29 @@ namespace mathutils {
         inline Scalar infNorm() const;
 
 
-        // ====================================
-        // Method for physical usage
-        // ====================================
-        inline Scalar X() const { return this->at(0); };
-        inline Scalar Y() const { return this->at(1); };
-        inline Scalar Z() const { return this->at(2); };
-        inline void SetX( const Scalar X) { this->at(0) = X; }
-        inline void SetY( const Scalar Y) { this->at(1) = Y; }
-        inline void SetZ( const Scalar Z) { this->at(2) = Z; }
-
-        inline Scalar u() const { return this->at(0); };
-        inline Scalar v() const { return this->at(1); };
-        inline Scalar r() const { return this->at(2); };
-        inline void SetU( const Scalar u) { this->at(0) = u; }
-        inline void SetV( const Scalar v) { this->at(1) = v; }
-        inline void SetR( const Scalar r) { this->at(2) = r; }
-
-        inline Scalar Fx() const { return this->at(0); };
-        inline Scalar Fy() const { return this->at(1); };
-        inline Scalar Mz() const { return this->at(2); };
-        inline void SetFx( const Scalar Fx) { this->at(0) = Fx; }
-        inline void SetFy( const Scalar Fy) { this->at(1) = Fy; }
-        inline void SetMz( const Scalar Mz) { this->at(2) = Mz; }
+//        // ====================================
+//        // Method for physical usage
+//        // ====================================
+//        inline Scalar X() const { return this->at(0); };
+//        inline Scalar Y() const { return this->at(1); };
+//        inline Scalar Z() const { return this->at(2); };
+//        inline void SetX( const Scalar X) { this->at(0) = X; }
+//        inline void SetY( const Scalar Y) { this->at(1) = Y; }
+//        inline void SetZ( const Scalar Z) { this->at(2) = Z; }
+//
+//        inline Scalar u() const { return this->at(0); };
+//        inline Scalar v() const { return this->at(1); };
+//        inline Scalar r() const { return this->at(2); };
+//        inline void SetU( const Scalar u) { this->at(0) = u; }
+//        inline void SetV( const Scalar v) { this->at(1) = v; }
+//        inline void SetR( const Scalar r) { this->at(2) = r; }
+//
+//        inline Scalar Fx() const { return this->at(0); };
+//        inline Scalar Fy() const { return this->at(1); };
+//        inline Scalar Mz() const { return this->at(2); };
+//        inline void SetFx( const Scalar Fx) { this->at(0) = Fx; }
+//        inline void SetFy( const Scalar Fy) { this->at(1) = Fy; }
+//        inline void SetMz( const Scalar Mz) { this->at(2) = Mz; }
 
 
     };
