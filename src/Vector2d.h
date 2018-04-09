@@ -79,31 +79,6 @@ namespace mathutils {
             return *this;
         }
 
-//        // ====================================
-//        // Method for physical usage
-//        // ====================================
-//        inline Scalar Latitude() const { return this->at(0); };
-//        inline Scalar Longitude() const { return this->at(1); };
-//
-//        inline Scalar X() const { return this->at(0); };
-//        inline Scalar Y() const { return this->at(1); };
-//        inline void SetX( const Scalar X) { this->at(0) = X; }
-//        inline void SetY( const Scalar Y) { this->at(1) = Y; }
-//
-//
-//        inline Scalar Vx() const { return this->at(0); };
-//        inline Scalar Vy() const { return this->at(1); };
-//        inline void SetVx( const Scalar Vx) { this->at(0) = Vx; }
-//        inline void SetVy( const Scalar Vy) { this->at(1) = Vy; }
-//
-//        inline const Scalar GetNorm() const { return this->norm(); };
-//        inline const Scalar GetDirection() { return std::atan2(this->at(1), this->at(0)); }
-//
-//        inline Scalar Vu() const { return this->at(0); };
-//        inline Scalar Vv() const { return this->at(1); };
-//        inline void SetVu( const Scalar Vu) { this->at(0) = Vu; }
-//        inline void SetYVv( const Scalar Vv) { this->at(1) = Vv; }
-
     };
 
     // =================================================================================================================
@@ -135,10 +110,6 @@ namespace mathutils {
     template <class Scalar>
     Vector2d<Scalar> TransportAtPoint(const Vector2d<Scalar> vector, const Vector2d<Scalar> point,
                                       Scalar w, FREQUENCY_UNIT funit=RADS);
-
-
-
-
 
 
     // =================================================================================================================

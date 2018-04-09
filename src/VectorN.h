@@ -38,8 +38,7 @@ namespace mathutils {
 
         bool IsEqual(const VectorN<Scalar>& other, const Scalar& epsilon=1e-12);
 
-
-//        MatrixMN<Scalar> GetMatrixSquare() const;
+        MatrixMN<Scalar> GetMatrixSquare() const;
 
 
 
@@ -58,20 +57,21 @@ namespace mathutils {
             return *this;
         }
 
-//        template <class OtherDerived>
-//        VectorN& operator=(const Eigen::MatrixBase<OtherDerived>& other) const {
-//            this->Eigen::Matrix<Scalar, other.rows(), 1>::operator=(other);
-//            return *this;
-//        }
-
-
-
     };
+
+
+    // Functions
 
     template <class Scalar>
     MatrixMN<Scalar> GetMatrixSquare(const VectorN<Scalar> vector) {
         return vector * vector.transpose();
     }
+
+    template <class Scalar>  // FIXME : Bug ?
+    MatrixMN<Scalar> Transpose(const VectorN<Scalar> vector) {
+        return vector.transpose();
+    }
+
 
     // =================================================================================================================
     // =================================================================================================================
@@ -107,18 +107,10 @@ namespace mathutils {
 
     }
 
-//    template <class Scalar>
-////    MatrixMN<Scalar> VectorN<Scalar>::GetMatrixSquare() const {
-//    void VectorN<Scalar>::GetMatrixSquare() const {
-////        MatrixMN<Scalar> Res(this->size(),this->size());
-////        VectorN<Scalar> V;
-////        Res = this * this->transpose();
-////        return Res;
-//        auto temp = this;
-//        auto temp2 = Eigen::Transpose<Eigen::Matrix<Scalar, Eigen::Dynamic, 1>>(temp)
-////        return this * Eigen::Transpose<Eigen::Matrix<Scalar, Eigen::Dynamic, 1>>(temp);
-////        return this * Eigen::Transpose<VectorN<Scalar>>(this);
-//    }
+    template <class Scalar>
+    MatrixMN<Scalar> VectorN<Scalar>::GetMatrixSquare() const {
+        return (*this) * ((*this).transpose());
+    }
 
     template <class Scalar>
     void VectorN<Scalar>::Reverse() {
