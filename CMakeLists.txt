@@ -22,9 +22,12 @@ set(MathUtils_VERSION_PATCH   "0")
 set(MathUtils_VERSION
         "${MathUtils_VERSION_MAJOR}.${MathUtils_VERSION_MINOR}.${MathUtils_VERSION_PATCH}")
 
+# MathUtils depends on Eigen3 library
 include(Add_Eigen3)
 
 
+# Creating MathUtils target
+add_subdirectory(src/MathUtils)
 
 
 
