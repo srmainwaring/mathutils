@@ -2,7 +2,7 @@
 // Created by frongere on 18/12/17.
 //
 
-#include "MathUtils.h"
+#include "MathUtils/MathUtils.h"
 
 using namespace mathutils;
 

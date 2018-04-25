@@ -26,3 +26,25 @@ set(MATHUTILS_HEADERS
         )
 
 
+# Building target
+add_library(MathUtils INTERFACE)
+add_library(MathUtils::MathUtils ALIAS MathUtils)
+
+target_include_directories(MathUtils INTERFACE
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
+        $<INSTALL_INTERFACE:include>)
+#target_include_directories(MathUtils INTERFACE
+#        ${PROJECT_SOURCE_DIR}/src
+#        )
+
+
+#set_target_properties(MathUtils PROPERTIES
+#        VERSION ${MathUtils_VERSION})
+
+include(GNUInstallDirs)
+#message(${CMAKE_INSTALL_LIBDIR})
+install(TARGETS MathUtils EXPORT MathUtils-targets
+        DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+install(FILES ${MATHUTILS_HEADERS}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/MathUtils)

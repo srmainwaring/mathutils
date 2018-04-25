@@ -2,7 +2,7 @@
 // Created by frongere on 29/12/17.
 //
 
-#include "MathUtils.h"
+#include "MathUtils/MathUtils.h"
 #include "matplotlibcpp.h"
 
 #include "boost/circular_buffer.hpp"

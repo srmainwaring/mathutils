@@ -1,8 +1,5 @@
 
-
-include_directories("..")  # TODO: voir a recuperer la variable qui va bien...
-
-message(STATUS "============== MathUtils tests ==============")
+add_custom_target(tests)
 
 set(TESTS
         test_unit
@@ -21,15 +18,14 @@ set(TESTS
         test_vectorN
         )
 
-find_package(Eigen3 REQUIRED NO_MODULE)
-
-message(STATUS ${EIGEN_INCLUDE_DIR})
 
 foreach(test ${TESTS})
 
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} ${MATHUTILS_THIRDPARTY_LIBS})
+    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen matplotlib-cpp)
+
+    add_dependencies(tests ${test})
 
 endforeach()

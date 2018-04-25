@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "MathUtils.h"
+#include "MathUtils/MathUtils.h"
 
 #define N 100
 
