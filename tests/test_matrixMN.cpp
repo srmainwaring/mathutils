@@ -52,6 +52,12 @@ int main(int argc, char* argv[]) {
     myMatrix(1, 1) = 200;
     std::cout << "Coeff 1, 1 (200): " << myMatrix(1, 1) << "\n\n";
 
+    myMatrix(0, 1) = 1;
+    std::cout << "Coeff 0, 1 (1): " << myMatrix(1, 1) << "\n\n";
+
+    myMatrix(1, 2) = 12;
+    std::cout << "Coeff 1, 2 (12): " << myMatrix(1, 1) << "\n\n";
+
     std::cout << myMatrix << "\n\n";
 
     PrintInfo("Matrix transposition");
