@@ -33,7 +33,7 @@ add_subdirectory(src/MathUtils)
 
 
 # Adding tests
-message(STATUS "Building MathUtils tests : ${MATHUTILS_BUILD_TESTS})
+message(STATUS "Building MathUtils tests : ${MATHUTILS_BUILD_TESTS}")
 if (${MATHUTILS_BUILD_TESTS})
     add_subdirectory(tests)
 endif()
