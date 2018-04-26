@@ -44,6 +44,7 @@ int main(int argc, char* argv[]) {
     // Getting individual coefficients (different means)
     PrintInfo("Getting and setting individual coefficients by indices");
     std::cout << "Get Coeff 0, 0 : " << myMatrix.at(0, 0) << "\n\n";
+    std::cout << "Get Coeff 0, 2 : " << myMatrix.at(0, 2) << "\n\n";
     std::cout << "Get Coeff 0, 0 : " << myMatrix(0, 0) << "\n\n";
 
     myMatrix.at(0, 0) = 0;
