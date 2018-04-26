@@ -61,6 +61,9 @@ int main(int argc, char* argv[]) {
     myMatrix(3, 0) = 30;
     std::cout << "Set Coeff 3, 0 (30): " << myMatrix(3, 0) << "\n\n";
 
+    myMatrix.at(4, 0) = 40;
+    std::cout << "Set Coeff 4, 0 (40): " << myMatrix(4, 0) << "\n\n";
+
     std::cout << myMatrix << "\n\n";
 
     PrintInfo("Matrix transposition");
