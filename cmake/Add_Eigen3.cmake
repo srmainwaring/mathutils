@@ -18,6 +18,6 @@ if (NOT Eigen3_FOUND)
         message(Eigen3_SOURCE_DIR${eigen3_SOURCE_DIR})
         message(Eigen3_BINARY_DIR${eigen3_BINARY_DIR})
 
-        add_subdirectory(${eigen3_SOURCE_DIR} ${eigen3_BINARY_DIR})
+        add_subdirectory(${eigen3_SOURCE_DIR})
     endif()
 endif()
