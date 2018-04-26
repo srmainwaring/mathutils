@@ -1,5 +1,5 @@
 
-add_custom_target(tests)
+add_custom_target(mathutils_tests)
 
 set(TESTS
         test_unit
@@ -26,6 +26,6 @@ foreach(test ${TESTS})
     add_executable(${test} ${test}.cpp)
     target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen matplotlib-cpp)
 
-    add_dependencies(tests ${test})
+    add_dependencies(mathutils_tests ${test})
 
 endforeach()
