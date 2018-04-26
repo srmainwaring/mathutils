@@ -8,7 +8,7 @@ if (NOT Eigen3_FOUND)
             )
 
     FetchContent_GetProperties(Eigen3)
-    if(NOT Eigen3_POPULATED)
+    if(NOT eigen3_POPULATED)
         message(STATUS "Downloading, Configuring and Generating 'Eigen3' dependency")
         FetchContent_Populate(Eigen3)
 

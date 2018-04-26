@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Get Coeff 0, 0 : " << myMatrix(0, 0) << "\n\n";
 
     myMatrix.at(0, 0) = 0;
-    std::cout << "Set Coeff 0, 0 (100): " << myMatrix(0, 0) << "\n\n";
+    std::cout << "Set Coeff 0, 0 (0): " << myMatrix(0, 0) << "\n\n";
 
     myMatrix(1, 1) = 11;
     std::cout << "Set Coeff 1, 1 (11): " << myMatrix(1, 1) << "\n\n";
