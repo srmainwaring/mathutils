@@ -25,7 +25,7 @@ if (NOT Eigen3_FOUND)
 endif()
 
 if (TARGET Eigen3::Eigen)
-    message(FOUND_EIGEN target in MAHTUTILS)
+    message("FOUND_EIGEN target in MAHTUTILS")
 else()
     message("Eigen target not found in mathutils")
 endif()
