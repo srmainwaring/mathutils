@@ -23,10 +23,13 @@ if (NOT Eigen3_FOUND)
         add_subdirectory(${eigen3_SOURCE_DIR} ${eigen3_BINARY_DIR})
 
         find_package(Eigen3) # To make the Eigen3::Eigen target readily available at first Add
-
     else()
         message(STATUS "Eigen3 already populated")
     endif()
+endif()
+
+if (NOT MPFR_LIBRARIES)  # Hack for GeographicLib library as Eigen set MPFR_LIBRARIES to NOT_FOUND and is not accepted by GeographicLib build chain
+    set(MPFR_LIBRARIES "")
 endif()
 
 
