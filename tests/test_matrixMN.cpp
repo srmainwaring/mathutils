@@ -43,23 +43,23 @@ int main(int argc, char* argv[]) {
 
     // Getting individual coefficients (different means)
     PrintInfo("Getting and setting individual coefficients by indices");
-    std::cout << "Coeff 0, 0 : " << myMatrix.at(0, 0) << "\n\n";
-    std::cout << "Coeff 0, 0 : " << myMatrix(0, 0) << "\n\n";
+    std::cout << "Get Coeff 0, 0 : " << myMatrix.at(0, 0) << "\n\n";
+    std::cout << "Get Coeff 0, 0 : " << myMatrix(0, 0) << "\n\n";
 
     myMatrix.at(0, 0) = 0;
-    std::cout << "Coeff 0, 0 (100): " << myMatrix(0, 0) << "\n\n";
+    std::cout << "Set Coeff 0, 0 (100): " << myMatrix(0, 0) << "\n\n";
 
     myMatrix(1, 1) = 11;
-    std::cout << "Coeff 1, 1 (11): " << myMatrix(1, 1) << "\n\n";
+    std::cout << "Set Coeff 1, 1 (11): " << myMatrix(1, 1) << "\n\n";
 
     myMatrix(0, 1) = 1;
-    std::cout << "Coeff 0, 1 (1): " << myMatrix(1, 1) << "\n\n";
+    std::cout << "Set Coeff 0, 1 (1): " << myMatrix(0, 1) << "\n\n";
 
     myMatrix(1, 2) = 12;
-    std::cout << "Coeff 1, 2 (12): " << myMatrix(1, 1) << "\n\n";
+    std::cout << "Set Coeff 1, 2 (12): " << myMatrix(1, 2) << "\n\n";
 
     myMatrix(3, 0) = 30;
-    std::cout << "Coeff 1, 2 (30): " << myMatrix(1, 1) << "\n\n";
+    std::cout << "Set Coeff 3, 0 (30): " << myMatrix(3, 0) << "\n\n";
 
     std::cout << myMatrix << "\n\n";
 
