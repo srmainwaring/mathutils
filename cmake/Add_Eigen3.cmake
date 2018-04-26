@@ -24,3 +24,7 @@ if (NOT Eigen3_FOUND)
 #        add_subdirectory(${eigen3_BINARY_DIR})
     endif()
 endif()
+
+if (TARGET Eigen3::Eigen)
+    message(FOUND_EIGEN TARGET in MAHTUTILS)
+endif()
