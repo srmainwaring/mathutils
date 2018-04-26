@@ -160,12 +160,14 @@ namespace mathutils {
 
     template <class Scalar>
     inline Scalar MatrixMN<Scalar>::at(unsigned int irow, unsigned int icol) const {
-        return this->operator()(irow * (this->cols()-1) + icol);
+        // return this->operator()(irow * (this->cols()-1) + icol);
+        return this->operator()(irow, icol);
     }
 
     template <class Scalar>
     inline Scalar& MatrixMN<Scalar>::at(unsigned int irow, unsigned int icol) {
-        return this->operator()(irow * (this->cols()-1) + icol);
+        // return this->operator()(irow * (this->cols()-1) + icol);
+        return this->operator()(irow, icol);
     }
 
     template <class Scalar>
