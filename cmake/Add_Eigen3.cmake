@@ -15,6 +15,7 @@ if (NOT Eigen3_FOUND)
         # Eigen3 BUILD OPTIONS
         # NONE
 
+        message("Add_Eigen3 from MathUtils")
         message("Eigen3_SOURCE_DIR = ${eigen3_SOURCE_DIR}")
         message("Eigen3_BINARY_DIR = ${eigen3_BINARY_DIR}")
 
