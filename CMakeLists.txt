@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS False)
 
-option(BUILD_TESTS "Build the MathUtils tests" ON)
+option(MATHUTILS_BUILD_TESTS "Build the MathUtils tests" ON)
 
 
 # Version informations
@@ -33,6 +33,7 @@ add_subdirectory(src/MathUtils)
 
 
 # Adding tests
-if (${BUILD_TESTS})
+message(STATUS "Building MathUtils tests : ${MATHUTILS_BUILD_TESTS})
+if (${MATHUTILS_BUILD_TESTS})
     add_subdirectory(tests)
 endif()
