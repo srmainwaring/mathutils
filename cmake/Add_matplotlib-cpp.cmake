@@ -22,8 +22,8 @@ if (NOT matplotlib-cpp_FOUND)
         # matplotlib-cpp BUILD OPTIONS
         # NONE
 
-        message(matplotlib-cpp_SOURCE_DIR${matplotlib-cpp_SOURCE_DIR})
-        message(matplotlib-cpp_BINARY_DIR${matplotlib-cpp_BINARY_DIR})
+#        message(matplotlib-cpp_SOURCE_DIR${matplotlib-cpp_SOURCE_DIR})
+#        message(matplotlib-cpp_BINARY_DIR${matplotlib-cpp_BINARY_DIR})
 
 #        add_subdirectory(${matplotlib-cpp_SOURCE_DIR} ${matplotlib-cpp_BINARY_DIR})
 #        add_subdirectory(${matplotlib-cpp_SOURCE_DIR}/contrib)
@@ -37,3 +37,6 @@ target_include_directories(matplotlib-cpp INTERFACE
         $<BUILD_INTERFACE:${PYTHON_INCLUDE_DIRS}>
         $<INSTALL_INTERFACE:include>)
 target_link_libraries(matplotlib-cpp INTERFACE ${PYTHON_LIBRARIES})
+
+#~ add_executable(generator generator.c)
+export(TARGETS matplotlib-cpp FILE matplotlib-cpp-exports.cmake)
