@@ -28,6 +28,11 @@ set(MathUtils_VERSION
 include(Add_Eigen3)
 include(Add_matplotlib-cpp)
 
+#if (TARGET Eigen3::Eigen)
+#    get_target_property(INC Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
+#    message("Found Eigen : ${INC}")
+#endif()
+
 # Creating MathUtils target
 add_subdirectory(src/MathUtils)
 
