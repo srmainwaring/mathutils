@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS False)
 
 option(MATHUTILS_BUILD_TESTS "Build the MathUtils tests" ON)
-
+option(ADD_MATPLOTLIB_CPP "add matplotlib-cpp as a dependency" OFF)
 
 # Version informations
 set(MathUtils_VERSION_MAJOR   "0")
@@ -26,7 +26,10 @@ set(MathUtils_VERSION
 
 # MathUtils depends on Eigen3 library
 include(Add_Eigen3)
-include(Add_matplotlib-cpp)
+
+if(ADD_MATPLOTLIB_CPP)
+    include(Add_matplotlib-cpp)
+endif()
 
 #if (TARGET Eigen3::Eigen)
 #    get_target_property(INC Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
