@@ -49,6 +49,8 @@ namespace mathutils {
 
         inline Scalar infNorm() const;
 
+        void print() const;
+
     };
 
     // =================================================================================================================
@@ -96,7 +98,10 @@ namespace mathutils {
         return this->Eigen::Matrix<Scalar, 3, 1>::maxCoeff();
     }
 
-
+    template <class Scalar>
+    void Vector3d<Scalar>::print() const {
+        std::cout << std::endl << *this << std::endl;
+    }
 
     // =================================================================================================================
     // Functions implementations

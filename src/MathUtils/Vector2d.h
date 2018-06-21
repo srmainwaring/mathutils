@@ -62,7 +62,7 @@ namespace mathutils {
                                      Scalar w, FREQUENCY_UNIT funit=RADS) const;
         inline void TransportAtPoint(const Vector2d<Scalar>& point,
                                      Scalar w, FREQUENCY_UNIT funit=RADS); /// Non const version (no copy)
-
+        void print() const;
 
         // ====================================
         // Methods for Eigen inheritance usage
@@ -230,6 +230,11 @@ namespace mathutils {
 
         at(0) = at(0) - point[1] * w;
         at(1) = at(1) + point[0] * w;
+    }
+
+    template <class Scalar>
+    void Vector2d<Scalar>::print() const {
+        std::cout << std::endl << *this << std::endl;
     }
 
     // =================================================================================================================

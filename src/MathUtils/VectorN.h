@@ -40,6 +40,7 @@ namespace mathutils {
 
         MatrixMN<Scalar> GetMatrixSquare() const;
 
+        void print() const;
 
 
         // =====================================================================
@@ -120,6 +121,11 @@ namespace mathutils {
     template <class Scalar>
     bool VectorN<Scalar>::IsEqual(const VectorN<Scalar>& other, const Scalar& epsilon) {
         return this->isApprox(other, epsilon);
+    }
+
+    template <class Scalar>
+    void VectorN<Scalar>::print() const {
+        std::cout << std::endl << *this << std::endl;
     }
 
 }  // End namespace mathutils

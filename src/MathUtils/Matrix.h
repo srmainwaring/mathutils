@@ -41,6 +41,8 @@ namespace mathutils {
 
         void SetNull();
 
+        void print() const;
+
         // =====================================================================
         // Data Extraction methods
         // =====================================================================
@@ -183,6 +185,11 @@ namespace mathutils {
     template <class Scalar>
     void MatrixMN<Scalar>::SetNull() {
         this->setZero();
+    }
+
+    template <class Scalar>
+    void MatrixMN<Scalar>::print() const {
+        std::cout << std::endl << *this << std::endl;
     }
 
     template <class Scalar>
