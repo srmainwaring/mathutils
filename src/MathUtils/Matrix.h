@@ -6,6 +6,7 @@
 #define MATHUTILS_MATRIX_H
 
 #include "Eigen/Dense"
+#include "iostream"
 
 namespace mathutils {
     // =================================================================================================================
