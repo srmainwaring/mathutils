@@ -22,6 +22,8 @@ namespace mathutils {
         std::vector<std::shared_ptr<std::vector<Real>>> Ydata;
         std::vector<std::unique_ptr<Interp1d<Real, Real>>> interpolators;
 
+        bool m_permissive = true;
+
     public:
         LookupTable1D() {};
         ~LookupTable1D() {};
@@ -79,6 +81,14 @@ namespace mathutils {
         template <class T>
         std::unordered_map<std::string, T> Eval(const T x) const;
 
+        void PermissiveON() { SetPermissive(true); }
+        void PermissiveOFF() { SetPermissive(false); }
+        void SetPermissive(bool permissive) {
+            for (auto& interpolator : interpolators) {
+                interpolator->SetPermissive(permissive);
+            }
+        }
+
     private:
         /// Get the index of the series from its name
         inline unsigned long GetIndex(const std::string name) const;
@@ -127,7 +137,10 @@ namespace mathutils {
 
             auto interp_unique = std::unique_ptr<Interp1d<Real, Real>>(interp_ptr);
 
+            interp_unique->SetPermissive(m_permissive);
+
             interpolators.push_back(std::move(interp_unique));
+
         }
 
         return res_pair.second;

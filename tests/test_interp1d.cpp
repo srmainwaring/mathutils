@@ -42,6 +42,11 @@ void testInterpDouble() {
     auto x_interp = linspace(M_PI, 4*M_PI, 1000*N);
     // Using only the overloaded call operator for vector values
     auto y_interp = interpolator(x_interp);
+
+
+    interpolator.PermissiveON();
+    auto y_interp_out = interpolator(5*M_PI);
+
 }
 
 void testInterpComplex() {

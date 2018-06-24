@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS False)
 
 option(MATHUTILS_BUILD_TESTS "Build the MathUtils tests" ON)
-option(ADD_MATPLOTLIB_CPP "add matplotlib-cpp as a dependency" OFF)
+option(ADD_MATPLOTLIB_CPP "add matplotlib-cpp as a dependency" ON)
 
 # Version informations
 set(MathUtils_VERSION_MAJOR   "0")
