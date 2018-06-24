@@ -19,6 +19,14 @@ namespace mathutils {
         return valout;
     }
 
+    template <class Scalar>
+    inline Scalar SgnSqrt(Scalar val) {
+        return sgn(val) * sqrt(fabs(val));
+    }
+
+
+
+
 }  // end namespace mathutils
 
 
