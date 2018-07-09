@@ -8,6 +8,7 @@
 #include "Eigen/Dense"
 
 #include "Unit.h"
+#include "Matrix.h"
 
 namespace mathutils {
     // See the following link for Eigen::Matrix inheritance :
@@ -95,7 +96,7 @@ namespace mathutils {
 
     template <class Scalar>
     Scalar Vector3d<Scalar>::infNorm() const {
-        return this->Eigen::Matrix<Scalar, 3, 1>::maxCoeff();
+        return this->Eigen::Matrix<Scalar, 3, 1>::template lpNorm<Eigen::Infinity>();
     }
 
     template <class Scalar>
@@ -107,9 +108,41 @@ namespace mathutils {
     // Functions implementations
     // =================================================================================================================
 
+    template <class Scalar>
+    MatrixMN<Scalar> outer(const Vector3d<Scalar>& v1, const Vector3d<Scalar>& v2) {
+        Scalar a, b, c;
+        a = v1(0);
+        b = v1(1);
+        c = v1(2);
 
+        Scalar x, y, z;
+        x = v2(0);
+        y = v2(1);
+        z = v2(2);
 
+        MatrixMN<Scalar> mat(3, 3);
+        mat.at(0, 0) = a * x;
+        mat.at(0, 1) = a * y;
+        mat.at(0, 2) = a * z;
+        mat.at(1, 0) = b * x;
+        mat.at(1, 1) = b * y;
+        mat.at(1, 2) = b * z;
+        mat.at(2, 0) = c * x;
+        mat.at(2, 1) = c * y;
+        mat.at(2, 2) = c * z;
 
+        return mat;
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> outer(const Vector3d<Scalar>& v) {
+        return outer(v, v);
+    }
+
+    template <class Scalar>
+    double inner(const Vector3d<Scalar>& v1, const Vector3d<Scalar>& v2) {
+        return v1(0)*v2(0) + v1(1)*v2(1) + v1(2)*v2(2);
+    }
 
 }  // end namespace mathutils
 
