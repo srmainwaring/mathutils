@@ -137,6 +137,7 @@ namespace mathutils {
         HZ,     ///< Hertz (s**-1)
         RADS,   ///< rad/s
         DEGS,   ///< deg/s
+        DEGM,   ///< deg/min
         S,      ///< seconds (period)
         RPM     ///< Round Per Minute
     };  // TODO: ajouter la conversion avec RPM ...
@@ -192,6 +193,16 @@ namespace mathutils {
         return rads / MU_RPM2RADS;
     }
 
+    template <class Real=double>
+    inline Real DEGM2RADS(const Real degm) {
+        return degm * MU_PI_180 / 60;
+    }
+
+    template <class Real=double>
+    inline Real RADS2DEGM(const Real rads) {
+        return rads * MU_180_PI * 60;
+    }
+
 
     template <class Real=double>
     inline Real convert_frequency(const Real in, FREQUENCY_UNIT src_unit, FREQUENCY_UNIT target_unit) {
@@ -213,6 +224,9 @@ namespace mathutils {
             case DEGS:
                 piv = RADS2HZ(DEGS2RADS(in));
                 break;
+            case DEGM:
+                piv = RADS2HZ(DEGM2RADS(in));
+                break;
             case RPM:
                 piv = RADS2HZ(RPM2RADS(in));
                 break;
@@ -227,6 +241,8 @@ namespace mathutils {
                 return piv;
             case DEGS:
                 return RADS2DEGS(HZ2RADS(piv));
+            case DEGM:
+                return RADS2DEGM(HZ2RADS(piv));
             case RPM:
                 return RADS2RPM(HZ2RADS(piv));
         }
