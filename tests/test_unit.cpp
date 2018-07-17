@@ -9,8 +9,8 @@ using namespace mathutils;
 
 int main(int argc, char* argv[]) {
 
-    assert(deg2rad(180.) == M_PI);
-    assert(rad2deg<double>(M_PI) == 180);
+    assert(180. * DEG2RAD == M_PI);
+    assert(M_PI * RAD2DEG == 180);
 
     // Pas tres utilse de tout faire...
 
