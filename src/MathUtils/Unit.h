@@ -8,6 +8,7 @@
 // TODO: voir à intégrer le framework de gestion des unités :   github.com/nholthaus/units
 
 #include <iostream>  // TODO: retirer et mettre en place un systeme d'erreur partout ou c'est utilise...
+#include <vector>
 #include "Constants.h"
 
 
@@ -27,30 +28,52 @@ namespace mathutils {
         RAD
     };
 
-    /// CONVERSION DEG->RAD
+    /// Conversion DEG->RAD inplace
     template <class T>
-    inline T radians(const T a) {
-        return a * MU_PI_180;
+    inline void deg2rad(std::vector<T>& vector) {
+        for (auto& v : vector) v *= DEG2RAD;
     }
 
-    /// CONVERSION RAD->DEG
+    /// CONVERSION DEG->RAD by copy
     template <class T>
-    inline T degrees(const T a) {
-        return a * MU_180_PI;
+    inline void deg2rad(const std::vector<T>& vector, std::vector<T>& out) {
+        out = vector;
+        return deg2rad(out);
     }
 
-    // TODO: both two following functions should be realized as MACROS for performance
-    /// CONVERSION DEG->RAD
-    template <class Real=double>
-    inline Real deg2rad(const Real a) {
-        return a * MU_PI_180;
+    /// Conversion RAD->DEG inplace
+    template <class T>
+    inline void rad2deg(std::vector<T>& vector) {
+        for (auto& v : vector) v *= RAD2DEG;
     }
 
-    /// CONVERSION RAD->DEG
-    template <class Real=double>
-    inline Real rad2deg(const Real a) {
-        return a * MU_180_PI;
+    /// CONVERSION RAD->DEG by copy
+    template <class T> // TODO : faire la meme inplace...
+    inline std::vector<T> rad2deg(const std::vector<T>& vector, std::vector<T>& out) {
+        out = vector;
+        rad2deg(vector);
     }
+
+
+
+//    /// CONVERSION RAD->DEG
+//    template <class T>
+//    inline T degrees(const T a) {
+//        return a * MU_180_PI;
+//    }
+//
+//    // TODO: both two following functions should be realized as MACROS for performance
+//    /// CONVERSION DEG->RAD
+//    template <class Real=double>
+//    inline Real deg2rad(const Real a) {
+//        return a * MU_PI_180;
+//    }
+//
+//    /// CONVERSION RAD->DEG
+//    template <class Real=double>
+//    inline Real rad2deg(const Real a) {
+//        return a * MU_180_PI;
+//    }
 
     /* ===========================================================================================
      * Velocities conversions functions

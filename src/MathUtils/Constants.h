@@ -37,7 +37,9 @@
 // Angles related constants
 #define MU_PI M_PI
 #define MU_PI_180 (MU_PI/180.)                    ///> Conversion DEG->RAD
+#define DEG2RAD MU_PI_180
 #define MU_180_PI (180./MU_PI)                    ///< Conversion RAD->DEG
+#define RAD2DEG MU_180_PI
 //#define MU_RAD MU_PI_180                          ///> Conversion DEG->RAD
 //#define MU_DEG (180./MU_PI)
 #define MU_2PI (2.*MU_PI)                         ///> 2*PI
