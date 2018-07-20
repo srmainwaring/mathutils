@@ -40,6 +40,8 @@ namespace mathutils {
 
         MatrixMN<Scalar> GetMatrixSquare() const;
 
+        inline Scalar infNorm() const;
+
         void print() const;
 
 
@@ -121,6 +123,11 @@ namespace mathutils {
     template <class Scalar>
     bool VectorN<Scalar>::IsEqual(const VectorN<Scalar>& other, const Scalar& epsilon) {
         return this->isApprox(other, epsilon);
+    }
+
+    template <class Scalar>
+    Scalar VectorN<Scalar>::infNorm() const {
+        return this->Eigen::Matrix<Scalar, Eigen::Dynamic, 1>::template lpNorm<Eigen::Infinity>();
     }
 
     template <class Scalar>
