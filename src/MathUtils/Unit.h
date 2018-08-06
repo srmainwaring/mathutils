@@ -122,6 +122,19 @@ namespace mathutils {
         return MS2KMH(KNOT2MS(velocity));
     }
 
+    /// Conversion kt2ms inplace
+    template <class T>
+    inline void kt2ms(std::vector<T>& vector) {
+        for (auto& v : vector) v *= MU_KNOT;
+    }
+
+    /// CONVERSION kt2ms by copy
+    template <class T>
+    inline void kt2ms(const std::vector<T>& vector, std::vector<T>& out) {
+        out = vector;
+        return kt2ms(out);
+    }
+
     /// Converts a velocity from a unit to another
     template <class Real=double>
     inline Real convert_velocity_unit(const Real velocity, SPEED_UNIT current_unit, SPEED_UNIT new_unit= MS) {
