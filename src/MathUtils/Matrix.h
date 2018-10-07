@@ -94,6 +94,10 @@ namespace mathutils {
 
         void GetCholeskyDecomposition(MatrixMN<Scalar>& L) const;
 
+        void GetCholeskyUpdate(MatrixMN<Scalar>& L, MatrixMN<Scalar>& v, const Scalar & sigma) const;
+
+        void InPlaceCholeskyUpdate(MatrixMN<Scalar>& v, const Scalar & sigma);
+
         void GetSVDDecomposition(MatrixMN<Scalar>& U, MatrixMN<Scalar>& S, MatrixMN<Scalar>& V) const;
 
         // =====================================================================
@@ -340,6 +344,22 @@ namespace mathutils {
         Ltmp = CHOL.matrixL();
         L = (MatrixMN<Scalar>)(Ltmp);
     }
+
+
+    template <class Scalar>
+    void MatrixMN<Scalar>::GetCholeskyUpdate(MatrixMN<Scalar>& L, MatrixMN<Scalar>& v,const Scalar & sigma) const
+    {
+        auto CHOL = this->llt();
+        L = CHOL.rankUpdate(v,sigma);
+    }
+
+
+    template <class Scalar>
+    void MatrixMN<Scalar>::InPlaceCholeskyUpdate(MatrixMN<Scalar>& v, const Scalar & sigma) {
+        auto CHOL = this->llt();
+        this->swap(CHOL.rankUpdate(v,sigma));
+    }
+
 
     template <class Scalar>
     void MatrixMN<Scalar>::GetSVDDecomposition(MatrixMN<Scalar>& U, MatrixMN<Scalar>& S, MatrixMN<Scalar>& V) const {
