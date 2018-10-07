@@ -207,6 +207,21 @@ int main(int argc, char* argv[]) {
     assert(symMatrix.IsEqual(Lchol * Transpose(Lchol)));
 //    std::cout << myMatrix - L * Transpose(L) << "\n\n";
 
+    auto myVector = MatrixMN<double>(6, 1);
+    MatrixMN<double> LCholUpdate;
+    matSquare.GetCholeskyUpdate(LCholUpdate,myVector,-1);
+
+
+    PrintInfo("GetCholeskyUpdate:");
+    std::cout << LCholUpdate << "\n\n";
+
+    MatrixMN<double> LCholInplace(matSquare);
+    LCholInplace.InPlaceCholeskyUpdate(myVector,-1);
+
+    PrintInfo("GetCholeskyUpdate InPlace:");
+    std::cout << LCholInplace << "\n\n";
+
+
     // ========================================================================
     //    SVD Decomposition
     // ========================================================================

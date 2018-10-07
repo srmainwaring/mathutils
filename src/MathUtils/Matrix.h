@@ -350,7 +350,8 @@ namespace mathutils {
     void MatrixMN<Scalar>::GetCholeskyUpdate(MatrixMN<Scalar>& L, MatrixMN<Scalar>& v,const Scalar & sigma) const
     {
         auto CHOL = this->llt();
-        L = MatrixMN<Scalar>(CHOL.rankUpdate(v,sigma).matrixL());
+        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Ltmp = CHOL.rankUpdate(Eigen::Matrix<Scalar, Eigen::Dynamic, 1>(v),sigma).matrixL();
+        L = (MatrixMN<Scalar>)(Ltmp);
     }
 
 
@@ -358,7 +359,9 @@ namespace mathutils {
     void MatrixMN<Scalar>::InPlaceCholeskyUpdate(MatrixMN<Scalar>& v, const Scalar & sigma) {
         ///TODO : improve by using dedicated inplace methods from Eigen
         auto CHOL = this->llt();
-        this->swap(MatrixMN<Scalar>(CHOL.rankUpdate(v,sigma).matrixL()));
+        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Ltmp = CHOL.rankUpdate(Eigen::Matrix<Scalar, Eigen::Dynamic, 1>(v),sigma).matrixL();
+        MatrixMN<Scalar> out = (MatrixMN<Scalar>)(Ltmp);
+        this->swap(out);
     }
 
 
