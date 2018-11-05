@@ -43,7 +43,7 @@ namespace mathutils {
 
         void SetNull();
 
-        void print() const;
+        void print(std::string name) const;
 
         // =====================================================================
         // Data Extraction methods
@@ -179,7 +179,8 @@ namespace mathutils {
     }
 
     template <class Scalar>
-    void Matrix33<Scalar>::print() const {
+    void Matrix33<Scalar>::print(std::string name) const {
+        std::cout << "\t" << name << ":\n";
         std::cout << std::endl << *this << std::endl;
     }
 

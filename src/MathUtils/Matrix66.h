@@ -1,14 +1,15 @@
 //
-// Created by frongere on 14/12/17.
+// Created by frongere on 27/09/18.
 //
 
-#ifndef MATHUTILS_MATRIX_H
-#define MATHUTILS_MATRIX_H
+#ifndef FRYDOM_MATRIX66_H
+#define FRYDOM_MATRIX66_H
 
 #include "Eigen/Dense"
 #include "iostream"
 
 namespace mathutils {
+
     // =================================================================================================================
     // =================================================================================================================
     //                                              DECLARATIONS
@@ -17,7 +18,7 @@ namespace mathutils {
 
 
     template <class Scalar>
-    class MatrixMN : public Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> {
+    class Matrix66 : public Eigen::Matrix<Scalar, 6, 6> {
 
     public:
 
@@ -25,9 +26,7 @@ namespace mathutils {
         //  Constructors
         // =====================================================================
 
-        MatrixMN() {};
-
-        MatrixMN(unsigned int nbRows, unsigned int nbCols) : Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>(nbRows, nbCols) {}
+        Matrix66() {};
 
         // =====================================================================
         // Initialization methods
@@ -47,15 +46,11 @@ namespace mathutils {
         // =====================================================================
         // Data Extraction methods
         // =====================================================================
-        MatrixMN<Scalar> GetColumn(unsigned int iCol) const;
+        Eigen::Matrix<Scalar, 6, 1> GetColumn(unsigned int iCol) const;
 
-//        MatrixMN<Scalar>& GetColumn(unsigned int iCol); // TODO: voir pour des methodes non const pour changer les cols/rows
+        Eigen::Matrix<Scalar, 1, 6> GetRow(unsigned int iRow) const;
 
-        MatrixMN<Scalar> GetRow(unsigned int iRow) const;
-
-//        MatrixMN<Scalar>& GetRow(unsigned int iRow);
-
-        MatrixMN<Scalar> GetDiag() const;
+        Eigen::Matrix<Scalar, 6, 1> GetDiag() const;
 
         // =====================================================================
         // Matrix manipulation methods
@@ -82,32 +77,28 @@ namespace mathutils {
 
         bool IsOrthogonal() const;
 
-        bool IsEqual(const MatrixMN<Scalar>& other, const Scalar& epsilon=1e-12) const;
+        bool IsEqual(const Matrix66<Scalar>& other, const Scalar& epsilon=1e-12) const;
 
         // =====================================================================
         // Various matrix decompositions
         // =====================================================================
 
-        void GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const;
+        void GetQRDecomposition(Matrix66<Scalar>& Q, Matrix66<Scalar>& R) const;
 
-        void GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const;
+        void GetLUDecomposition(Matrix66<Scalar>& P, Matrix66<Scalar>& L, Matrix66<Scalar>& U) const;
 
-        void GetCholeskyDecomposition(MatrixMN<Scalar>& L) const;
+        void GetCholeskyDecomposition(Matrix66<Scalar>& L) const;
 
-        void GetCholeskyUpdate(MatrixMN<Scalar>& L, MatrixMN<Scalar>& v, const Scalar & sigma) const;
-
-        void InPlaceCholeskyUpdate(MatrixMN<Scalar>& v, const Scalar & sigma);
-
-        void GetSVDDecomposition(MatrixMN<Scalar>& U, MatrixMN<Scalar>& S, MatrixMN<Scalar>& V) const;
+        void GetSVDDecomposition(Matrix66<Scalar>& U, Matrix66<Scalar>& S, Matrix66<Scalar>& V) const;
 
         // =====================================================================
         // Various matrix inverse methods
         // =====================================================================
         void Inverse();
 
-        MatrixMN<Scalar> GetInverse() const;
+        Matrix66<Scalar> GetInverse() const;
 
-        MatrixMN<Scalar> GetPseudoInverse(Scalar tol=1e-6) const;
+        Matrix66<Scalar> GetPseudoInverse(Scalar tol=1e-6) const;
 
         // =====================================================================
         // Methods for Eigen inheritance usage
@@ -115,12 +106,12 @@ namespace mathutils {
 
         // This constructor allows to construct MatrixMN from Eigen expressions
         template <class OtherDerived>
-        MatrixMN(const Eigen::MatrixBase<OtherDerived>& other) : Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>(other) {}
+        Matrix66(const Eigen::MatrixBase<OtherDerived>& other) : Eigen::Matrix<Scalar, 6, 6>(other) {}
 
         // This method allows to assign Eigen expressions to MatrixMN
         template <class OtherDerived>
-        MatrixMN<Scalar>& operator=(const Eigen::MatrixBase<OtherDerived>& other) {
-            this->Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>::operator=(other);
+        Matrix66<Scalar>& operator=(const Eigen::MatrixBase<OtherDerived>& other) {
+            this->Eigen::Matrix<Scalar, 6, 6>::operator=(other);
             return *this;
         }
 
@@ -133,27 +124,27 @@ namespace mathutils {
     // =================================================================================================================
 
     template <class Scalar>
-    MatrixMN<Scalar> Transpose(const MatrixMN<Scalar>& mat) {
+    Matrix66<Scalar> Transpose(const Matrix66<Scalar>& mat) {
         auto tMat = mat;
         tMat.Transpose();
         return tMat;
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> Pinv(const MatrixMN<Scalar>& mat, const Scalar tol=1e-6) {
+    Matrix66<Scalar> Pinv(const Matrix66<Scalar>& mat, const Scalar tol=1e-6) {
         return mat.GetPseudoInverse(tol);
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MakeSymmetricFromUpper(const MatrixMN<Scalar>& other) {
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> newMat;
+    Matrix66<Scalar> MakeSymmetricFromUpper(const Matrix66<Scalar>& other) {
+        Eigen::Matrix<Scalar, 6, 6> newMat;
         newMat = other.template selfadjointView<Eigen::Upper>();
         return newMat;
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MakeSymmetricFromLower(const MatrixMN<Scalar>& other) {
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> newMat;
+    Matrix66<Scalar> MakeSymmetricFromLower(const Matrix66<Scalar>& other) {
+        Eigen::Matrix<Scalar, 6, 6> newMat;
         newMat = other.template selfadjointView<Eigen::Lower>();
         return newMat;
     }
@@ -166,87 +157,80 @@ namespace mathutils {
     // =================================================================================================================
 
     template <class Scalar>
-    inline Scalar MatrixMN<Scalar>::at(unsigned int irow, unsigned int icol) const {
-        // return this->operator()(irow * (this->cols()-1) + icol);
+    inline Scalar& Matrix66<Scalar>::at(unsigned int irow, unsigned int icol) {
         return this->operator()(irow, icol);
     }
 
     template <class Scalar>
-    inline Scalar& MatrixMN<Scalar>::at(unsigned int irow, unsigned int icol) {
-        // return this->operator()(irow * (this->cols()-1) + icol);
-        return this->operator()(irow, icol);
+    unsigned int Matrix66<Scalar>::GetNbRows() const {
+        return 6;
     }
 
     template <class Scalar>
-    unsigned int MatrixMN<Scalar>::GetNbRows() const {
-        return (unsigned int)this->rows();
+    unsigned int Matrix66<Scalar>::GetNbCols() const {
+        return 6;
     }
 
     template <class Scalar>
-    unsigned int MatrixMN<Scalar>::GetNbCols() const {
-        return (unsigned int)this->cols();
-    }
-
-    template <class Scalar>
-    void MatrixMN<Scalar>::SetNull() {
+    void Matrix66<Scalar>::SetNull() {
         this->setZero();
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::print(std::string name) const {
+    void Matrix66<Scalar>::print(std::string name) const {
         std::cout << "\t" << name << ":\n";
         std::cout << std::endl << *this << std::endl;
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::Randomize() {
+    void Matrix66<Scalar>::Randomize() {
         this->setRandom();
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::SetIdentity() {
+    void Matrix66<Scalar>::SetIdentity() {
         this->setIdentity();
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MatrixMN<Scalar>::GetColumn(unsigned int iCol) const {
+    Eigen::Matrix<Scalar, 6, 1> Matrix66<Scalar>::GetColumn(unsigned int iCol) const {
         return this->col(iCol);
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MatrixMN<Scalar>::GetRow(unsigned int iRow) const {
+    Eigen::Matrix<Scalar, 1, 6> Matrix66<Scalar>::GetRow(unsigned int iRow) const {
         return this->row(iRow);
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MatrixMN<Scalar>::GetDiag() const {
+    Eigen::Matrix<Scalar, 6, 1> Matrix66<Scalar>::GetDiag() const {
         return this->diagonal();
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::Transpose() {
+    void Matrix66<Scalar>::Transpose() {
         this->transposeInPlace();
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::Inverse() {
+    void Matrix66<Scalar>::Inverse() {
         this->swap(this->inverse());
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MatrixMN<Scalar>::GetInverse() const {
+    Matrix66<Scalar> Matrix66<Scalar>::GetInverse() const {
         auto newMat = *this;
         newMat.Inverse();
         return newMat;
     }
 
     template <class Scalar>
-    bool MatrixMN<Scalar>::IsPositiveSemiDefinite(const Scalar& epsilon) const {
+    bool Matrix66<Scalar>::IsPositiveSemiDefinite(const Scalar& epsilon) const {
         return (this->rows() == this->cols()) && ((this->eigenvalues().real().array() > -epsilon).all());
     }
 
     template <class Scalar>
-    bool MatrixMN<Scalar>::IsSymmetric() const {
+    bool Matrix66<Scalar>::IsSymmetric() const {
         auto a = this->isApprox(this->adjoint());
         // FIXME: finir implementation :::
 //        auto a = (this->adjoint() == this);
@@ -258,45 +242,45 @@ namespace mathutils {
     }
 
     template <class Scalar>
-    bool MatrixMN<Scalar>::IsIdentity() const {
+    bool Matrix66<Scalar>::IsIdentity() const {
         return this->isIdentity();
     }
 
     template <class Scalar>
-    bool MatrixMN<Scalar>::IsSquare() const {
-        return (this->rows() == this->cols());
+    bool Matrix66<Scalar>::IsSquare() const {
+        return true;
     }
 
     template <class Scalar>
-    bool MatrixMN<Scalar>::IsOrthogonal() const {
+    bool Matrix66<Scalar>::IsOrthogonal() const {
         return this->isOrthogonal(*this);
     }
 
     template <class Scalar>
-    bool MatrixMN<Scalar>::IsEqual(const MatrixMN<Scalar>& other, const Scalar& epsilon) const {
+    bool Matrix66<Scalar>::IsEqual(const Matrix66<Scalar>& other, const Scalar& epsilon) const {
         return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const {
+    void Matrix66<Scalar>::GetQRDecomposition(Matrix66<Scalar>& Q, Matrix66<Scalar>& R) const {
         assert(this->rows() >= this->cols());
 
         auto QR = this->householderQr();
 
         // Q
         auto Qfull = QR.householderQ();
-        auto thinQ = MatrixMN<Scalar>::Identity(QR.rows(), QR.cols());
-        Q = (MatrixMN<Scalar>)(Qfull * thinQ);
+        auto thinQ = Matrix66<Scalar>::Identity(QR.rows(), QR.cols());
+        Q = (Matrix66<Scalar>)(Qfull * thinQ);
 
         // R
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Rfull;
+        Eigen::Matrix<Scalar, 6, 6> Rfull;
         Rfull = QR.matrixQR().template triangularView<Eigen::Upper>();
-        R = (MatrixMN<Scalar>)(Rfull.block(0, 0, QR.cols(), QR.cols()));  // TODO: verifier que c'est bien cols() cols()...
+        R = (Matrix66<Scalar>)(Rfull.block(0, 0, QR.cols(), QR.cols()));  // TODO: verifier que c'est bien cols() cols()...
 
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const {
+    void Matrix66<Scalar>::GetLUDecomposition(Matrix66<Scalar>& P, Matrix66<Scalar>& L, Matrix66<Scalar>& U) const {
 
         // PA = LU
 
@@ -305,25 +289,25 @@ namespace mathutils {
         auto LU = this->partialPivLu();
 
         // Permutation matrix P
-        Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic> PP;
+        Eigen::Matrix<unsigned int, 6, 6> PP;
         PP = LU.permutationP();
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> PPScalar = PP.template cast<Scalar>();
-        P = (MatrixMN<Scalar>)(PPScalar);
+        Eigen::Matrix<Scalar, 6, 6> PPScalar = PP.template cast<Scalar>();
+        P = (Matrix66<Scalar>)(PPScalar);
 
         // L
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Lpartial;
+        Eigen::Matrix<Scalar, 6, 6> Lpartial;
         Lpartial = LU.matrixLU().template triangularView<Eigen::StrictlyLower>();
-        L = (MatrixMN<Scalar>)(Lpartial + Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>::Identity(LU.rows(), LU.cols()));
+        L = (Matrix66<Scalar>)(Lpartial + Eigen::Matrix<Scalar, 6, 6>::Identity(LU.rows(), LU.cols()));
 
         // U
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Utmp;
+        Eigen::Matrix<Scalar, 6, 6> Utmp;
         Utmp = LU.matrixLU().template triangularView<Eigen::Upper>();
-        U = (MatrixMN<Scalar>)(Utmp);
+        U = (Matrix66<Scalar>)(Utmp);
 
     }
 
     template <class Scalar>
-    void MatrixMN<Scalar>::GetCholeskyDecomposition(MatrixMN<Scalar>& L) const {
+    void Matrix66<Scalar>::GetCholeskyDecomposition(Matrix66<Scalar>& L) const {
 
         // Verifying that the matrix is square
         if (!IsSquare()) {
@@ -341,56 +325,36 @@ namespace mathutils {
             throw std::runtime_error("In Cholesky decomposition, matrix must be positive semi definite and this one is possibly not");
         }
 
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Ltmp;
+        Eigen::Matrix<Scalar, 6, 6> Ltmp;
         Ltmp = CHOL.matrixL();
-        L = (MatrixMN<Scalar>)(Ltmp);
+        L = (Matrix66<Scalar>)(Ltmp);
     }
 
-
     template <class Scalar>
-    void MatrixMN<Scalar>::GetCholeskyUpdate(MatrixMN<Scalar>& L, MatrixMN<Scalar>& v,const Scalar & sigma) const
-    {
-        auto CHOL = this->llt();
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Ltmp = CHOL.rankUpdate(Eigen::Matrix<Scalar, Eigen::Dynamic, 1>(v),sigma).matrixL();
-        L = (MatrixMN<Scalar>)(Ltmp);
-    }
-
-
-    template <class Scalar>
-    void MatrixMN<Scalar>::InPlaceCholeskyUpdate(MatrixMN<Scalar>& v, const Scalar & sigma) {
-        ///TODO : improve by using dedicated inplace methods from Eigen
-        auto CHOL = this->llt();
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Ltmp = CHOL.rankUpdate(Eigen::Matrix<Scalar, Eigen::Dynamic, 1>(v),sigma).matrixL();
-        MatrixMN<Scalar> out = (MatrixMN<Scalar>)(Ltmp);
-        this->swap(out);
-    }
-
-
-    template <class Scalar>
-    void MatrixMN<Scalar>::GetSVDDecomposition(MatrixMN<Scalar>& U, MatrixMN<Scalar>& S, MatrixMN<Scalar>& V) const {
+    void Matrix66<Scalar>::GetSVDDecomposition(Matrix66<Scalar>& U, Matrix66<Scalar>& S, Matrix66<Scalar>& V) const {
 
         auto SVD = this->jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV);
 
-        Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Utmp, Stmp, Vtmp;
+        Eigen::Matrix<Scalar, 6, 6> Utmp, Stmp, Vtmp;
 
         // U
         Utmp = SVD.matrixU();
-        U = (MatrixMN<Scalar>)(Utmp);
+        U = (Matrix66<Scalar>)(Utmp);
 
         // S
         Stmp = SVD.singularValues();
-        S = (MatrixMN<Scalar>)(Stmp);
+        S = (Matrix66<Scalar>)(Stmp);
 
         // V
         Vtmp = SVD.matrixV();
-        V = (MatrixMN<Scalar>)(Vtmp);
+        V = (Matrix66<Scalar>)(Vtmp);
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MatrixMN<Scalar>::GetPseudoInverse(const Scalar tol) const {
+    Matrix66<Scalar> Matrix66<Scalar>::GetPseudoInverse(const Scalar tol) const {
 
         // SVD decomposition
-        MatrixMN<Scalar> U, S, V;
+        Matrix66<Scalar> U, S, V;
         GetSVDDecomposition(U, S, V);
 
         for (unsigned int i=0; i < S.rows(); ++i) {
@@ -405,6 +369,9 @@ namespace mathutils {
     }
 
 
+
 }  // end namespace mathutils
 
-#endif //MATHUTILS_MATRIX_H
+
+
+#endif //FRYDOM_MATRIX66_H

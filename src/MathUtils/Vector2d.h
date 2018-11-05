@@ -5,6 +5,7 @@
 #ifndef MATHUTILS_VECTOR2D_H
 #define MATHUTILS_VECTOR2D_H
 
+#include "Eigen/Dense"
 
 #include "Unit.h"
 #include "Angles.h"
@@ -62,7 +63,7 @@ namespace mathutils {
                                      Scalar w, FREQUENCY_UNIT funit=RADS) const;
         inline void TransportAtPoint(const Vector2d<Scalar>& point,
                                      Scalar w, FREQUENCY_UNIT funit=RADS); /// Non const version (no copy)
-        void print() const;
+        void print(std::string name) const;
 
         // ====================================
         // Methods for Eigen inheritance usage
@@ -233,7 +234,8 @@ namespace mathutils {
     }
 
     template <class Scalar>
-    void Vector2d<Scalar>::print() const {
+    void Vector2d<Scalar>::print(std::string name) const {
+        std::cout << "\t" << name << ":\n";
         std::cout << std::endl << *this << std::endl;
     }
 
@@ -275,7 +277,7 @@ namespace mathutils {
         return vector.ProjectOnLocalYAxis(angle, unit);
     }
 
-    template<class Scalar=double>
+    template<class Scalar>
     Vector2d<Scalar>
     GetNEDVelocityVector(Scalar plongitudinalSpeed, Scalar plateralSpeed, Scalar angle, ANGLE_UNIT angleUnit,
                          SPEED_UNIT inputSpeedUnit, SPEED_UNIT outputSpeedUnit) {

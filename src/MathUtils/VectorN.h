@@ -42,7 +42,7 @@ namespace mathutils {
 
         inline Scalar infNorm() const;
 
-        void print() const;
+        void print(std::string name) const;
 
 
         // =====================================================================
@@ -131,7 +131,8 @@ namespace mathutils {
     }
 
     template <class Scalar>
-    void VectorN<Scalar>::print() const {
+    void VectorN<Scalar>::print(std::string name) const {
+        std::cout << "\t" << name << ":\n";
         std::cout << std::endl << *this << std::endl;
     }
 
