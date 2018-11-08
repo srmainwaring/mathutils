@@ -159,6 +159,11 @@ namespace mathutils {
     // =================================================================================================================
 
     template <class Scalar>
+    inline Scalar Matrix33<Scalar>::at(unsigned int irow, unsigned int icol) const {
+        return this->operator()(irow, icol);
+    }
+
+    template <class Scalar>
     inline Scalar& Matrix33<Scalar>::at(unsigned int irow, unsigned int icol) {
         return this->operator()(irow, icol);
     }
