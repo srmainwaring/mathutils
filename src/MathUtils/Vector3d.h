@@ -52,6 +52,26 @@ namespace mathutils {
 
         void print(std::string name) const;
 
+        /// Return the angle between the y-axis and the vector projected in the YZ plane
+        double GetProjectedAngleAroundX(ANGLE_UNIT unit) const {
+            auto angle = atan2(this->at(2), this->at(1));
+            if (unit == DEG) { angle *= RAD2DEG; }
+            return angle;
+        }
+
+        /// Return the angle between the z-axis and the vector projected in the XZ plane
+        double GetProjectedAngleAroundY(ANGLE_UNIT unit) const {
+            auto angle = atan2(this->at(0), this->at(2));
+            if (unit == DEG) { angle *= RAD2DEG; }
+            return angle;
+        }
+
+        /// Return the angle between the x-axis and the vector projected in the XY plane
+        double GetProjectedAngleAroundZ(ANGLE_UNIT unit) const {
+            auto angle = atan2(this->at(1), this->at(0));
+            if (unit == DEG) { angle *= RAD2DEG; }
+            return angle;
+        }
     };
 
     // =================================================================================================================
