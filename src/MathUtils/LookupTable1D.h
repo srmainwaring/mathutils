@@ -11,16 +11,17 @@
 
 namespace mathutils {
 
-    template <class Real=double>
+
+    template <class Xscalar=double, class Yscalar=double>
     class LookupTable1D {
 
     protected:
         INTERP_METHOD interp_method = LINEAR;
 
-        std::shared_ptr<std::vector<Real>> Xcoords;
+        std::shared_ptr<std::vector<Xscalar>> Xcoords;
         std::unordered_map<std::string, unsigned long> assoc;
-        std::vector<std::shared_ptr<std::vector<Real>>> Ydata;
-        std::vector<std::unique_ptr<Interp1d<Real, Real>>> interpolators;
+        std::vector<std::shared_ptr<std::vector<Yscalar>>> Ydata;
+        std::vector<std::unique_ptr<Interp1d<Xscalar, Yscalar>>> interpolators;
 
         bool m_permissive = true;
 
@@ -58,9 +59,9 @@ namespace mathutils {
         void SetInterpolationMethod(INTERP_METHOD method);
 
         /// Set the X vector of the lookup table
-        void SetX(const std::vector<Real> X);
+        void SetX(const std::vector<Xscalar> X);
 
-        std::vector<Real> GetX() const { return *Xcoords.get(); }
+        std::vector<Xscalar> GetX() const { return *Xcoords.get(); }
 
         /// Get the number of series
         unsigned long GetNbSeries() const { return Ydata.size(); }
@@ -69,17 +70,17 @@ namespace mathutils {
         unsigned long GetNbSample() const { return Xcoords->size(); }
 
         /// Add a Serie to the LUT
-        bool AddY(const std::string name, const std::vector<Real> Y);
+        bool AddY(const std::string name, const std::vector<Yscalar> Y);
 
         /// Evaluates the LUT giving the key of the serie and a value
-        Real Eval(const std::string name, const Real x) const;
+        Yscalar Eval(const std::string name, const Xscalar x) const;
 
         /// Evaluates the LUT giving the key of the serie and a vector of values
-        std::vector<Real> Eval(const std::string name, const std::vector<Real>& xvect) const;
+        std::vector<Yscalar> Eval(const std::string name, const std::vector<Xscalar>& xvect) const;
 
         /// Evaluates the LUT giving a value
-        template <class T>
-        std::unordered_map<std::string, T> Eval(const T x) const;
+        template <class Tx, class Ty>
+        std::unordered_map<std::string, Ty> Eval(const Tx x) const;
 
         void PermissiveON() { SetPermissive(true); }
         void PermissiveOFF() { SetPermissive(false); }
@@ -94,8 +95,8 @@ namespace mathutils {
         inline unsigned long GetIndex(const std::string name) const;
     };
 
-    template <class Real>
-    void LookupTable1D<Real>::SetInterpolationMethod(INTERP_METHOD method) {
+    template <class Xscalar, class Yscalar>
+    void LookupTable1D<Xscalar, Yscalar>::SetInterpolationMethod(INTERP_METHOD method) {
         // 2 cas: si on a deja des donnees dans Ydata (on reinitialise tous les interpolateurs)
 
         if (GetNbSeries() > 0) {
@@ -105,13 +106,13 @@ namespace mathutils {
         interp_method = method;
     }
 
-    template <class Real>
-    void LookupTable1D<Real>::SetX(const std::vector<Real> X) {
-        Xcoords = std::make_shared<std::vector<Real>>(X);
+    template <class Xscalar, class Yscalar>
+    void LookupTable1D<Xscalar, Yscalar>::SetX(const std::vector<Xscalar> X) {
+        Xcoords = std::make_shared<std::vector<Xscalar>>(X);
     }
 
-    template <class Real>
-    bool LookupTable1D<Real>::AddY(const std::string name, const std::vector<Real> Y) {
+    template <class Xscalar, class Yscalar>
+    bool LookupTable1D<Xscalar, Yscalar>::AddY(const std::string name, const std::vector<Yscalar> Y) {
         // TODO: verifier qu'on a le meme nombre d'elt que dans X...
         // Get the future position of the new Serie
         auto i = GetNbSeries();
@@ -124,18 +125,18 @@ namespace mathutils {
 
         } else {
             // We can add data
-            auto Y_shared = std::make_shared<std::vector<Real>>(Y);
+            auto Y_shared = std::make_shared<std::vector<Yscalar>>(Y);
             Ydata.push_back(Y_shared);
 
             // Building the interpolator based on the global interpolation method of the LUT
-            auto interp_ptr = Interp1d<Real, Real>::MakeInterp1d(interp_method);
+            auto interp_ptr = Interp1d<Xscalar, Yscalar>::MakeInterp1d(interp_method);
             // FIXME: ICI, on ne recupere pas comme voulu un pointeur vers un objet FrInterp1dLinear
             // Du coup, la methode Initialize appelee apres n'est que celle de
 
             // Initializing the interpolator
             interp_ptr->Initialize(Xcoords, Y_shared);
 
-            auto interp_unique = std::unique_ptr<Interp1d<Real, Real>>(interp_ptr);
+            auto interp_unique = std::unique_ptr<Interp1d<Xscalar, Yscalar>>(interp_ptr);
 
             interp_unique->SetPermissive(m_permissive);
 
@@ -146,21 +147,21 @@ namespace mathutils {
         return res_pair.second;
     }
 
-    template <class Real>
-    Real LookupTable1D<Real>::Eval(const std::string name, const Real x) const {
+    template <class Xscalar, class Yscalar>
+    Yscalar LookupTable1D<Xscalar, Yscalar>::Eval(const std::string name, const Xscalar x) const {
         return interpolators.at(GetIndex(name))->Eval(x);
     }
 
-    template <class Real>
-    std::vector<Real> LookupTable1D<Real>::Eval(const std::string name, const std::vector<Real>& xvect) const {
+    template <class Xscalar, class Yscalar>
+    std::vector<Yscalar> LookupTable1D<Xscalar, Yscalar>::Eval(const std::string name, const std::vector<Xscalar>& xvect) const {
         return interpolators.at(GetIndex(name))->Eval(xvect);
     }
 
-    template <class Real>
-    template <class T>
-    std::unordered_map<std::string, T> LookupTable1D<Real>::Eval(const T x) const {
+    template <class Xscalar, class Yscalar>
+    template <class Tx, class Ty>
+    std::unordered_map<std::string, Ty> LookupTable1D<Xscalar, Yscalar>::Eval(const Tx x) const {
 
-        std::unordered_map<std::string, T> out;
+        std::unordered_map<std::string, Ty> out;
         out.reserve(GetNbSeries());
 
         std::string name;
@@ -177,8 +178,8 @@ namespace mathutils {
 
     }
 
-    template <class Real>
-    unsigned long LookupTable1D<Real>::GetIndex(const std::string name) const {
+    template <class Xscalar, class Yscalar>
+    unsigned long LookupTable1D<Xscalar, Yscalar>::GetIndex(const std::string name) const {
         return assoc.at(name);
     }
 

@@ -79,6 +79,8 @@ namespace mathutils {
             return DEG;
         } else if ( unit == "RAD") {
             return RAD;
+        } else {
+            std::cout << "unknown value for the unit angle" << std::endl;
         }
     }
 
