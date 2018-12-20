@@ -8,6 +8,7 @@
 //#include "kiss_fft.h"
 
 #include <unsupported/Eigen/FFT>
+#include "Unit.h"
 
 namespace mathutils {
 
@@ -23,7 +24,7 @@ namespace mathutils {
         }
 
         void fft(std::vector<std::complex<Scalar>>& freqVector, std::vector<Scalar>& frequencies,
-                 const std::vector<Scalar>& vector, const Scalar sampleFrequency, FREQUENCY_UNIT frequencyUnit=HZ) {
+                 const std::vector<Scalar>& vector, const Scalar sampleFrequency, FREQUENCY_UNIT frequencyUnit=HERTZ) {
             // TODO: voir le comportement si on ne donne pas vector en puissance de 2...
             // TODO: fournir plutot le vecteur temps et e deduire directement la frequence d'echantilonnage
             this->fwd(freqVector, vector);
@@ -55,7 +56,7 @@ namespace mathutils {
         }
 
         std::vector<Scalar> GetFrequencyVector(const unsigned int nfft, const Scalar sampleFrequency,
-                                               FREQUENCY_UNIT frequencyUnit=HZ) {
+                                               FREQUENCY_UNIT frequencyUnit=HERTZ) {
 
             auto df = sampleFrequency / (Scalar)nfft;
 
@@ -68,7 +69,7 @@ namespace mathutils {
 
             Scalar f = 0.;
             for (unsigned int i=0; i<n; i++) {
-                out[i] = convert_frequency(f, HZ, frequencyUnit);
+                out[i] = convert_frequency(f, HERTZ, frequencyUnit);
                 f += df;
             }
 

@@ -170,7 +170,7 @@ namespace mathutils {
      */
 
     enum FREQUENCY_UNIT {
-        HZ,     ///< Hertz (s**-1)
+        HERTZ,  ///< Hertz (s**-1)
         RADS,   ///< rad/s
         DEGS,   ///< deg/s
         DEGM,   ///< deg/min
@@ -248,7 +248,7 @@ namespace mathutils {
         Real piv;  // Must be in Hz
 
         switch (src_unit) {
-            case HZ:
+            case HERTZ:
                 piv = in;
                 break;
             case RADS:
@@ -273,7 +273,7 @@ namespace mathutils {
                 return HZ2RADS(piv);
             case S:
                 return HZ2S(piv);
-            case HZ:
+            case HERTZ:
                 return piv;
             case DEGS:
                 return RADS2DEGS(HZ2RADS(piv));
