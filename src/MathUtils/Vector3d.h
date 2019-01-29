@@ -9,6 +9,7 @@
 
 #include "Unit.h"
 #include "Matrix33.h"
+#include "Check.h"
 
 namespace mathutils {
     // See the following link for Eigen::Matrix inheritance :
@@ -49,6 +50,10 @@ namespace mathutils {
         inline void Set(Scalar x, Scalar y, Scalar z);
 
         inline Scalar infNorm() const;
+
+        void Normalize();
+
+        bool IsUnit() const;
 
         void print(std::string name) const;
 
@@ -117,6 +122,16 @@ namespace mathutils {
     template <class Scalar>
     Scalar Vector3d<Scalar>::infNorm() const {
         return this->Eigen::Matrix<Scalar, 3, 1>::template lpNorm<Eigen::Infinity>();
+    }
+
+    template <class Scalar>
+    void Vector3d<Scalar>::Normalize() {
+        this->normalize();
+    }
+
+    template <class Scalar>
+    bool Vector3d<Scalar>::IsUnit() const {
+        return IsClose<Scalar>(this->norm(), 1.);
     }
 
     template <class Scalar>
