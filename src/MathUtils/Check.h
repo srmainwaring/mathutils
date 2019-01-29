@@ -6,6 +6,7 @@
 #define MATHUTILS_CHECK_H
 
 #include <cmath>
+#include <vector>
 
 namespace mathutils {
 
