@@ -5,6 +5,10 @@
 #ifndef MATHUTILS_ANGLES_H
 #define MATHUTILS_ANGLES_H
 
+#include <string>
+#include <iostream>
+
+#include "Unit.h"
 #include "Constants.h"
 
 namespace mathutils {
