@@ -66,6 +66,8 @@ namespace mathutils {
         /// Evaluates the LUT giving the key of the series and a vector of coordinate
         std::vector<Real> Eval(const std::string name, const std::vector<std::vector<Real>>& vcoord) const;
 
+        bool HasSerie(const std::string name) const;
+
     private:
 
         /// Get the index fo the series from its name
@@ -136,6 +138,16 @@ namespace mathutils {
     template <class Real>
     std::vector<Real> LookupTable2d<Real>::Eval(const std::string name, const std::vector<std::vector<Real>>& vcoord) const {
         return interpolators.at(GetIndex(name))->Eval(vcoord);
+    }
+
+    template <class Real>
+    bool LookupTable2d<Real>::HasSerie(const std::string name) const {
+
+        if (assoc.find(name) == assoc.end()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     template <class Real>
