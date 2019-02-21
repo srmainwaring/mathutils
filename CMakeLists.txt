@@ -31,6 +31,8 @@ if(ADD_MATPLOTLIB_CPP)
     include(Add_matplotlib-cpp)
 endif()
 
+include(Add_units)
+
 #if (TARGET Eigen3::Eigen)
 #    get_target_property(INC Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
 #    message("Found Eigen : ${INC}")

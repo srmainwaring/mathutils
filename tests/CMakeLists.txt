@@ -16,6 +16,7 @@ set(TESTS
         test_convolution
         test_spline
         test_vectorN
+        test_units
         )
 
 
@@ -24,7 +25,7 @@ foreach(test ${TESTS})
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen matplotlib-cpp)
+    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen matplotlib-cpp units)
 
     add_dependencies(mathutils_tests ${test})
 
