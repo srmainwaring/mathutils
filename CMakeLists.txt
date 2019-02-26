@@ -27,9 +27,9 @@ set(MathUtils_VERSION
 # MathUtils depends on Eigen3 library
 include(Add_Eigen3)
 
-if(ADD_MATPLOTLIB_CPP)
-    include(Add_matplotlib-cpp)
-endif()
+#if(ADD_MATPLOTLIB_CPP)
+#    include(Add_matplotlib-cpp)
+#endif()
 
 #if (TARGET Eigen3::Eigen)
 #    get_target_property(INC Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
