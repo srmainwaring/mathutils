@@ -5,7 +5,7 @@
 #ifndef FRYDOM_MATRIX66_H
 #define FRYDOM_MATRIX66_H
 
-#include "Eigen/Dense"
+#include "EigenInc.h"
 #include "iostream"
 
 namespace mathutils {

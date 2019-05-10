@@ -5,7 +5,7 @@
 #ifndef MATHUTILS_VECTOR2D_H
 #define MATHUTILS_VECTOR2D_H
 
-#include "Eigen/Dense"
+#include "EigenInc.h"
 
 #include "Unit.h"
 #include "Angles.h"

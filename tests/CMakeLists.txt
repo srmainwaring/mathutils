@@ -16,6 +16,7 @@ set(TESTS
         test_convolution
         test_spline
         test_vectorN
+        test_mkl
         )
 
 
@@ -24,7 +25,16 @@ foreach(test ${TESTS})
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
+
+
+
     target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen)
+
+    if (${MATHUTILS_MKL})
+        target_link_libraries(${test} ${MKL_LIBRARIES} ${IOMP5_LIBRARY})
+        target_include_directories(${test} PRIVATE ${MKL_INCLUDE_DIRS})
+        target_compile_definitions(${test} PRIVATE WITH_MKL)
+    endif()
 
     add_dependencies(mathutils_tests ${test})
 

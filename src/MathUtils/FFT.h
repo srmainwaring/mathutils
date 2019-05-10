@@ -7,6 +7,7 @@
 
 //#include "kiss_fft.h"
 
+#include "EigenInc.h"
 #include <unsupported/Eigen/FFT>
 #include "Unit.h"
 
