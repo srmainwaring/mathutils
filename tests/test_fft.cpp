@@ -3,7 +3,7 @@
 //
 
 #include "MathUtils/MathUtils.h"
-#include "matplotlibcpp.h"
+//#include "matplotlibcpp.h"
 
 using namespace mathutils;
 
@@ -51,8 +51,8 @@ int main(int argc, char* argv[]) {
     auto timeVector = MakeData<double>(time, 1);
 
 
-    matplotlibcpp::plot(time, timeVector);
-    matplotlibcpp::show();
+//    matplotlibcpp::plot(time, timeVector);
+//    matplotlibcpp::show();
 
 
     // Building the fft object
@@ -65,16 +65,16 @@ int main(int argc, char* argv[]) {
     // Computing FFT
     std::vector<std::complex<double>> freqVect;
     std::vector<double> frequencies;
-    fft.fft(freqVect, frequencies, timeVector, fs, HZ);
+    fft.fft(freqVect, frequencies, timeVector, fs, HERTZ);
 
     // Ploting amplitude and phase spectrums
-    matplotlibcpp::subplot(2, 1, 1);
-    matplotlibcpp::plot(frequencies, Amplitude(freqVect));
-    matplotlibcpp::grid(true);
-    matplotlibcpp::subplot(2, 1, 2);
-    matplotlibcpp::plot(frequencies, Phase(freqVect, DEG));
-    matplotlibcpp::grid(true);
-    matplotlibcpp::show();
+//    matplotlibcpp::subplot(2, 1, 1);
+//    matplotlibcpp::plot(frequencies, Amplitude(freqVect));
+//    matplotlibcpp::grid(true);
+//    matplotlibcpp::subplot(2, 1, 2);
+//    matplotlibcpp::plot(frequencies, Phase(freqVect, DEG));
+//    matplotlibcpp::grid(true);
+//    matplotlibcpp::show();
 
 
     // Computing IFFT from spectrum

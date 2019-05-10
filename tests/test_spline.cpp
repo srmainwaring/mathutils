@@ -3,7 +3,7 @@
 //
 
 #include "MathUtils/MathUtils.h"
-#include "matplotlibcpp.h"
+//#include "matplotlibcpp.h"
 
 using namespace mathutils;
 
@@ -32,7 +32,7 @@ int main(int argc, char const* argv[])
     }
 
 
-    matplotlibcpp::plot(x, y);
-    matplotlibcpp::plot(xi, yi);
-    matplotlibcpp::show();
+//    matplotlibcpp::plot(x, y);
+//    matplotlibcpp::plot(xi, yi);
+//    matplotlibcpp::show();
 }
