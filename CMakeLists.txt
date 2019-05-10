@@ -27,9 +27,6 @@ set(MathUtils_VERSION
 # MathUtils depends on Eigen3 library
 include(Add_Eigen3)
 
-#Finding MKL library
-find_package(MKL)
-
 # Creating MathUtils target
 add_subdirectory(src/MathUtils)
 
