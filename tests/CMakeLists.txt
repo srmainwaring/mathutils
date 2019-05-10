@@ -24,7 +24,7 @@ foreach(test ${TESTS})
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen matplotlib-cpp)
+    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen)
 
     add_dependencies(mathutils_tests ${test})
 

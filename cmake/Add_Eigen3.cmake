@@ -1,7 +1,12 @@
+
+
+include(FetchContent)
+
 FetchContent_Declare(Eigen3
         GIT_REPOSITORY https://github.com/eigenteam/eigen-git-mirror.git
         GIT_TAG 3.3.4
         )
+
 FetchContent_GetProperties(Eigen3)
 if(NOT eigen3_POPULATED)
     FetchContent_Populate(Eigen3)
