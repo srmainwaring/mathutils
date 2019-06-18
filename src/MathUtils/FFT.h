@@ -28,7 +28,7 @@ namespace mathutils {
             // TODO: voir le comportement si on ne donne pas vector en puissance de 2...
             // TODO: fournir plutot le vecteur temps et e deduire directement la frequence d'echantilonnage
             this->fwd(freqVector, vector);
-            frequencies = GetFrequencyVector((uint)vector.size(), sampleFrequency, frequencyUnit);
+            frequencies = GetFrequencyVector((unsigned int)vector.size(), sampleFrequency, frequencyUnit);
         }
 
         void ifft(std::vector<Scalar>& vector, const std::vector<std::complex<Scalar>>& freqVector) {

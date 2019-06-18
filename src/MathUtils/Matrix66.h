@@ -17,10 +17,12 @@ namespace mathutils {
     // =================================================================================================================
 
 
-    template <class Scalar>
-    class Matrix66 : public Eigen::Matrix<Scalar, 6, 6> {
+    template <class Scalar_T>
+    class Matrix66 : public Eigen::Matrix<Scalar_T, 6, 6> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         // =====================================================================
         //  Constructors
