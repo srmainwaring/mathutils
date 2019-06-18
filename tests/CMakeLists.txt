@@ -18,6 +18,10 @@ set(TESTS
         test_vectorN
         )
 
+IF(MSVC)
+    ADD_DEFINITIONS("/MP")
+    MESSAGE(STATUS "MSVC /MP option activated")
+ENDIF(MSVC)
 
 foreach(test ${TESTS})
 
