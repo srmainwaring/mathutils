@@ -28,7 +28,7 @@ set(MATHUTILS_HEADERS
 
 # Building target
 add_library(MathUtils INTERFACE)
-target_link_libraries(MathUtils INTERFACE Eigen3::Eigen)
+target_link_libraries(MathUtils INTERFACE Eigen3::Eigen Boost::boost)
 
 add_library(MathUtils::MathUtils ALIAS MathUtils)
 
