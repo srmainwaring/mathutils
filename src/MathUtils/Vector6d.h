@@ -21,10 +21,12 @@ namespace mathutils {
     // =================================================================================================================
     // =================================================================================================================
 
-    template <class Scalar=double>
-    class Vector6d : public Eigen::Matrix<Scalar, 6, 1> {
+    template <class Scalar_T=double>
+    class Vector6d : public Eigen::Matrix<Scalar_T, 6, 1> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         Vector6d();
 

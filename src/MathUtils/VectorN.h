@@ -14,10 +14,12 @@ namespace mathutils {
     // TODO: Rajouter methode Resize()
 
 
-    template <class Scalar>
-    class VectorN : public Eigen::Matrix<Scalar, Eigen::Dynamic, 1> {
+    template <class Scalar_T>
+    class VectorN : public Eigen::Matrix<Scalar_T, Eigen::Dynamic, 1> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         VectorN() {}
 

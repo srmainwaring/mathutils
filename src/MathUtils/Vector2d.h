@@ -24,10 +24,12 @@ namespace mathutils {
     // Class Vector2d declaration
     // =================================================================================================================
 
-    template <class Scalar=double>
-    class Vector2d : public Eigen::Matrix<Scalar, 2, 1> {
+    template <class Scalar_T=double>
+    class Vector2d : public Eigen::Matrix<Scalar_T, 2, 1> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         Vector2d();
 

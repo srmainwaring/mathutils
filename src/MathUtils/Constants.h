@@ -7,8 +7,9 @@
 
 #include <cmath>
 
-#ifdef VISUAL_WINDOWS
-    #define	M_PI 3.141592653589793
+#ifdef __linux__
+#else
+	#define	M_PI 3.141592653589793
 #endif
 
 #define MU_JJ std::complex<double>(0., 1.)
