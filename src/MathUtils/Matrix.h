@@ -126,6 +126,14 @@ namespace mathutils {
             return *this;
         }
 
+      // =====================================================================
+      // Linear system solver.
+      // =====================================================================
+      template<typename T1, typename T2>
+      T1 LUSolver(const T2& rhs) {
+          return (this->fullPivLu().solve(rhs));
+      }
+
     };
 
     // =================================================================================================================
@@ -405,7 +413,6 @@ namespace mathutils {
 
         return V * S.asDiagonal() * U.adjoint();
     }
-
 
 }  // end namespace mathutils
 

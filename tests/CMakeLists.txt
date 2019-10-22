@@ -16,6 +16,7 @@ set(TESTS
         test_convolution
         test_spline
         test_vectorN
+	test_linear_system_solver
         )
 
 IF(MSVC)
