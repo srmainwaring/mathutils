@@ -115,7 +115,7 @@ namespace mathutils {
 //    }
 
     inline unsigned int Pow2(unsigned int p) {
-        return pow(2, p);
+        return 1 << p;
     }
 
 
