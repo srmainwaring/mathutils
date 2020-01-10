@@ -6,6 +6,7 @@
 #define MATHUTILS_FUNCTIONS_H
 
 #include "StdVector.h"
+#include <boost/math/special_functions/bessel.hpp>
 
 namespace mathutils {
 
@@ -100,6 +101,12 @@ namespace mathutils {
         }
 
         return out;
+    }
+
+    // This function returns the Bessel function of the first kind of order "order" at at the point x.
+    template <class T1, class T2, class Tresults>
+    Tresults Cyl_Bessel_first_kind(const T1& order, const T2 x){
+        return(boost::math::cyl_bessel_j(order, x));
     }
 
 
