@@ -7,6 +7,7 @@
 
 #include "StdVector.h"
 #include <boost/math/special_functions/bessel.hpp>
+#include "VectorGeneration.h"
 
 namespace mathutils {
 
