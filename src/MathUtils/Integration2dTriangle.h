@@ -60,6 +60,16 @@ namespace mathutils {
         this->m_tables->Set_table(alpha, beta, weight);
       }
 
+      // Warning.
+      if (this->m_order > this->m_tables->get_size_tables()) {
+        std::cout << "\nToo high order of quadrature for triangle. Use lower order." << std::endl;
+        exit(0);
+      }
+      if (this->m_order < 1) {
+        std::cout << "\nToo low order of quadrature for triangle. Use higher order." << std::endl;
+        exit(0);
+      }
+
     }
 
     /// This function computes the 2d integration over a triangle.
@@ -81,14 +91,16 @@ namespace mathutils {
 
     }
 
+   private:
+
     /// This function computes the 2d integration over a standart triangle.
     Tout ComputeOverStandartTriangle(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
                                      const Vector3d<double> &vertex_3) {
 
       // Quadrature coefficients.
-      std::vector<double> alpha = this->m_tables->alpha[this->m_order - 1];
-      std::vector<double> beta = this->m_tables->LrootsV[this->m_order - 1];
-      std::vector<double> weight = this->m_tables->Weight[this->m_order - 1];
+      std::vector<double> alpha = this->m_tables->alpha(this->m_order);
+      std::vector<double> beta = this->m_tables->beta(this->m_order);
+      std::vector<double> weight = this->m_tables->weight(this->m_order);
 
       // Computation of the 2d integration.
       Tout result = 0;

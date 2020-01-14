@@ -27,7 +27,8 @@ namespace mathutils {
     }
 
     /// This function computes the 2d integration.
-    virtual Tout Compute() = 0;
+    virtual Tout Compute(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
+                         const Vector3d<double> &vertex_3) = 0;
 
    protected:
 

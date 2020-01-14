@@ -16,9 +16,6 @@ namespace mathutils {
 
    public:
 
-    /// Constructor of the class.
-    QuadratureTables();
-
     /// Setter of the table.
     void Set_table(const std::vector<double>& alpha, const std::vector<double>& beta, const std::vector<double>& weight){
       this->m_alpha.push_back(alpha);
