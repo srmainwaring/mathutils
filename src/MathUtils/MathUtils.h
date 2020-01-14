@@ -36,5 +36,6 @@
 #include "StdVector.h"
 #include "Convolution.h"
 #include "Integration2d.h"
+#include "QuadratureTables.h"
 
 #endif //FRYDOM_MATHUTILS_H_H
