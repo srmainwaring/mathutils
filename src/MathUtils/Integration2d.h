@@ -6,22 +6,24 @@
 #define MATHUTILS_INTEGRATION2D_H
 
 #include "QuadratureTables.h"
+#include <memory.h>
+#include "Vector3d.h"
 
 namespace mathutils {
 
   /**
   * Class for computing 2d integrations based on a Gauss quadrature.
   */
-  template<typename Tin, typename Tout>
+  template<typename Tout>
   class Integration2d {
 
    public:
 
     /// Contructor of the class.
-    Integration2d(Tout (*F)(Tin x), const int& order)
+    Integration2d(Tout (*F)(Vector3d<double> x), const int& order)
         : m_order(order){
       m_integrand = F;
-      m_tables = QuadratureTables();
+      m_tables = std::make_unique<QuadratureTables>();
     }
 
     /// This function computes the 2d integration.
@@ -30,13 +32,13 @@ namespace mathutils {
    protected:
 
     /// Function to be integrated
-    Tout (*m_integrand)(Tin x) = nullptr;
+    Tout (*m_integrand)(Vector3d<double> x) = nullptr;
 
     /// Order of the quadrature.
     int m_order;
 
     /// Table of quadrature coefficients.
-    QuadratureTables m_tables;
+    std::unique_ptr<QuadratureTables> m_tables;
 
   };
 

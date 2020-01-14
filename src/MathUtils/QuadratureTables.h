@@ -41,6 +41,11 @@ namespace mathutils {
       return(m_weight[order - 1]);
     }
 
+    /// This function returns the size of the tables.
+    int get_size_tables(){
+      return(m_weight.size());
+    }
+
    private:
 
     /// Weights of the Gauss points.
