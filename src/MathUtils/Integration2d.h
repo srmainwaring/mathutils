@@ -6,7 +6,7 @@
 #define MATHUTILS_INTEGRATION2D_H
 
 #include "QuadratureTables.h"
-#include <memory.h>
+#include <memory>
 #include "Vector3d.h"
 
 namespace mathutils {
