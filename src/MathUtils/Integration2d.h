@@ -6,20 +6,19 @@
 #define MATHUTILS_INTEGRATION2D_H
 
 #include <vector>
-#include "Vector3d.h"
 
 namespace mathutils {
 
   /**
   * Class for computing 2d integrations.
   */
-  template <class Scalar>
+  template<typename Tin, typename Tout>
   class Integration2d {
 
    public:
 
     /// Contructor of the class.
-    Integration2d(Scalar (*F)(Scalar x), const int& nb_Gauss_points)
+    Integration2d(Tout (*F)(Tin x), const int& nb_Gauss_points)
         : m_nb_Gauss_points(nb_Gauss_points){
       m_integrand = F;
     }
@@ -27,11 +26,11 @@ namespace mathutils {
    protected:
 
     /// Function to be integrated
-    Scalar (*m_integrand)(Scalar x) = nullptr;
+    Tout (*m_integrand)(Tin x) = nullptr;
 
     /// Number of Gauss points.
     int m_nb_Gauss_points;
-    
+
   };
 
 }
