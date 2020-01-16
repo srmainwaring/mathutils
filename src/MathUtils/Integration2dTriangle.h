@@ -103,7 +103,8 @@ namespace mathutils {
       std::vector<double> weight = this->m_tables->weight(this->m_order);
 
       // Computation of the 2d integration.
-      T result = 0;
+      T result;
+      result *= 0; // This works for scalars, vectors and matrices.
       for (unsigned int i = 0; i < weight.size(); i++) {
 
         // Position of the Gauss points.
