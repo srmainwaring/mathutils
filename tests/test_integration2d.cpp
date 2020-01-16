@@ -8,11 +8,6 @@
 using namespace std;
 using namespace mathutils;
 
-// Definition of a function to integration.
-double myFunction(Vector3d<double> x){
-  return(2 - x(0) - 2*x(1)); // f(x,y,z) = 2 - x - 2y.
-}
-
 int main(int argc, char* argv[]) {
 
   // This test checks the integration of a function over a triangle.
@@ -25,8 +20,17 @@ int main(int argc, char* argv[]) {
   // Order of the integration.
   int order = 2;
 
+  // Definition of a function to integration.
+  class IntegrandTest : public Integrand<double> {
+   public:
+    double Evaluate(const Vector3d<double> &x) const override {
+      return(2 - x(0) - 2 * x(1)); // f(x,y,z) = 2 - x - 2y.
+    }
+  };
+
   // Numerical integration.
-  auto myIntegrator = Integration2dTriangle<double>(myFunction, order);
+  IntegrandTest myFunction;
+  auto myIntegrator = Integration2dTriangle<double>(&myFunction, order);
   double numerical_result = myIntegrator.Compute(vertex_1, vertex_2, vertex_3);
 
   // Analytical integration.

@@ -23,6 +23,10 @@ set(MATHUTILS_HEADERS
         Functions.h
         Convolution.h
         VectorN.h
+        Integration2d.h
+        Integration2dTriangle.h
+        QuadratureTables.h
+        Integrand.h
         )
 
 

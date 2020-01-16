@@ -12,14 +12,14 @@ namespace mathutils {
   /**
   * Class for computing 2d integrations over a triangle.
   */
-  template<typename Tout>
-  class Integration2dTriangle : public Integration2d<Tout> {
+  template<typename T>
+  class Integration2dTriangle : public Integration2d<T> {
 
    public:
 
     /// Contructor of the class.
-    Integration2dTriangle(Tout (*F)(Vector3d<double> x), const int &order)
-        : Integration2d<Tout>(F, order) {
+    Integration2dTriangle(Integrand<T>* F, const int &order)
+        : Integration2d<T>(F, order) {
 
       // Quadrature tables.
 
@@ -73,8 +73,8 @@ namespace mathutils {
     }
 
     /// This function computes the 2d integration over a triangle.
-    Tout Compute(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
-                 const Vector3d<double> &vertex_3) override {
+    T Compute(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
+                 const Vector3d<double> &vertex_3) const override {
 
       // Face area.
       Vector3d<double> e1 = vertex_1 - vertex_3;
@@ -82,7 +82,7 @@ namespace mathutils {
       double area = 0.5 * ((e1.cross(e2))).norm();
 
       // Computation of the 2d integration over a standart triangle.
-      Tout integral = ComputeOverStandartTriangle(vertex_1, vertex_2, vertex_3);
+      T integral = ComputeOverStandardTriangle(vertex_1, vertex_2, vertex_3);
 
       // 2d integration over the real triangle.
       integral *= 2*area;
@@ -93,9 +93,9 @@ namespace mathutils {
 
    private:
 
-    /// This function computes the 2d integration over a standart triangle.
-    Tout ComputeOverStandartTriangle(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
-                                     const Vector3d<double> &vertex_3) {
+    /// This function computes the 2d integration over a standard triangle.
+    T ComputeOverStandardTriangle(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
+                                     const Vector3d<double> &vertex_3) const {
 
       // Quadrature coefficients.
       std::vector<double> alpha = this->m_tables->alpha(this->m_order);
@@ -103,14 +103,13 @@ namespace mathutils {
       std::vector<double> weight = this->m_tables->weight(this->m_order);
 
       // Computation of the 2d integration.
-      Tout result = 0;
-      Tout tmp_val;
+      T result = 0;
       for (unsigned int i = 0; i < weight.size(); i++) {
 
         // Position of the Gauss points.
         Vector3d<double> x = (1 - alpha.at(i) - beta.at(i)) * vertex_1 + alpha.at(i) * vertex_2 + beta.at(i) * vertex_3;
 
-        tmp_val = (*this->m_integrand)(x);
+        T tmp_val = this->m_integrand->Evaluate(x);
         tmp_val *= weight.at(i) * 0.5; // The 1/2 coefficient matches the area of the standart triangle.
         result += tmp_val;
       }

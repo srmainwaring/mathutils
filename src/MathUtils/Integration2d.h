@@ -8,32 +8,31 @@
 #include "QuadratureTables.h"
 #include <memory>
 #include "Vector3d.h"
+#include "Integrand.h"
 
 namespace mathutils {
 
   /**
   * Class for computing 2d integrations based on a Gauss quadrature.
   */
-  template<typename Tout>
+  template<typename T>
   class Integration2d {
 
    public:
 
     /// Contructor of the class.
-    Integration2d(Tout (*F)(Vector3d<double> x), const int& order)
-        : m_order(order){
-      m_integrand = F;
+    Integration2d(Integrand<T>* F, const int& order) : m_order(order), m_integrand(F) {
       m_tables = std::make_unique<QuadratureTables>();
     }
 
     /// This function computes the 2d integration.
-    virtual Tout Compute(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
-                         const Vector3d<double> &vertex_3) = 0;
+    virtual T Compute(const Vector3d<double> &vertex_1, const Vector3d<double> &vertex_2,
+                         const Vector3d<double> &vertex_3) const = 0;
 
    protected:
 
     /// Function to be integrated
-    Tout (*m_integrand)(Vector3d<double> x) = nullptr;
+    Integrand<T>* m_integrand;
 
     /// Order of the quadrature.
     int m_order;
