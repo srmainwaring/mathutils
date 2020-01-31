@@ -81,7 +81,7 @@ namespace mathutils {
       Vector3d<double> e2 = vertex_2 - vertex_3;
       double area = 0.5 * ((e1.cross(e2))).norm();
 
-      // Computation of the 2d integration over a standart triangle.
+      // Computation of the 2d integration over a standard triangle.
       T integral = ComputeOverStandardTriangle(vertex_1, vertex_2, vertex_3);
 
       // 2d integration over the real triangle.
@@ -111,9 +111,10 @@ namespace mathutils {
         Vector3d<double> x = (1 - alpha.at(i) - beta.at(i)) * vertex_1 + alpha.at(i) * vertex_2 + beta.at(i) * vertex_3;
 
         T tmp_val = this->m_integrand->Evaluate(x);
-        tmp_val *= weight.at(i) * 0.5; // The 1/2 coefficient matches the area of the standart triangle.
+        tmp_val *= weight.at(i);
         result += tmp_val;
       }
+      result *= 0.5; // The 1/2 coefficient matches the area of the standard triangle.
 
       return (result);
 
