@@ -127,12 +127,18 @@ namespace mathutils {
         }
 
       // =====================================================================
-      // Linear system solver.
+      // Linear system solvers.
       // =====================================================================
       template<typename T1, typename T2>
       T1 LUSolver(const T2& rhs) {
           return (this->fullPivLu().solve(rhs));
       }
+
+      template<typename T1, typename T2>
+      T1 QRSolver(const T2& rhs) {
+          return (this->fullPivHouseholderQr().solve(rhs));
+      }
+
 
     };
 
