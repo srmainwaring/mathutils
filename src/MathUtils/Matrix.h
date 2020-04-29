@@ -129,6 +129,7 @@ namespace mathutils {
       // =====================================================================
       // Linear system solvers.
       // =====================================================================
+
       template<typename T1, typename T2>
       T1 LUSolver(const T2& rhs) {
           return (this->fullPivLu().solve(rhs));
@@ -139,6 +140,15 @@ namespace mathutils {
           return (this->fullPivHouseholderQr().solve(rhs));
       }
 
+      // =====================================================================
+      // Linear least square system solvers.
+      // =====================================================================
+
+      // This method uses a SVD decomposition (bidiagonal divide and conquer SVD method).
+      template<typename T1, typename T2>
+      T1 LeastSquareSolver(const T2& rhs) {
+          return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(rhs));
+      }
 
     };
 
