@@ -146,8 +146,13 @@ namespace mathutils {
       // Linear least square system solvers.
       // =====================================================================
 
-      // This method uses a SVD decomposition (bidiagonal divide and conquer SVD method).
-      MatrixMN<Scalar> LeastSquareSolver(const MatrixMN<Scalar>& rhs) const;
+      // This method solved a least square problem min||Ax - b|| from a SVD decomposition (bidiagonal divide and
+      // conquer SVD method).
+      MatrixMN<Scalar> LeastSquareSolver(const MatrixMN<Scalar>& b) const;
+
+      // This method solves a least square problem min||Ax - b||^2 subject to the equality constraint Cx = d.
+      MatrixMN<Scalar> LeastSquareSolverConstraint(const MatrixMN<Scalar>& b, const MatrixMN<Scalar>& C
+          , const MatrixMN<Scalar>& d) const;
 
     };
 
@@ -459,11 +464,66 @@ namespace mathutils {
     }
 
     template <class Scalar>
-    MatrixMN<Scalar> MatrixMN<Scalar>::LeastSquareSolver(const MatrixMN<Scalar>& rhs) const {
-      return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(rhs));
+    MatrixMN<Scalar> MatrixMN<Scalar>::LeastSquareSolver(const MatrixMN<Scalar>& b) const {
+      return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b));
     }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::LeastSquareSolverConstraint(const MatrixMN<Scalar>& b, const MatrixMN<Scalar>& C
+      , const MatrixMN<Scalar>& d) const {
+
+        // This method solves a least square problem min||Ax - b||^2 subject to the equality constraint Cx = d.
+
+        // Number of rows in A.
+        int m = this->GetNbRows();
+
+        // Number of columns in A.
+        int n = this->GetNbCols();
+
+        // Size of d.
+        int p = d.GetNbRows();
+
+        // Verifications of the sizes.
+        assert(n > p);
+        assert(m > n);
+        assert(b.GetNbRows() == m);
+        assert(C.GetNbCols() == n);
+        assert(C.GetNbRows() == p);
+
+        // Only a single vector for the right-hand sides.
+        assert(b.GetNbCols() == 1);
+        assert(d.GetNbCols() == 1);
+
+        // QR factorisation of transpose(C)
+        MatrixMN<Scalar> Q, R;
+        MatrixMN<Scalar> Ct = C;
+        Ct.Transpose();
+        Ct.GetFullQRDecomposition(Q, R);
+
+        // Solving transpose(R) * y = d.
+        R.Transpose(); // From now on, in the variable R there is the transpose of R.
+        auto y = R.LUSolver(d);
+
+        // Creation of My and Mz.
+        MatrixMN<Scalar> AQ = *this * Q;
+        MatrixMN<Scalar> My = AQ.block(0, 0, m, p);
+        MatrixMN<Scalar> Mz = AQ.block(0, p, m, n - p);
+
+        // LS problem wrt z.
+        auto z = Mz.LeastSquareSolver(b - My * R.inverse() * d); // R has been transposed.
+
+        // Solution.
+        MatrixMN<Scalar> vect_y_z = MatrixMN<Scalar>(n, 1);
+        vect_y_z.block(0, 0, p, 1) = y;
+        vect_y_z.block(p, 0, n - p, 1) = z;
+        auto x = Q * vect_y_z;
+
+        return x;
+
+    };
 
 
 }  // end namespace mathutils
 
 #endif //MATHUTILS_MATRIX_H
+
