@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
     // ========================================================================
 
     PrintHeader("Decompositions");
-    PrintHeader("QR Decomposition (A = QR)");
+    PrintHeader("Thin QR Decomposition (A = QR)");
     myMatrix.Transpose();
     myMatrix.Randomize();
 
@@ -146,18 +146,40 @@ int main(int argc, char* argv[]) {
     std::cout << myMatrix << "\n\n";
 
     // QR Decomposition
-    MatrixMN<double> Q, R;
-    myMatrix.GetQRDecomposition(Q, R);
+    MatrixMN<double> Qthin, Rthin;
+    myMatrix.GetQRDecomposition(Qthin, Rthin);
 
     PrintInfo("Q");
-    std::cout << Q << "\n\n";
+    std::cout << Qthin << "\n\n";
     PrintInfo("R");
-    std::cout << R << "\n\n";
+    std::cout << Rthin << "\n\n";
     PrintInfo("Verification Q^t*Q = I)");
-    std::cout << Q.transpose()*Q << "\n\n";
+    std::cout << Qthin.transpose() * Qthin << "\n\n";
     PrintInfo("Verification (A - Q*R)");
-    std::cout << myMatrix - Q*R << "\n\n";
-    assert(myMatrix.IsEqual(Q*R));
+    std::cout << myMatrix - Qthin * Rthin << "\n\n";
+    assert(myMatrix.IsEqual(Qthin * Rthin));
+
+    PrintHeader("Full QR Decomposition (A = QR)");
+
+    PrintInfo("The matrix A to decompose");
+    std::cout << myMatrix << "\n\n";
+
+    // QR Decomposition
+    MatrixMN<double> Qfull, Rfull;
+    myMatrix.GetFullQRDecomposition(Qfull, Rfull);
+
+    PrintInfo("Q");
+    std::cout << Qfull << "\n\n";
+    PrintInfo("R");
+    std::cout << Rfull << "\n\n";
+    PrintInfo("Verification Q^t*Q = I)");
+    std::cout << Qfull.transpose() * Qfull << "\n\n";
+    PrintInfo("Verification (A - Q*R)");
+    auto Rextended = MatrixMN<double>(6, 3);
+    Rextended.SetNull();
+    Rextended.block(0, 0, 3, 3) = Rfull;
+    std::cout << myMatrix - Qfull * Rextended << "\n\n";
+    assert(myMatrix.IsEqual(Qfull * Rextended));
 
     // ========================================================================
     //    LU Decomposition
