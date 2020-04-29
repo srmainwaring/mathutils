@@ -90,7 +90,15 @@ namespace mathutils {
         // Various matrix decompositions
         // =====================================================================
 
+        // This methods applies a thin QR decomposition, for more information cf the technical notes.
+        // If your matrix is square, GetQRDecomposition and GetFullQRDecomposition will give the same result with
+        // the same performances.
         void GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const;
+
+        // This methods applies a full QR decomposition, for more information cf the technical notes.
+        // If your matrix is square, GetQRDecomposition and GetFullQRDecomposition will give the same result with
+        // the same performances.
+        void GetFullQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const;
 
         void GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const;
 
@@ -296,11 +304,12 @@ namespace mathutils {
 
     template <class Scalar>
     void MatrixMN<Scalar>::GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const {
+
         assert(this->rows() >= this->cols());
 
         auto QR = this->householderQr();
 
-        // Q
+        // Qthin
         auto Qfull = QR.householderQ();
         auto thinQ = MatrixMN<Scalar>::Identity(QR.rows(), QR.cols());
         Q = (MatrixMN<Scalar>)(Qfull * thinQ);
@@ -311,6 +320,24 @@ namespace mathutils {
         R = (MatrixMN<Scalar>)(Rfull.block(0, 0, QR.cols(), QR.cols()));  // TODO: verifier que c'est bien cols() cols()...
 
     }
+
+  template <class Scalar>
+  void MatrixMN<Scalar>::GetFullQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const {
+
+      assert(this->rows() >= this->cols());
+
+      auto QR = this->householderQr();
+
+      // Qfull
+      Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Qfull = QR.householderQ();
+      Q = (MatrixMN<Scalar>)(Qfull);
+
+      // R
+      Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Rfull;
+      Rfull = QR.matrixQR().template triangularView<Eigen::Upper>();
+      R = (MatrixMN<Scalar>)(Rfull.block(0, 0, QR.cols(), QR.cols()));  // TODO: verifier que c'est bien cols() cols()...
+
+  }
 
     template <class Scalar>
     void MatrixMN<Scalar>::GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const {
