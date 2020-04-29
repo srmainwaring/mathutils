@@ -290,12 +290,12 @@ int main(int argc, char* argv[]) {
     std::cout << vectB << "\n\n";
 
     // Solving using LU decomposition.
-    auto solLU = matA.LUSolver<VectorN<double>, VectorN<double>>(vectB);
+    auto solLU = matA.LUSolver(vectB);
     PrintInfo("The solution x from a LU decomposition");
     std::cout << solLU << "\n\n";
 
     // Solving using QR decomposition.
-    auto solQR = matA.QRSolver<VectorN<double>, VectorN<double>>(vectB);
+    auto solQR = matA.QRSolver(vectB);
     PrintInfo("The solution x from a QR decomposition");
     std::cout << solQR << "\n\n";
 
@@ -328,7 +328,7 @@ int main(int argc, char* argv[]) {
     std::cout << vectBLS << "\n\n";
 
     // Solving using SVD decomposition.
-    auto solLS = matALS.LeastSquareSolver<VectorN<double>, VectorN<double>>(vectBLS);
+    auto solLS = matALS.LeastSquareSolver(vectBLS);
     PrintInfo("The least square solution x from a SVD decomposition");
     std::cout << solLS << "\n\n";
 

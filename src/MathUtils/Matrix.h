@@ -130,25 +130,16 @@ namespace mathutils {
       // Linear system solvers.
       // =====================================================================
 
-      template<typename T1, typename T2>
-      T1 LUSolver(const T2& rhs) {
-          return (this->fullPivLu().solve(rhs));
-      }
+      MatrixMN<Scalar> LUSolver(const MatrixMN<Scalar>& rhs) const;
 
-      template<typename T1, typename T2>
-      T1 QRSolver(const T2& rhs) {
-          return (this->fullPivHouseholderQr().solve(rhs));
-      }
+      MatrixMN<Scalar> QRSolver(const MatrixMN<Scalar>& rhs) const;
 
       // =====================================================================
       // Linear least square system solvers.
       // =====================================================================
 
       // This method uses a SVD decomposition (bidiagonal divide and conquer SVD method).
-      template<typename T1, typename T2>
-      T1 LeastSquareSolver(const T2& rhs) {
-          return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(rhs));
-      }
+      MatrixMN<Scalar> LeastSquareSolver(const MatrixMN<Scalar>& rhs) const;
 
     };
 
@@ -429,6 +420,22 @@ namespace mathutils {
 
         return V * S.asDiagonal() * U.adjoint();
     }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::LUSolver(const MatrixMN<Scalar>& rhs) const {
+      return (this->fullPivLu().solve(rhs));
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::QRSolver(const MatrixMN<Scalar>& rhs) const {
+      return (this->fullPivHouseholderQr().solve(rhs));
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::LeastSquareSolver(const MatrixMN<Scalar>& rhs) const {
+      return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(rhs));
+    }
+
 
 }  // end namespace mathutils
 
