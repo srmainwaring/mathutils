@@ -308,6 +308,21 @@ int main(int argc, char* argv[]) {
     VectorN<double> AxLu = matA * solLU;
     assert(AxLu.IsEqual(vectB));
 
+    // The right-hand side matrix.
+    auto matB = MatrixMN<double>(5, 2);
+    matB.Randomize();
+    PrintInfo("The right-hand side matrix B");
+    std::cout << matB << "\n\n";
+
+    // Solving using LU decomposition.
+    auto solmat = matA.LUSolver(matB);
+    PrintInfo("The solution x from with several right-hand side vectors");
+    std::cout << solmat << "\n\n";
+
+    PrintInfo("Verification with several right-hand side vectors (A * x - B = 0)");
+    std::cout << matA * solmat - matB << "\n\n";
+    MatrixMN<double> Ax = matA * solmat;
+    assert(Ax.IsEqual(matB));
 
     // ========================================================================
     //    Linear least square system solver
