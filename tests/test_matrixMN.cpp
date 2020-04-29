@@ -29,7 +29,8 @@ int main(int argc, char* argv[]) {
     // Instatiating a matrix with its dimensions (it is set to zeros by default)
     auto myMatrix = MatrixMN<double>(6, 3);
 
-//    // Displaying the matrix
+    // Displaying the matrix
+    PrintInfo("Initial Matrix");
     std::cout << myMatrix << "\n\n";
 
     // Getting dimensions of the matrix
@@ -42,7 +43,7 @@ int main(int argc, char* argv[]) {
     std::cout << myMatrix << "\n\n";
 
     // Getting individual coefficients (different means)
-    PrintInfo("Getting and setting individual coefficients by indices");
+    PrintInfo("Getting and setting some individual coefficients by indices");
     std::cout << "Get Coeff 0, 0 : " << myMatrix.at(0, 0) << "\n\n";
     std::cout << "Get Coeff 0, 2 : " << myMatrix.at(0, 2) << "\n\n";
     std::cout << "Get Coeff 0, 0 : " << myMatrix(0, 0) << "\n\n";
@@ -74,8 +75,6 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Nb Rows : " << myMatrix.GetNbRows() << std::endl << std::endl;
     std::cout << "Nb Cols : " << myMatrix.GetNbCols() << std::endl << std::endl;
-
-    // TODO: montrer utilisation de la fonction transpose
 
     PrintInfo("Diagonal extraction");
     // Get the diagonal
@@ -123,11 +122,11 @@ int main(int argc, char* argv[]) {
     auto invMatrix = matSquare.GetInverse();
     std::cout << invMatrix << "\n\n"; // Must get back the initial matrix
 
-    PrintInfo("Verifications ( (A^-1)^-1 - A)");
+    PrintInfo("Verifications ( (A^-1)^-1 - A = 0)");
     std::cout << invMatrix - initialMatrix << "\n\n"; // Must be zero
     assert(invMatrix.IsEqual(initialMatrix));
 
-    PrintInfo("Verifications ( A^-1 * A)");
+    PrintInfo("Verifications (A^-1 * A = I)");
     std::cout << invMatrix * matSquare << "\n\n";   // Must be identity
 
 //    // Is the matrix positive semi definite
@@ -154,6 +153,8 @@ int main(int argc, char* argv[]) {
     std::cout << Q << "\n\n";
     PrintInfo("R");
     std::cout << R << "\n\n";
+    PrintInfo("Verification Q^t*Q = I)");
+    std::cout << Q.transpose()*Q << "\n\n";
     PrintInfo("Verification (A - Q*R)");
     std::cout << myMatrix - Q*R << "\n\n";
     assert(myMatrix.IsEqual(Q*R));
@@ -259,7 +260,7 @@ int main(int argc, char* argv[]) {
     PrintInfo("A+");
     std::cout << matRect_pinv << "\n\n";
 
-    PrintInfo("Using the function version");
+    PrintInfo("Using the function inversion");
     // Fonction Pinv
     auto pinvMat = Pinv(matRect);
     std::cout << pinvMat << "\n\n";
@@ -270,6 +271,42 @@ int main(int argc, char* argv[]) {
 
     assert(ApA.IsIdentity());
 
+    // ========================================================================
+    //    Linear system solvers
+    // ========================================================================
+
+    PrintHeader("Linear system solvers for Ax = b");
+
+    // Matrix A.
+    auto matA = MatrixMN<double>(5, 5);
+    matA.Randomize();
+    PrintInfo("The matrix A");
+    std::cout << matA << "\n\n";
+
+    // The right-hand side vector.
+    auto vectB = VectorN<double>(5);
+    vectB.Randomize();
+    PrintInfo("The right-hand side vector b");
+    std::cout << vectB << "\n\n";
+
+    // Solving using LU decomposition.
+    auto solLU = matA.LUSolver<VectorN<double>, VectorN<double>>(vectB);
+    PrintInfo("The solution x using from a LU decomposition");
+    std::cout << solLU << "\n\n";
+
+    // Solving using QR decomposition.
+    auto solQR = matA.QRSolver<VectorN<double>, VectorN<double>>(vectB);
+    PrintInfo("The solution x using from a QR decomposition");
+    std::cout << solQR << "\n\n";
+
+    PrintInfo("Verification (xLU - xQR = 0)");
+    std::cout << solLU - solQR << "\n\n";
+    assert(solLU.IsEqual(solQR));
+
+    PrintInfo("Verification (A * xLU - b = 0)");
+    std::cout << matA * solLU - vectB << "\n\n";
+    VectorN<double> AxLu = matA * solLU;
+    assert(AxLu.IsEqual(vectB));
 
     return 0;
 }
