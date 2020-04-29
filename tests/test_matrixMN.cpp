@@ -376,5 +376,47 @@ int main(int argc, char* argv[]) {
     assert(solLS.IsEqual(matALS_inv * vectBLS));
     // It is normal that A * x - b != 0.
 
+    // ========================================================================
+    //    Linear least square system solver under constraint
+    // ========================================================================
+
+    PrintHeader("Linear least square system solver for Ax = b with A rectangular subject to the constraint Cx = d.");
+
+    // Matrix A.
+    PrintInfo("The matrix A");
+    std::cout << matALS << "\n\n";
+
+    // The right-hand side vector.
+    PrintInfo("The right-hand side vector b");
+    std::cout << vectBLS << "\n\n";
+
+    // Matrix C.
+    auto matC = MatrixMN<double>(4, 5);
+    matC.Randomize();
+    PrintInfo("The matrix C");
+    std::cout << matC << "\n\n";
+
+    // The vector d.
+    auto vectd = VectorN<double>(4);
+    vectd.Randomize();
+    PrintInfo("The vector d");
+    std::cout << vectd << "\n\n";
+
+    // Solving using SVD decomposition.
+    auto solLSConstraint = matALS.LeastSquareSolverConstraint(vectBLS, matC, vectd);
+    PrintInfo("The least square solution x subject to the constraint Cx = d");
+    std::cout << solLSConstraint << "\n\n";
+
+    PrintInfo("Verification (x - pseudo_inv(A) * b = 0)");
+    std::cout << solLSConstraint - matALS_inv * vectBLS << "\n\n";
+    VectorN<double> AxLSConstraint = matALS * solLSConstraint;
+    std::cout << "Because of the constraint, the equation x = inv(A) * b is not satisfied anymore. Some errors appear." << std::endl;
+    // It is normal that both A * x - b != 0 and x - pseudoinv(A) * b != 0.
+
+    PrintInfo("Verification (Cx - d = 0)");
+    std::cout << matC * solLSConstraint - vectd << "\n\n";
+    VectorN<double> Cx = matC * solLSConstraint;
+    assert(Cx.IsEqual(vectd));
+
     return 0;
 }
