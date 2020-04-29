@@ -275,7 +275,7 @@ int main(int argc, char* argv[]) {
     //    Linear system solvers
     // ========================================================================
 
-    PrintHeader("Linear system solvers for Ax = b");
+    PrintHeader("Linear system solvers for Ax = b with A square");
 
     // Matrix A.
     auto matA = MatrixMN<double>(5, 5);
@@ -291,12 +291,12 @@ int main(int argc, char* argv[]) {
 
     // Solving using LU decomposition.
     auto solLU = matA.LUSolver<VectorN<double>, VectorN<double>>(vectB);
-    PrintInfo("The solution x using from a LU decomposition");
+    PrintInfo("The solution x from a LU decomposition");
     std::cout << solLU << "\n\n";
 
     // Solving using QR decomposition.
     auto solQR = matA.QRSolver<VectorN<double>, VectorN<double>>(vectB);
-    PrintInfo("The solution x using from a QR decomposition");
+    PrintInfo("The solution x from a QR decomposition");
     std::cout << solQR << "\n\n";
 
     PrintInfo("Verification (xLU - xQR = 0)");
@@ -307,6 +307,37 @@ int main(int argc, char* argv[]) {
     std::cout << matA * solLU - vectB << "\n\n";
     VectorN<double> AxLu = matA * solLU;
     assert(AxLu.IsEqual(vectB));
+
+
+    // ========================================================================
+    //    Linear least square system solver
+    // ========================================================================
+
+    PrintHeader("Linear least square system solver for Ax = b with A rectangular");
+
+    // Matrix A.
+    auto matALS = MatrixMN<double>(10, 5);
+    matALS.Randomize();
+    PrintInfo("The matrix A");
+    std::cout << matALS << "\n\n";
+
+    // The right-hand side vector.
+    auto vectBLS = VectorN<double>(10);
+    vectBLS.Randomize();
+    PrintInfo("The right-hand side vector b");
+    std::cout << vectBLS << "\n\n";
+
+    // Solving using SVD decomposition.
+    auto solLS = matALS.LeastSquareSolver<VectorN<double>, VectorN<double>>(vectBLS);
+    PrintInfo("The least square solution x from a SVD decomposition");
+    std::cout << solLS << "\n\n";
+
+    PrintInfo("Verification (x - pseudo_inv(A) * b = 0)");
+    auto matALS_inv = matALS.GetPseudoInverse();
+    std::cout << solLS - matALS_inv * vectBLS << "\n\n";
+    VectorN<double> AxLS = matALS * solLS;
+    assert(solLS.IsEqual(matALS_inv * vectBLS));
+    // It is normal that A * x - b != 0.
 
     return 0;
 }
