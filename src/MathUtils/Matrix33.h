@@ -87,6 +87,7 @@ namespace mathutils {
         // Various matrix decompositions
         // =====================================================================
 
+        // As a matrix 3x3 is square, there is no need of GetFullQRDecomposition.
         void GetQRDecomposition(Matrix33<Scalar>& Q, Matrix33<Scalar>& R) const;
 
         void GetLUDecomposition(Matrix33<Scalar>& P, Matrix33<Scalar>& L, Matrix33<Scalar>& U) const;
@@ -120,12 +121,35 @@ namespace mathutils {
         }
 
       // =====================================================================
-      // Linear system solver.
+      // Linear system solvers.
       // =====================================================================
-      template<typename T1, typename T2>
-      T1 LUSolver(const T2& rhs) {
-          return (this->fullPivLu().solve(rhs));
+
+      // A typename has to be used because the rhs is not necessary a Matrix33.
+      template<typename T>
+      T LUSolver(const T& rhs) const {
+        return (this->fullPivLu().solve(rhs));
       }
+
+      // A typename has to be used because the rhs is not necessary a Matrix33.
+      template<typename T>
+      T QRSolver(const T& rhs) const {
+        return (this->fullPivHouseholderQr().solve(rhs));
+      }
+
+      // =====================================================================
+      // Linear least square system solver.
+      // =====================================================================
+
+      // This method solved a least square problem min||Ax - b|| from a SVD decomposition (bidiagonal divide and
+      // conquer SVD method).
+      // A typename has to be used because the rhs is not necessary a Matrix66.
+      template<typename T>
+      T LeastSquareSolver(const T& b) const {
+        return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b));
+      }
+
+      // No LeastSquareSolverContraint because it requires the structure MatrixMN for C and d, which is not available here.
+      // Consequently, use a MatrixMN of size 3x3 for accessing this method.
 
     };
 
@@ -384,8 +408,6 @@ namespace mathutils {
 
         return V * S.asDiagonal() * U.adjoint();
     }
-
-
 
 }  // end namesapce mathutils
 
