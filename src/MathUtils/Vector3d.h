@@ -51,6 +51,8 @@ namespace mathutils {
 
         inline void Set(Scalar x, Scalar y, Scalar z);
 
+        bool IsEqual(const Vector3d<Scalar>& other, const Scalar& epsilon=1e-12);
+
         inline Scalar infNorm() const;
 
         void Normalize();
@@ -119,6 +121,11 @@ namespace mathutils {
         this->operator[](0) = x;
         this->operator[](1) = y;
         this->operator[](2) = z;
+    }
+
+    template <class Scalar>
+    bool Vector3d<Scalar>::IsEqual(const Vector3d<Scalar>& other, const Scalar& epsilon) {
+      return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>
