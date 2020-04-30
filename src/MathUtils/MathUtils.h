@@ -35,5 +35,9 @@
 #include "Spline.h"
 #include "StdVector.h"
 #include "Convolution.h"
+#include "Integration2d.h"
+#include "Integration2dTriangle.h"
+#include "QuadratureTables.h"
+#include "Integrand.h"
 
 #endif //FRYDOM_MATHUTILS_H_H

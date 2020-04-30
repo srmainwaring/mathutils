@@ -85,6 +85,7 @@ namespace mathutils {
         // Various matrix decompositions
         // =====================================================================
 
+        // As a matrix 6x6 is square, there is no need of GetFullQRDecomposition.
         void GetQRDecomposition(Matrix66<Scalar>& Q, Matrix66<Scalar>& R) const;
 
         void GetLUDecomposition(Matrix66<Scalar>& P, Matrix66<Scalar>& L, Matrix66<Scalar>& U) const;
@@ -116,6 +117,37 @@ namespace mathutils {
             this->Eigen::Matrix<Scalar, 6, 6>::operator=(other);
             return *this;
         }
+
+      // =====================================================================
+      // Linear system solvers.
+      // =====================================================================
+
+      // A typename has to be used because the rhs is not necessary a Matrix66.
+      template<typename T>
+      T LUSolver(const T& rhs) const {
+        return (this->fullPivLu().solve(rhs));
+      }
+
+      // A typename has to be used because the rhs is not necessary a Matrix66.
+      template<typename T>
+      T QRSolver(const T& rhs) const {
+        return (this->fullPivHouseholderQr().solve(rhs));
+      }
+
+      // =====================================================================
+      // Linear least square system solvers.
+      // =====================================================================
+
+      // This method solved a least square problem min||Ax - b|| from a SVD decomposition (bidiagonal divide and
+      // conquer SVD method).
+      // A typename has to be used because the rhs is not necessary a Matrix66.
+      template<typename T>
+      T LeastSquareSolver(const T& b) const {
+        return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b));
+      }
+
+      // No LeastSquareSolverContraint because it requires the structure MatrixMN for C and d, which is not available here.
+      // Consequently, use a MatrixMN of size 6x6 for accessing this method.
 
     };
 
@@ -369,8 +401,6 @@ namespace mathutils {
 
         return V * S.asDiagonal() * U.adjoint();
     }
-
-
 
 }  // end namespace mathutils
 

@@ -51,6 +51,8 @@ namespace mathutils {
 
         inline void Set(Scalar x0, Scalar x1, Scalar x2, Scalar x3, Scalar x4, Scalar x5);
 
+        bool IsEqual(const Vector6d<Scalar>& other, const Scalar& epsilon=1e-12);
+
         inline Scalar infNorm() const;
 
         void print(std::string name) const;
@@ -98,6 +100,11 @@ namespace mathutils {
         this->operator[](3) = x3;
         this->operator[](4) = x4;
         this->operator[](5) = x5;
+    }
+
+    template <class Scalar>
+    bool Vector6d<Scalar>::IsEqual(const Vector6d<Scalar>& other, const Scalar& epsilon) {
+      return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>

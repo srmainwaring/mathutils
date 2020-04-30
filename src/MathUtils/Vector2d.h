@@ -45,6 +45,8 @@ namespace mathutils {
 
         inline void SetNEDFromLocal(Scalar x, Scalar y, Scalar angle, ANGLE_UNIT unit=RAD);
 
+        bool IsEqual(const Vector2d<Scalar>& other, const Scalar& epsilon=1e-12);
+
         inline Scalar infNorm() const;
 
         inline void ProjectLocalOnNED(Vector2d<Scalar>& out, Scalar angle, ANGLE_UNIT unit=RAD) const;
@@ -151,6 +153,11 @@ namespace mathutils {
     template <class Scalar>
     void Vector2d<Scalar>::SetNull() {
         Eigen::Matrix<Scalar, 2, 1>::setZero();
+    }
+
+    template <class Scalar>
+    bool Vector2d<Scalar>::IsEqual(const Vector2d<Scalar>& other, const Scalar& epsilon) {
+      return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>

@@ -36,6 +36,9 @@ ENDIF(Boost_FOUND)
 # MathUtils depends on Eigen3 library
 include(Add_Eigen3)
 
+# Embbed units library
+include(Add_Units)
+
 # Creating MathUtils target
 add_subdirectory(src/MathUtils)
 
