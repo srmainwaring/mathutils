@@ -504,13 +504,13 @@ namespace mathutils {
         R.Transpose(); // From now on, in the variable R there is the transpose of R.
         auto y = R.LUSolver(d);
 
-        // Creation of My and Mz.
+        // Creation of A1 and A2.
         MatrixMN<Scalar> AQ = *this * Q;
-        MatrixMN<Scalar> My = AQ.block(0, 0, m, p);
-        MatrixMN<Scalar> Mz = AQ.block(0, p, m, n - p);
+        MatrixMN<Scalar> A1 = AQ.block(0, 0, m, p);
+        MatrixMN<Scalar> A2 = AQ.block(0, p, m, n - p);
 
         // LS problem wrt z.
-        auto z = Mz.LeastSquareSolver(b - My * R.inverse() * d); // R has been transposed.
+        auto z = A2.LeastSquareSolver(b - A1 * R.inverse() * d); // R has been transposed.
 
         // Solution.
         MatrixMN<Scalar> vect_y_z = MatrixMN<Scalar>(n, 1);

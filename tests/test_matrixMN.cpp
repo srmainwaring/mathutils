@@ -407,10 +407,10 @@ int main(int argc, char* argv[]) {
     PrintInfo("The least square solution x subject to the constraint Cx = d");
     std::cout << solLSConstraint << "\n\n";
 
-    PrintInfo("Verification (x - pseudo_inv(A) * b = 0)");
-    std::cout << solLSConstraint - matALS_inv * vectBLS << "\n\n";
+    PrintInfo("Verification (x - pseudo_inv(A) * b != 0)");
+    std::cout << solLSConstraint - matALS_inv * vectBLS << std::endl;
     VectorN<double> AxLSConstraint = matALS * solLSConstraint;
-    std::cout << "Because of the constraint, the equation x = inv(A) * b is not satisfied anymore. Some errors appear." << std::endl;
+    std::cout << "Because of the constraint, the equation x = inv(A) * b is not satisfied anymore. Some errors appear." << "\n\n";
     // It is normal that both A * x - b != 0 and x - pseudoinv(A) * b != 0.
 
     PrintInfo("Verification (Cx - d = 0)");
