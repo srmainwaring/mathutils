@@ -119,10 +119,10 @@ We have:
 .. math::
    \mathbf{A}\mathbf{x} = \mathbf{A}_1\mathbf{y} + \mathbf{A}_2\mathbf{z}
 
-Using :eq:`Linear_system_y`, the unknown :math:`\mathbf{z}` is figured out by the least-square problem:
+The unknown :math:`\mathbf{z}` is figured out by the following least-square problem where :math:`\mathbf{y}` is oibtained by :eq:`Linear_system_y`:
 
 .. math::
-   \min\left\Vert\mathbf{A}_2\mathbf{z} - \left(\mathbf{b} - \mathbf{A}_1\mathbf{R}^{-T}\mathbf{d}\right)\right\Vert^2
+   \min\left\Vert\mathbf{A}_2\mathbf{z} - \left(\mathbf{b} - \mathbf{A}_1\mathbf{y}\right)\right\Vert^2
 
 Finally, the solution :math:`\mathbf{x}` is obtained from :eq:`Definition_y_z`.
 

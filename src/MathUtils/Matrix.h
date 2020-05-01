@@ -494,7 +494,7 @@ namespace mathutils {
         assert(b.GetNbCols() == 1);
         assert(d.GetNbCols() == 1);
 
-        // QR factorisation of transpose(C)
+        // QR factorisation of transpose(C).
         MatrixMN<Scalar> Q, R;
         MatrixMN<Scalar> Ct = C;
         Ct.Transpose();
@@ -510,7 +510,7 @@ namespace mathutils {
         MatrixMN<Scalar> A2 = AQ.block(0, p, m, n - p);
 
         // LS problem wrt z.
-        auto z = A2.LeastSquareSolver(b - A1 * R.inverse() * d); // R has been transposed.
+        auto z = A2.LeastSquareSolver(b - A1 * y); // R has been transposed.
 
         // Solution.
         MatrixMN<Scalar> vect_y_z = MatrixMN<Scalar>(n, 1);
