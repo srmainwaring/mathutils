@@ -151,6 +151,13 @@ namespace mathutils {
       // No LeastSquareSolverContraint because it requires the structure MatrixMN for C and d, which is not available here.
       // Consequently, use a MatrixMN of size 3x3 for accessing this method.
 
+      // =====================================================================
+      // Eigenvalues and eigenvectors.
+      // =====================================================================
+
+      // This method computes the eigenvalues only.
+      Matrix33<std::complex<double>> Eigenvalues() const;
+
     };
 
     // =================================================================================================================
@@ -407,6 +414,22 @@ namespace mathutils {
         }
 
         return V * S.asDiagonal() * U.adjoint();
+    }
+
+
+    template <class Scalar>
+    Matrix33<std::complex<double>> Matrix33<Scalar>::Eigenvalues() const{
+
+      // This method computes the eigenvalues only.
+
+      // Verification.
+      assert(this->GetNbRows() == this->GetNbCols());
+
+      // Object to computing eigenvalues and eigenvectors.
+      Eigen::EigenSolver<Eigen::MatrixXd> es(*this, false);
+
+      return Matrix33<std::complex<double>>(es.eigenvalues());
+
     }
 
 }  // end namesapce mathutils

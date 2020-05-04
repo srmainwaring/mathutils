@@ -418,5 +418,24 @@ int main(int argc, char* argv[]) {
     VectorN<double> Cx = matC * solLSConstraint;
     assert(Cx.IsEqual(vectd));
 
+    // ========================================================================
+    //    Eigenvalues and eigenvectors.
+    // ========================================================================
+
+    PrintHeader("Eigenvalues and eigenvectors");
+
+    // Matrix A.
+    mathutils::MatrixMN<double> Avp(3, 3);
+    Avp << 3,1,1,-8,-3,-4,6,3,4;
+    PrintInfo("The matrix A");
+    std::cout << Avp << "\n\n";
+
+    // Computation of the eigenvalues.
+    mathutils::MatrixMN<std::complex<double>> vp;
+    vp = Avp.Eigenvalues();
+    PrintInfo("The eigenvalues of A");
+    std::cout << vp << "\n\n";
+    PrintInfo("The eigenvalues must be (2, 1, 1)");
+
     return 0;
 }

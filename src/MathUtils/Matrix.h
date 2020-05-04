@@ -154,6 +154,13 @@ namespace mathutils {
       MatrixMN<Scalar> LeastSquareSolverConstraint(const MatrixMN<Scalar>& b, const MatrixMN<Scalar>& C
           , const MatrixMN<Scalar>& d) const;
 
+      // =====================================================================
+      // Eigenvalues and eigenvectors.
+      // =====================================================================
+
+      // This method computes the eigenvalues only.
+      MatrixMN<std::complex<double>> Eigenvalues() const;
+
     };
 
     // =================================================================================================================
@@ -521,6 +528,21 @@ namespace mathutils {
         return x;
 
     };
+
+    template <class Scalar>
+    MatrixMN<std::complex<double>> MatrixMN<Scalar>::Eigenvalues() const{
+
+        // This method computes the eigenvalues only.
+
+        // Verification.
+        assert(this->GetNbRows() == this->GetNbCols());
+
+        // Object to computing eigenvalues and eigenvectors.
+        Eigen::EigenSolver<Eigen::MatrixXd> es(*this, false);
+
+        return MatrixMN<std::complex<double>>(es.eigenvalues());
+
+    }
 
 
 }  // end namespace mathutils
