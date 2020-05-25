@@ -25,7 +25,13 @@ int main(int argc, char* argv[]) {
     // ========================================================================
 
     PrintHeader("Initialization");
+
+    PrintInfo("To 0:");
     auto vec = VectorN<double>(10);
+    std::cout << vec.transpose() << "\n\n";
+
+    PrintInfo("To 1:");
+    vec.SetOnes();
     std::cout << vec.transpose() << "\n\n";
 
     // ========================================================================

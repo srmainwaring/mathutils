@@ -34,6 +34,8 @@ namespace mathutils {
 
         void SetNull();
 
+        void SetOnes();
+
         void Sort(bool ascending=true);
 
         void Reverse();
@@ -109,6 +111,11 @@ namespace mathutils {
     template <class Scalar>
     void VectorN<Scalar>::SetNull() {
         this->setZero();
+    }
+
+    template <class Scalar>
+    void VectorN<Scalar>::SetOnes() {
+      this->setOnes();
     }
 
     template <class Scalar>
