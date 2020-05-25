@@ -102,6 +102,17 @@ int main(int argc, char* argv[]) {
     std::cout << myMatrix << "\n\n";
 
     // ========================================================================
+    //    Matrix multiplication
+    // ========================================================================
+    PrintHeader("Multiplying matrix by matrix");
+    auto matrix2 = MatrixMN<double>(10, 10);
+    matrix2.Randomize();
+    auto matrix = MatrixMN<double>(10, 10);
+    matrix.Randomize();
+    MatrixMN<double> matrix3 = matrix * matrix2;
+    std::cout << matrix3 << "\n\n";
+
+    // ========================================================================
     //    Square matrix inversion
     // ========================================================================
 

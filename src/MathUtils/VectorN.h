@@ -42,6 +42,8 @@ namespace mathutils {
 
         MatrixMN<Scalar> GetMatrixSquare() const;
 
+        MatrixMN<Scalar> GetDiagonalMatrix() const;
+
         inline Scalar infNorm() const;
 
         void print(std::string name) const;
@@ -75,6 +77,11 @@ namespace mathutils {
     template <class Scalar>  // FIXME : Bug ?
     MatrixMN<Scalar> Transpose(const VectorN<Scalar> vector) {
         return vector.transpose();
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> GetDiagonalMatrix(const VectorN<Scalar> vector) {
+      return vector.asDiagonal().toDenseMatrix();
     }
 
 
@@ -115,6 +122,11 @@ namespace mathutils {
     template <class Scalar>
     MatrixMN<Scalar> VectorN<Scalar>::GetMatrixSquare() const {
         return (*this) * ((*this).transpose());
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> VectorN<Scalar>::GetDiagonalMatrix() const {
+      return (*this).asDiagonal().toDenseMatrix();
     }
 
     template <class Scalar>

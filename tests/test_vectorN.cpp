@@ -20,54 +20,90 @@ void PrintInfo(std::string info) {
 
 int main(int argc, char* argv[]) {
 
+    // ========================================================================
+    //    Initialization.
+    // ========================================================================
+
+    PrintHeader("Initialization");
     auto vec = VectorN<double>(10);
+    std::cout << vec.transpose() << "\n\n";
 
-    std::cout << vec << "\n\n";
+    // ========================================================================
+    //    Randomize.
+    // ========================================================================
 
+    PrintHeader("Randomize");
     vec.Randomize();
-    std::cout << vec << "\n\n";
+    std::cout << vec.transpose() << "\n\n";
 
+    // ========================================================================
+    //    Sorting.
+    // ========================================================================
+
+    PrintHeader("Sorting");
+
+    PrintInfo("Sorting in ascending order:");
     vec.Sort();
-    std::cout << vec << "\n\n";
+    std::cout << vec.transpose() << "\n\n";
 
+    PrintInfo("Sorting in descending order:");
     vec.Sort(false);
-    std::cout << vec << "\n\n";
+    std::cout << vec.transpose() << "\n\n";
 
 
-    // Multiplying matrix by vector
+    // ========================================================================
+    //    Multiplying matrix by vector.
+    // ========================================================================
 
+    PrintHeader("Multiplying");
+
+    PrintInfo("Multiplying by identity matrix:");
     auto matrix = MatrixMN<double>(10, 10);
     matrix.SetIdentity();
 
     VectorN<double> vec1 = matrix * vec;
-    std::cout << vec1 << "\n\n";
+    std::cout << vec1.transpose() << "\n\n";
+    assert(vec.IsEqual(vec1));
 
     matrix.Randomize();
     VectorN<double> vec2 = matrix * vec;
 //    vec1 = matrix * vec; // Does not work !!
-    std::cout << vec2 << "\n\n";
-
-
-    // Multiplying matrix by matrix
-    auto matrix2 = MatrixMN<double>(10, 10);
-    matrix2.Randomize();
-
-    MatrixMN<double> matrix3 = matrix * matrix2;
-    std::cout << matrix3 << "\n\n";
-
+    PrintInfo("Multiplying by a random matrix:");
+    std::cout << vec2.transpose() << "\n\n";
 
     // Complex expression
+    PrintInfo("Complex expression:");
+    auto matrix2 = MatrixMN<double>(10, 10);
+    matrix2.Randomize();
     VectorN<double> vec3 = matrix2 * vec + matrix * vec1 - vec2;
-    std::cout << vec3 << "\n\n";
+    std::cout << vec3.transpose() << "\n\n";
 
+    // ========================================================================
+    //    Generating a matrix from a vector.
+    // ========================================================================
 
-    auto squareMat = GetMatrixSquare(vec3);
-    std::cout << "square by function\n" << squareMat << std::endl;
+    PrintHeader("Generating a matrix from a vector");
 
-    squareMat = vec3.GetMatrixSquare();
-    std::cout << "square by method\n" << squareMat << std::endl;
+    PrintInfo("Square matrix by function:");
+    auto squareMat_function = GetMatrixSquare(vec3);
+    std::cout << squareMat_function << "\n\n";
 
-    std::cout << vec3 << "\n\n";
+    PrintInfo("Square matrix by method:");
+    auto squareMat_method = vec3.GetMatrixSquare();
+    std::cout << squareMat_method << "\n\n";
+    assert(squareMat_function.IsEqual(squareMat_method));
+
+    PrintInfo("Diagonal to use:");
+    std::cout << vec3.transpose() << "\n\n";
+
+    PrintInfo("Diagonal matrix by function:");
+    auto diagMat_function = GetDiagonalMatrix(vec3);
+    std::cout << diagMat_function << "\n\n";
+
+    PrintInfo("Diagonal matrix by method:");
+    auto diagMat_method = vec3.GetDiagonalMatrix();
+    std::cout << diagMat_method << "\n\n";
+    assert(diagMat_function.IsEqual(diagMat_method));
 
     return 0;
 }
