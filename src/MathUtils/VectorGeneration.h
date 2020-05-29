@@ -17,13 +17,15 @@ namespace mathutils {
         assert(num > 1);
         assert(start <= stop);
 
-        Real step = (stop-start) / (num-1);
+        unsigned int numm1 = num-1;
+
+        Real step = (stop-start) / (numm1);
 
         std::vector<Real> out(num);
-        for (unsigned long i=0; i<num; ++i) {
+        for (unsigned long i=0; i<numm1; ++i) {
             out[i] = start + i*step;
         }
-
+        out[numm1] = stop;
         return out;
     }
 

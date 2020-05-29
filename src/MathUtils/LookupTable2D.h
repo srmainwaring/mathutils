@@ -7,6 +7,10 @@
 
 #include <vector>
 
+#include <unordered_map>
+
+#include <iostream>
+
 #include "Interp2d.h"
 
 namespace mathutils {
