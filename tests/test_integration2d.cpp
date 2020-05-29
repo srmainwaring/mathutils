@@ -11,6 +11,7 @@ using namespace mathutils;
 int main(int argc, char* argv[]) {
 
   // This test checks the integration of a function over a triangle.
+  // This function returns a VectorN because it is more difficult when the size is not fixed.
 
   // Vertices of a triangle.
   Vector3d<double> vertex_1 = Vector3d<double>(0., 0., 0.);
@@ -21,24 +22,26 @@ int main(int argc, char* argv[]) {
   int order = 2;
 
   // Definition of a function to integration.
-  class IntegrandTest : public Integrand<double> {
+  class IntegrandTest : public Integrand<VectorN<double>> {
    public:
-    double Evaluate(const Vector3d<double> &x) const override {
-      return(2 - x(0) - 2 * x(1)); // f(x,y,z) = 2 - x - 2y.
+    VectorN<double> Evaluate(const Vector3d<double> &x) const override {
+      VectorN<double> value = VectorN<double>::Zero(1);
+      value[0] = 2 - x(0) - 2 * x(1);
+      return value; // f(x,y,z) = 2 - x - 2y.
     }
   };
 
   // Numerical integration.
   IntegrandTest myFunction;
-  auto myIntegrator = Integration2dTriangle<double>(&myFunction, order);
-  double numerical_result = myIntegrator.Compute(vertex_1, vertex_2, vertex_3);
+  auto myIntegrator = Integration2dTriangle<VectorN<double>>(&myFunction, order);
+  VectorN<double> numerical_result = myIntegrator.Compute(vertex_1, vertex_2, vertex_3);
 
   // Analytical integration.
   double analytical_result = 1./3.;
 
   std::cout << "" << std::endl;
   std::cout << "Analytical result: " << analytical_result << std::endl;
-  std::cout << "Numerical result: " << numerical_result << std::endl;
-  std::cout << "Relative error: " << (100*(numerical_result - analytical_result) / analytical_result) << std::endl;
+  std::cout << "Numerical result: " << numerical_result[0] << std::endl;
+  std::cout << "Relative error: " << (100*(numerical_result[0] - analytical_result) / analytical_result) << std::endl;
 
 }

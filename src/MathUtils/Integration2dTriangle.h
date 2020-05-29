@@ -152,9 +152,18 @@ namespace mathutils {
         // Position of the Gauss points.
         Vector3d<double> x = (1 - alpha.at(i) - beta.at(i)) * vertex_1 + alpha.at(i) * vertex_2 + beta.at(i) * vertex_3;
 
-        T tmp_val = this->m_integrand->Evaluate(x);
-        tmp_val *= weight.at(i);
-        result += tmp_val;
+        // When T = VectorN, the size of result must be specified otherwise the += tmp_val does not work.
+        // This is done by Evaluate for i = 0.
+        // There is always i = 0 because m_tables has a minimum order of 1.
+        if(i == 0){
+          result = weight.at(i) * this->m_integrand->Evaluate(x);
+        }
+        else {
+          T tmp_val = this->m_integrand->Evaluate(x);
+          tmp_val *= weight.at(i);
+          result += tmp_val;
+        }
+
       }
       result *= 0.5; // The 1/2 coefficient matches the area of the standard triangle.
 
