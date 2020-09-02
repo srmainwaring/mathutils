@@ -21,6 +21,7 @@ namespace mathutils {
         XReal xmin;
         XReal xmax;
 
+        // This boolean enables the possibility to apply the interpolation outside the x-range (if true) or not (if false).
         bool m_permissive = false;
 
     public:
