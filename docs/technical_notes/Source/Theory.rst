@@ -130,4 +130,50 @@ This solution satisfies exactly the equality constraint :math:`\mathbf{C}\mathbf
 
 This method is used in ``LeastSquareSolverConstraint``.
 
+Linear interpolation
+--------------------
+
+Let us consider a function :math:`f` over the segment :math:`[x_1;x_2]`. The values of :math:`f` at the ends of the segment are known. The linear interpolation of :math:`f` over the segment is:
+
+.. math::
+   f(x) = a_1 + a_2x
+
+with:
+
+.. math::
+   \begin{cases}
+       a_1 = \dfrac{x_2f(x_1) - x_1f(x_2)}{x_2 - x_1}\\
+       a_2 = \dfrac{f(x_2) - f(x_1)}{x_2 - x_1}
+   \end{cases}
+
+This approach is used in the class ``Interp1d``.
+
+Bilinear interpolation
+----------------------
+
+Let us consider a function :math:`f` over the set :math:`I = [x_1;x_2] \times [y_1;y_2]`. The values of :math:`f` at the ends of each segment are known. The bilinear interpolation of :math:`f` over :math:`I` is:
+
+.. math::
+   f(x, y) = a_1 + a_2x + a_3y + a_4xy
+
+with:
+
+.. math::
+   \begin{cases}
+       a_1 = \dfrac{x_2y_2f(x_1, y_1) - x_2y_1f(x_1, y_1) - x_1y_2f(x_2, y_1) + x_1y_1f(x_2, y_2)}{\Delta x\Delta y}\\
+       a_2 = \dfrac{-y_2f(x_1, y_1) + y_1f(x_1, y_2) + y_2f(x_2, y_1) - y_1f(x_2, y_2)}{\Delta x\Delta y}\\
+       a_3 = \dfrac{-x_2f(x_1, y_1) + x_1f(x_1, y_2) + x_2f(x_2, y_1) - x_1f(x_2, y_2)}{\Delta x\Delta y}\\
+       a_4 = \dfrac{f(x_1, y_1) - f(x_1, y_2) - f(x_2, y_1) + f(x_2, y_2)}{\Delta x\Delta y}
+   \end{cases}
+
+where:
+
+.. math::
+   \begin{cases}
+       \Delta x = x_2 - x_1\\
+       \Delta y = y_2 - y_1
+   \end{cases}
+
+This approach is used in the class ``Interp2d``.
+
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.
