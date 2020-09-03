@@ -93,6 +93,9 @@ int main(int argc, char* argv[]) {
 
     auto y0 = interpolator.Eval(5.333, 5.000);
 
+    std::cout << "" << std::endl;
+    std::cout << "Test with large amount of data" << std::endl;
+    std::cout << "Analytical : " << sin(5.333) * sin(5.000) << std::endl;
     std::cout << "Eval : " << y0 << std::endl;
 
     auto x_interp = linspace(M_PI, 4 * M_PI, 3 * (N - 1));
@@ -152,7 +155,5 @@ int main(int argc, char* argv[]) {
     }
 
     myfile2.close();
-
-
 
 }
