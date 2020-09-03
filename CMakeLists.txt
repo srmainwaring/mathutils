@@ -24,14 +24,10 @@ set(MathUtils_VERSION_PATCH   "0")
 set(MathUtils_VERSION
         "${MathUtils_VERSION_MAJOR}.${MathUtils_VERSION_MINOR}.${MathUtils_VERSION_PATCH}")
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/URL.conf.cmake)
+
 #BOOST
-FIND_PACKAGE(Boost)
-IF(Boost_FOUND)
-	INCLUDE_DIRECTORIES ( ${Boost_INCLUDE_DIR} )
-	MESSAGE(STATUS "...Boost found")
-ELSE(Boost_FOUND)
-	MESSAGE(FATAL_ERROR "Cannot build Boost project without Boost. Please set Boost_DIR.")
-ENDIF(Boost_FOUND)
+include(Add_Boost)
 
 # MathUtils depends on Eigen3 library
 include(Add_Eigen3)

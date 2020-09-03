@@ -3,12 +3,13 @@
 include(FetchContent)
 
 FetchContent_Declare(Eigen3
-        GIT_REPOSITORY https://github.com/eigenteam/eigen-git-mirror.git
-        GIT_TAG 3.3.4
+        GIT_REPOSITORY ${eigen_URL}
+        GIT_TAG ${eigen_TAG}
         )
 
 FetchContent_GetProperties(Eigen3)
 if(NOT eigen3_POPULATED)
+    message(STATUS "Downloading, Configuring and Generating 'Eigen' dependency")
     FetchContent_Populate(Eigen3)
     add_library(eigen INTERFACE)
     target_include_directories(eigen INTERFACE ${eigen3_SOURCE_DIR})
