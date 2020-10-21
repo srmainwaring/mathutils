@@ -5,10 +5,9 @@
 #ifndef MATHUTILS_VECTOR6D_H
 #define MATHUTILS_VECTOR6D_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 
 #include "Unit.h"
-//#include "Matrix.h"
 #include "Matrix66.h"
 
 namespace mathutils {

@@ -5,7 +5,7 @@
 #ifndef MATHUTILS_MATRIX_H
 #define MATHUTILS_MATRIX_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 #include "iostream"
 
 namespace mathutils {

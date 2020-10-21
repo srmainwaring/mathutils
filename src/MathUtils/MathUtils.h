@@ -6,10 +6,6 @@
 #define MATHUTILS_H_H
 
 
-#include "Eigen/Dense"
-
-//#include "ceres/ceres.h"
-
 #include "Constants.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
