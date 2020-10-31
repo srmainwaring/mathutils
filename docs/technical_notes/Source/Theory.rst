@@ -195,7 +195,7 @@ The Legendre polynomials obey the following recurrence relation:
       P_1(x) = x
    \end{cases}
 
-The method used for computing the Legendre polynomials is based on Eigen and named ``Legendre``.
+The computation of the Legendre polynomials is achieved in the method ``Legendre``.
 
 Their differentiation is given by the following recurrence relation:
 
@@ -205,6 +205,6 @@ Their differentiation is given by the following recurrence relation:
       P_0^{'}(x) = 0
    \end{cases}
 
-
+The computation of the differentiation of the Legendre polynomials is achieved in the method ``Legendre_derivative``.
 
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.
