@@ -113,17 +113,20 @@ namespace mathutils {
     }
 
     // This function returns the Legendre polynomial of order "order" at the point x.
-    double Legendre_polynomial(const int& order, const double x){
+    template <class Integer, class Real>
+    Real Legendre_polynomial(const Integer& order, const Real x){
         return(boost::math::legendre_p(order, x));
     }
 
     // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
-    double Legendre_polynomial_derivative(const int& order, const double x){
+    template <class Integer, class Real>
+    Real Legendre_polynomial_derivative(const Integer& order, const Real x){
       return(boost::math::legendre_p_prime(order, x));
     }
 
     // This function returns the factorial of the integer n.
-    double Factorial(const int n){
+    template <class Integer, class Real>
+    Real Factorial(const Integer n){
       return(boost::math::factorial<double>(n));
     }
 
