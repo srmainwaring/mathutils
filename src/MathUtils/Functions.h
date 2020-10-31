@@ -113,12 +113,12 @@ namespace mathutils {
     }
 
     // This function returns the Legendre polynomial of order "order" at the point x.
-    double Legendre(const int& order, const double x){
+    double Legendre_polynomial(const int& order, const double x){
         return(boost::math::legendre_p(order, x));
     }
 
     // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
-    double Legendre_derivative(const int& order, const double x){
+    double Legendre_polynomial_derivative(const int& order, const double x){
       return(boost::math::legendre_p_prime(order, x));
     }
 
