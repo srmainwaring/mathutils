@@ -176,4 +176,35 @@ where:
 
 This approach is used in the class ``Interp2d``.
 
+Legendre polynomials
+--------------------
+
+One definition of the Legendre polynomial of order :math:`n`, written :math:`P_n`, for :math:`x \in [-1, 1]` is:
+
+.. math::
+   \dfrac{d}{dx}\left[(1-x^2)\dfrac{d}{dx}P_n(x)\right] + n(n+1)P_n(x) = 0
+
+This polynomial is real.
+
+The Legendre polynomials obey the following recurrence relation:
+
+.. math::
+   \begin{cases}
+      P_n(x) = \dfrac{1}{n}\left[(2n-1)xP_{n-1}(x) - (n-1)P_{n-2}(x)\right] \text{ for } n \geqslant 2\\
+      P_0(x) = 1\\
+      P_1(x) = x
+   \end{cases}
+
+The method used for computing the Legendre polynomials is based on Eigen and named ``Legendre``.
+
+Their differentiation is given by the following recurrence relation:
+
+.. math::
+   \begin{cases}
+      P_n^{'}(x) = \dfrac{1}{x^2-1}\left[nxP_n(x) - nP_{n-1}(x)\right] \text{ for } n \geqslant 1\\
+      P_0^{'}(x) = 0
+   \end{cases}
+
+
+
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.

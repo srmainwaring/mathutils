@@ -7,6 +7,8 @@
 
 #include "StdVector.h"
 #include <boost/math/special_functions/bessel.hpp>
+#include <boost/math/special_functions/legendre.hpp>
+#include <boost/math/special_functions/factorials.hpp>
 #include "VectorGeneration.h"
 
 namespace mathutils {
@@ -104,10 +106,25 @@ namespace mathutils {
         return out;
     }
 
-    // This function returns the Bessel function of the first kind of order "order" at at the point x.
+    // This function returns the Bessel function of the first kind of order "order" at the point x.
     template <class T1, class T2, class Tresults>
     Tresults Cyl_Bessel_first_kind(const T1& order, const T2 x){
         return(boost::math::cyl_bessel_j(order, x));
+    }
+
+    // This function returns the Legendre polynomial of order "order" at the point x.
+    double Legendre(const int& order, const double x){
+        return(boost::math::legendre_p(order, x));
+    }
+
+    // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
+    double Legendre_derivative(const int& order, const double x){
+      return(boost::math::legendre_p_prime(order, x));
+    }
+
+    // This function returns the factorial of the integer n.
+    double Factorial(const int n){
+      return(boost::math::factorial<double>(n));
     }
 
 

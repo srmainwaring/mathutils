@@ -18,6 +18,7 @@ set(TESTS
         test_vectorN
 	    test_linear_system_solver
         test_integration2d
+        test_functions
         )
 
 IF(MSVC)
