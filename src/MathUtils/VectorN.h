@@ -5,7 +5,7 @@
 #ifndef MATHUTILS_VECTORN_H
 #define MATHUTILS_VECTORN_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 #include "Matrix.h"
 
 namespace mathutils {
