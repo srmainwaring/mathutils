@@ -9,6 +9,7 @@
 #include <boost/math/special_functions/bessel.hpp>
 #include <boost/math/special_functions/legendre.hpp>
 #include <boost/math/special_functions/factorials.hpp>
+#include <boost/math/special_functions/expint.hpp>
 #include "VectorGeneration.h"
 
 namespace mathutils {
@@ -134,6 +135,12 @@ namespace mathutils {
     template <class Integer, class Real>
     Real Factorial(const Integer n){
       return(boost::math::factorial<double>(n));
+    }
+
+    // This function returns the exponential integral Ei at the point x.
+    template <class T>
+    T Ei(const T x){
+      return(boost::math::expint(x));
     }
 
 

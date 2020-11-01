@@ -81,4 +81,17 @@ int main(int argc, char* argv[]) {
   std::cout << "Exact value: " << 362880. << std::endl; // 9! = 362880
   assert(IsClose(value_factorial, 362880.));
 
+  // ========================================================================
+  //                        Exponential integral
+  // ========================================================================
+  PrintHeader("Exponential integral");
+  std::cout << "" << std::endl;
+
+  // Source: https://en.cppreference.com/w/cpp/numeric/special_functions/expint
+  PrintInfo("Comparison of the value returned by the method and an exact value for x = 1");
+  double value_Ei = Ei<double>(1.);
+  std::cout << "Method Ei: " << value_Ei << std::endl;
+  std::cout << "Exact value: 1.89512" << std::endl;
+  assert(IsClose(value_Ei, 1.89512));
+
 }
