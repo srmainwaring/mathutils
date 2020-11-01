@@ -22,9 +22,9 @@ int main(int argc, char* argv[]) {
   // This test checks the computation of the special functions.
 
   // ========================================================================
-  //                          Bessel function
+  //                          Bessel functions
   // ========================================================================
-  PrintHeader("Bessel function");
+  PrintHeader("Bessel function - First kind");
   std::cout << "" << std::endl;
 
   // Source: https://en.cppreference.com/w/cpp/numeric/special_functions/cyl_bessel_j
@@ -33,6 +33,16 @@ int main(int argc, char* argv[]) {
   std::cout << "Method Cyl_Bessel_first_kind: " << value_J0 << std::endl;
   std::cout << "Exact value: 0.653792" << std::endl;
   assert(IsClose(value_J0, 0.653792));
+
+  PrintHeader("Bessel function - Second kind");
+  std::cout << "" << std::endl;
+
+  // Source: https://en.cppreference.com/w/cpp/numeric/special_functions/cyl_neumann
+  PrintInfo("Comparison of the value returned by the method and an exact value for n = 0.5 and x = 1.2345");
+  double value_Y05 = Cyl_Bessel_second_kind<double, double, double>(0.5, 1.2345);
+  std::cout << "Method Cyl_Bessel_second_kind: " << value_Y05 << std::endl;
+  std::cout << "Exact value: -0.236973" << std::endl;
+  assert(IsClose(value_Y05, -0.236973));
 
   // ========================================================================
   //                       Legendre polynomials

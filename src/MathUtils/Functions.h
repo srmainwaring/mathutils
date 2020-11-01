@@ -112,6 +112,12 @@ namespace mathutils {
         return(boost::math::cyl_bessel_j(order, x));
     }
 
+    // This function returns the Bessel function of the second kind of order "order" at the point x.
+    template <class T1, class T2, class Tresults>
+    Tresults Cyl_Bessel_second_kind(const T1& order, const T2 x){
+      return(boost::math::cyl_neumann(order, x));
+    }
+
     // This function returns the Legendre polynomial of order "order" at the point x.
     template <class Integer, class Real>
     Real Legendre_polynomial(const Integer& order, const Real x){
