@@ -207,4 +207,88 @@ Their differentiation is given by the following recurrence relation:
 
 The computation of the differentiation of the Legendre polynomials is achieved in the method ``Legendre_derivative``.
 
+Struve functions
+----------------
+
+The Struve function of order :math:`n`, :math:`H_n`, is defined in [Abramowitz1964]_ (chapter 12). Efficient approximations for the orders zero and one are provided by [Newman1984]_.
+
+The zero order Struve function is evaluted using:
+
+.. math::
+   H_0(x) \approx \begin{cases}
+      \displaystyle \sum_{j = 1}^6 a_j\left(\dfrac{x}{3}\right)^{2j-1} \text{ for } 0 \leqslant x \leqslant 3\\
+      Y_0(x) + \dfrac{2}{\pi x}\dfrac{\displaystyle \sum_{j = 0}^3 b_j\left(\dfrac{x}{3}\right)^{2j}}{\displaystyle\sum_{j = 0}^3 c_j\left(\dfrac{x}{3}\right)^{2j}} \text{ for } x > 3
+   \end{cases}
+
+with:
+
+.. math::
+   \begin{cases}
+      a_1 = 1.909859164\\
+      a_2 = -1.909855001\\
+      a_3 = 0.687514637\\
+      a_4 = -0.126164557\\
+      a_5 = 0.013828813\\
+      a_6 = -0.000876918
+   \end{cases}
+
+and
+
+.. math::
+   \begin{cases}
+      b_0 = 0.99999906\\
+      b_1 = 4.77228920\\
+      b_2 = 3.85542044\\
+      b_3 = 0.32303607\\
+      c_0 = 1\\
+      c_1 = 4.88331068\\
+      c_2 = 4.28957333\\
+      c_3 = 0.52120508
+   \end{cases}
+
+The first order Struve function is evaluted using:
+
+.. math::
+   H_1(x) \approx \begin{cases}
+      \displaystyle \sum_{j = 1}^6 d_j\left(\dfrac{x}{3}\right)^{2j} \text{ for } 0 \leqslant x \leqslant 3\\
+      Y_1(x) + \dfrac{2}{\pi}\dfrac{\displaystyle \sum_{j = 0}^3 e_j\left(\dfrac{x}{3}\right)^{2j}}{\displaystyle\sum_{j = 0}^3 f_j\left(\dfrac{x}{3}\right)^{2j}} \text{ for } x > 3
+   \end{cases}
+
+with:
+
+.. math::
+   \begin{cases}
+      d_1 = 1.909859286\\
+      d_2 = -1.145914713\\
+      d_3 = 0.294656958\\
+      d_4 = -0.042070508\\
+      d_5 = 0.003785727\\
+      d_6 = -0.000207183
+   \end{cases}
+
+and
+
+.. math::
+   \begin{cases}
+      e_0 = 1.00000004\\
+      e_1 = 3.92205313\\
+      e_2 = 2.64893033\\
+      e_3 = 0.27450895\\
+      f_0 = 1\\
+      f_1 = 3.81095112\\
+      f_2 = 2.26216956\\
+      f_3 = 0.10885141
+   \end{cases}
+
+:math:`Y_0` and :math:`Y_1` represent the Bessel functions of second kind of order zero and one.
+
+The derivative of :math:`H_0` is given by [Abramowitz1964]_:
+
+.. math::
+   H_0^{'} = \dfrac{2}{\pi} - H_1
+
+.. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
+
+.. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.
+
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.

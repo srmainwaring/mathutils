@@ -110,38 +110,108 @@ namespace mathutils {
     // This function returns the Bessel function of the first kind of order "order" at the point x.
     template <class T1, class T2, class Tresults>
     Tresults Cyl_Bessel_first_kind(const T1& order, const T2 x){
-        return(boost::math::cyl_bessel_j(order, x));
+        return boost::math::cyl_bessel_j(order, x);
     }
 
     // This function returns the Bessel function of the second kind of order "order" at the point x.
     template <class T1, class T2, class Tresults>
     Tresults Cyl_Bessel_second_kind(const T1& order, const T2 x){
-      return(boost::math::cyl_neumann(order, x));
+      return boost::math::cyl_neumann(order, x);
     }
 
     // This function returns the Legendre polynomial of order "order" at the point x.
     template <class Integer, class Real>
     Real Legendre_polynomial(const Integer& order, const Real x){
-        return(boost::math::legendre_p(order, x));
+        return boost::math::legendre_p(order, x);
     }
 
     // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
     template <class Integer, class Real>
     Real Legendre_polynomial_derivative(const Integer& order, const Real x){
-      return(boost::math::legendre_p_prime(order, x));
+      return boost::math::legendre_p_prime(order, x);
     }
 
     // This function returns the factorial of the integer n.
     template <class Integer, class Real>
     Real Factorial(const Integer n){
-      return(boost::math::factorial<double>(n));
+      return boost::math::factorial<double>(n);
     }
 
     // This function returns the exponential integral Ei at the point x.
     template <class T>
     T Ei(const T x){
-      return(boost::math::expint(x));
+      return boost::math::expint(x);
     }
+
+    // This function returns the zero order Struve function at the point x.
+    template <class T>
+    T Struve_zero_order(const T x){
+
+      T arg = x/3.;
+
+      T Struve = 0.;
+      if(x >=0 and x <= 3){
+        std::vector<double> coef_a = {1.909859164,-1.909855001,0.687514637,-0.126164557,0.013828813,-0.000876918};
+        for(unsigned int j = 1; j <= 6; ++j) {
+          Struve += coef_a.at(j-1) * pow(arg, 2*j-1);
+        }
+      }
+      else if(x > 3){
+        std::vector<double> coef_b = {0.99999906,4.77228920,3.85542044,0.32303607};
+        std::vector<double> coef_c = {1.,4.88331068,4.28957333,0.52120508};
+        T numerator = 0.;
+        T denominator = 0.;
+        for(unsigned int j = 0; j <= 3; ++j) {
+          numerator += coef_b.at(j) * pow(arg, 2*j);
+          denominator += coef_c.at(j) * pow(arg, 2*j);
+        }
+        Struve = Cyl_Bessel_second_kind<int, T, T>(0, x) + (2. * numerator / (MU_PI * x * denominator));
+      }
+      else{
+        std::cout << "Zero order Struve function is only defined for a positive argument." << std::endl;
+        exit(0);
+      }
+
+      return Struve;
+    }
+
+  // This function returns the first order Struve function at the point x.
+  template <class T>
+  T Struve_first_order(const T x){
+
+    T arg = x/3.;
+
+    T Struve = 0.;
+    if(x >=0 and x <= 3){
+      std::vector<double> coef_d = {1.909859286,-1.145914713,0.294656958,-0.042070508,0.003785727,-0.000207183};
+      for(unsigned int j = 1; j <= 6; ++j) {
+        Struve += coef_d.at(j-1) * pow(arg, 2*j);
+      }
+    }
+    else if(x > 3){
+      std::vector<double> coef_e = {1.00000004,3.92205313,2.64893033,0.27450895};
+      std::vector<double> coef_f = {1.,3.81095112,2.26216956,0.10885141};
+      T numerator = 0.;
+      T denominator = 0.;
+      for(unsigned int j = 0; j <= 3; ++j) {
+        numerator += coef_e.at(j) * pow(arg, 2*j);
+        denominator += coef_f.at(j) * pow(arg, 2*j);
+      }
+      Struve = Cyl_Bessel_second_kind<int, T, T>(1, x) + (2. * numerator / (MU_PI * denominator));
+    }
+    else{
+      std::cout << "First order Struve function is only defined for a positive argument." << std::endl;
+      exit(0);
+    }
+
+    return Struve;
+  }
+
+  // This function returns the derivative of the zero order Struve function at the point x.
+  template <class T>
+  T Struve_zero_order_derivative(const T x){
+    return ((2./MU_PI) - Struve_first_order<T>(x));
+  }
 
 
 }  // end namespace mathutils
