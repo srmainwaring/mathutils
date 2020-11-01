@@ -212,7 +212,7 @@ Struve functions
 
 The Struve function of order :math:`n`, :math:`H_n`, is defined in [Abramowitz1964]_ (chapter 12). Efficient approximations for the orders zero and one are provided by [Newman1984]_.
 
-The zero order Struve function is evaluted using:
+The zero-order Struve function is evaluted using:
 
 .. math::
    H_0(x) \approx \begin{cases}
@@ -246,7 +246,7 @@ and
       c_3 = 0.52120508
    \end{cases}
 
-The first order Struve function is evaluted using:
+The first-order Struve function is evaluted using:
 
 .. math::
    H_1(x) \approx \begin{cases}

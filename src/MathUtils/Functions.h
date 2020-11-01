@@ -143,7 +143,7 @@ namespace mathutils {
       return boost::math::expint(x);
     }
 
-    // This function returns the zero order Struve function at the point x.
+    // This function returns the zero-order Struve function at the point x.
     template <class T>
     T Struve_zero_order(const T x){
 
@@ -168,14 +168,14 @@ namespace mathutils {
         Struve = Cyl_Bessel_second_kind<int, T, T>(0, x) + (2. * numerator / (MU_PI * x * denominator));
       }
       else{
-        std::cout << "Zero order Struve function is only defined for a positive argument." << std::endl;
+        std::cout << "Zero-order Struve function is only defined for a positive argument." << std::endl;
         exit(0);
       }
 
       return Struve;
     }
 
-  // This function returns the first order Struve function at the point x.
+  // This function returns the first-order Struve function at the point x.
   template <class T>
   T Struve_first_order(const T x){
 
@@ -200,14 +200,14 @@ namespace mathutils {
       Struve = Cyl_Bessel_second_kind<int, T, T>(1, x) + (2. * numerator / (MU_PI * denominator));
     }
     else{
-      std::cout << "First order Struve function is only defined for a positive argument." << std::endl;
+      std::cout << "First-order Struve function is only defined for a positive argument." << std::endl;
       exit(0);
     }
 
     return Struve;
   }
 
-  // This function returns the derivative of the zero order Struve function at the point x.
+  // This function returns the derivative of the zero-order Struve function at the point x.
   template <class T>
   T Struve_zero_order_derivative(const T x){
     return ((2./MU_PI) - Struve_first_order<T>(x));
