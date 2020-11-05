@@ -287,6 +287,28 @@ The derivative of :math:`H_0` is given by [Abramowitz1964]_:
 .. math::
    H_0^{'} = \dfrac{2}{\pi} - H_1
 
+Chebyshev polynomials
+---------------------
+
+The Chebyshev polynomials, written :math:`T_n` at the order :math:`n`, are defind by the following recurrence relation for :math:`x \in [-1, 1]`:
+
+.. math::
+   \begin{cases}
+      T_{n+2}(x) = 2xT_{n+1}(x) - T_{n}(x) \text{ for } n \geqslant 0\\
+      T_0(x) = 1\\
+      T_1(x) = x
+   \end{cases}
+
+If :math:`x \in [a, b]`, then, by affine transformation:
+
+.. math::
+   x \rightarrow \dfrac{2}{b-a}\left(x - \dfrac{b+a}{2}\right)
+
+The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` are:
+
+.. math::
+   x_i = \left(\dfrac{b-a}{2}\right)\cos\left[\dfrac{\pi}{2}\left(\dfrac{2i+1}{n+1}\right)\right] + \dfrac{b+a}{2}
+
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
 .. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.
