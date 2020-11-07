@@ -195,7 +195,7 @@ The Legendre polynomials obey the following recurrence relation:
       P_1(x) = x
    \end{cases}
 
-The computation of the Legendre polynomials is achieved in the method ``Legendre``.
+The computation of the Legendre polynomials is achieved in the method ``Legendre_polynomial``.
 
 Their differentiation is given by the following recurrence relation:
 
@@ -205,7 +205,27 @@ Their differentiation is given by the following recurrence relation:
       P_0^{'}(x) = 0
    \end{cases}
 
-The computation of the differentiation of the Legendre polynomials is achieved in the method ``Legendre_derivative``.
+The computation of the differentiation of the Legendre polynomials is achieved in the method ``Legendre_polynomial_derivative``.
+
+Factorial
+---------
+
+The factorial of an integer :math:`n`, defined by:
+
+.. math::
+   n! = 1\times2\times\dots\times n
+
+is evaluated in the method ``Factorial``.
+
+Exponential integral :math:`Ei`
+-------------------------------
+
+The exponential integral :math:`Ei` is defined by [Abramowitz1964]_:
+
+.. math::
+   Ei(x) = \displaystyle -\int_{-x}^{\infty}\dfrac{e^{-x}}{x} \text{ for } x > 0
+
+This integral is evaluated in the method ``Ei``.
 
 Struve functions
 ----------------
@@ -287,6 +307,8 @@ The derivative of :math:`H_0` is given by [Abramowitz1964]_:
 .. math::
    H_0^{'} = \dfrac{2}{\pi} - H_1
 
+The computation of the zero-order and first-order of the Struve functions are achieved in the methods ``Struve_zero_order`` and ``Struve_first_order``. Regarding the derivative of :math:`H_0`, the method to use is ``Struve_zero_order_derivative``.
+
 Chebyshev polynomials
 ---------------------
 
@@ -310,6 +332,7 @@ The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` are:
    x_i = \left(\dfrac{b-a}{2}\right)\cos\left[\dfrac{\pi}{2}\left(\dfrac{2i+1}{n+1}\right)\right] + \dfrac{b+a}{2}
 
 The computation of the Chebyshev polynomials is achieved in the methods ``Chebyshev_polynomial`` and ``Chebyshev_polynomial_next``.
+
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
 .. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.

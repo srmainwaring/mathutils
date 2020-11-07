@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
   // Source: https://en.cppreference.com/w/cpp/numeric/special_functions/legendre
   PrintInfo("Comparison of the value returned by the method and an exact value for n = 3 and x = 0.25");
   double value_Legendre_P3 = Legendre_polynomial<int, double>(3, 0.25);
-  std::cout << "Method Legendre: " << value_Legendre_P3 << std::endl;
+  std::cout << "Method Legendre_polynomial: " << value_Legendre_P3 << std::endl;
   std::cout << "Exact value: " << 0.5*(5*0.25*0.25*0.25 - 3*0.25) << std::endl; // P_3(x) = 1/2*(5x^3 - 3x)
   assert(IsClose(value_Legendre_P3, 0.5*(5*0.25*0.25*0.25 - 3*0.25)));
 
