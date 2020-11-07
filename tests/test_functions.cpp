@@ -94,4 +94,22 @@ int main(int argc, char* argv[]) {
   std::cout << "Exact value: 1.89512" << std::endl;
   assert(IsClose(value_Ei, 1.89512));
 
+  // ========================================================================
+  //                       Chebyshev polynomials
+  // ========================================================================
+  PrintHeader("Chebyshev polynomials");
+  std::cout << "" << std::endl;
+
+  // Source: https://fr.wikipedia.org/wiki/Polyn%C3%B4me_de_Tchebychev
+  PrintInfo("Comparison of the value returned by the method and an exact value for n = 5 and x = 0.25");
+  double value_Chebyshev_T5_1 = Chebyshev_polynomial<int, double>(5, 0.25);
+  std::cout << "Method Chebyshev_polynomial: " << value_Chebyshev_T5_1 << std::endl;
+  double value_Chebyshev_T3 = Chebyshev_polynomial<int, double>(3, 0.25);
+  double value_Chebyshev_T4 = Chebyshev_polynomial<int, double>(4, 0.25);
+  double value_Chebyshev_T5_2 = Chebyshev_polynomial_next<double>(0.25, value_Chebyshev_T4, value_Chebyshev_T3);
+  std::cout << "Method Chebyshev_polynomial_next: " << value_Chebyshev_T5_2 << std::endl;
+  std::cout << "Exact value: " << 16.*pow(0.25, 5.) - 20.*pow(0.25, 3.) + 5.*0.25 << std::endl; // T_5(x) = 16x^5 - 20x^3 + 5x.
+  assert(IsClose(value_Chebyshev_T5_1, 16.*pow(0.25, 5.) - 20.*pow(0.25, 3.) + 5.*0.25));
+  assert(IsClose(value_Chebyshev_T5_2, 16.*pow(0.25, 5.) - 20.*pow(0.25, 3.) + 5.*0.25));
+
 }

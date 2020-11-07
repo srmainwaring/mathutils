@@ -10,6 +10,7 @@
 #include <boost/math/special_functions/legendre.hpp>
 #include <boost/math/special_functions/factorials.hpp>
 #include <boost/math/special_functions/expint.hpp>
+#include <boost/math/special_functions/chebyshev.hpp>
 #include "VectorGeneration.h"
 
 namespace mathutils {
@@ -213,8 +214,18 @@ namespace mathutils {
     return ((2./MU_PI) - Struve_first_order<T>(x));
   }
 
+  // This function returns the Chebyshev polynomial of order "order" at the point x.
+  template <class Integer, class Real>
+  Real Chebyshev_polynomial(const Integer& order, const Real x){
+    return boost::math::chebyshev_t(order, x);
+  }
+
+  // This function returns the next Chebyshev polynomial at the point x, given the two previous polynomials.
+  template <class Real>
+  Real Chebyshev_polynomial_next(const Real x, const Real Tn, const Real Tn_1){
+    return boost::math::chebyshev_next(x, Tn, Tn_1);
+  }
 
 }  // end namespace mathutils
-
 
 #endif //MATHUTILS_FUNCTIONS_H

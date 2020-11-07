@@ -309,6 +309,7 @@ The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` are:
 .. math::
    x_i = \left(\dfrac{b-a}{2}\right)\cos\left[\dfrac{\pi}{2}\left(\dfrac{2i+1}{n+1}\right)\right] + \dfrac{b+a}{2}
 
+The computation of the Chebyshev polynomials is achieved in the methods ``Chebyshev_polynomial`` and ``Chebyshev_polynomial_next``.
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
 .. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.
