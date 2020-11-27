@@ -305,7 +305,7 @@ and
 The derivative of :math:`H_0` is given by [Abramowitz1964]_:
 
 .. math::
-   H_0^{'} = \dfrac{2}{\pi} - H_1
+   H_0^{'}(x) = \dfrac{2}{\pi} - H_1(x)
 
 The computation of the zero-order and first-order of the Struve functions are achieved in the methods ``Struve_zero_order`` and ``Struve_first_order``. Regarding the derivative of :math:`H_0`, the method to use is ``Struve_zero_order_derivative``.
 
@@ -321,19 +321,55 @@ The Chebyshev polynomials, written :math:`T_n` at the order :math:`n`, are defin
       T_1(x) = x
    \end{cases}
 
+The zeros of :math:`T_{n+1}` for :math:`x \in [-1, 1]` and :math:`i \in [0, n]` are:
+
+.. math::
+   x_i = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2i+1}{n+1}\right)\right]
+
+
 If :math:`x \in [a, b]`, then, by affine transformation:
 
 .. math::
    x \rightarrow \dfrac{2}{b-a}\left(x - \dfrac{b+a}{2}\right)
 
-The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` are:
+The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` and :math:`i \in [0, n]` are:
 
 .. math::
    x_i = \left(\dfrac{b-a}{2}\right)\cos\left[\dfrac{\pi}{2}\left(\dfrac{2i+1}{n+1}\right)\right] + \dfrac{b+a}{2}
 
 The computation of the Chebyshev polynomials is achieved in the methods ``Chebyshev_polynomial`` and ``Chebyshev_polynomial_next``.
 
+Bivariate Chebyshev polynomials
+-------------------------------
+
+The bivariate Chebyshev polynomial is defined for :math:`(x, y) \in [-1, 1]^2` by:
+
+.. math::
+   T_{m,n}(x, y) = T_m(x)T_n(y)
+
+Double Chebyshev series approximation
+-------------------------------------
+
+The double Chebyshev series approximation of order :math:`m\times n` of the function :math:`f` defined over :math:`[x_{min}, x_{max}]\times[y_{min}, y_{max}]` is expressed by [Basu1973]_:
+
+.. math::
+   \displaystyle f(x,y) \approx \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(x, y)
+   :label: Double_Chebyshev_approx
+
+with:
+
+.. math::
+   \begin{cases} a_{ij} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(\tilde{x}_r, \tilde{y}_s)T_{i,j}(x_r, y_s) \text{ if } \begin{cases} i = 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(\tilde{x}_r, \tilde{y}_s)T_{i,j}(x_r, y_s) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(\tilde{x}_r, \tilde{y}_s)T_{i,j}(x_r, y_s) \text{ otherwise }\end{cases} \\ x_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \\ y_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \\ \tilde{x}_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)x_r + \dfrac{x_{max}+x_{min}}{2} \\ \tilde{y}_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)y_s + \dfrac{y_{max}+y_{min}}{2} \end{cases}
+
+The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` must be computed in a first step before evaluating :eq:`Double_Chebyshev_approx` for any value of :math:`x` and :math:`y`. At the points :math:`(\tilde{x}_r, \tilde{y}_s)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n}`, by definition, it yields:
+
+.. math::
+   \displaystyle f(\tilde{x}_r, \tilde{y}_s) = \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(x_r, y_s)
+
+
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
+
+.. [Basu1973] N. K. Basu. On double Chebyshev series approximation. SIAM Journal on Numerical Analysis, 10(3):493-505, 1973.
 
 .. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.
 
