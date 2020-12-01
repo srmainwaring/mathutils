@@ -353,18 +353,18 @@ Double Chebyshev series approximation
 The double Chebyshev series approximation of order :math:`m\times n` of the function :math:`f` defined over :math:`[x_{min}, x_{max}]\times[y_{min}, y_{max}]` is expressed by [Basu1973]_:
 
 .. math::
-   \displaystyle f(x,y) \approx \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(x, y)
+   \displaystyle f(x,y) \approx \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(\tilde{x}, \tilde{y})
    :label: Double_Chebyshev_approx
 
 with:
 
 .. math::
-   \begin{cases} a_{ij} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(\tilde{x}_r, \tilde{y}_s)T_{i,j}(x_r, y_s) \text{ if } \begin{cases} i = 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(\tilde{x}_r, \tilde{y}_s)T_{i,j}(x_r, y_s) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(\tilde{x}_r, \tilde{y}_s)T_{i,j}(x_r, y_s) \text{ otherwise }\end{cases} \\ x_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \\ y_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \\ \tilde{x}_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)x_r + \dfrac{x_{max}+x_{min}}{2} \\ \tilde{y}_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)y_s + \dfrac{y_{max}+y_{min}}{2} \end{cases}
+   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \\ a_{ij} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \end{cases}
 
-The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` must be computed in a first step before evaluating :eq:`Double_Chebyshev_approx` for any value of :math:`x` and :math:`y`. At the points :math:`(\tilde{x}_r, \tilde{y}_s)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n}`, by definition, it yields:
+The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` must be computed in a first step before evaluating :eq:`Double_Chebyshev_approx` for any value of :math:`x` and :math:`y`. At the points :math:`(x_r, y_s)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n}`, by definition, it yields:
 
 .. math::
-   \displaystyle f(\tilde{x}_r, \tilde{y}_s) = \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(x_r, y_s)
+   \displaystyle f(x_r, y_s) = \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(\tilde{x}_r, \tilde{y}_s)
 
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
