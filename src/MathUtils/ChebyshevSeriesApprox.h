@@ -89,7 +89,7 @@ namespace mathutils {
     }
 
     /// This method computes the double Chebyshev series approximation.
-    T Evaluate(const double &x, const double &y) {
+    T Evaluate(const double &x, const double &y) const {
 
       double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
       double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
