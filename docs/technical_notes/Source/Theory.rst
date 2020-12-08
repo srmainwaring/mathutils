@@ -237,7 +237,7 @@ The zero-order Struve function is evaluted using:
 .. math::
    H_0(x) \approx \begin{cases}
       \displaystyle \sum_{j = 1}^6 a_j\left(\dfrac{x}{3}\right)^{2j-1} \text{ for } 0 \leqslant x \leqslant 3\\
-      Y_0(x) + \dfrac{2}{\pi x}\dfrac{\displaystyle \sum_{j = 0}^3 b_j\left(\dfrac{x}{3}\right)^{2j}}{\displaystyle\sum_{j = 0}^3 c_j\left(\dfrac{x}{3}\right)^{2j}} \text{ for } x > 3
+      Y_0(x) + \dfrac{2}{\pi x}\dfrac{\displaystyle \sum_{j = 0}^3 b_j\left(\dfrac{3}{x}\right)^{2j}}{\displaystyle\sum_{j = 0}^3 c_j\left(\dfrac{3}{x}\right)^{2j}} \text{ for } x > 3
    \end{cases}
 
 with:
@@ -271,7 +271,7 @@ The first-order Struve function is evaluted using:
 .. math::
    H_1(x) \approx \begin{cases}
       \displaystyle \sum_{j = 1}^6 d_j\left(\dfrac{x}{3}\right)^{2j} \text{ for } 0 \leqslant x \leqslant 3\\
-      Y_1(x) + \dfrac{2}{\pi}\dfrac{\displaystyle \sum_{j = 0}^3 e_j\left(\dfrac{x}{3}\right)^{2j}}{\displaystyle\sum_{j = 0}^3 f_j\left(\dfrac{x}{3}\right)^{2j}} \text{ for } x > 3
+      Y_1(x) + \dfrac{2}{\pi}\dfrac{\displaystyle \sum_{j = 0}^3 e_j\left(\dfrac{3}{x}\right)^{2j}}{\displaystyle\sum_{j = 0}^3 f_j\left(\dfrac{3}{x}\right)^{2j}} \text{ for } x > 3
    \end{cases}
 
 with:

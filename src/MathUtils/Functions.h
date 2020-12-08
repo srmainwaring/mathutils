@@ -147,28 +147,27 @@ namespace mathutils {
     // This function returns the zero-order Struve function at the point x.
     template <class T>
     T Struve_zero_order(const T x){
-
-      T arg = x/3.;
-
       T Struve = 0.;
-      if(x >=0 and x <= 3){
-        std::vector<double> coef_a = {1.909859164,-1.909855001,0.687514637,-0.126164557,0.013828813,-0.000876918};
-        for(unsigned int j = 1; j <= 6; ++j) {
-          Struve += coef_a.at(j-1) * pow(arg, 2*j-1);
+      if(x >= 0. and x <= 3.) {
+        T arg = x / 3.;
+        std::vector<double> coef_a = {1.909859164, -1.909855001, 0.687514637, -0.126164557, 0.013828813, -0.000876918};
+        for (unsigned int j = 1; j <= 6; ++j) {
+          Struve += coef_a.at(j - 1) * pow(arg, 2 * j - 1);
         }
       }
-      else if(x > 3){
-        std::vector<double> coef_b = {0.99999906,4.77228920,3.85542044,0.32303607};
-        std::vector<double> coef_c = {1.,4.88331068,4.28957333,0.52120508};
+      else if(x > 3.) {
+        T arg = 3. / x;
+        std::vector<double> coef_b = {0.99999906, 4.77228920, 3.85542044, 0.32303607};
+        std::vector<double> coef_c = {1., 4.88331068, 4.28957333, 0.52120508};
         T numerator = 0.;
         T denominator = 0.;
-        for(unsigned int j = 0; j <= 3; ++j) {
-          numerator += coef_b.at(j) * pow(arg, 2*j);
-          denominator += coef_c.at(j) * pow(arg, 2*j);
+        for (unsigned int j = 0; j <= 3; ++j) {
+          numerator += coef_b.at(j) * pow(arg, 2 * j);
+          denominator += coef_c.at(j) * pow(arg, 2 * j);
         }
         Struve = Cyl_Bessel_second_kind<int, T, T>(0, x) + (2. * numerator / (MU_PI * x * denominator));
       }
-      else{
+      else {
         std::cout << "Zero-order Struve function is only defined for a positive argument." << std::endl;
         exit(0);
       }
@@ -179,28 +178,27 @@ namespace mathutils {
   // This function returns the first-order Struve function at the point x.
   template <class T>
   T Struve_first_order(const T x){
-
-    T arg = x/3.;
-
     T Struve = 0.;
-    if(x >=0 and x <= 3){
-      std::vector<double> coef_d = {1.909859286,-1.145914713,0.294656958,-0.042070508,0.003785727,-0.000207183};
-      for(unsigned int j = 1; j <= 6; ++j) {
-        Struve += coef_d.at(j-1) * pow(arg, 2*j);
+    if(x >= 0. and x <= 3.) {
+      T arg = x / 3.;
+      std::vector<double> coef_d = {1.909859286, -1.145914713, 0.294656958, -0.042070508, 0.003785727, -0.000207183};
+      for (unsigned int j = 1; j <= 6; ++j) {
+        Struve += coef_d.at(j - 1) * pow(arg, 2 * j);
       }
     }
-    else if(x > 3){
-      std::vector<double> coef_e = {1.00000004,3.92205313,2.64893033,0.27450895};
-      std::vector<double> coef_f = {1.,3.81095112,2.26216956,0.10885141};
+    else if(x > 3.) {
+      T arg = 3. / x;
+      std::vector<double> coef_e = {1.00000004, 3.92205313, 2.64893033, 0.27450895};
+      std::vector<double> coef_f = {1., 3.81095112, 2.26216956, 0.10885141};
       T numerator = 0.;
       T denominator = 0.;
-      for(unsigned int j = 0; j <= 3; ++j) {
-        numerator += coef_e.at(j) * pow(arg, 2*j);
-        denominator += coef_f.at(j) * pow(arg, 2*j);
+      for (unsigned int j = 0; j <= 3; ++j) {
+        numerator += coef_e.at(j) * pow(arg, 2 * j);
+        denominator += coef_f.at(j) * pow(arg, 2 * j);
       }
       Struve = Cyl_Bessel_second_kind<int, T, T>(1, x) + (2. * numerator / (MU_PI * denominator));
     }
-    else{
+    else {
       std::cout << "First-order Struve function is only defined for a positive argument." << std::endl;
       exit(0);
     }
