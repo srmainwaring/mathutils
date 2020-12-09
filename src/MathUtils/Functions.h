@@ -209,7 +209,7 @@ namespace mathutils {
   // This function returns the derivative of the zero-order Struve function at the point x.
   template <class T>
   T Struve_zero_order_derivative(const T x){
-    return ((2./MU_PI) - Struve_first_order<T>(x));
+    return (MU_2_PI - Struve_first_order<T>(x));
   }
 
   // This function returns the Chebyshev polynomial of order "order" at the point x.
