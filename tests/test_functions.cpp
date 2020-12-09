@@ -112,4 +112,16 @@ int main(int argc, char* argv[]) {
   assert(IsClose(value_Chebyshev_T5_1, 16.*pow(0.25, 5.) - 20.*pow(0.25, 3.) + 5.*0.25));
   assert(IsClose(value_Chebyshev_T5_2, 16.*pow(0.25, 5.) - 20.*pow(0.25, 3.) + 5.*0.25));
 
+  // ========================================================================
+  //                   Derivate of Chebyshev polynomials
+  // ========================================================================
+  PrintHeader("Derivate of Chebyshev polynomials");
+  std::cout << "" << std::endl;
+
+  PrintInfo("Comparison of the value returned by the method and an exact value for n = 5 and x = 0.25");
+  double value_Chebyshev_derivative_T5 = Chebyshev_polynomial_derivative<int, double>(5, 0.25);
+  std::cout << "Method Chebyshev_polynomial_derivative: " << value_Chebyshev_derivative_T5 << std::endl;
+  std::cout << "Exact value: " << 80.*pow(0.25, 4.) - 60.*pow(0.25, 2.) + 5 << std::endl; // T'_5(x) = 80x^4 - 60x^2 + 5.
+  assert(IsClose(value_Chebyshev_derivative_T5, 80.*pow(0.25, 4.) - 60.*pow(0.25, 2.) + 5));
+
 }

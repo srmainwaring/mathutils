@@ -224,6 +224,12 @@ namespace mathutils {
     return boost::math::chebyshev_next(x, Tn, Tn_1);
   }
 
+  // This function returns the derivative of the Chebyshev polynomial of order "order" at the point x.
+  template <class Integer, class Real>
+  Real Chebyshev_polynomial_derivative(const Integer& order, const Real x){
+    return boost::math::chebyshev_t_prime(order, x);
+  }
+
 }  // end namespace mathutils
 
 #endif //MATHUTILS_FUNCTIONS_H
