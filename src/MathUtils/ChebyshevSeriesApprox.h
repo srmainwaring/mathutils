@@ -94,6 +94,11 @@ namespace mathutils {
       double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
       double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
 
+      //TODO: Vectorialiser ?
+      //TODO: Etudier l'algo de Clenshaw pour des problemes de stabitilites aux bornes.
+      // https://en.wikipedia.org/wiki/Clenshaw_algorithm
+      // https://scicomp.stackexchange.com/questions/27865/clenshaw-type-recurrence-for-derivative-of-chebyshev-series
+
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
         for (int j = 0; j <= m_order_y; ++j) {
