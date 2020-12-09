@@ -104,6 +104,40 @@ namespace mathutils {
 
     }
 
+    /// This method computes the x-derivative double Chebyshev series approximation.
+    T Evaluate_derivative_x(const double &x, const double &y) const {
+
+      double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
+      double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
+
+      T result = 0.;
+      for (int i = 0; i <= m_order_x; ++i) {
+        for (int j = 0; j <= m_order_y; ++j) {
+          result += m_aij(i, j) * Chebyshev_polynomial_derivative(i, normal_x) * Chebyshev_polynomial(j, normal_y);
+        }
+      }
+      result *= (2. / (m_x_max - m_x_min));
+      return result;
+
+    }
+
+    /// This method computes the y-derivative double Chebyshev series approximation.
+    T Evaluate_derivative_y(const double &x, const double &y) const {
+
+      double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
+      double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
+
+      T result = 0.;
+      for (int i = 0; i <= m_order_x; ++i) {
+        for (int j = 0; j <= m_order_y; ++j) {
+          result += m_aij(i, j) * Chebyshev_polynomial(i, normal_x) * Chebyshev_polynomial_derivative(j, normal_y);
+        }
+      }
+      result *= (2. / (m_y_max - m_y_min));
+      return result;
+
+    }
+
    private:
 
     /// 2d function to be approximated.

@@ -366,6 +366,15 @@ The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \le
 .. math::
    \displaystyle f(x_r, y_s) = \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(\tilde{x}_r, \tilde{y}_s)
 
+Regarding the partial derivatives, it comes:
+
+.. math::
+   \begin{cases}
+   \displaystyle \dfrac{\partial f}{\partial x}(x,y) \approx \left(\dfrac{2}{x_{max} - x_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n a_{ij}\dfrac{\partial T_i}{\partial x}(\tilde{x})T_j(\tilde{y})\\
+   \displaystyle \dfrac{\partial f}{\partial y}(x,y) \approx \left(\dfrac{2}{y_{max} - y_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_i(\tilde{x})\dfrac{\partial T_j}{\partial y}(\tilde{y})\\
+   \end{cases}
+
+
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
