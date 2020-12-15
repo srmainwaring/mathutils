@@ -72,8 +72,10 @@ namespace mathutils {
       for (int i = 0; i <= m_order_x; ++i) {
         for (int j = 0; j <= m_order_y; ++j) {
           for (int r = 0; r <= m_order_x; ++r) {
+            double xtilde = x_tilde.at(r);
+            double Ti = Chebyshev_polynomial(i, xtilde);
             for (int s = 0; s <= m_order_y; ++s) {
-              m_aij(i, j) += this->m_function->Evaluate(x.at(r), y.at(s)) * Chebyshev_polynomial(i, x_tilde.at(r))
+              m_aij(i, j) += this->m_function->Evaluate(x.at(r), y.at(s)) * Ti
                              * Chebyshev_polynomial(j, y_tilde.at(s));
               //TODO: Use Chebyshev_polynomial_next instead of Chebyshev_polynomial.
             }
@@ -100,11 +102,50 @@ namespace mathutils {
       // https://scicomp.stackexchange.com/questions/27865/clenshaw-type-recurrence-for-derivative-of-chebyshev-series
 
       T result = 0.;
+      double Tn = 0.;
+      double Tn_1 = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
+
+        // Definition of Ti.
+        double Ti;
+        if(i == 0){ // Order 0.
+          Ti = 1.;
+          Tn_1 = Ti;
+        }
+        else if(i == 1){ // Order 1.
+          Ti = normal_x;
+          Tn = Ti;
+        }
+        else{ // Order 2 and higher.
+          Ti = Chebyshev_polynomial_next<double>(normal_x, Tn, Tn_1);
+          Tn_1 = Tn;
+          Tn = Ti;
+        }
+
+        double Tp = 0.;
+        double Tp_1 = 0.;
         for (int j = 0; j <= m_order_y; ++j) {
-          result += m_aij(i, j) * Chebyshev_polynomial(i, normal_x) * Chebyshev_polynomial(j, normal_y);
+
+          // Definition of Tj.
+          double Tj;
+          if(j == 0){ // Order 0.
+            Tj = 1.;
+            Tp_1 = Tj;
+          }
+          else if(j == 1){ // Order 1.
+            Tj = normal_y;
+            Tp = Tj;
+          }
+          else{ // Order 2 and higher.
+            Tj = Chebyshev_polynomial_next<double>(normal_y, Tp, Tp_1);
+            Tp_1 = Tp;
+            Tp = Tj;
+          }
+
+          result += m_aij(i, j) * Ti * Tj;
         }
       }
+
       return result;
 
     }
@@ -117,11 +158,13 @@ namespace mathutils {
 
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
+        double Ti = Chebyshev_polynomial_derivative(i, normal_x);
         for (int j = 0; j <= m_order_y; ++j) {
-          result += m_aij(i, j) * Chebyshev_polynomial_derivative(i, normal_x) * Chebyshev_polynomial(j, normal_y);
+          result += m_aij(i, j) * Ti * Chebyshev_polynomial(j, normal_y);
         }
       }
       result *= (2. / (m_x_max - m_x_min));
+
       return result;
 
     }
@@ -134,11 +177,13 @@ namespace mathutils {
 
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
+        double Ti = Chebyshev_polynomial(i, normal_x);
         for (int j = 0; j <= m_order_y; ++j) {
-          result += m_aij(i, j) * Chebyshev_polynomial(i, normal_x) * Chebyshev_polynomial_derivative(j, normal_y);
+          result += m_aij(i, j) * Ti * Chebyshev_polynomial_derivative(j, normal_y);
         }
       }
       result *= (2. / (m_y_max - m_y_min));
+
       return result;
 
     }
