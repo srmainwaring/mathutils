@@ -12,7 +12,7 @@
 namespace mathutils {
 
 /**
-* Class for handling the 2d function for the double Chebyshev series approximation.
+* Class for handling 2d functions for the double Chebyshev series approximation.
 */
   template<typename T>
   class Function2d {
@@ -24,16 +24,16 @@ namespace mathutils {
 
   };
 
-/**
+  /**
  * Class for computing the double Chebyshev series approximation of a function.
  */
   template<typename T>
-  class ChebyshevSeriesApprox {
+  class DoubleChebyshevSeriesApprox {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevSeriesApprox(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+    DoubleChebyshevSeriesApprox(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                           const double &ymax, const int &order_x, const int &order_y) : m_function(F), m_x_min(xmin),
                           m_x_max(xmax), m_y_min(ymin), m_y_max(ymax), m_order_x(order_x), m_order_y(order_y) {
       m_aij = MatrixMN<T>::Zero(order_x + 1, order_y + 1);
