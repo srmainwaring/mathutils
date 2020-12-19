@@ -19,38 +19,42 @@ void PrintInfo(std::string info) {
 
 int main(int argc, char* argv[]) {
 
-  // This test checks the computation of the double Chebyshev series.
+  // This test checks the computation of the double and triple Chebyshev series.
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                              DOUBLE
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Definition of a function to approximate by a double Chebyshev series.
-  class FunctionTest : public Function2d<double> {
+  class Function2dTest : public Function2d<double> {
    public:
-    /// This function evaluates the function at the point (x, y).
+    /// This method evaluates the function at the point (x, y).
     double Evaluate(const double &x, const double &y) const override {
       return x * cos(y);
     }
-    /// This function evaluates the x-derivative of the function at the point (x, y).
+    /// This method evaluates the x-derivative of the function at the point (x, y).
     double Evaluate_derivative_x(const double &x, const double &y) const {
       return cos(y);
     }
-    /// This function evaluates the y-derivative of the function at the point (x, y).
+    /// This method evaluates the y-derivative of the function at the point (x, y).
     double Evaluate_derivative_y(const double &x, const double &y) const {
       return - x * sin(y);
     }
   };
 
   // Computation of the aij coefficients.
-  FunctionTest myFunction;
+  Function2dTest myFunction2d;
   double xmin = -3.;
   double xmax = 2.;
   double ymin = -4.;
   double ymax = 8.;
   int order_x = 11;
   int order_y = 13;
-  auto myDoubleChebyshevSeriesApprox = DoubleChebyshevSeriesApprox<double>(&myFunction, xmin, xmax, ymin, ymax, order_x, order_y);
+  auto myDoubleChebyshevSeriesApprox = DoubleChebyshevSeriesApprox<double>(&myFunction2d, xmin, xmax, ymin, ymax, order_x, order_y);
   myDoubleChebyshevSeriesApprox.Computation_aij();
 
   // Tests.
-  PrintHeader("Computation of the series approximation at a zero of the ChebyShev polynomial.");
+  PrintHeader("Computation of the DOUBLE series approximation at a zero of the ChebyShev polynomial.");
   int r = 3;
   double tmp = cos(MU_PI_2 * (2. * r + 1.) / (order_x + 1.));
   double x = 0.5 * (xmax - xmin) * tmp + 0.5 * (xmax + xmin);
@@ -58,29 +62,114 @@ int main(int argc, char* argv[]) {
   tmp = cos(MU_PI_2 * (2. * s + 1.) / (order_y + 1.));
   double y = 0.5 * (ymax - ymin) * tmp + 0.5 * (ymax + ymin);
   std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
-  std::cout << "Analytical: " << myFunction.Evaluate(x, y) << std::endl;
+  std::cout << "Analytical: " << myFunction2d.Evaluate(x, y) << std::endl;
   std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApprox.Evaluate(x, y) << std::endl;
-  assert(IsClose(myDoubleChebyshevSeriesApprox.Evaluate(x, y), myFunction.Evaluate(x, y)));
+  assert(IsClose(myDoubleChebyshevSeriesApprox.Evaluate(x, y), myFunction2d.Evaluate(x, y)));
 
-  PrintHeader("Computation of the series approximation at an arbitrary point.");
+  PrintHeader("Computation of the DOUBLE series approximation at an arbitrary point.");
   std::cout << "Point: (1, 2)" << std::endl;
-  std::cout << "Analytical: " << myFunction.Evaluate(1., 2.) << std::endl;
+  std::cout << "Analytical: " << myFunction2d.Evaluate(1., 2.) << std::endl;
   std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApprox.Evaluate(1., 2.) << std::endl;
-  std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApprox.Evaluate(1., 2.) - myFunction.Evaluate(1., 2.))
-  / myFunction.Evaluate(1., 2.)) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApprox.Evaluate(1., 2.) - myFunction2d.Evaluate(1., 2.))
+  / myFunction2d.Evaluate(1., 2.)) << std::endl;
 
-  PrintHeader("Computation of the x-derivative of the series approximation at an arbitrary point.");
+  PrintHeader("Computation of the x-derivative of the DOUBLE series approximation at an arbitrary point.");
   std::cout << "Point: (1, 2)" << std::endl;
-  std::cout << "Analytical: " << myFunction.Evaluate_derivative_x(1., 2.) << std::endl;
+  std::cout << "Analytical: " << myFunction2d.Evaluate_derivative_x(1., 2.) << std::endl;
   std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApprox.Evaluate_derivative_x(1., 2.) << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApprox.Evaluate_derivative_x(1., 2.)
-  - myFunction.Evaluate_derivative_x(1., 2.)) / myFunction.Evaluate_derivative_x(1., 2.)) << std::endl;
+  - myFunction2d.Evaluate_derivative_x(1., 2.)) / myFunction2d.Evaluate_derivative_x(1., 2.)) << std::endl;
 
-  PrintHeader("Computation of the y-derivative of the series approximation at an arbitrary point.");
+  PrintHeader("Computation of the y-derivative of the DOUBLE series approximation at an arbitrary point.");
   std::cout << "Point: (1, 2)" << std::endl;
-  std::cout << "Analytical: " << myFunction.Evaluate_derivative_y(1., 2.) << std::endl;
+  std::cout << "Analytical: " << myFunction2d.Evaluate_derivative_y(1., 2.) << std::endl;
   std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApprox.Evaluate_derivative_y(1., 2.) << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApprox.Evaluate_derivative_y(1., 2.)
-    - myFunction.Evaluate_derivative_y(1., 2.)) / myFunction.Evaluate_derivative_y(1., 2.)) << std::endl;
+    - myFunction2d.Evaluate_derivative_y(1., 2.)) / myFunction2d.Evaluate_derivative_y(1., 2.)) << std::endl;
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                              TRIPLE
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Definition of a function to approximate by a double Chebyshev series.
+  class Function3dTest : public Function3d<double> {
+   public:
+    /// This method evaluates the function at the point (x, y, z).
+    double Evaluate(const double &x, const double &y, const double &z) const override {
+      return x * cos(y) * sin(z);
+    }
+    /// This method evaluates the x-derivative of the function at the point (x, y, z).
+    double Evaluate_derivative_x(const double &x, const double &y, const double &z) const {
+      return cos(y) * sin(z);
+    }
+    /// This method evaluates the y-derivative of the function at the point (x, y, z).
+    double Evaluate_derivative_y(const double &x, const double &y, const double &z) const {
+      return - x * sin(y) * sin(z);
+    }
+    /// This method evaluates the z-derivative of the function at the point (x, y, z).
+    double Evaluate_derivative_z(const double &x, const double &y, const double &z) const {
+      return x * cos(y) * cos(z);
+    }
+  };
+
+  // Computation of the aij coefficients.
+  Function3dTest myFunction3d;
+  xmin = -3.;
+  xmax = 2.;
+  ymin = -4.;
+  ymax = 8.;
+  double zmin = -5.;
+  double zmax = 4.;
+  order_x = 11;
+  order_y = 13;
+  int order_z = 10;
+  auto myTripleChebyshevSeriesApprox = TripleChebyshevSeriesApprox<double>(&myFunction3d, xmin, xmax, ymin, ymax, zmin,
+                                                                           zmax, order_x, order_y, order_z);
+  myTripleChebyshevSeriesApprox.Computation_aijk();
+
+  // Tests.
+  PrintHeader("Computation of the TRIPLE series approximation at a zero of the ChebyShev polynomial.");
+  r = 3;
+  tmp = cos(MU_PI_2 * (2. * r + 1.) / (order_x + 1.));
+  x = 0.5 * (xmax - xmin) * tmp + 0.5 * (xmax + xmin);
+  s = 3;
+  tmp = cos(MU_PI_2 * (2. * s + 1.) / (order_y + 1.));
+  y = 0.5 * (ymax - ymin) * tmp + 0.5 * (ymax + ymin);
+  int t = 3;
+  tmp = cos(MU_PI_2 * (2. * t + 1.) / (order_z + 1.));
+  double z = 0.5 * (zmax - zmin) * tmp + 0.5 * (zmax + zmin);
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  std::cout << "Analytical: " << myFunction3d.Evaluate(x, y, z) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApprox.Evaluate(x, y, z) << std::endl;
+  assert(IsClose(myTripleChebyshevSeriesApprox.Evaluate(x, y, z), myFunction3d.Evaluate(x, y, z)));
+
+  PrintHeader("Computation of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (1, 2, 3)" << std::endl;
+  std::cout << "Analytical: " << myFunction3d.Evaluate(1., 2., 3) << std::endl;
+  std::cout << "Tripe Chebyshev series approximation: " << myTripleChebyshevSeriesApprox.Evaluate(1., 2., 3.) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApprox.Evaluate(1., 2., 3.) - myFunction3d.Evaluate(1., 2., 3.))
+                                                   / myFunction3d.Evaluate(1., 2., 3.)) << std::endl;
+
+  PrintHeader("Computation of the x-derivative of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (1, 2, 3)" << std::endl;
+  std::cout << "Analytical: " << myFunction3d.Evaluate_derivative_x(1., 2., 3.) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApprox.Evaluate_derivative_x(1., 2., 3.) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApprox.Evaluate_derivative_x(1., 2., 3.)
+                                                    - myFunction3d.Evaluate_derivative_x(1., 2., 3.)) / myFunction3d.Evaluate_derivative_x(1., 2., 3.)) << std::endl;
+
+  PrintHeader("Computation of the y-derivative of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (1, 2)" << std::endl;
+  std::cout << "Analytical: " << myFunction3d.Evaluate_derivative_y(1., 2., 3.) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApprox.Evaluate_derivative_y(1., 2., 3.) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApprox.Evaluate_derivative_y(1., 2., 3.)
+                                                    - myFunction3d.Evaluate_derivative_y(1., 2., 3.)) / myFunction3d.Evaluate_derivative_y(1., 2., 3.)) << std::endl;
+
+  PrintHeader("Computation of the z-derivative of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (1, 2, 3)" << std::endl;
+  std::cout << "Analytical: " << myFunction3d.Evaluate_derivative_z(1., 2., 3.) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApprox.Evaluate_derivative_z(1., 2., 3.) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApprox.Evaluate_derivative_z(1., 2., 3.)
+                                                    - myFunction3d.Evaluate_derivative_z(1., 2., 3.)) / myFunction3d.Evaluate_derivative_z(1., 2., 3.)) << std::endl;
+
 
 }

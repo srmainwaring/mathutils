@@ -229,6 +229,234 @@ namespace mathutils {
 
   };
 
+  /**
+* Class for computing the triple Chebyshev series approximation of a function.
+*/
+  template<typename T>
+  class TripleChebyshevSeriesApprox {
+
+   public:
+
+    /// Contructor of the class.
+    TripleChebyshevSeriesApprox(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+                                const double &ymax, const double &zmin, const double &zmax, const int &order_x,
+                                const int &order_y, const int &order_z) : m_function(F), m_x_min(xmin),
+                                  m_x_max(xmax), m_y_min(ymin), m_y_max(ymax), m_z_min(zmin), m_z_max(zmax),
+                                  m_order_x(order_x), m_order_y(order_y), m_order_z(order_z) {
+      m_aijk.reserve(order_z + 1);
+      for(int i = 0; i <= order_z; ++i) {
+        m_aijk.push_back(MatrixMN<T>::Zero(order_x + 1, order_y + 1));
+      }
+    }
+
+    /// This method computes the coefficients aijk.
+    void Computation_aijk() {
+
+      // Number of coefficients in x,  y and z.
+      int Nx = m_order_x + 1;
+      int Ny = m_order_y + 1;
+      int Nz = m_order_z + 1;
+
+      // x abscissa.
+      std::vector<double> x_tilde; // In [-1,1].
+      std::vector<double> x; // In [xmin,xmax].
+
+      // x.
+      for (int r = 0; r <= m_order_x; ++r) {
+        double tmp = cos(MU_PI_2 * (2. * r + 1.) / (m_order_x + 1.));
+        x_tilde.push_back(tmp);
+        x.push_back(0.5 * (m_x_max - m_x_min) * tmp + 0.5 * (m_x_max + m_x_min));
+      }
+
+      // y abscissa.
+      std::vector<double> y_tilde; // In [-1,1].
+      std::vector<double> y; // In [ymin,ymax].
+
+      // y.
+      for (int s = 0; s <= m_order_y; ++s) {
+        double tmp = cos(MU_PI_2 * (2. * s + 1.) / (m_order_y + 1.));
+        y_tilde.push_back(tmp);
+        y.push_back(0.5 * (m_y_max - m_y_min) * tmp + 0.5 * (m_y_max + m_y_min));
+      }
+
+      // z abscissa.
+      std::vector<double> z_tilde; // In [-1,1].
+      std::vector<double> z; // In [ymin,ymax].
+
+      // z.
+      for (int t = 0; t <= m_order_z; ++t) {
+        double tmp = cos(MU_PI_2 * (2. * t + 1.) / (m_order_z + 1.));
+        z_tilde.push_back(tmp);
+        z.push_back(0.5 * (m_z_max - m_z_min) * tmp + 0.5 * (m_z_max + m_z_min));
+      }
+
+      // aijk.
+      for (int i = 0; i <= m_order_x; ++i) {
+        for (int j = 0; j <= m_order_y; ++j) {
+          for (int k = 0; k <= m_order_z; ++k) {
+            for (int r = 0; r <= m_order_x; ++r) {
+              double xtilde = x_tilde.at(r);
+              double Ti = Chebyshev_polynomial(i, xtilde);
+              for (int s = 0; s <= m_order_y; ++s) {
+                double ytilde = y_tilde.at(s);
+                double Tj = Chebyshev_polynomial(j, ytilde);
+                for (int t = 0; t <= m_order_z; ++t) {
+                  m_aijk.at(k)(i, j) += this->m_function->Evaluate(x.at(r), y.at(s), z.at(t)) * Ti * Tj
+                                  * Chebyshev_polynomial(k, z_tilde.at(t));
+                }
+                //TODO: Use Chebyshev_polynomial_next instead of Chebyshev_polynomial.
+              }
+            }
+            m_aijk.at(k)(i, j) *= 8. / ((m_order_x + 1.) * (m_order_y + 1.) * (m_order_z + 1.));
+            if (i == 0 and j == 0 and k == 0) {
+              m_aijk.at(k)(i, j) /= 8.;
+            }
+            else if ((i == 0 and j != 0 and k == 0) or (i != 0 and j == 0 and k == 0)
+            or (i == 0 and j == 0 and k != 0)) {
+              m_aijk.at(k)(i, j) /= 4.;
+            }
+            else if((i == 0 and j != 0 and k != 0) or (i != 0 and j == 0 and k != 0)
+            or (i != 0 and j != 0 and k == 0)){
+              m_aijk.at(k)(i, j) /= 2.;
+            }
+          }
+        }
+      }
+    }
+
+    /// This method computes the triple Chebyshev series approximation.
+    T Evaluate(const double &x, const double &y, const double &z) const {
+
+      double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
+      double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
+      double normal_z = (2. / (m_z_max - m_z_min)) * (z - 0.5 * (m_z_max + m_z_min));
+
+      //TODO: Vectorialiser ?
+      //TODO: Etudier l'algo de Clenshaw pour des problemes de stabitilites aux bornes.
+      // https://en.wikipedia.org/wiki/Clenshaw_algorithm
+      // https://scicomp.stackexchange.com/questions/27865/clenshaw-type-recurrence-for-derivative-of-chebyshev-series
+
+      T result = 0.;
+      for (int i = 0; i <= m_order_x; ++i) {
+        double Ti = Chebyshev_polynomial(i, normal_x);
+        for (int j = 0; j <= m_order_y; ++j) {
+          double Tj = Chebyshev_polynomial(j, normal_y);
+          for (int k = 0; k <= m_order_z; ++k) {
+            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, normal_z);
+          }
+        }
+      }
+
+      return result;
+
+    }
+
+    /// This method computes the x-derivative triple Chebyshev series approximation.
+    T Evaluate_derivative_x(const double &x, const double &y, const double &z) const {
+
+      double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
+      double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
+      double normal_z = (2. / (m_z_max - m_z_min)) * (z - 0.5 * (m_z_max + m_z_min));
+
+      T result = 0.;
+      for (int i = 0; i <= m_order_x; ++i) {
+        double Ti = Chebyshev_polynomial_derivative(i, normal_x);
+        for (int j = 0; j <= m_order_y; ++j) {
+          double Tj = Chebyshev_polynomial(j, normal_y);
+          for (int k = 0; k <= m_order_z; ++k) {
+            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, normal_z);
+          }
+        }
+      }
+      result *= (2. / (m_x_max - m_x_min));
+
+      return result;
+
+    }
+
+    /// This method computes the y-derivative triple Chebyshev series approximation.
+    T Evaluate_derivative_y(const double &x, const double &y, const double &z) const {
+
+      double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
+      double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
+      double normal_z = (2. / (m_z_max - m_z_min)) * (z - 0.5 * (m_z_max + m_z_min));
+
+      T result = 0.;
+      for (int i = 0; i <= m_order_x; ++i) {
+        double Ti = Chebyshev_polynomial(i, normal_x);
+        for (int j = 0; j <= m_order_y; ++j) {
+          double Tj = Chebyshev_polynomial_derivative(j, normal_y);
+          for (int k = 0; k <= m_order_z; ++k) {
+            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, normal_z);
+          }
+        }
+      }
+      result *= (2. / (m_y_max - m_y_min));
+
+      return result;
+
+    }
+
+    /// This method computes the z-derivative triple Chebyshev series approximation.
+    T Evaluate_derivative_z(const double &x, const double &y, const double &z) const {
+
+      double normal_x = (2. / (m_x_max - m_x_min)) * (x - 0.5 * (m_x_max + m_x_min));
+      double normal_y = (2. / (m_y_max - m_y_min)) * (y - 0.5 * (m_y_max + m_y_min));
+      double normal_z = (2. / (m_z_max - m_z_min)) * (z - 0.5 * (m_z_max + m_z_min));
+
+      T result = 0.;
+      for (int i = 0; i <= m_order_x; ++i) {
+        double Ti = Chebyshev_polynomial(i, normal_x);
+        for (int j = 0; j <= m_order_y; ++j) {
+          double Tj = Chebyshev_polynomial(j, normal_y);
+          for (int k = 0; k <= m_order_z; ++k) {
+            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial_derivative(k, normal_z);
+          }
+        }
+      }
+      result *= (2. / (m_z_max - m_z_min));
+
+      return result;
+
+    }
+
+   private:
+
+    /// 3d function to be approximated.
+    Function3d<T> *m_function;
+
+    /// Order of the series approximation for x.
+    int m_order_x;
+
+    /// Order of the series approximation for y.
+    int m_order_y;
+
+    /// Order of the series approximation for z.
+    int m_order_z;
+
+    /// x minimum.
+    double m_x_min;
+
+    /// x maximum.
+    double m_x_max;
+
+    /// y minimum.
+    double m_y_min;
+
+    /// y maximum.
+    double m_y_max;
+
+    /// z minimum.
+    double m_z_min;
+
+    /// z maximum.
+    double m_z_max;
+
+    /// aij coefficients.
+    std::vector<MatrixMN<T>> m_aijk;
+
+  };
+
 }
 
 #endif //MATHUTILS_CHEBYSHEVSERIESAPPROX_H

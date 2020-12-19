@@ -347,6 +347,14 @@ The bivariate Chebyshev polynomial is defined for :math:`(x, y) \in [-1, 1]^2` b
 .. math::
    T_{m,n}(x, y) = T_m(x)T_n(y)
 
+Trivariate Chebyshev polynomials
+--------------------------------
+
+The trivariate Chebyshev polynomial is defined for :math:`(x, y, z) \in [-1, 1]^3` by:
+
+.. math::
+   T_{m,n,p}(x, y,z) = T_m(x)T_n(y)T_p(z)
+
 Double Chebyshev series approximation
 -------------------------------------
 
@@ -361,7 +369,9 @@ with:
 .. math::
    \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \\ a_{ij} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \end{cases}
 
-The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` must be computed in a first step before evaluating :eq:`Double_Chebyshev_approx` for any value of :math:`x` and :math:`y`. At the points :math:`(x_r, y_s)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n}`, by definition, it yields:
+The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` must be computed in a first step before evaluating :eq:`Double_Chebyshev_approx` for any value of :math:`x` and :math:`y`. 
+
+At the points :math:`(x_r, y_s)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n}`, by definition, it yields:
 
 .. math::
    \displaystyle f(x_r, y_s) = \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(\tilde{x}_r, \tilde{y}_s)
@@ -371,9 +381,38 @@ Regarding the partial derivatives, it comes:
 .. math::
    \begin{cases}
    \displaystyle \dfrac{\partial f}{\partial x}(x,y) \approx \left(\dfrac{2}{x_{max} - x_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n a_{ij}\dfrac{\partial T_i}{\partial x}(\tilde{x})T_j(\tilde{y})\\
-   \displaystyle \dfrac{\partial f}{\partial y}(x,y) \approx \left(\dfrac{2}{y_{max} - y_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_i(\tilde{x})\dfrac{\partial T_j}{\partial y}(\tilde{y})\\
+   \displaystyle \dfrac{\partial f}{\partial y}(x,y) \approx \left(\dfrac{2}{y_{max} - y_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_i(\tilde{x})\dfrac{\partial T_j}{\partial y}(\tilde{y})
    \end{cases}
 
+Triple Chebyshev series approximation
+-------------------------------------
+
+The triple Chebyshev series approximation of order :math:`m\times n\times p` of the function :math:`f` defined over :math:`[x_{min}, x_{max}]\times[y_{min}, y_{max}]\times[z_{min}, z_{max}]` is obtained from [Mackay2019]_ and the generalization of the previous section:
+
+.. math::
+   \displaystyle f(x,y, z) \approx \sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}T_{i,j,k}(\tilde{x}, \tilde{y}, \tilde{z})
+   :label: Triple_Chebyshev_approx
+
+with:
+
+.. math::
+   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \\ \tilde{z} = \dfrac{2}{z_{max} - z_{min}}\left[z - \left(\dfrac{z_{max} + z_{min}}{2}\right)\right] \\ a_{ijk} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j = 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k = 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k = 0 \end{cases}  \text{ or } \begin{cases} i = 0 \\ j = 0 \\ k \neq 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j \neq 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{8}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \\ \tilde{z}_t = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2t+1}{p+1}\right)\right] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \\ z_t = \left(\dfrac{z_{max}-z_{xmin}}{2}\right)\tilde{z}_t + \dfrac{z_{max}+z_{min}}{2} \end{cases}
+
+The coefficients :math:`(a_{ijk})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n \\ 0 \leqslant k \leqslant p}` must be computed in a first step before evaluating :eq:`Triple_Chebyshev_approx` for any value of :math:`x`, :math:`y` and :math:`z`. 
+
+At the points :math:`(x_r, y_s, z_t)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n \\ 0 \leqslant t \leqslant p}`, by definition, it yields:
+
+.. math::
+   \displaystyle f(x_r, y_s, z_t) = \sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t)
+
+Regarding the partial derivatives, it comes:
+
+.. math::
+   \begin{cases}
+   \displaystyle \dfrac{\partial f}{\partial x}(x,y,z) \approx \left(\dfrac{2}{x_{max} - x_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}\dfrac{\partial T_i}{\partial x}(\tilde{x})T_j(\tilde{y})T_k(\tilde{z})\\
+   \displaystyle \dfrac{\partial f}{\partial y}(x,y,z) \approx \left(\dfrac{2}{y_{max} - y_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}T_i(\tilde{x})\dfrac{\partial T_j}{\partial y}(\tilde{y})T_k(\tilde{z})\\
+   \displaystyle \dfrac{\partial f}{\partial z}(x,y,z) \approx \left(\dfrac{2}{z_{max} - z_{min}}\right)\sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}T_i(\tilde{x})T_j(\tilde{y})\dfrac{\partial T_k}{\partial z}(\tilde{z})
+   \end{cases}
 
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
@@ -383,3 +422,5 @@ Regarding the partial derivatives, it comes:
 .. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.
 
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.
+
+.. [Mackay2019] E. Mackay. Consistent expressions for the free-surface Green function in finite water depth. Applied Ocean Research, 93, 2019.
