@@ -24,6 +24,19 @@ namespace mathutils {
 
   };
 
+/**
+* Class for handling 3d functions for the double Chebyshev series approximation.
+*/
+  template<typename T>
+  class Function3d {
+
+   public:
+
+    /// This function evaluates the function at the point (x, y, z).
+    virtual T Evaluate(const double &x, const double &y, const double &z) const = 0;
+
+  };
+
   /**
  * Class for computing the double Chebyshev series approximation of a function.
  */
