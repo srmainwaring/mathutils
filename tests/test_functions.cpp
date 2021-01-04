@@ -44,6 +44,24 @@ int main(int argc, char* argv[]) {
   std::cout << "Exact value: -0.236973" << std::endl;
   assert(IsClose(value_Y05, -0.236973));
 
+  PrintHeader("Modified Bessel function - First kind");
+
+  // Source: https://en.cppreference.com/w/cpp/numeric/special_functions/cyl_bessel_i
+  PrintInfo("Comparison of the value returned by the method and an exact value for n = 0 and x = 1.2345");
+  double value_I0 = Cyl_modified_Bessel_first_kind<double, double, double>(0, 1.2345);
+  std::cout << "Method Cyl_modified_Bessel_first_kind: " << value_I0 << std::endl;
+  std::cout << "Exact value: 1.41886" << std::endl;
+  assert(IsClose(value_I0, 1.41886));
+
+  PrintHeader("Modified Bessel function - Second kind");
+
+  // Source: https://en.cppreference.com/w/cpp/numeric/special_functions/cyl_bessel_k
+  PrintInfo("Comparison of the value returned by the method and an exact value for n = 0.5 and x = 1.2345");
+  double value_K05 = Cyl_modified_Bessel_second_kind<double, double, double>(0.5, 1.2345);
+  std::cout << "Method Cyl_modified_Bessel_second_kind: " << value_K05 << std::endl;
+  std::cout << "Exact value: 0.32823" << std::endl;
+  assert(IsClose(value_K05, 0.32823));
+
   // ========================================================================
   //                       Legendre polynomials
   // ========================================================================
