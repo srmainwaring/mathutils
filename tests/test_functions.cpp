@@ -106,11 +106,47 @@ int main(int argc, char* argv[]) {
   std::cout << "" << std::endl;
 
   // Source: https://en.cppreference.com/w/cpp/numeric/special_functions/expint
-  PrintInfo("Comparison of the value returned by the method and an exact value for x = 1");
+  PrintInfo("Comparison of the value returned by the direct method and an exact value for x = 1");
   double value_Ei = Ei<double>(1.);
   std::cout << "Method Ei: " << value_Ei << std::endl;
   std::cout << "Exact value: 1.89512" << std::endl;
   assert(IsClose(value_Ei, 1.89512));
+
+  PrintInfo("Comparison of the value returned by the Chebyshev approximation method and an exact value for x = 1");
+  double value_Ei_approx = Ei_approximation<double>(1.);
+  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "Exact value: 1.89512" << std::endl;
+  assert(IsClose(value_Ei_approx, 1.89512));
+  
+  PrintInfo("\nComparison of the value returned by the two methods for evaluating Ei");
+  PrintInfo("x = 3");
+  value_Ei = Ei<double>(3.);
+  value_Ei_approx = Ei_approximation<double>(3.);
+  std::cout << "Method Ei: " << value_Ei << std::endl;
+  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
+  assert(IsClose(abs(value_Ei - value_Ei_approx), 0.));
+  PrintInfo("\nx = 9");
+  value_Ei = Ei<double>(9.);
+  value_Ei_approx = Ei_approximation<double>(9.);
+  std::cout << "Method Ei: " << value_Ei << std::endl;
+  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
+  assert(IsClose(abs(value_Ei - value_Ei_approx), 0.));
+  PrintInfo("\nx = 18");
+  value_Ei = Ei<double>(18.);
+  value_Ei_approx = Ei_approximation<double>(18.);
+  std::cout << "Method Ei: " << value_Ei << std::endl;
+  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
+  assert(IsClose(abs(value_Ei - value_Ei_approx), 0.));
+  PrintInfo("\nx = 30");
+  value_Ei = Ei<double>(30.);
+  value_Ei_approx = Ei_approximation<double>(30.);
+  std::cout << "Method Ei: " << value_Ei << std::endl;
+  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
+  assert(IsClose(abs(value_Ei - value_Ei_approx), 0.));
 
   // ========================================================================
   //                       Chebyshev polynomials
