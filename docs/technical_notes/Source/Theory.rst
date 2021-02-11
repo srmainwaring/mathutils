@@ -195,7 +195,7 @@ The Legendre polynomials obey the following recurrence relation:
       P_1(x) = x
    \end{cases}
 
-The computation of the Legendre polynomials is achieved in the method ``Legendre_polynomial``.
+The computation of the Legendre polynomials is achieved in the function ``Legendre_polynomial``.
 
 Their differentiation is given by the following recurrence relation:
 
@@ -205,7 +205,7 @@ Their differentiation is given by the following recurrence relation:
       P_0^{'}(x) = 0
    \end{cases}
 
-The computation of the differentiation of the Legendre polynomials is achieved in the method ``Legendre_polynomial_derivative``.
+The computation of the differentiation of the Legendre polynomials is achieved in the function ``Legendre_polynomial_derivative``.
 
 Factorial
 ---------
@@ -215,7 +215,7 @@ The factorial of an integer :math:`n`, defined by:
 .. math::
    n! = 1\times2\times\dots\times n
 
-is evaluated in the method ``Factorial``.
+is evaluated in the function ``Factorial``.
 
 Exponential integral :math:`Ei`
 -------------------------------
@@ -225,7 +225,33 @@ The exponential integral :math:`Ei` is defined by [Abramowitz1964]_:
 .. math::
    Ei(x) = \displaystyle -\int_{-x}^{\infty}\dfrac{e^{-x}}{x} \text{ for } x > 0
 
-This integral is evaluated in the method ``Ei``.
+This integral is evaluated in the function ``Ei``.
+
+An approximation of order :math:`n` of this function was given by [Cody1969]_:
+
+.. math::
+   Ei(x) \approx \begin{cases} \ln\left(\dfrac{x}{x_0}\right) + (x - x_0)\dfrac{\displaystyle\sum_{j = 0}^n{}^{'} p_jT_j^{*}\left(\dfrac{x}{6}\right)}{\displaystyle\sum_{j = 0}^n{}^{'} q_jT_j^{*}\left(\dfrac{x}{6}\right)} \text{ for } 0 < x \leqslant 6 \\ \dfrac{e^x}{x}\left(\alpha_0 + \dfrac{\beta_0}{\alpha_1 + x + \dfrac{\beta_1}{\alpha_2 + x + \dfrac{\beta_2}{\alpha_3 + x + \ddots}}}\right)  \text{ for } \begin{cases} 6 < x \leqslant 12 \\ 12 < x \leqslant 24 \end{cases} \\ \dfrac{e^x}{x}\left[1 + \dfrac{1}{x}\left(\alpha_0 + \dfrac{\beta_0}{\alpha_1 + x + \dfrac{\beta_1}{\alpha_2 + x + \dfrac{\beta_2}{\alpha_3 + x + \ddots}}}\right)\right] \text{ for } x > 24 \end{cases}
+
+where :math:`x_0` is the zero of :math:`Ei` and :math:`T_j^{*}` is a shifted Chebyshev polynomial  at the order :math:`j` (cf. :ref:`Chebyshev_polynomial`) defined by:
+
+.. math::
+   T_j^{*} = T_j(2x-1)
+
+.. note::
+   The prime summation :math:`\sum{}^{'}` indicates only half of the first term is included.
+
+The parameters :math:`x_0`, :math:`(p_j)_{0 \leqslant j \leqslant n}`, :math:`(q_j)_{0 \leqslant j \leqslant n}`, :math:`(p_j)_{0 \leqslant j \leqslant n}`, :math:`(\beta_j)_{0 \leqslant j \leqslant n}` and :math:`(\beta_j)_{0 \leqslant j \leqslant n-1}` are given in [Cody1969]_. 
+
+In **MathUtils**, the order is fixed to :math:`n = 9`.
+
+The computation of this approximation of :math:`Ei` is achieved in the function ``Ei_approximation``.
+
+It may be necessary to evaluate the quantity :math:`e^{-x}Ei(x)` for large :math:`x`, for example with the finite-depth Green's function for large water depth. This becomes impossible numerically as :math:`Ei` tends to infinity for large :math:`x`. Nevertheless, from the previous approximation, it comes:
+
+.. math::
+   e^{-x}Ei(x) \approx \dfrac{1}{x}\left[1 + \dfrac{1}{x}\left(\alpha_0 + \dfrac{\beta_0}{\alpha_1 + x + \dfrac{\beta_1}{\alpha_2 + x + \dfrac{\beta_2}{\alpha_3 + x + \ddots}}}\right)\right] \text{ for } x > 24
+
+Which may be evaluated numerically without difficulty.
 
 Struve functions
 ----------------
@@ -307,7 +333,9 @@ The derivative of :math:`H_0` is given by [Abramowitz1964]_:
 .. math::
    H_0^{'}(x) = \dfrac{2}{\pi} - H_1(x)
 
-The computation of the zero-order and first-order of the Struve functions are achieved in the methods ``Struve_zero_order`` and ``Struve_first_order``. Regarding the derivative of :math:`H_0`, the method to use is ``Struve_zero_order_derivative``.
+The computation of the zero-order and first-order of the Struve functions are achieved in the functions ``Struve_zero_order`` and ``Struve_first_order``. Regarding the derivative of :math:`H_0`, the function to use is ``Struve_zero_order_derivative``.
+
+.. _Chebyshev_polynomial:
 
 Chebyshev polynomials
 ---------------------
@@ -337,7 +365,7 @@ The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` and :math:`i \in [0, n]` a
 .. math::
    x_i = \left(\dfrac{b-a}{2}\right)\cos\left[\dfrac{\pi}{2}\left(\dfrac{2i+1}{n+1}\right)\right] + \dfrac{b+a}{2}
 
-The computation of the Chebyshev polynomials is achieved in the methods ``Chebyshev_polynomial`` and ``Chebyshev_polynomial_next``.
+The computation of the Chebyshev polynomials is achieved in the functions ``Chebyshev_polynomial`` and ``Chebyshev_polynomial_next``.
 
 Bivariate Chebyshev polynomials
 -------------------------------
@@ -416,6 +444,8 @@ Regarding the partial derivatives, it comes:
 
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
+
+.. [Cody1969] Cody W. J. and Thacher H. C. Chebyshev Approximations for the Exponential Integral Ei(x). Mathematics of Computation, 23(106):289-303, 1969.
 
 .. [Basu1973] N. K. Basu. On double Chebyshev series approximation. SIAM Journal on Numerical Analysis, 10(3):493-505, 1973.
 
