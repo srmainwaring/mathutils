@@ -229,6 +229,14 @@ namespace mathutils {
     return boost::math::chebyshev_t(order, x);
   }
 
+  // This function returns a shifted Chebyshev polynomial of order "order" at the point x as used in
+  // Cody and Tchacher 1969 in the function Ei_Chebyshev_approximation.
+  template <class Integer, class Real>
+  Real Chebyshev_polynomial_shifted(const Integer& order, const Real x){
+    // Ti_star(x) = Ti(2x - 1).
+    return boost::math::chebyshev_t(order, 2. * x - 1.);
+  }
+
   // This function returns the next Chebyshev polynomial at the point x, given the two previous polynomials.
   template <class Real>
   Real Chebyshev_polynomial_next(const Real x, const Real Tn, const Real Tn_1){
