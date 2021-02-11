@@ -410,6 +410,53 @@ namespace mathutils {
 
   }
 
+  // This function returns the quantity exp(-x)*Ei(x).
+  template <class T>
+  T expEi(const T x){
+
+    T result = 0.;
+
+    if(x < 24.){
+      result = exp(-x) * Ei(x);
+    }
+    else{ // x >= 24.
+
+      // Parameters.
+      int n = 9;
+      std::vector<double> alphaj = {1.00000000000000485503e0,
+                                    -3.00000000320981265753e0,
+                                    -5.00006640413131002475e0,
+                                    -7.06810977895029358836e0,
+                                    -1.52856623636929636839e1,
+                                    -7.63147701620253630855e0,
+                                    -2.79798528624305389340e1,
+                                    -1.81949664929868906455e1,
+                                    -2.23127670777632409550e2,
+                                    1.75338801265465972390e2};
+      std::vector<double> betaj = {1.99999999999048104167e0,
+                                   -2.99999894040324959612e0,
+                                   -7.99243595776339741065e0,
+                                   -1.20187763547154743238e1,
+                                   7.04831847180424675988e1,
+                                   1.17179220502086455287e2,
+                                   1.37790390235747998793e2,
+                                   3.97277109100414518365e0,
+                                   3.97845977167414720840e4};
+      assert (alphaj.size() == (betaj.size() + 1));
+
+      // Evaluation.
+      T fraction = 0.;
+      for (unsigned int j = n; j >= 1; --j) {
+        fraction = (betaj.at(j - 1) / (alphaj.at(j) + x + fraction));
+      }
+      fraction += alphaj.at(0); // First term.
+      result = (1. / x) * (1. + (1. / x) * fraction);
+    }
+
+    return result;
+
+  }
+
 }  // end namespace mathutils
 
 #endif //MATHUTILS_FUNCTIONS_H

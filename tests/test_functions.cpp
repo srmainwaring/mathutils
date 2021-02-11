@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
   std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
   std::cout << "Exact value: 1.89512" << std::endl;
   assert(IsClose(value_Ei_approx, 1.89512));
-  
+
   PrintInfo("\nComparison of the value returned by the two methods for evaluating Ei");
   PrintInfo("x = 3");
   value_Ei = Ei<double>(3.);
@@ -148,6 +148,33 @@ int main(int argc, char* argv[]) {
   std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
   assert(IsClose(abs(value_Ei - value_Ei_approx), 0.));
 
+  PrintInfo("\nComparison of the value returned by the method for evaluating exp(-x)Ei(x) compared to a direct computation.");
+  PrintInfo("x = 3");
+  double value_expEi = exp(-3.) * Ei<double>(3.);
+  double value_expEi_approx = expEi<double>(3.);
+  std::cout << "Direct: " << value_expEi << std::endl;
+  std::cout << "Method expEi: " << value_expEi_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_expEi - value_expEi_approx) << std::endl;
+  assert(IsClose(abs(value_expEi - value_expEi_approx), 0.));
+  PrintInfo("x = 25");
+  value_expEi = exp(-25.) * Ei<double>(25.);
+  value_expEi_approx = expEi<double>(25.);
+  std::cout << "Direct: " << value_expEi << std::endl;
+  std::cout << "Method expEi: " << value_expEi_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_expEi - value_expEi_approx) << std::endl;
+  assert(IsClose(abs(value_expEi - value_expEi_approx), 0.));
+  PrintInfo("x = 50");
+  value_expEi = exp(-50.) * Ei<double>(50.);
+  value_expEi_approx = expEi<double>(50.);
+  std::cout << "Direct: " << value_expEi << std::endl;
+  std::cout << "Method expEi: " << value_expEi_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_expEi - value_expEi_approx) << std::endl;
+  assert(IsClose(abs(value_expEi - value_expEi_approx), 0.));
+  PrintInfo("x = 2000");
+  value_expEi_approx = expEi<double>(2000.);
+  std::cout << "Direct: Numerical overflow" << std::endl;
+  std::cout << "Method expEi: " << value_expEi_approx << std::endl;
+  
   // ========================================================================
   //                       Chebyshev polynomials
   // ========================================================================
