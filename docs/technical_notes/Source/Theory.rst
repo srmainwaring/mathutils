@@ -235,7 +235,7 @@ An approximation of order :math:`n` of this function was given by [Cody1969]_:
 where :math:`x_0` is the zero of :math:`Ei` and :math:`T_j^{*}` is a shifted Chebyshev polynomial  at the order :math:`j` (cf. :ref:`Chebyshev_polynomial`) defined by:
 
 .. math::
-   T_j^{*} = T_j(2x-1)
+   T_j^{*}(x) = T_j(2x-1)
 
 .. note::
    The prime summation :math:`\sum{}^{'}` indicates only half of the first term is included.
