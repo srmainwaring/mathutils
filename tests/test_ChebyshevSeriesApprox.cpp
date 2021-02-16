@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
   // This test checks the computation of the double and triple Chebyshev series.
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //                                              DOUBLE
+  //                                              DOUBLE - Closed segments.
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Definition of a function to approximate by a double Chebyshev series.
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
   double ymax = 8.;
   int order_x = 11;
   int order_y = 13;
-  auto myDoubleChebyshevSeriesApprox = DoubleChebyshevSeriesApprox<double>(&myFunction2d, xmin, xmax, ymin, ymax, order_x, order_y);
+  auto myDoubleChebyshevSeriesApprox = DoubleChebyshevSeriesApproxClosedSegment<double>(&myFunction2d, xmin, xmax, ymin, ymax, order_x, order_y);
   myDoubleChebyshevSeriesApprox.Computation_aij();
 
   // Tests.
@@ -72,6 +72,7 @@ int main(int argc, char* argv[]) {
   std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApprox.Evaluate(1., 2.) << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApprox.Evaluate(1., 2.) - myFunction2d.Evaluate(1., 2.))
   / myFunction2d.Evaluate(1., 2.)) << std::endl;
+  assert(IsClose(myDoubleChebyshevSeriesApprox.Evaluate(1., 2.), myFunction2d.Evaluate(1., 2.), 10e-3));
 
   PrintHeader("Computation of the x-derivative of the DOUBLE series approximation at an arbitrary point.");
   std::cout << "Point: (1, 2)" << std::endl;
@@ -79,6 +80,7 @@ int main(int argc, char* argv[]) {
   std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApprox.Evaluate_derivative_x(1., 2.) << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApprox.Evaluate_derivative_x(1., 2.)
   - myFunction2d.Evaluate_derivative_x(1., 2.)) / myFunction2d.Evaluate_derivative_x(1., 2.)) << std::endl;
+  assert(IsClose(myDoubleChebyshevSeriesApprox.Evaluate_derivative_x(1., 2.), myFunction2d.Evaluate_derivative_x(1., 2.), 10e-3));
 
   PrintHeader("Computation of the y-derivative of the DOUBLE series approximation at an arbitrary point.");
   std::cout << "Point: (1, 2)" << std::endl;
@@ -86,6 +88,71 @@ int main(int argc, char* argv[]) {
   std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApprox.Evaluate_derivative_y(1., 2.) << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApprox.Evaluate_derivative_y(1., 2.)
     - myFunction2d.Evaluate_derivative_y(1., 2.)) / myFunction2d.Evaluate_derivative_y(1., 2.)) << std::endl;
+  assert(IsClose(myDoubleChebyshevSeriesApprox.Evaluate_derivative_y(1., 2.), myFunction2d.Evaluate_derivative_y(1., 2.), 10e-3));
+
+  std::cout << "\n\n" << std::endl;
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                          DOUBLE - Half-open segments
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Definition of a second function to approximate by a double Chebyshev series.
+  class Function2dTestHalfOpen : public Function2d<double> {
+   public:
+    /// This method evaluates the function at the point (x, y).
+    double Evaluate(const double &x, const double &y) const override {
+      return 1. / (2. * x + 3. * y);
+    }
+    /// This method evaluates the x-derivative of the function at the point (x, y).
+    double Evaluate_derivative_x(const double &x, const double &y) const {
+      return - 2. / pow(2. * x + 3. * y, 2.);
+    }
+    /// This method evaluates the y-derivative of the function at the point (x, y).
+    double Evaluate_derivative_y(const double &x, const double &y) const {
+      return - 3. / pow(2. * x + 3. * y, 2.);
+    }
+  };
+
+  // Computation of the aij coefficients.
+  Function2dTestHalfOpen myFunction2dHalfOpen;
+  xmin = 1.;
+  ymin = 1.;
+  order_x = 50;
+  order_y = 50;
+  x = 150;
+  y = 150;
+
+  // Tests.
+  auto myDoubleChebyshevSeriesApproxHalfOpen = DoubleChebyshevSeriesApproxHalfOpenSegment<double>(&myFunction2dHalfOpen, xmin, ymin, order_x, order_y);
+  myDoubleChebyshevSeriesApproxHalfOpen.Computation_aij();
+  PrintHeader("Computation of the DOUBLE series approximation at an arbitrary point.");
+  std::cout << "Point: (150, 150)" << std::endl;
+
+  std::cout << "Analytical: " << myFunction2dHalfOpen.Evaluate(x, y) << std::endl;
+  std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApproxHalfOpen.Evaluate(x, y) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApproxHalfOpen.Evaluate(x, y) - myFunction2dHalfOpen.Evaluate(x, y))
+                                                   / myFunction2dHalfOpen.Evaluate(x, y)) << std::endl;
+  assert(IsClose(myDoubleChebyshevSeriesApproxHalfOpen.Evaluate(x, y), myFunction2dHalfOpen.Evaluate(x, y), 10e-3));
+
+  PrintHeader("Computation of the x-derivative of the DOUBLE series approximation at an arbitrary point.");
+  std::cout << "Point: (150, 150)" << std::endl;
+
+  std::cout << "Analytical: " << myFunction2dHalfOpen.Evaluate_derivative_x(x, y) << std::endl;
+  std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApproxHalfOpen.Evaluate_derivative_x(x, y) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApproxHalfOpen.Evaluate_derivative_x(x, y) - myFunction2dHalfOpen.Evaluate_derivative_x(x, y))
+                                                   / myFunction2dHalfOpen.Evaluate_derivative_x(x, y)) << std::endl;
+  assert(IsClose(myDoubleChebyshevSeriesApproxHalfOpen.Evaluate_derivative_x(x, y), myFunction2dHalfOpen.Evaluate_derivative_x(x, y), 10e-3));
+
+  PrintHeader("Computation of the y-derivative of the DOUBLE series approximation at an arbitrary point.");
+  std::cout << "Point: (150, 150)" << std::endl;
+
+  std::cout << "Analytical: " << myFunction2dHalfOpen.Evaluate_derivative_y(x, y) << std::endl;
+  std::cout << "Double Chebyshev series approximation: " << myDoubleChebyshevSeriesApproxHalfOpen.Evaluate_derivative_y(x, y) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myDoubleChebyshevSeriesApproxHalfOpen.Evaluate_derivative_y(x, y) - myFunction2dHalfOpen.Evaluate_derivative_y(x, y))
+                                                   / myFunction2dHalfOpen.Evaluate_derivative_y(x, y)) << std::endl;
+  assert(IsClose(myDoubleChebyshevSeriesApproxHalfOpen.Evaluate_derivative_y(x, y), myFunction2dHalfOpen.Evaluate_derivative_y(x, y), 10e-3));
+
+  std::cout << "\n\n" << std::endl;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                              TRIPLE
