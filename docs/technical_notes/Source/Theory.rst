@@ -397,6 +397,14 @@ with:
 .. math::
    \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \\ a_{ij} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \in [-1, 1] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \in [-1, 1] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \in [x_{min}, x_{max}] \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \in [y_{min}, y_{max}] \end{cases}
 
+.. note::
+   If the function :math:`f` is defined over half-open line segments :math:`[x_{min}, +\infty[\times[y_{min}, +\infty[`, then the following modification is done [Chen1993]_:
+
+      .. math::
+          \begin{cases}
+              \tilde{x} = 1 - 2\dfrac{x_{min}}{x} \in [-1, 1] \\ \tilde{y} = 1 - 2\dfrac{y_{min}}{x} \in [-1, 1] \\ x_r = 2\dfrac{x_{min}}{1 - \tilde{x}_r} \in [x_{min}, +\infty[ \\ y_s = 2\dfrac{y_{min}}{1 - \tilde{y}_s} \in [y_{min}, +\infty[
+          \end{cases}
+
 The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` must be computed in a first step before evaluating :eq:`Double_Chebyshev_approx` for any value of :math:`x` and :math:`y`. 
 
 At the points :math:`(x_r, y_s)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n}`, by definition, it yields:
@@ -426,6 +434,14 @@ with:
 .. math::
    \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{z} = \dfrac{2}{z_{max} - z_{min}}\left[z - \left(\dfrac{z_{max} + z_{min}}{2}\right)\right] \in [-1, 1] \\ a_{ijk} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j = 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k = 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k = 0 \end{cases}  \text{ or } \begin{cases} i = 0 \\ j = 0 \\ k \neq 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j \neq 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{8}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \in [-1, 1] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \in [-1, 1] \\ \tilde{z}_t = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2t+1}{p+1}\right)\right] \in [-1, 1] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \in [x_{min}, x_{max}] \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \in [y_{min}, y_{max}] \\ z_t = \left(\dfrac{z_{max}-z_{xmin}}{2}\right)\tilde{z}_t + \dfrac{z_{max}+z_{min}}{2} \in [z_{min}, z_{max}] \end{cases}
 
+.. note::
+   If the function :math:`f` is defined over half-open line segments :math:`[x_{min}, +\infty[\times[y_{min}, +\infty[\times[z_{min}, +\infty[`, then the following modification is done [Chen1993]_:
+
+      .. math::
+          \begin{cases}
+              \tilde{x} = 1 - 2\dfrac{x_{min}}{x} \in [-1, 1] \\ \tilde{y} = 1 - 2\dfrac{y_{min}}{x} \in [-1, 1] \\ \tilde{z} = 1 - 2\dfrac{z_{min}}{x} \in [-1, 1] \\ x_r = 2\dfrac{x_{min}}{1 - \tilde{x}_r} \in [x_{min}, +\infty[ \\ y_s = 2\dfrac{y_{min}}{1 - \tilde{y}_s} \in [y_{min}, +\infty[ \\ z_t = 2\dfrac{z_{min}}{1 - \tilde{z}_t} \in [z_{min}, +\infty[
+          \end{cases}
+
 The coefficients :math:`(a_{ijk})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n \\ 0 \leqslant k \leqslant p}` must be computed in a first step before evaluating :eq:`Triple_Chebyshev_approx` for any value of :math:`x`, :math:`y` and :math:`z`. 
 
 At the points :math:`(x_r, y_s, z_t)_{0 \leqslant r \leqslant m \\ 0 \leqslant s \leqslant n \\ 0 \leqslant t \leqslant p}`, by definition, it yields:
@@ -450,6 +466,8 @@ Regarding the partial derivatives, it comes:
 .. [Basu1973] N. K. Basu. On double Chebyshev series approximation. SIAM Journal on Numerical Analysis, 10(3):493-505, 1973.
 
 .. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.
+
+.. [Chen1993] X. Chen. Evaluation de la fonction de Green du problème de diffraction / radiation en profondeur d’eau finie. Proceedings of the 4ème Journées de l’Hydrodynamique (JH1993), Nantes, France, 1993.
 
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.
 
