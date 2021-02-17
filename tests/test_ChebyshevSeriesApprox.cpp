@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
   double ymax = 8.;
   int order_x = 11;
   int order_y = 13;
-  auto myDoubleChebyshevSeriesApprox = DoubleChebyshevSeriesApproxClosedSegment<double>(&myFunction2d, xmin, xmax, ymin, ymax, order_x, order_y);
+  auto myDoubleChebyshevSeriesApprox = DoubleChebyshevSeriesApproxClosedSegments<double>(&myFunction2d, xmin, xmax, ymin, ymax, order_x, order_y);
   myDoubleChebyshevSeriesApprox.Computation_aij();
 
   // Tests.
@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
   y = 150;
 
   // Tests.
-  auto myDoubleChebyshevSeriesApproxHalfOpen = DoubleChebyshevSeriesApproxHalfOpenSegment<double>(&myFunction2dHalfOpen, xmin, ymin, order_x, order_y);
+  auto myDoubleChebyshevSeriesApproxHalfOpen = DoubleChebyshevSeriesApproxHalfOpenSegments<double>(&myFunction2dHalfOpen, xmin, ymin, order_x, order_y);
   myDoubleChebyshevSeriesApproxHalfOpen.Computation_aij();
   PrintHeader("Computation of the DOUBLE series approximation at an arbitrary point.");
   std::cout << "Point: (150, 150)" << std::endl;
