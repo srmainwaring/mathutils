@@ -270,16 +270,19 @@ int main(int argc, char* argv[]) {
   xmin = 1.;
   xmax = 30;
   ymin = 1.;
+  ymin = 30.;
   zmin = 1.;
   order_x = 30;
   order_y = 50;
   order_z = 50;
   x = 10;
   y = 150;
+//  y = 10;
   z = 150;
 
   // Tests.
-  auto myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments = TripleChebyshevSeriesApproxMixedHalfOpenClosedSegments<double>(&myFunction3dTestMixedHalfOpenClosed, xmin, xmax, ymin, zmin, order_x, order_y, order_z);
+  auto myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments = TripleChebyshevSeriesApproxYZHalfOpenXClosedSegments<double>(&myFunction3dTestMixedHalfOpenClosed, xmin, xmax, ymin, zmin, order_x, order_y, order_z);
+//  auto myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments = TripleChebyshevSeriesApproxZHalfOpenXYClosedSegments<double>(&myFunction3dTestMixedHalfOpenClosed, xmin, xmax, ymin, ymax, zmin, order_x, order_y, order_z);
   myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Computation_aijk();
   PrintHeader("Computation of the TRIPLE series approximation at an arbitrary point.");
   std::cout << "Point: (10, 150, 150)" << std::endl;
