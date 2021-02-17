@@ -155,13 +155,13 @@ int main(int argc, char* argv[]) {
   std::cout << "\n\n" << std::endl;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //                                              TRIPLE
+  //                                              TRIPLE - Closed segments
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Definition of a function to approximate by a double Chebyshev series.
   class Function3dTest : public Function3d<double> {
    public:
-    /// This method evaluates the function at the point (x, y, z).
+    /// This method evaluates the function at the point (x, y, z).git
     double Evaluate(const double &x, const double &y, const double &z) const override {
       return x * cos(y) * sin(z);
     }
@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
   order_x = 11;
   order_y = 13;
   int order_z = 10;
-  auto myTripleChebyshevSeriesApprox = TripleChebyshevSeriesApprox<double>(&myFunction3d, xmin, xmax, ymin, ymax, zmin,
+  auto myTripleChebyshevSeriesApprox = TripleChebyshevSeriesApproxClosedSegments<double>(&myFunction3d, xmin, xmax, ymin, ymax, zmin,
                                                                            zmax, order_x, order_y, order_z);
   myTripleChebyshevSeriesApprox.Computation_aijk();
 
@@ -238,5 +238,83 @@ int main(int argc, char* argv[]) {
   std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApprox.Evaluate_derivative_z(1., 2., 3.)
                                                     - myFunction3d.Evaluate_derivative_z(1., 2., 3.)) / myFunction3d.Evaluate_derivative_z(1., 2., 3.)) << std::endl;
 
+  std::cout << "\n\n" << std::endl;
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                          TRIPLE - Mixed half-open and closed segments
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Definition of a second function to approximate by a triple Chebyshev series.
+  class Function3dTestMixedHalfOpenClosed : public Function3d<double> {
+   public:
+    /// This method evaluates the function at the point (x, y, z).
+    double Evaluate(const double &x, const double &y, const double &z) const override {
+      return 1. / (2. * x + 3. * y + 4. * z);
+    }
+    /// This method evaluates the x-derivative of the function at the point (x, y, z).
+    double Evaluate_derivative_x(const double &x, const double &y, const double &z) const {
+      return - 2. / pow(2. * x + 3. * y + 4. * z, 2.);
+    }
+    /// This method evaluates the y-derivative of the function at the point (x, y, z).
+    double Evaluate_derivative_y(const double &x, const double &y, const double &z) const {
+      return - 3. / pow(2. * x + 3. * y + 4. * z, 2.);
+    }
+    /// This method evaluates the z-derivative of the function at the point (x, y, z).
+    double Evaluate_derivative_z(const double &x, const double &y, const double &z) const {
+      return - 4. / pow(2. * x + 3. * y + 4. * z, 2.);
+    }
+  };
+
+  // Computation of the aij coefficients.
+  Function3dTestMixedHalfOpenClosed myFunction3dTestMixedHalfOpenClosed;
+  xmin = 1.;
+  xmax = 30;
+  ymin = 1.;
+  zmin = 1.;
+  order_x = 30;
+  order_y = 50;
+  order_z = 50;
+  x = 10;
+  y = 150;
+  z = 150;
+
+  // Tests.
+  auto myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments = TripleChebyshevSeriesApproxMixedHalfOpenClosedSegments<double>(&myFunction3dTestMixedHalfOpenClosed, xmin, xmax, ymin, zmin, order_x, order_y, order_z);
+  myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Computation_aijk();
+  PrintHeader("Computation of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (10, 150, 150)" << std::endl;
+
+  std::cout << "Analytical: " << myFunction3dTestMixedHalfOpenClosed.Evaluate(x, y, z) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate(x, y, z) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate(x, y, z) - myFunction3dTestMixedHalfOpenClosed.Evaluate(x, y, z))
+                                                   / myFunction3dTestMixedHalfOpenClosed.Evaluate(x, y, z)) << std::endl;
+  assert(IsClose(myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate(x, y, z), myFunction3dTestMixedHalfOpenClosed.Evaluate(x, y, z), 10e-3));
+
+  PrintHeader("Computation of the x-derivative of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (10, 150, 150)" << std::endl;
+
+  std::cout << "Analytical: " << myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_x(x, y, z) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_x(x, y, z) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_x(x, y, z) - myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_x(x, y, z))
+                                                   / myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_x(x, y, z)) << std::endl;
+  assert(IsClose(myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_x(x, y, z), myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_x(x, y, z), 10e-3));
+
+  PrintHeader("Computation of the y-derivative of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (10, 150, 150)" << std::endl;
+
+  std::cout << "Analytical: " << myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_y(x, y, z) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_y(x, y, z) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_y(x, y, z) - myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_y(x, y, z))
+                                                   / myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_y(x, y, z)) << std::endl;
+  assert(IsClose(myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_y(x, y, z), myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_y(x, y, z), 10e-3));
+
+  PrintHeader("Computation of the z-derivative of the TRIPLE series approximation at an arbitrary point.");
+  std::cout << "Point: (10, 150, 150)" << std::endl;
+
+  std::cout << "Analytical: " << myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_z(x, y, z) << std::endl;
+  std::cout << "Triple Chebyshev series approximation: " << myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_z(x, y, z) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_z(x, y, z) - myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_z(x, y, z))
+                                                   / myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_z(x, y, z)) << std::endl;
+  assert(IsClose(myTripleChebyshevSeriesApproxMixedHalfOpenClosedSegments.Evaluate_derivative_z(x, y, z), myFunction3dTestMixedHalfOpenClosed.Evaluate_derivative_z(x, y, z), 10e-3));
 
 }
