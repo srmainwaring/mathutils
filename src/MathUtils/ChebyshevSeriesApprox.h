@@ -246,15 +246,15 @@ namespace mathutils {
   };
 
   /**
- * Class for computing the double Chebyshev series approximation of a function over a closed segment.
+ * Class for computing the double Chebyshev series approximation of a function over closed segments.
  */
   template<typename T>
-  class DoubleChebyshevSeriesApproxClosedSegment : public DoubleChebyshevSeriesApproxBase<T> {
+  class DoubleChebyshevSeriesApproxClosedSegments : public DoubleChebyshevSeriesApproxBase<T> {
 
    public:
 
     /// Contructor of the class.
-    DoubleChebyshevSeriesApproxClosedSegment(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+    DoubleChebyshevSeriesApproxClosedSegments(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                           const double &ymax, const int &order_x, const int &order_y) :
                           DoubleChebyshevSeriesApproxBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax),
                           m_y_max(ymax) {
@@ -303,15 +303,15 @@ namespace mathutils {
   };
 
   /**
- * Class for computing the double Chebyshev series approximation of a function over a closed segment.
+ * Class for computing the double Chebyshev series approximation of a function over closed segments.
  */
   template<typename T>
-  class DoubleChebyshevSeriesApproxHalfOpenSegment : public DoubleChebyshevSeriesApproxBase<T> {
+  class DoubleChebyshevSeriesApproxHalfOpenSegments : public DoubleChebyshevSeriesApproxBase<T> {
 
    public:
 
     /// Contructor of the class.
-    DoubleChebyshevSeriesApproxHalfOpenSegment(Function2d<T> *F, const double &xmin, const double &ymin,
+    DoubleChebyshevSeriesApproxHalfOpenSegments(Function2d<T> *F, const double &xmin, const double &ymin,
                                              const int &order_x, const int &order_y) :
         DoubleChebyshevSeriesApproxBase<T>(F, xmin, ymin, order_x, order_y) {
     }
