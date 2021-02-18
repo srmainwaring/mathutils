@@ -116,14 +116,17 @@ int main(int argc, char* argv[]) {
   // Computation of the aij coefficients.
   Function2dTestHalfOpen myFunction2dHalfOpen;
   xmin = 1.;
+  xmax = 20.;
   ymin = 1.;
   order_x = 50;
   order_y = 50;
   x = 150;
+//  x = 10;
   y = 150;
 
   // Tests.
   auto myDoubleChebyshevSeriesApproxHalfOpen = DoubleChebyshevSeriesApproxHalfOpenSegments<double>(&myFunction2dHalfOpen, xmin, ymin, order_x, order_y);
+//  auto myDoubleChebyshevSeriesApproxHalfOpen = DoubleChebyshevSeriesApproxMixedHalfOpenClosedSegments<double>(&myFunction2dHalfOpen, xmin, xmax, ymin, order_x, order_y);
   myDoubleChebyshevSeriesApproxHalfOpen.Computation_aij();
   PrintHeader("Computation of the DOUBLE series approximation at an arbitrary point.");
   std::cout << "Point: (150, 150)" << std::endl;
