@@ -150,6 +150,12 @@ namespace mathutils {
     return boost::math::factorial<double>(n);
   }
 
+  // This function returns the factorial of the integer n.
+  template <class T>
+  T Gamma(const T n){
+    return boost::math::tgamma(n);
+  }
+
   // This function returns the zero-order Struve function at the point x.
   template <class T>
   T Struve_zero_order(const T x){
