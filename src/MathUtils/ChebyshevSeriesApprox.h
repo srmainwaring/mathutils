@@ -796,7 +796,7 @@ namespace mathutils {
   };
 
   /**
-* Class for computing the triple Chebyshev series approximation of a function over a closed segment in x and half-open segments in y and z.
+* Class for computing the triple Chebyshev series approximation of a function over a closed segment in x and y and half-open segments in z.
 */
   template<typename T>
   class TripleChebyshevSeriesApproxZHalfOpenXYClosedSegments : public TripleChebyshevSeriesApproxBase<T> {
