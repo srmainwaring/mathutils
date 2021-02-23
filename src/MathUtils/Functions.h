@@ -150,7 +150,7 @@ namespace mathutils {
     return boost::math::factorial<double>(n);
   }
 
-  // This function returns the factorial of the integer n.
+  // This function returns the Euler's gamma function.
   template <class T>
   T Gamma(const T n){
     return boost::math::tgamma(n);
