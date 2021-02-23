@@ -241,40 +241,39 @@ namespace mathutils {
 
     /// Contructor of the class.
     ChebyshevApprox2dClosed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
-                          const double &ymax, const int &order_x, const int &order_y) :
-                          ChebyshevApprox2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax),
-                          m_y_max(ymax) {
+                            const double &ymax, const int &order_x, const int &order_y) :
+        ChebyshevApprox2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax), m_y_max(ymax) {
     }
 
    private:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
-    double AffineTransformationUnitToSegment_x(const double& xunit) const override {
+    double AffineTransformationUnitToSegment_x(const double &xunit) const override {
       return 0.5 * (m_x_max - this->m_x_min) * xunit + 0.5 * (m_x_max + this->m_x_min);
     }
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
-    double AffineTransformationUnitToSegment_y(const double& yunit) const override {
+    double AffineTransformationUnitToSegment_y(const double &yunit) const override {
       return 0.5 * (m_y_max - this->m_y_min) * yunit + 0.5 * (m_y_max + this->m_y_min);
     }
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
-    double AffineTransformationSegmentToUnit_x(const double& xdomain) const override {
+    double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
       return (2. / (m_x_max - this->m_x_min)) * (xdomain - 0.5 * (m_x_max + this->m_x_min));
     }
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
-    double AffineTransformationSegmentToUnit_y(const double& ydomain) const override {
+    double AffineTransformationSegmentToUnit_y(const double &ydomain) const override {
       return (2. / (m_y_max - this->m_y_min)) * (ydomain - 0.5 * (m_y_max + this->m_y_min));
     }
 
     /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
-    double CoefficientDerivative_x(const double& xdomain) const {
+    double CoefficientDerivative_x(const double &xdomain) const {
       return 2. / (m_x_max - this->m_x_min);
     }
 
     /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
-    double CoefficientDerivative_y(const double& ydomain) const {
+    double CoefficientDerivative_y(const double &ydomain) const {
       return 2. / (m_y_max - this->m_y_min);
     }
 
@@ -297,40 +296,40 @@ namespace mathutils {
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox2dOpened(Function2d<T> *F, const double &xmin, const double &ymin,
-                                             const int &order_x, const int &order_y) :
+    ChebyshevApprox2dOpened(Function2d<T> *F, const double &xmin, const double &ymin, const int &order_x,
+                            const int &order_y) :
         ChebyshevApprox2dBase<T>(F, xmin, ymin, order_x, order_y) {
     }
 
    private:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
-    double AffineTransformationUnitToSegment_x(const double& xunit) const override {
+    double AffineTransformationUnitToSegment_x(const double &xunit) const override {
       return 2. * (this->m_x_min / (1 - xunit));
     }
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
-    double AffineTransformationUnitToSegment_y(const double& yunit) const override {
+    double AffineTransformationUnitToSegment_y(const double &yunit) const override {
       return 2. * (this->m_y_min / (1 - yunit));
     }
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
-    double AffineTransformationSegmentToUnit_x(const double& xdomain) const override {
+    double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
       return 1. - 2. * (this->m_x_min / xdomain);
     }
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
-    double AffineTransformationSegmentToUnit_y(const double& ydomain) const override {
+    double AffineTransformationSegmentToUnit_y(const double &ydomain) const override {
       return 1. - 2. * (this->m_y_min / ydomain);
     }
 
     /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
-    double CoefficientDerivative_x(const double& xdomain) const {
+    double CoefficientDerivative_x(const double &xdomain) const {
       return 2. * this->m_x_min / (xdomain * xdomain);
     }
 
     /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
-    double CoefficientDerivative_y(const double& ydomain) const {
+    double CoefficientDerivative_y(const double &ydomain) const {
       return 2. * this->m_y_min / (ydomain * ydomain);
     }
 
@@ -345,40 +344,40 @@ namespace mathutils {
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox2dMixed(Function2d<T> *F, const double &xmin, const double &xmax,
-                                                           const double &ymin, const int &order_x, const int &order_y) :
+    ChebyshevApprox2dMixed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+                           const int &order_x, const int &order_y) :
         ChebyshevApprox2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax) {
     }
 
    private:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
-    double AffineTransformationUnitToSegment_x(const double& xunit) const override {
+    double AffineTransformationUnitToSegment_x(const double &xunit) const override {
       return 0.5 * (m_x_max - this->m_x_min) * xunit + 0.5 * (m_x_max + this->m_x_min);
     }
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
-    double AffineTransformationUnitToSegment_y(const double& yunit) const override {
+    double AffineTransformationUnitToSegment_y(const double &yunit) const override {
       return 2. * (this->m_y_min / (1 - yunit));
     }
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
-    double AffineTransformationSegmentToUnit_x(const double& xdomain) const override {
+    double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
       return (2. / (m_x_max - this->m_x_min)) * (xdomain - 0.5 * (m_x_max + this->m_x_min));
     }
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
-    double AffineTransformationSegmentToUnit_y(const double& ydomain) const override {
+    double AffineTransformationSegmentToUnit_y(const double &ydomain) const override {
       return 1. - 2. * (this->m_y_min / ydomain);
     }
 
     /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
-    double CoefficientDerivative_x(const double& xdomain) const {
+    double CoefficientDerivative_x(const double &xdomain) const {
       return 2. / (m_x_max - this->m_x_min);
     }
 
     /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
-    double CoefficientDerivative_y(const double& ydomain) const {
+    double CoefficientDerivative_y(const double &ydomain) const {
       return 2. * this->m_y_min / (ydomain * ydomain);
     }
 

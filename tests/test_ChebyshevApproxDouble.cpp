@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
   myChebyshevApprox2dMixed.Computation_aij();
 
   // Tests.
-  PrintHeader("Half-open segments - Function - Arbitrary point.");
+  PrintHeader("Mixed segments - Function - Arbitrary point.");
   std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
   ana = myFunction2d.Evaluate(x, y);
   std::cout << "Analytical: " << ana << std::endl;
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
   std::cout << "Relative error (%): " << 100 * abs((num - ana) / ana) << std::endl;
   assert(IsClose(num, ana, 10e-3));
 
-  PrintHeader("Half-open segments - x derivative - Arbitrary point.");
+  PrintHeader("Mixed segments - x derivative - Arbitrary point.");
   std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
   ana = myFunction2d.Evaluate_derivative_x(x, y);
   std::cout << "Analytical: " << ana << std::endl;
@@ -177,7 +177,7 @@ int main(int argc, char* argv[]) {
   std::cout << "Relative error (%): " << 100 * abs((num - ana) / ana) << std::endl;
   assert(IsClose(num, ana, 10e-3));
 
-  PrintHeader("Half-open segments - y derivative - Arbitrary point.");
+  PrintHeader("Mixed segments - y derivative - Arbitrary point.");
   std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
   ana = myFunction2d.Evaluate_derivative_y(x, y);
   std::cout << "Analytical: " << ana << std::endl;
