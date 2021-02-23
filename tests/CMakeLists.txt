@@ -19,7 +19,8 @@ set(TESTS
 	    test_linear_system_solver
         test_integration2d
         test_functions
-        test_ChebyshevSeriesApprox
+        test_ChebyshevApproxDouble
+        test_ChebyshevApproxTriple
         )
 
 IF(MSVC)

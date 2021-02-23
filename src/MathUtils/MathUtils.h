@@ -35,6 +35,7 @@
 #include "Integration2dTriangle.h"
 #include "QuadratureTables.h"
 #include "Integrand.h"
-#include "ChebyshevSeriesApprox.h"
+#include "ChebyshevApprox2d.h"
+#include "ChebyshevApprox3d.h"
 
 #endif //FRYDOM_MATHUTILS_H_H
