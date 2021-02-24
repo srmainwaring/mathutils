@@ -207,15 +207,22 @@ Their differentiation is given by the following recurrence relation:
 
 The computation of the differentiation of the Legendre polynomials is achieved in the function ``Legendre_polynomial_derivative``.
 
-Factorial
----------
+Gamma function
+--------------
 
-The factorial of an integer :math:`n`, defined by:
+The Euler's gamma function is defined by:
 
 .. math::
-   n! = 1\times2\times\dots\times n
+   \Gamma(x) = \displaystyle \int_{0}^{+\infty} t^{x-1}e^{-t} dt
 
-is evaluated in the function ``Factorial``.
+This function may be called with the function ``Gamma``.
+
+For a positive interger :math:`n`, it comes:
+
+.. math::
+   \Gamma(n) = (n-1)!
+
+The factorial may also be evaluated with the function ``Factorial``.
 
 Exponential integral :math:`Ei`
 -------------------------------
