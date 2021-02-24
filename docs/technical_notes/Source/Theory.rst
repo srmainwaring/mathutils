@@ -247,7 +247,7 @@ where :math:`x_0` is the zero of :math:`Ei` and :math:`T_j^{*}` is a shifted Che
 .. note::
    The prime summation :math:`\sum{}^{'}` indicates only half of the first term is included.
 
-The parameters :math:`x_0`, :math:`(p_j)_{0 \leqslant j \leqslant n}`, :math:`(q_j)_{0 \leqslant j \leqslant n}`, :math:`(p_j)_{0 \leqslant j \leqslant n}`, :math:`(\beta_j)_{0 \leqslant j \leqslant n}` and :math:`(\beta_j)_{0 \leqslant j \leqslant n-1}` are given in [Cody1969]_. 
+The parameters :math:`x_0`, :math:`(p_j)_{0 \leqslant j \leqslant n}`, :math:`(q_j)_{0 \leqslant j \leqslant n}`, :math:`(\alphaj)_{0 \leqslant j \leqslant n}` and :math:`(\beta_j)_{0 \leqslant j \leqslant n-1}` are given in [Cody1969]_. 
 
 In **MathUtils**, the order is fixed to :math:`n = 9`.
 
@@ -259,6 +259,8 @@ It may be necessary to evaluate the quantity :math:`e^{-x}Ei(x)` for large :math
    e^{-x}Ei(x) \approx \dfrac{1}{x}\left[1 + \dfrac{1}{x}\left(\alpha_0 + \dfrac{\beta_0}{\alpha_1 + x + \dfrac{\beta_1}{\alpha_2 + x + \dfrac{\beta_2}{\alpha_3 + x + \ddots}}}\right)\right] \text{ for } x > 24
 
 Which may be evaluated numerically without difficulty.
+
+The computation of :math:`e^{-x}Ei(x)` is achieved in the function ``expEi``.
 
 Struve functions
 ----------------
@@ -427,6 +429,8 @@ Regarding the partial derivatives, it comes:
               \tilde{x} = 1 - 2\dfrac{x_{min}}{x} \in [-1, 1] \\ \tilde{y} = 1 - 2\dfrac{y_{min}}{y} \in [-1, 1] \\ x_r = 2\dfrac{x_{min}}{1 - \tilde{x}_r} \in [x_{min}, +\infty[ \\ y_s = 2\dfrac{y_{min}}{1 - \tilde{y}_s} \in [y_{min}, +\infty[\\ \displaystyle \dfrac{\partial f}{\partial x}(x,y) \approx \dfrac{2x_{min}}{x^2}\sum_{i = 0}^m\sum_{j = 0}^n a_{ij}\dfrac{\partial T_i}{\partial x}(\tilde{x})T_j(\tilde{y})\\ \displaystyle \dfrac{\partial f}{\partial y}(x,y) \approx \dfrac{2y_{min}}{y^2}\sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_i(\tilde{x})\dfrac{\partial T_j}{\partial y}(\tilde{y})
           \end{cases}
 
+The double Chebyshev series approximation is performed with the base class ``ChebyshevApprox2dBase`` and its derived classes.
+
 Triple Chebyshev series approximation
 -------------------------------------
 
@@ -464,6 +468,8 @@ Regarding the partial derivatives, it comes:
           \begin{cases}
               \tilde{x} = 1 - 2\dfrac{x_{min}}{x} \in [-1, 1] \\ \tilde{y} = 1 - 2\dfrac{y_{min}}{y} \in [-1, 1] \\ \tilde{z} = 1 - 2\dfrac{z_{min}}{z} \in [-1, 1] \\ x_r = 2\dfrac{x_{min}}{1 - \tilde{x}_r} \in [x_{min}, +\infty[ \\ y_s = 2\dfrac{y_{min}}{1 - \tilde{y}_s} \in [y_{min}, +\infty[ \\ z_t = 2\dfrac{z_{min}}{1 - \tilde{z}_t} \in [z_{min}, +\infty[ \\ \displaystyle \dfrac{\partial f}{\partial x}(x,y,z) \approx \dfrac{2x_{min}}{x^2}\sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}\dfrac{\partial T_i}{\partial x}(\tilde{x})T_j(\tilde{y})T_k(\tilde{z})\\ \displaystyle \dfrac{\partial f}{\partial y}(x,y,z) \approx \dfrac{2y_{min}}{y^2}\sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}T_i(\tilde{x})\dfrac{\partial T_j}{\partial y}(\tilde{y})T_k(\tilde{z})\\ \displaystyle \dfrac{\partial f}{\partial z}(x,y,z) \approx \dfrac{2z_{min}}{z^2}\sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}T_i(\tilde{x})T_j(\tilde{y})\dfrac{\partial T_k}{\partial z}(\tilde{z})
           \end{cases}
+
+The triple Chebyshev series approximation is performed with the base class ``ChebyshevApprox3dBase`` and its derived classes.
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
