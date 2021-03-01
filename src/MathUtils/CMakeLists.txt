@@ -27,10 +27,14 @@ set(MATHUTILS_HEADERS
         Integration2dTriangle.h
         QuadratureTables.h
         Integrand.h
-        ChebyshevApprox2d.h
-        ChebyshevApprox3d.h
         )
 
+if (MATHUTILS_BOOST_VERSION)
+    list( APPEND MATHUTILS_HEADERS
+            ChebyshevApprox2d.h
+            ChebyshevApprox3d.h
+            )
+endif()
 
 # Building target
 add_library(MathUtils INTERFACE)
