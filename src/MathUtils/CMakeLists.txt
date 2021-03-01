@@ -49,6 +49,9 @@ target_include_directories(MathUtils INTERFACE
 #        ${PROJECT_SOURCE_DIR}/src
 #        )
 
+if (MATHUTILS_BOOST_VERSION)
+    target_compile_definitions(MathUtils INTERFACE -DH5_BOOST_VERSION)
+endif()
 
 #set_target_properties(MathUtils PROPERTIES
 #        VERSION ${MathUtils_VERSION})
