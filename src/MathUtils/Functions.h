@@ -140,12 +140,6 @@ namespace mathutils {
       return boost::math::legendre_p(order, x);
   }
 
-  // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
-  template <class Integer, class Real>
-  Real Legendre_polynomial_derivative(const Integer& order, const Real x){
-    return boost::math::legendre_p_prime(order, x);
-  }
-
   // This function returns the factorial of the integer n.
   template <class Integer, class Real>
   Real Factorial(const Integer n){
@@ -227,6 +221,12 @@ namespace mathutils {
   }
 
 #ifdef H5_BOOST_VERSION
+  // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
+  template <class Integer, class Real>
+  Real Legendre_polynomial_derivative(const Integer& order, const Real x){
+    return boost::math::legendre_p_prime(order, x);
+  }
+
   // This function returns the Chebyshev polynomial of order "order" at the point x.
   template <class Integer, class Real>
   Real Chebyshev_polynomial(const Integer& order, const Real x){
