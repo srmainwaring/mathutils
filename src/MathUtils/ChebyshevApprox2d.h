@@ -97,11 +97,8 @@ namespace mathutils {
       std::vector<double> ai;
       ai.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
-        std::vector<double> bj;
-        bj.reserve(m_order_y + 1);
-        for (int j = 0; j <= m_order_y; ++j) {
-          bj.push_back(m_aij(i, j));
-        }
+        Eigen::VectorXd tmp = m_aij.row(i);
+        std::vector<double> bj(tmp.data(), tmp.data() + tmp.size());
         bj.at(0) *= 2.;
         ai.push_back(boost::math::chebyshev_clenshaw_recurrence(bj.data(), bj.size(), yunit));
       }
@@ -125,11 +122,8 @@ namespace mathutils {
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
         double Ti = Chebyshev_polynomial_derivative(i, xunit);
-        std::vector<double> bj;
-        bj.reserve(m_order_y + 1);
-        for (int j = 0; j <= m_order_y; ++j) {
-          bj.push_back(m_aij(i, j));
-        }
+        Eigen::VectorXd tmp = m_aij.row(i);
+        std::vector<double> bj(tmp.data(), tmp.data() + tmp.size());
         bj.at(0) *= 2.;
         result += Ti * boost::math::chebyshev_clenshaw_recurrence(bj.data(), bj.size(), yunit);
       }
@@ -152,11 +146,8 @@ namespace mathutils {
       T result = 0.;
       for (int j = 0; j <= m_order_y; ++j) {
         double Tj = Chebyshev_polynomial_derivative(j, yunit);
-        std::vector<double> ai;
-        ai.reserve(m_order_x + 1);
-        for (int i = 0; i <= m_order_x; ++i) {
-          ai.push_back(m_aij(i, j));
-        }
+        Eigen::VectorXd tmp = m_aij.col(j);
+        std::vector<double> ai(tmp.data(), tmp.data() + tmp.size());
         ai.at(0) *= 2.;
         result += Tj * boost::math::chebyshev_clenshaw_recurrence(ai.data(), ai.size(), xunit);
       }
