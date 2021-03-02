@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS False)
 
 option(MATHUTILS_BUILD_TESTS "Build the MathUtils tests" ON)
+option(MATHUTILS_BOOST_VERSION "Boost version > 1.66 (pb with Tchebychev)" ON)
 
 
 # Version informations

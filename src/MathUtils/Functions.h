@@ -10,7 +10,9 @@
 #include <boost/math/special_functions/legendre.hpp>
 #include <boost/math/special_functions/factorials.hpp>
 #include <boost/math/special_functions/expint.hpp>
+#ifdef H5_BOOST_VERSION
 #include <boost/math/special_functions/chebyshev.hpp>
+#endif
 #include "VectorGeneration.h"
 
 namespace mathutils {
@@ -138,12 +140,6 @@ namespace mathutils {
       return boost::math::legendre_p(order, x);
   }
 
-  // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
-  template <class Integer, class Real>
-  Real Legendre_polynomial_derivative(const Integer& order, const Real x){
-    return boost::math::legendre_p_prime(order, x);
-  }
-
   // This function returns the factorial of the integer n.
   template <class Integer, class Real>
   Real Factorial(const Integer n){
@@ -222,6 +218,13 @@ namespace mathutils {
   template <class T>
   T Struve_zero_order_derivative(const T x){
     return (MU_2_PI - Struve_first_order<T>(x));
+  }
+
+#ifdef H5_BOOST_VERSION
+  // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
+  template <class Integer, class Real>
+  Real Legendre_polynomial_derivative(const Integer& order, const Real x){
+    return boost::math::legendre_p_prime(order, x);
   }
 
   // This function returns the Chebyshev polynomial of order "order" at the point x.
@@ -462,7 +465,7 @@ namespace mathutils {
     return result;
 
   }
-
+#endif
 }  // end namespace mathutils
 
 #endif //MATHUTILS_FUNCTIONS_H
