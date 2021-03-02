@@ -44,10 +44,6 @@ namespace mathutils {
     /// This method computes the coefficients aij.
     void Computation_aij() {
 
-      // Number of coefficients in x and y.
-      int Nx = m_order_x + 1;
-      int Ny = m_order_y + 1;
-
       // x abscissa.
       std::vector<double> x_tilde; // In [-1,1].
       std::vector<double> x; // In [xmin,xmax].
@@ -71,15 +67,13 @@ namespace mathutils {
       }
 
       // aij.
+      // The Clenshaw algorithm cannot be used as x_tilde and y_tilde depend on r and s.
       for (int i = 0; i <= m_order_x; ++i) {
         for (int j = 0; j <= m_order_y; ++j) {
           for (int r = 0; r <= m_order_x; ++r) {
-            double xtilde = x_tilde.at(r);
-            double Ti = Chebyshev_polynomial(i, xtilde);
+            double Ti = Chebyshev_polynomial(i, x_tilde.at(r));
             for (int s = 0; s <= m_order_y; ++s) {
-              m_aij(i, j) += this->m_function->Evaluate(x.at(r), y.at(s)) * Ti
-                             * Chebyshev_polynomial(j, y_tilde.at(s));
-              //TODO: Use Chebyshev_polynomial_next instead of Chebyshev_polynomial.
+              m_aij(i, j) += this->m_function->Evaluate(x.at(r), y.at(s)) * Ti * Chebyshev_polynomial(j, y_tilde.at(s));
             }
           }
           m_aij(i, j) *= 4. / ((m_order_x + 1.) * (m_order_y + 1.));
@@ -95,57 +89,24 @@ namespace mathutils {
     /// This method computes the double Chebyshev series approximation.
     T Evaluate(const double &x, const double &y) const {
 
-      double normal_x = AffineTransformationSegmentToUnit_x(x);
-      double normal_y = AffineTransformationSegmentToUnit_y(y);
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
 
-      //TODO: Vectorialiser ?
-      //TODO: Etudier l'algo de Clenshaw pour des problemes de stabitilites aux bornes.
-      // https://en.wikipedia.org/wiki/Clenshaw_algorithm
-      // https://scicomp.stackexchange.com/questions/27865/clenshaw-type-recurrence-for-derivative-of-chebyshev-series
-
-      T result = 0.;
-      double Tn = 0.;
-      double Tn_1 = 0.;
+      // Partial sum using Clenshaw algorithm.
+      std::vector<double> ai;
+      ai.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
-
-        // Definition of Ti.
-        double Ti;
-        if(i == 0){ // Order 0.
-          Ti = 1.;
-          Tn_1 = Ti;
-        }
-        else if(i == 1){ // Order 1.
-          Ti = normal_x;
-          Tn = Ti;
-        }
-        else{ // Order 2 and higher.
-          Ti = Chebyshev_polynomial_next<double>(normal_x, Tn, Tn_1);
-          Tn_1 = Tn;
-          Tn = Ti;
-        }
-
-        double Tp = 0.;
-        double Tp_1 = 0.;
+        std::vector<double> bj;
+        bj.reserve(m_order_y + 1);
         for (int j = 0; j <= m_order_y; ++j) {
-
-          // Definition of Tj.
-          double Tj;
-          if(j == 0){ // Order 0.
-            Tj = 1.;
-            Tp_1 = Tj;
-          }
-          else if(j == 1){ // Order 1.
-            Tj = normal_y;
-            Tp = Tj;
-          }
-          else{ // Order 2 and higher.
-            Tj = Chebyshev_polynomial_next<double>(normal_y, Tp, Tp_1);
-            Tp_1 = Tp;
-            Tp = Tj;
-          }
-          result += m_aij(i, j) * Ti * Tj;
+          bj.push_back(m_aij(i, j));
         }
+        bj.at(0) *= 2.;
+        ai.push_back(boost::math::chebyshev_clenshaw_recurrence(bj.data(), bj.size(), yunit));
       }
+      ai.at(0) *= 2.;
+      T result = boost::math::chebyshev_clenshaw_recurrence(ai.data(), ai.size(), xunit);
 
       return result;
 
@@ -154,15 +115,23 @@ namespace mathutils {
     /// This method computes the x-derivative double Chebyshev series approximation.
     T Evaluate_derivative_x(const double &x, const double &y) const {
 
+      // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
       double yunit = AffineTransformationSegmentToUnit_y(y);
 
+      // TODO: Implementation of the Clenshaw algorithm for derivative to study.
+
+      // Partial sum using Clenshaw algorithm except for the derivative.
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
         double Ti = Chebyshev_polynomial_derivative(i, xunit);
+        std::vector<double> bj;
+        bj.reserve(m_order_y + 1);
         for (int j = 0; j <= m_order_y; ++j) {
-          result += m_aij(i, j) * Ti * Chebyshev_polynomial(j, yunit);
+          bj.push_back(m_aij(i, j));
         }
+        bj.at(0) *= 2.;
+        result += Ti * boost::math::chebyshev_clenshaw_recurrence(bj.data(), bj.size(), yunit);
       }
       result *= CoefficientDerivative_x(x); // With a closed segment, this coefficient is independent of normal_x.
 
@@ -173,15 +142,23 @@ namespace mathutils {
     /// This method computes the y-derivative double Chebyshev series approximation.
     T Evaluate_derivative_y(const double &x, const double &y) const {
 
+      // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
       double yunit = AffineTransformationSegmentToUnit_y(y);
 
+      // TODO: Implementation of the Clenshaw algorithm for derivative to study.
+
+      // Partial sum using Clenshaw algorithm except for the derivative.
       T result = 0.;
-      for (int i = 0; i <= m_order_x; ++i) {
-        double Ti = Chebyshev_polynomial(i, xunit);
-        for (int j = 0; j <= m_order_y; ++j) {
-          result += m_aij(i, j) * Ti * Chebyshev_polynomial_derivative(j, yunit);
+      for (int j = 0; j <= m_order_y; ++j) {
+        double Tj = Chebyshev_polynomial_derivative(j, yunit);
+        std::vector<double> ai;
+        ai.reserve(m_order_x + 1);
+        for (int i = 0; i <= m_order_x; ++i) {
+          ai.push_back(m_aij(i, j));
         }
+        ai.at(0) *= 2.;
+        result += Tj * boost::math::chebyshev_clenshaw_recurrence(ai.data(), ai.size(), xunit);
       }
       result *= CoefficientDerivative_y(y); // With a closed segment, this coefficient is independent of normal_y.
 
