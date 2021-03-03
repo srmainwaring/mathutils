@@ -48,11 +48,6 @@ namespace mathutils {
     /// This method computes the coefficients aijk.
     void Computation_aijk() {
 
-      // Number of coefficients in x,  y and z.
-      int Nx = m_order_x + 1;
-      int Ny = m_order_y + 1;
-      int Nz = m_order_z + 1;
-
       // x abscissa.
       std::vector<double> x_tilde; // In [-1,1].
       std::vector<double> x; // In [xmin,xmax].
@@ -100,7 +95,6 @@ namespace mathutils {
                   m_aijk.at(k)(i, j) += this->m_function->Evaluate(x.at(r), y.at(s), z.at(t)) * Ti * Tj
                                         * Chebyshev_polynomial(k, z_tilde.at(t));
                 }
-                //TODO: Use Chebyshev_polynomial_next instead of Chebyshev_polynomial.
               }
             }
             m_aijk.at(k)(i, j) *= 8. / ((m_order_x + 1.) * (m_order_y + 1.) * (m_order_z + 1.));
@@ -123,25 +117,31 @@ namespace mathutils {
     /// This method computes the triple Chebyshev series approximation.
     T Evaluate(const double &x, const double &y, const double &z) const {
 
-      double normal_x = AffineTransformationSegmentToUnit_x(x);
-      double normal_y = AffineTransformationSegmentToUnit_y(y);
-      double normal_z = AffineTransformationSegmentToUnit_z(z);
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
 
-      //TODO: Vectorialiser ?
-      //TODO: Etudier l'algo de Clenshaw pour des problemes de stabitilites aux bornes.
-      // https://en.wikipedia.org/wiki/Clenshaw_algorithm
-      // https://scicomp.stackexchange.com/questions/27865/clenshaw-type-recurrence-for-derivative-of-chebyshev-series
-
-      T result = 0.;
+      // Partial sum using Clenshaw algorithm.
+      std::vector<double> ai;
+      ai.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
-        double Ti = Chebyshev_polynomial(i, normal_x);
+        std::vector<double> bj;
+        bj.reserve(m_order_y + 1);
         for (int j = 0; j <= m_order_y; ++j) {
-          double Tj = Chebyshev_polynomial(j, normal_y);
+          std::vector<double> ck;
+          ck.reserve(m_order_z + 1);
           for (int k = 0; k <= m_order_z; ++k) {
-            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, normal_z);
+            ck.push_back(m_aijk.at(k)(i, j));
           }
+          ck.at(0) *= 2.;
+          bj.push_back(boost::math::chebyshev_clenshaw_recurrence(ck.data(), ck.size(), zunit));
         }
+        bj.at(0) *= 2.;
+        ai.push_back(boost::math::chebyshev_clenshaw_recurrence(bj.data(), bj.size(), yunit));
       }
+      ai.at(0) *= 2.;
+      T result = boost::math::chebyshev_clenshaw_recurrence(ai.data(), ai.size(), xunit);
 
       return result;
 
@@ -150,17 +150,19 @@ namespace mathutils {
     /// This method computes the x-derivative triple Chebyshev series approximation.
     T Evaluate_derivative_x(const double &x, const double &y, const double &z) const {
 
-      double normal_x = AffineTransformationSegmentToUnit_x(x);
-      double normal_y = AffineTransformationSegmentToUnit_y(y);
-      double normal_z = AffineTransformationSegmentToUnit_z(z);
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
 
+      // Partial sum using Clenshaw algorithm.
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
-        double Ti = Chebyshev_polynomial_derivative(i, normal_x);
+        double Ti = Chebyshev_polynomial_derivative(i, xunit);
         for (int j = 0; j <= m_order_y; ++j) {
-          double Tj = Chebyshev_polynomial(j, normal_y);
+          double Tj = Chebyshev_polynomial(j, yunit);
           for (int k = 0; k <= m_order_z; ++k) {
-            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, normal_z);
+            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, zunit);
           }
         }
       }
@@ -173,17 +175,17 @@ namespace mathutils {
     /// This method computes the y-derivative triple Chebyshev series approximation.
     T Evaluate_derivative_y(const double &x, const double &y, const double &z) const {
 
-      double normal_x = AffineTransformationSegmentToUnit_x(x);
-      double normal_y = AffineTransformationSegmentToUnit_y(y);
-      double normal_z = AffineTransformationSegmentToUnit_z(z);
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
 
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
-        double Ti = Chebyshev_polynomial(i, normal_x);
+        double Ti = Chebyshev_polynomial(i, xunit);
         for (int j = 0; j <= m_order_y; ++j) {
-          double Tj = Chebyshev_polynomial_derivative(j, normal_y);
+          double Tj = Chebyshev_polynomial_derivative(j, yunit);
           for (int k = 0; k <= m_order_z; ++k) {
-            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, normal_z);
+            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial(k, zunit);
           }
         }
       }
@@ -196,17 +198,17 @@ namespace mathutils {
     /// This method computes the z-derivative triple Chebyshev series approximation.
     T Evaluate_derivative_z(const double &x, const double &y, const double &z) const {
 
-      double normal_x = AffineTransformationSegmentToUnit_x(x);
-      double normal_y = AffineTransformationSegmentToUnit_y(y);
-      double normal_z = AffineTransformationSegmentToUnit_z(z);
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
 
       T result = 0.;
       for (int i = 0; i <= m_order_x; ++i) {
-        double Ti = Chebyshev_polynomial(i, normal_x);
+        double Ti = Chebyshev_polynomial(i, xunit);
         for (int j = 0; j <= m_order_y; ++j) {
-          double Tj = Chebyshev_polynomial(j, normal_y);
+          double Tj = Chebyshev_polynomial(j, yunit);
           for (int k = 0; k <= m_order_z; ++k) {
-            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial_derivative(k, normal_z);
+            result += m_aijk.at(k)(i, j) * Ti * Tj * Chebyshev_polynomial_derivative(k, zunit);
           }
         }
       }
