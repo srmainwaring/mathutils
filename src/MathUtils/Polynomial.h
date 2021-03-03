@@ -8,15 +8,17 @@
 namespace mathutils {
 
   template<typename T>
-  T Horner(const std::vector<double>& coefficient, const T& x0) {
+  T Horner(const std::vector<double>& coefficients, const T& x0) {
 
     /// This method evaluates a polynomial at x0 using the Horner's method.
 
-    int size = coefficient.size();
-    T result = coefficient.at(size - 1);
+    // coefficients = (a0, a1, ..., an).
+
+    int size = coefficients.size();
+    T result = coefficients.at(size - 1);
     int i = size - 2;
     while (i >= 0) {
-      result = result * x0 + coefficient.at(i);
+      result = result * x0 + coefficients.at(i);
       --i;
     }
 
@@ -25,15 +27,17 @@ namespace mathutils {
   }
 
   template<typename T>
-  T Horner_derivative(std::vector<double>& coefficient, const T& x0) {
+  T Horner_derivative(std::vector<double>& coefficients, const T& x0) {
 
     /// This method evaluates the derivative of a polynomial at x0 using the Horner's method.
 
-    int size = coefficient.size();
-    T result = (size - 1) * coefficient.at(size - 1);
+    // coefficients = (a0, a1, ..., an).
+
+    int size = coefficients.size();
+    T result = (size - 1) * coefficients.at(size - 1);
     int i = size - 2;
     while (i >= 1) {
-      result = result * x0 + i * coefficient.at(i);
+      result = result * x0 + i * coefficients.at(i);
       --i;
     }
 
