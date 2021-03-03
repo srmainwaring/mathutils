@@ -2,8 +2,8 @@
 // Created by pierre-yves on 30/11/2020.
 //
 
-#ifndef MATHUTILS_CHEBYSHEVAPPROX2D_H
-#define MATHUTILS_CHEBYSHEVAPPROX2D_H
+#ifndef MATHUTILS_CHEBYSHEVSERIES2D_H
+#define MATHUTILS_CHEBYSHEVSERIES2D_H
 
 #include <memory>
 #include "Matrix.h"
@@ -28,12 +28,12 @@ namespace mathutils {
  * Class for handling and computing the double Chebyshev series approximation of a function.
  */
   template<typename T>
-  class ChebyshevApprox2dBase {
+  class ChebyshevSeries2dBase {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox2dBase(Function2d<T> *F, const double &xmin, const double &ymin, const int &order_x,
+    ChebyshevSeries2dBase(Function2d<T> *F, const double &xmin, const double &ymin, const int &order_x,
                                     const int &order_y) : m_function(F), m_x_min(xmin), m_y_min(ymin),
                                     m_order_x(order_x), m_order_y(order_y) {
       m_aij = MatrixMN<T>::Zero(order_x + 1, order_y + 1);
@@ -203,14 +203,14 @@ namespace mathutils {
  * Class for computing the double Chebyshev series approximation of a function over [xmin, xmax] x [ymin, ymax].
  */
   template<typename T>
-  class ChebyshevApprox2dClosed : public ChebyshevApprox2dBase<T> {
+  class ChebyshevSeries2dClosed : public ChebyshevSeries2dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox2dClosed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+    ChebyshevSeries2dClosed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                             const double &ymax, const int &order_x, const int &order_y) :
-        ChebyshevApprox2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax), m_y_max(ymax) {
+        ChebyshevSeries2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax), m_y_max(ymax) {
     }
 
    private:
@@ -259,14 +259,14 @@ namespace mathutils {
  * Class for computing the double Chebyshev series approximation of a function over [xmin, +infinity] x [ymin, +infinity].
  */
   template<typename T>
-  class ChebyshevApprox2dOpened : public ChebyshevApprox2dBase<T> {
+  class ChebyshevSeries2dOpened : public ChebyshevSeries2dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox2dOpened(Function2d<T> *F, const double &xmin, const double &ymin, const int &order_x,
+    ChebyshevSeries2dOpened(Function2d<T> *F, const double &xmin, const double &ymin, const int &order_x,
                             const int &order_y) :
-        ChebyshevApprox2dBase<T>(F, xmin, ymin, order_x, order_y) {
+        ChebyshevSeries2dBase<T>(F, xmin, ymin, order_x, order_y) {
     }
 
    private:
@@ -307,14 +307,14 @@ namespace mathutils {
  * Class for computing the double Chebyshev series approximation of a function over [xmin, xmax] x [ymin, +infinity]
  */
   template<typename T>
-  class ChebyshevApprox2dMixed : public ChebyshevApprox2dBase<T> {
+  class ChebyshevSeries2dMixed : public ChebyshevSeries2dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox2dMixed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+    ChebyshevSeries2dMixed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                            const int &order_x, const int &order_y) :
-        ChebyshevApprox2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax) {
+        ChebyshevSeries2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax) {
     }
 
    private:
@@ -356,4 +356,4 @@ namespace mathutils {
 
 }
 
-#endif //MATHUTILS_CHEBYSHEVAPPROX2D_H
+#endif //MATHUTILS_CHEBYSHEVSERIES2D_H

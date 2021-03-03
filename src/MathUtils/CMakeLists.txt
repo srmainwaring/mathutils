@@ -31,8 +31,8 @@ set(MATHUTILS_HEADERS
 
 if (MATHUTILS_BOOST_VERSION)
     list( APPEND MATHUTILS_HEADERS
-            ChebyshevApprox2d.h
-            ChebyshevApprox3d.h
+            ChebyshevSeries2d.h
+            ChebyshevSeries3d.h
             )
 endif()
 

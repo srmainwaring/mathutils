@@ -2,8 +2,8 @@
 // Created by pierre-yves on 30/11/2020.
 //
 
-#ifndef MATHUTILS_CHEBYSHEVAPPROX3D_H
-#define MATHUTILS_CHEBYSHEVAPPROX3D_H
+#ifndef MATHUTILS_CHEBYSHEVSERIES3D_H
+#define MATHUTILS_CHEBYSHEVSERIES3D_H
 
 #include <memory>
 #include "Matrix.h"
@@ -28,12 +28,12 @@ namespace mathutils {
 * Class for handling and computing the triple Chebyshev series approximation of a function.
 */
   template<typename T>
-  class ChebyshevApprox3dBase {
+  class ChebyshevSeries3dBase {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox3dBase(Function3d<T> *F, const double &xmin, const double &ymin, const double &zmin,
+    ChebyshevSeries3dBase(Function3d<T> *F, const double &xmin, const double &ymin, const double &zmin,
                                     const int &order_x, const int &order_y, const int &order_z) : m_function(F),
                                     m_x_min(xmin), m_y_min(ymin), m_z_min(zmin), m_order_x(order_x), m_order_y(order_y),
                                     m_order_z(order_z) {
@@ -279,15 +279,15 @@ namespace mathutils {
   * Class for computing the triple Chebyshev series approximation of a function over [xmin, xmax] x [ymin, ymax] x [zmin, zmax].
   */
   template<typename T>
-  class ChebyshevApprox3dClosed : public ChebyshevApprox3dBase<T> {
+  class ChebyshevSeries3dClosed : public ChebyshevSeries3dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox3dClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+    ChebyshevSeries3dClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                             const double &ymax, const double &zmin, const double &zmax, const int &order_x,
                             const int &order_y, const int &order_z) :
-        ChebyshevApprox3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z),
+        ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z),
         m_x_max(xmax), m_y_max(ymax), m_z_max(zmax) {
     }
 
@@ -356,14 +356,14 @@ namespace mathutils {
 * Class for computing the triple Chebyshev series approximation of a function over [xmin, xmax] x [ymin, +infinity] x [zmin, +infinity].
 */
   template<typename T>
-  class ChebyshevApprox3dYZOpenedXClosed : public ChebyshevApprox3dBase<T> {
+  class ChebyshevSeries3dYZOpenedXClosed : public ChebyshevSeries3dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox3dYZOpenedXClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+    ChebyshevSeries3dYZOpenedXClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                                      const double &zmin, const int &order_x, const int &order_y, const int &order_z) :
-        ChebyshevApprox3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax) {
+        ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax) {
     }
 
    private:
@@ -424,15 +424,15 @@ namespace mathutils {
 * Class for computing the triple Chebyshev series approximation of a function over [xmin, xmax] x [ymin, ymx] x [zmin, +infinity].
 */
   template<typename T>
-  class ChebyshevApprox3dZOpenedXYClosed : public ChebyshevApprox3dBase<T> {
+  class ChebyshevSeries3dZOpenedXYClosed : public ChebyshevSeries3dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevApprox3dZOpenedXYClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
+    ChebyshevSeries3dZOpenedXYClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                                      const double &ymax, const double &zmin, const int &order_x, const int &order_y,
                                      const int &order_z) :
-        ChebyshevApprox3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax), m_y_max(ymax) {
+        ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax), m_y_max(ymax) {
     }
 
    private:
@@ -494,4 +494,4 @@ namespace mathutils {
 
 }
 
-#endif //MATHUTILS_CHEBYSHEVAPPROX3D_H
+#endif //MATHUTILS_CHEBYSHEVSERIES3D_H

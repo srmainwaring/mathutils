@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
   int order_x = 11;
   int order_y = 13;
   int order_z = 10;
-  auto myChebyshevApprox3dClosed = ChebyshevApprox3dClosed<double>(&myFunction3d, xmin, xmax, ymin, ymax, zmin, zmax,
+  auto myChebyshevApprox3dClosed = ChebyshevSeries3dClosed<double>(&myFunction3d, xmin, xmax, ymin, ymax, zmin, zmax,
                                                                    order_x, order_y, order_z);
   myChebyshevApprox3dClosed.Computation_aijk();
 
@@ -135,7 +135,7 @@ int main(int argc, char* argv[]) {
   x = 10;
   y = 50;
   z = 50;
-  auto myChebyshevApprox3dYZOpenedXClosed = ChebyshevApprox3dYZOpenedXClosed<double>(&myFunction3d, xmin, xmax, ymin,
+  auto myChebyshevApprox3dYZOpenedXClosed = ChebyshevSeries3dYZOpenedXClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      zmin, order_x, order_y, order_z);
   myChebyshevApprox3dYZOpenedXClosed.Computation_aijk();
 
@@ -194,7 +194,7 @@ int main(int argc, char* argv[]) {
   x = 10;
   y = 10;
   z = 50;
-  auto myChebyshevApprox3dZOpenedXYClosed = ChebyshevApprox3dZOpenedXYClosed<double>(&myFunction3d, xmin, xmax, ymin,
+  auto myChebyshevApprox3dZOpenedXYClosed = ChebyshevSeries3dZOpenedXYClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      ymax, zmin, order_x, order_y,
                                                                                      order_z);
   myChebyshevApprox3dZOpenedXYClosed.Computation_aijk();
