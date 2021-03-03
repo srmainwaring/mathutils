@@ -27,6 +27,7 @@ set(MATHUTILS_HEADERS
         Integration2dTriangle.h
         QuadratureTables.h
         Integrand.h
+        Polynomial.h
         )
 
 if (MATHUTILS_BOOST_VERSION)

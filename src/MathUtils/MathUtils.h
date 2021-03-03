@@ -35,6 +35,7 @@
 #include "Integration2dTriangle.h"
 #include "QuadratureTables.h"
 #include "Integrand.h"
+#include "Polynomial.h"
 #ifdef H5_BOOST_VERSION
 #include "ChebyshevSeries2d.h"
 #include "ChebyshevSeries3d.h"
