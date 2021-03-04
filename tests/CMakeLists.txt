@@ -22,6 +22,7 @@ set(TESTS
         test_ChebyshevSeries2d
         test_ChebyshevSeries3d
         test_polynomial
+        test_ChebyshevToPowerSeries2d
         )
 
 IF(MSVC)
