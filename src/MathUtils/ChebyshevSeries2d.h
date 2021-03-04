@@ -42,7 +42,7 @@ namespace mathutils {
    public:
 
     /// This method computes the coefficients aij.
-    void Computation_aij() {
+    void Compute_aij() {
 
       // x abscissa.
       std::vector<double> x_tilde; // In [-1,1].

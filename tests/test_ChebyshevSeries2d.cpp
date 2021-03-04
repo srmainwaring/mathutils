@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
   int order_x = 11;
   int order_y = 13;
   auto myChebyshevApprox2dClosed = ChebyshevSeries2dClosed<double>(&myFunction2d, xmin, xmax, ymin, ymax, order_x, order_y);
-  myChebyshevApprox2dClosed.Computation_aij();
+  myChebyshevApprox2dClosed.Compute_aij();
 
   // Tests.
   PrintHeader("Closed segments - Function - Zero of a ChebyShev polynomial.");
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
   x = 150;
   y = 150;
   auto myChebyshevApprox2dOpened = ChebyshevSeries2dOpened<double>(&myFunction2d, xmin, ymin, order_x, order_y);
-  myChebyshevApprox2dOpened.Computation_aij();
+  myChebyshevApprox2dOpened.Compute_aij();
 
   // Tests.
   PrintHeader("Half-open segments - Function - Arbitrary point.");
@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
   x = 3;
   y = 150;
   auto myChebyshevApprox2dMixed = ChebyshevSeries2dMixed<double>(&myFunction2d, xmin, xmax, ymin, order_x, order_y);
-  myChebyshevApprox2dMixed.Computation_aij();
+  myChebyshevApprox2dMixed.Compute_aij();
 
   // Tests.
   PrintHeader("Mixed segments - Function - Arbitrary point.");
