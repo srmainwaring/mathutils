@@ -21,10 +21,6 @@ int main(int argc, char* argv[]) {
 
   // This test checks the transformation from double Chebyshev series to double power series.
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //                                              Closed segments.
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   // Definition of a function to approximate by a double Chebyshev series.
   class Function2dTest : public Function2d<double> {
    public:
@@ -43,6 +39,10 @@ int main(int argc, char* argv[]) {
       return -3. / pow(2. * x + 3. * y, 2.);
     }
   };
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                              Closed segments.
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // aij coefficients.
   Function2dTest myFunction2d;
@@ -66,38 +66,98 @@ int main(int argc, char* argv[]) {
   std::cout << "Analytical: " << ana << std::endl;
   double chebyshev = myChebyshevSeries2dClosed->Evaluate(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
   double power = myPowerSeries2dClosed.Evaluate(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
-  std::cout << "Relative error (%): " << 100 * abs((chebyshev - power) / power) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, power, 10e-3));
   assert(IsClose(chebyshev, power, 10e-3));
 
   PrintHeader("Closed segments - x derivative.");
-  x = 3.;
-  y = 2.;
   std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
   ana = myFunction2d.Evaluate_derivative_x(x, y);
   std::cout << "Analytical: " << ana << std::endl;
   chebyshev = myChebyshevSeries2dClosed->Evaluate_derivative_x(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
   power = myPowerSeries2dClosed.Evaluate_derivate_x(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
-  std::cout << "Relative error (%): " << 100 * abs((chebyshev - power) / power) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, power, 10e-3));
   assert(IsClose(chebyshev, power, 10e-3));
 
   PrintHeader("Closed segments - y derivative.");
-  x = 3.;
-  y = 2.;
   std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
   ana = myFunction2d.Evaluate_derivative_y(x, y);
   std::cout << "Analytical: " << ana << std::endl;
   chebyshev = myChebyshevSeries2dClosed->Evaluate_derivative_y(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
   power = myPowerSeries2dClosed.Evaluate_derivate_y(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
-  std::cout << "Relative error (%): " << 100 * abs((chebyshev - power) / power) << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, power, 10e-3));
   assert(IsClose(chebyshev, power, 10e-3));
+
+  std::cout << "\n" << std::endl;
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                            Half-open segments
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // aij coefficients.
+  xmin = 1.;
+  ymin = 1.;
+  order_x = 18;
+  order_y = 18;
+  x = 15;
+  y = 15;
+  auto myChebyshevSeries2dOpened = std::make_shared<ChebyshevSeries2dOpened<double>>(&myFunction2d, xmin, ymin, order_x, order_y);
+  myChebyshevSeries2dOpened->Compute_aij();
+
+  // From Chebyshev series to power series.
+  auto myPowerSeries2dOpened = ChebyshevToPowerSeries2dOpened<double>(myChebyshevSeries2dOpened);
+
+  // Tests.
+  PrintHeader("Half-open segments - Function.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction2d.Evaluate(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  chebyshev = myChebyshevSeries2dOpened->Evaluate(x, y);
+  std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
+  power = myPowerSeries2dOpened.Evaluate(x, y);
+  std::cout << "Double Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+  assert(IsClose(chebyshev, power, 10e-3));
+
+  PrintHeader("Half-open segments - x derivative.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction2d.Evaluate_derivative_x(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  chebyshev = myChebyshevSeries2dOpened->Evaluate_derivative_x(x, y);
+  std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
+  power = myPowerSeries2dOpened.Evaluate_derivate_x(x, y);
+  std::cout << "Double Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+  assert(IsClose(chebyshev, power, 10e-3));
+
+  PrintHeader("Half-open segments - y derivative.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction2d.Evaluate_derivative_y(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  chebyshev = myChebyshevSeries2dOpened->Evaluate_derivative_y(x, y);
+  std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
+  power = myPowerSeries2dOpened.Evaluate_derivate_y(x, y);
+  std::cout << "Double Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+  assert(IsClose(chebyshev, power, 10e-3));
+
+  std::cout << "\n" << std::endl;
 
 }
