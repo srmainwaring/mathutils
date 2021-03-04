@@ -142,12 +142,6 @@ namespace mathutils {
 
    protected:
 
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
-    virtual double AffineTransformationUnitToSegment_x(const double &xunit) const = 0;
-
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
-    virtual double AffineTransformationUnitToSegment_y(const double &yunit) const = 0;
-
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
     virtual double AffineTransformationSegmentToUnit_x(const double &xdomain) const = 0;
 
@@ -197,16 +191,6 @@ namespace mathutils {
 
    private:
 
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
-    double AffineTransformationUnitToSegment_x(const double &xunit) const override {
-      return 0.5 * (m_x_max - this->m_x_min) * xunit + 0.5 * (m_x_max + this->m_x_min);
-    }
-
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
-    double AffineTransformationUnitToSegment_y(const double &yunit) const override {
-      return 0.5 * (m_y_max - this->m_y_min) * yunit + 0.5 * (m_y_max + this->m_y_min);
-    }
-
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
     double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
       return (2. / (m_x_max - this->m_x_min)) * (xdomain - 0.5 * (m_x_max + this->m_x_min));
@@ -252,16 +236,6 @@ namespace mathutils {
 
    private:
 
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
-    double AffineTransformationUnitToSegment_x(const double &xunit) const override {
-      return 2. * (this->m_x_min / (1 - xunit));
-    }
-
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
-    double AffineTransformationUnitToSegment_y(const double &yunit) const override {
-      return 2. * (this->m_y_min / (1 - yunit));
-    }
-
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
     double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
       return 1. - 2. * (this->m_x_min / xdomain);
@@ -300,16 +274,6 @@ namespace mathutils {
     }
 
    private:
-
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
-    double AffineTransformationUnitToSegment_x(const double &xunit) const override {
-      return 0.5 * (m_x_max - this->m_x_min) * xunit + 0.5 * (m_x_max + this->m_x_min);
-    }
-
-    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
-    double AffineTransformationUnitToSegment_y(const double &yunit) const override {
-      return 2. * (this->m_y_min / (1 - yunit));
-    }
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
     double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
