@@ -75,6 +75,11 @@ namespace mathutils {
       return m_order_z;
     }
 
+    /// Getter of m_aij.
+    std::vector<MatrixMN<T>> aijk() {
+      return m_aijk;
+    }
+
     /// This method computes the coefficients aijk.
     void Compute_aijk() {
 

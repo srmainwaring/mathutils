@@ -61,6 +61,11 @@ namespace mathutils {
       return m_order_y;
     }
 
+    /// Getter of m_aij.
+    MatrixMN<T> aij() {
+      return m_aij;
+    }
+
     /// This method computes the coefficients aij.
     void Compute_aij() {
 
