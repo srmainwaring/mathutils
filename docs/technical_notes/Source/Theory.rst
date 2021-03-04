@@ -502,6 +502,54 @@ The method is applied using:
 
 The functions ``Horner`` and ``Horner_derivative`` apply this method.
 
+Conversion of Chebyshev series into power series
+------------------------------------------------
+
+It is interesting to convert Chebyshev series into power series for using the Horner's method and evaluating derivatives. Let us consider a function :math:`f` which is approximated by a double Chebyshev series of order :math:`m \times n` over :math:`[x_{min}, x_{max}] \times [y_{min}, y_{max}]` and converted into a power series:
+
+.. math::
+   \displaystyle f(x,y) \approx \sum_{i = 0}^m\sum_{j = 0}^n a_{ij}T_{i,j}(\tilde{x}, \tilde{y}) \approx \sum_{i = 0}^m\sum_{j = 0}^n b_{ij}\tilde{x}^i\tilde{y}^j
+
+with:
+
+.. math::
+   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \end{cases}
+
+The coefficients :math:`(b_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` are expressed by [Chen1993]_:
+
+.. math::
+   \displaystyle b_{ij} = \sum_{r = i}^m\sum_{s = j}^n a_{rs}\lambda_{ri}\lambda_{sj}
+
+with:
+
+.. math::
+   \lambda_{ri} = \begin{cases} 1 \text{ if } r = i = 0 \\ 0 \text{ if } (r + i) \text{ is odd} \\ \displaystyle (-1)^{\left[\dfrac{r - i}{2}\right]} 2^{i-1}\left(\dfrac{r\left[\dfrac{r + i}{2}-1\right]!}{\left[\dfrac{r - i}{2}\right]!i!}\right) \text{ otherwise}\end{cases}
+
+where :math:`[x]` represents the floor function.
+
+.. note::
+   If the function :math:`f` is defined over half-open line segments :math:`[x_{min}, +\infty[\times[y_{min}, +\infty[`, then the following modifications are necessary:
+
+      .. math::
+          \begin{cases}
+              \tilde{x} = 1 - 2\dfrac{x_{min}}{x} \in [-1, 1] \\ \tilde{y} = 1 - 2\dfrac{y_{min}}{y} \in [-1, 1]
+          \end{cases}
+
+.. warning::
+   This algorithm presents numerical inaccuracies for large orders. Consequently, each order must be **lower or equal to 18** [Boyd2002]_.
+
+If the function :math:`f` is approximated by a triple Chebyshev series, then:
+
+.. math::
+   \displaystyle f(x,y,z) \approx \sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p a_{ijk}T_{i,j,k}(\tilde{x}, \tilde{y}, \tilde{z}) \approx \sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p b_{ijk}\tilde{x}^i\tilde{y}^j\tilde{z}^k
+
+with:
+
+.. math::
+   \displaystyle b_{ijk} = \sum_{r = i}^m\sum_{s = j}^n\sum_{t = k}^p a_{rst}\lambda_{ri}\lambda_{sj}\lambda_{tk}
+
+These conversions are performed with the base classes ``ChebyshevToPowerSeries2dBase`` and ``ChebyshevToPowerSeries3dBase`` and their derived classes.
+
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
 .. [Cody1969] Cody W. J. and Thacher H. C. Chebyshev Approximations for the Exponential Integral Ei(x). Mathematics of Computation, 23(106):289-303, 1969.
@@ -511,6 +559,8 @@ The functions ``Horner`` and ``Horner_derivative`` apply this method.
 .. [Newman1984] J. N. Newman. Approximations for the Bessel and Struve functions. Mathematics of Computation, 43(168):551-556, 1984.
 
 .. [Chen1993] X. Chen. Evaluation de la fonction de Green du problème de diffraction / radiation en profondeur d’eau finie. Proceedings of the 4ème Journées de l’Hydrodynamique (JH1993), Nantes, France, 1993.
+
+.. [Boyd2002] J. P. Boyd. Computing zeros on a real interval through Chebyshev expansion and polynomial rootfinding. SIAM Journal on Numerical Analysis, 40(5):1666-1682, 2002.
 
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.
 
