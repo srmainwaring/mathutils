@@ -160,4 +160,62 @@ int main(int argc, char* argv[]) {
 
   std::cout << "\n" << std::endl;
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                            Mixed closed - half-open segments
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // aij coefficients.
+  xmin = 1.;
+  xmax = 10.;
+  ymin = 1.;
+  order_x = 10;
+  order_y = 18;
+  x = 3;
+  y = 3;
+  auto myChebyshevSeries2dMixed = std::make_shared<ChebyshevSeries2dMixed<double>>(&myFunction2d, xmin, xmax, ymin, order_x, order_y);
+  myChebyshevSeries2dMixed->Compute_aij();
+
+  // From Chebyshev series to power series.
+  auto myPowerSeries2dMixed = ChebyshevToPowerSeries2dMixed<double>(myChebyshevSeries2dMixed);
+
+  // Tests.
+  PrintHeader("Mixed segments - Function.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction2d.Evaluate(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  chebyshev = myChebyshevSeries2dMixed->Evaluate(x, y);
+  std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
+  power = myPowerSeries2dMixed.Evaluate(x, y);
+  std::cout << "Double Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+  assert(IsClose(chebyshev, power, 10e-3));
+
+  PrintHeader("Mixed segments - x derivative.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction2d.Evaluate_derivative_x(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  chebyshev = myChebyshevSeries2dMixed->Evaluate_derivative_x(x, y);
+  std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
+  power = myPowerSeries2dMixed.Evaluate_derivate_x(x, y);
+  std::cout << "Double Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+  assert(IsClose(chebyshev, power, 10e-3));
+
+  PrintHeader("Mixed segments - y derivative.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction2d.Evaluate_derivative_y(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  chebyshev = myChebyshevSeries2dMixed->Evaluate_derivative_y(x, y);
+  std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
+  power = myPowerSeries2dMixed.Evaluate_derivate_y(x, y);
+  std::cout << "Double Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+  assert(IsClose(chebyshev, power, 10e-3));
+
 }

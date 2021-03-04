@@ -247,7 +247,7 @@ namespace mathutils {
    public:
 
     /// Contructor of the class.
-    ChebyshevToPowerSeries2dOpened(const std::shared_ptr<ChebyshevSeries2dOpened < T>> &chebyshev) :
+    ChebyshevToPowerSeries2dOpened(const std::shared_ptr<ChebyshevSeries2dOpened<T>> &chebyshev) :
     ChebyshevToPowerSeries2dBase <T>(chebyshev) {}
 
    private:
@@ -281,6 +281,58 @@ namespace mathutils {
     double CoefficientDerivative_y(const double &ydomain) const {
       return 2. * this->m_y_min / (ydomain * ydomain);
     }
+
+  };
+
+  /**
+  * Class for computing the double power series approximation of a function from its Chebyshev series approximation over
+   * [xmin, xmax] x [ymin, +infinity].
+  */
+  template<typename T>
+  class ChebyshevToPowerSeries2dMixed : public ChebyshevToPowerSeries2dBase<T> {
+
+   public:
+
+    /// Contructor of the class.
+    ChebyshevToPowerSeries2dMixed(const std::shared_ptr<ChebyshevSeries2dMixed<T>> &chebyshev) :
+    ChebyshevToPowerSeries2dBase <T>(chebyshev) {
+      m_x_max = chebyshev->x_max();
+    }
+
+   private:
+
+    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
+    double AffineTransformationUnitToSegment_x(const double &xunit) const override {
+      return 0.5 * (m_x_max - this->m_x_min) * xunit + 0.5 * (m_x_max + this->m_x_min);
+    }
+
+    /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for y.
+    double AffineTransformationUnitToSegment_y(const double &yunit) const override {
+      return 2. * (this->m_y_min / (1 - yunit));
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
+    double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
+      return (2. / (m_x_max - this->m_x_min)) * (xdomain - 0.5 * (m_x_max + this->m_x_min));
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
+    double AffineTransformationSegmentToUnit_y(const double &ydomain) const override {
+      return 1. - 2. * (this->m_y_min / ydomain);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
+    double CoefficientDerivative_x(const double &xdomain) const {
+      return 2. / (m_x_max - this->m_x_min);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
+    double CoefficientDerivative_y(const double &ydomain) const {
+      return 2. * this->m_y_min / (ydomain * ydomain);
+    }
+
+    /// x maximum.
+    double m_x_max;
 
   };
 

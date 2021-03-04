@@ -341,7 +341,7 @@ namespace mathutils {
   };
 
   /**
- * Class for computing the double Chebyshev series approximation of a function over [xmin, xmax] x [ymin, +infinity]
+ * Class for computing the double Chebyshev series approximation of a function over [xmin, xmax] x [ymin, +infinity].
  */
   template<typename T>
   class ChebyshevSeries2dMixed : public ChebyshevSeries2dBase<T> {
