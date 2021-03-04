@@ -26,6 +26,15 @@ namespace mathutils {
       m_y_min = chebyshev->y_min();
       m_order_x = chebyshev->order_x();
       m_order_y = chebyshev->order_y();
+
+      if(m_order_x > 18 or m_order_y > 18) {
+        std::cout << "The conversion Chebyshev to power series have large numerical inaccuracies for important order." << std::endl;
+        std::cout << "The maximum order in x and y is 18." << std::endl;
+        std::cout << "Order in x: " << m_order_x << std::endl;
+        std::cout << "Order in y: " << m_order_y << std::endl;
+        exit(0);
+      }
+
       m_pij = MatrixMN<T>::Zero(m_order_x + 1, m_order_y + 1);
       Compute_pij(chebyshev->aij());
     }
