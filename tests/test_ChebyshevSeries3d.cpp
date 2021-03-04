@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
   int order_z = 10;
   auto myChebyshevApprox3dClosed = ChebyshevSeries3dClosed<double>(&myFunction3d, xmin, xmax, ymin, ymax, zmin, zmax,
                                                                    order_x, order_y, order_z);
-  myChebyshevApprox3dClosed.Compute_aij();
+  myChebyshevApprox3dClosed.Compute_aijk();
 
   // Tests.
   PrintHeader("Closed segments - Function - Zero of a ChebyShev polynomial.");
@@ -137,7 +137,7 @@ int main(int argc, char* argv[]) {
   z = 50;
   auto myChebyshevApprox3dYZOpenedXClosed = ChebyshevSeries3dYZOpenedXClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      zmin, order_x, order_y, order_z);
-  myChebyshevApprox3dYZOpenedXClosed.Compute_aij();
+  myChebyshevApprox3dYZOpenedXClosed.Compute_aijk();
 
   // Tests.
   PrintHeader("X closed, YZ open - Function - Arbitrary point.");
@@ -197,7 +197,7 @@ int main(int argc, char* argv[]) {
   auto myChebyshevApprox3dZOpenedXYClosed = ChebyshevSeries3dZOpenedXYClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      ymax, zmin, order_x, order_y,
                                                                                      order_z);
-  myChebyshevApprox3dZOpenedXYClosed.Compute_aij();
+  myChebyshevApprox3dZOpenedXYClosed.Compute_aijk();
 
   // Tests.
   PrintHeader("XY closed, Z open - Function - Arbitrary point.");
