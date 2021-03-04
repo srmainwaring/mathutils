@@ -45,6 +45,36 @@ namespace mathutils {
 
    public:
 
+    /// Getter of m_x_min.
+    double x_min() {
+      return m_x_min;
+    }
+
+    /// Getter of m_y_min.
+    double y_min() {
+      return m_y_min;
+    }
+
+    /// Getter of m_z_min.
+    double z_min() {
+      return m_z_min;
+    }
+
+    /// Getter of m_order_x.
+    int order_x() {
+      return m_order_x;
+    }
+
+    /// Getter of m_order_y.
+    int order_y() {
+      return m_order_y;
+    }
+
+    /// Getter of m_order_z.
+    int order_z() {
+      return m_order_z;
+    }
+
     /// This method computes the coefficients aijk.
     void Compute_aijk() {
 
@@ -291,6 +321,23 @@ namespace mathutils {
         m_x_max(xmax), m_y_max(ymax), m_z_max(zmax) {
     }
 
+   public:
+
+    /// Getter of m_x_max.
+    double x_max() {
+      return m_x_max;
+    }
+
+    /// Getter of m_y_max.
+    double y_max() {
+      return m_y_max;
+    }
+
+    /// Getter of m_z_max.
+    double z_max() {
+      return m_z_max;
+    }
+
    private:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
@@ -366,6 +413,13 @@ namespace mathutils {
         ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax) {
     }
 
+   public:
+
+    /// Getter of m_x_max.
+    double x_max() {
+      return m_x_max;
+    }
+
    private:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
@@ -433,6 +487,18 @@ namespace mathutils {
                                      const double &ymax, const double &zmin, const int &order_x, const int &order_y,
                                      const int &order_z) :
         ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax), m_y_max(ymax) {
+    }
+
+   public:
+
+    /// Getter of m_x_max.
+    double x_max() {
+      return m_x_max;
+    }
+
+    /// Getter of m_y_max.
+    double y_max() {
+      return m_y_max;
     }
 
    private:
