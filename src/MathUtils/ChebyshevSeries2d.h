@@ -160,6 +160,14 @@ namespace mathutils {
     /// This method computes the bij of the power series from the aij of the Chebyshev series.
     MatrixMN<T> Compute_bij() {
 
+      if(m_order_x > 18 or m_order_y > 18) {
+        std::cout << "The conversion Chebyshev to power series have large numerical inaccuracies for important order." << std::endl;
+        std::cout << "The maximum order in x and y is 18." << std::endl;
+        std::cout << "Order in x: " << m_order_x << std::endl;
+        std::cout << "Order in y: " << m_order_y << std::endl;
+        exit(0);
+      }
+
       // Initialization.
       MatrixMN<T> bij = MatrixMN<T>::Zero(m_order_x + 1, m_order_y + 1);
 
