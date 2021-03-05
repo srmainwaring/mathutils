@@ -548,7 +548,7 @@ with:
 .. math::
    \displaystyle b_{ijk} = \sum_{r = i}^m\sum_{s = j}^n\sum_{t = k}^p a_{rst}\lambda_{ri}\lambda_{sj}\lambda_{tk}
 
-These conversions are performed with the base classes ``ChebyshevToPowerSeries2dBase`` and ``ChebyshevToPowerSeries3dBase`` and their derived classes.
+These conversions are performed with the base classes ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
