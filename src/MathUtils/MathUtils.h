@@ -39,7 +39,7 @@
 #ifdef H5_BOOST_VERSION
 #include "ChebyshevSeries2d.h"
 #include "ChebyshevSeries3d.h"
-#include "ChebyshevToPowerSeries2d.h"
+#include "PowerSeries2d.h"
 #endif
 
 #endif //FRYDOM_MATHUTILS_H_H

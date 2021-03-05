@@ -26,7 +26,7 @@ IF (MATHUTILS_BOOST_VERSION)
             test_functions
             test_ChebyshevSeries2d
             test_ChebyshevSeries3d
-            test_ChebyshevToPowerSeries2d
+            test_PowerSeries2d
             )
 ENDIF(MATHUTILS_BOOST_VERSION)
 

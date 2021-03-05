@@ -34,7 +34,7 @@ if (MATHUTILS_BOOST_VERSION)
     list( APPEND MATHUTILS_HEADERS
             ChebyshevSeries2d.h
             ChebyshevSeries3d.h
-            ChebyshevToPowerSeries2d.h
+            PowerSeries2d.h
             )
 endif()
 

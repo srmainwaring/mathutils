@@ -56,7 +56,8 @@ int main(int argc, char* argv[]) {
   myChebyshevSeries2dClosed->Compute_aij();
 
   // From Chebyshev series to power series.
-  auto myPowerSeries2dClosed = ChebyshevToPowerSeries2dClosed<double>(myChebyshevSeries2dClosed);
+  auto bij = myChebyshevSeries2dClosed->Compute_bij();
+  auto myPowerSeries2dClosed = PowerSeries2dClosed<double>(bij, xmin, xmax, ymin, ymax);
 
   PrintHeader("Closed segments - Function.");
   double x = 3.;
@@ -116,7 +117,8 @@ int main(int argc, char* argv[]) {
   myChebyshevSeries2dOpened->Compute_aij();
 
   // From Chebyshev series to power series.
-  auto myPowerSeries2dOpened = ChebyshevToPowerSeries2dOpened<double>(myChebyshevSeries2dOpened);
+  bij = myChebyshevSeries2dOpened->Compute_bij();
+  auto myPowerSeries2dOpened = PowerSeries2dOpened<double>(bij, xmin, ymin);
 
   // Tests.
   PrintHeader("Half-open segments - Function.");
@@ -176,7 +178,8 @@ int main(int argc, char* argv[]) {
   myChebyshevSeries2dMixed->Compute_aij();
 
   // From Chebyshev series to power series.
-  auto myPowerSeries2dMixed = ChebyshevToPowerSeries2dMixed<double>(myChebyshevSeries2dMixed);
+  bij = myChebyshevSeries2dMixed->Compute_bij();
+  auto myPowerSeries2dMixed = PowerSeries2dMixed<double>(bij, xmin, xmax, ymin);
 
   // Tests.
   PrintHeader("Mixed segments - Function.");

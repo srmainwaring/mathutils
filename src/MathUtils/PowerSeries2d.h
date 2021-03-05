@@ -2,8 +2,8 @@
 // Created by pierre-yves on 03/03/2021.
 //
 
-#ifndef MATHUTILS_CHEBYSHEVTOPOWERSERIES2D_H
-#define MATHUTILS_CHEBYSHEVTOPOWERSERIES2D_H
+#ifndef MATHUTILS_POWERSERIES2D_H
+#define MATHUTILS_POWERSERIES2D_H
 
 #include "Matrix.h"
 #include "Polynomial.h"
@@ -13,68 +13,18 @@
 namespace mathutils {
 
 /**
-* Class for handling and computing the double power series approximation of a function from its Chebyshev series approximation.
+* Class for handling and computing the double power series approximation.
 */
   template<typename T>
-  class ChebyshevToPowerSeries2dBase {
+  class PowerSeries2dBase {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevToPowerSeries2dBase(const std::shared_ptr<ChebyshevSeries2dBase<T>> &chebyshev) {
-      m_x_min = chebyshev->x_min();
-      m_y_min = chebyshev->y_min();
-      m_order_x = chebyshev->order_x();
-      m_order_y = chebyshev->order_y();
-
-      if(m_order_x > 18 or m_order_y > 18) {
-        std::cout << "The conversion Chebyshev to power series have large numerical inaccuracies for important order." << std::endl;
-        std::cout << "The maximum order in x and y is 18." << std::endl;
-        std::cout << "Order in x: " << m_order_x << std::endl;
-        std::cout << "Order in y: " << m_order_y << std::endl;
-        exit(0);
-      }
-
-      m_pij = MatrixMN<T>::Zero(m_order_x + 1, m_order_y + 1);
-      Compute_pij(chebyshev->aij());
-    }
-
-    /// This method computes the transformation coefficient.
-    double TransformationCoefficient(const int& lj, const int& kj) {
-      double lambda;
-      int ljkj_plus = lj + kj;
-      if (lj == 0 and kj == 0) {
-        lambda = 1.;
-      } else if (ljkj_plus % 2 == 1) { // (lj + kj) impair.
-        lambda = 0.;
-      } else { // (lj + kj) pair.
-        int floor_plus = floor(0.5 * ljkj_plus);
-        int floor_minus = floor(0.5 * (lj - kj));
-        lambda = pow(-1, floor_minus) * pow(2., kj - 1.) * lj * (Factorial<int, double>(floor_plus - 1) /
-                    (Factorial<int, double>(floor_minus) * Factorial<int, double>(kj)));
-      }
-
-      return lambda;
-
-    }
-
-    /// This method computes the pij of the power series from the aij of the Chebyshev series.
-    void Compute_pij(const MatrixMN<T> &aij) {
-
-      for (int k1 = 0; k1 <= m_order_x; ++k1) {
-        for (int k2 = 0; k2 <= m_order_y; ++k2) {
-          for (int l1 = k1; l1 <= m_order_x; ++l1) {
-            double lamda_l1k1 = TransformationCoefficient(l1, k1);
-            double tmp = 0.;
-            for (int l2 = k2; l2 <= m_order_y; ++l2) {
-              double lamda_l2k2 = TransformationCoefficient(l2, k2);
-              tmp += aij(l1, l2) * lamda_l2k2;
-            }
-            m_pij(k1, k2) += tmp * lamda_l1k1;
-          }
-        }
-      }
-
+    PowerSeries2dBase(const MatrixMN <T> &bij, const double &xmin, const double &ymin) : m_bij(bij),
+                                 m_x_min(xmin), m_y_min(ymin) {
+      m_order_x = bij.rows() - 1;
+      m_order_y = bij.cols() - 1;
     }
 
     /// This method computes the double power series approximation.
@@ -88,7 +38,7 @@ namespace mathutils {
       std::vector<double> qi;
       qi.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
-        Eigen::VectorXd tmp = m_pij.row(i);
+        Eigen::VectorXd tmp = m_bij.row(i);
         std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
         qi.push_back(Horner<double>(pj, yunit));
       }
@@ -109,7 +59,7 @@ namespace mathutils {
       std::vector<double> qi;
       qi.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
-        Eigen::VectorXd tmp = m_pij.row(i);
+        Eigen::VectorXd tmp = m_bij.row(i);
         std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
         qi.push_back(Horner<double>(pj, yunit));
       }
@@ -130,7 +80,7 @@ namespace mathutils {
       std::vector<double> qi;
       qi.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
-        Eigen::VectorXd tmp = m_pij.row(i);
+        Eigen::VectorXd tmp = m_bij.row(i);
         std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
         qi.push_back(Horner_derivative<double>(pj, yunit));
       }
@@ -169,25 +119,21 @@ namespace mathutils {
     double m_y_min;
 
     /// Pij coefficients.
-    MatrixMN<T> m_pij;
+    MatrixMN<T> m_bij;
 
   };
 
   /**
-  * Class for computing the double power series approximation of a function from its Chebyshev series approximation over
-   * [xmin, xmax] x [ymin, ymax].
+  * Class for computing the double power series approximation over [xmin, xmax] x [ymin, ymax].
   */
   template<typename T>
-  class ChebyshevToPowerSeries2dClosed : public ChebyshevToPowerSeries2dBase<T> {
+  class PowerSeries2dClosed : public PowerSeries2dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevToPowerSeries2dClosed(const std::shared_ptr<ChebyshevSeries2dClosed<T>> &chebyshev) :
-        ChebyshevToPowerSeries2dBase<T>(chebyshev) {
-      m_x_max = chebyshev->x_max();
-      m_y_max = chebyshev->y_max();
-    }
+    PowerSeries2dClosed(const MatrixMN <T> &bij, const double &xmin, const double &xmax, const double &ymin,
+                        const double &ymax) : PowerSeries2dBase<T>(bij, xmin, ymin), m_x_max(xmax), m_y_max(ymax) {}
 
    private:
 
@@ -222,17 +168,16 @@ namespace mathutils {
   };
 
   /**
-  * Class for computing the double power series approximation of a function from its Chebyshev series approximation over
-   * [xmin, +infinity] x [ymin, +infinity].
+  * Class for computing the double power series approximation of a function over [xmin, +infinity] x [ymin, +infinity].
   */
   template<typename T>
-  class ChebyshevToPowerSeries2dOpened : public ChebyshevToPowerSeries2dBase<T> {
+  class PowerSeries2dOpened : public PowerSeries2dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevToPowerSeries2dOpened(const std::shared_ptr<ChebyshevSeries2dOpened<T>> &chebyshev) :
-    ChebyshevToPowerSeries2dBase <T>(chebyshev) {}
+    PowerSeries2dOpened(const MatrixMN <T> &bij, const double &xmin, const double &ymin) :
+    PowerSeries2dBase <T>(bij, xmin, ymin) {}
 
    private:
 
@@ -259,19 +204,16 @@ namespace mathutils {
   };
 
   /**
-  * Class for computing the double power series approximation of a function from its Chebyshev series approximation over
-   * [xmin, xmax] x [ymin, +infinity].
+  * Class for computing the double power series approximation of a function over [xmin, xmax] x [ymin, +infinity].
   */
   template<typename T>
-  class ChebyshevToPowerSeries2dMixed : public ChebyshevToPowerSeries2dBase<T> {
+  class PowerSeries2dMixed : public PowerSeries2dBase<T> {
 
    public:
 
     /// Contructor of the class.
-    ChebyshevToPowerSeries2dMixed(const std::shared_ptr<ChebyshevSeries2dMixed<T>> &chebyshev) :
-    ChebyshevToPowerSeries2dBase <T>(chebyshev) {
-      m_x_max = chebyshev->x_max();
-    }
+    PowerSeries2dMixed(const MatrixMN <T> &bij, const double &xmin, const double &xmax, const double &ymin) :
+    PowerSeries2dBase<T>(bij, xmin, ymin), m_x_max(xmax) {}
 
    private:
 
@@ -302,4 +244,4 @@ namespace mathutils {
 
 }
 
-#endif //MATHUTILS_CHEBYSHEVTOPOWERSERIES2D_H
+#endif //MATHUTILS_POWERSERIES2D_H

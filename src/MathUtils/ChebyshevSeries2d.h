@@ -41,31 +41,6 @@ namespace mathutils {
 
    public:
 
-    /// Getter of m_x_min.
-    double x_min() {
-      return m_x_min;
-    }
-
-    /// Getter of m_y_min.
-    double y_min() {
-      return m_y_min;
-    }
-
-    /// Getter of m_order_x.
-    int order_x() {
-      return m_order_x;
-    }
-
-    /// Getter of m_order_y.
-    int order_y() {
-      return m_order_y;
-    }
-
-    /// Getter of m_aij.
-    MatrixMN<T> aij() {
-      return m_aij;
-    }
-
     /// This method computes the coefficients aij.
     void Compute_aij() {
 
@@ -182,6 +157,60 @@ namespace mathutils {
 
     }
 
+    /// This method computes the bij of the power series from the aij of the Chebyshev series.
+    MatrixMN<T> Compute_bij() {
+
+      if(m_order_x > 18 or m_order_y > 18) {
+        std::cout << "The conversion Chebyshev to power series have large numerical inaccuracies for important order." << std::endl;
+        std::cout << "The maximum order in x and y is 18." << std::endl;
+        std::cout << "Order in x: " << m_order_x << std::endl;
+        std::cout << "Order in y: " << m_order_y << std::endl;
+        exit(0);
+      }
+
+      // Initialization.
+      MatrixMN<T> bij = MatrixMN<T>::Zero(m_order_x + 1, m_order_y + 1);
+
+      // Computation.
+      for (int i = 0; i <= m_order_x; ++i) {
+        for (int j = 0; j <= m_order_y; ++j) {
+          for (int r = i; r <= m_order_x; ++r) {
+            double lambda_ri = TransformationCoefficient(r, i);
+            double tmp = 0.;
+            for (int s = j; s <= m_order_y; ++s) {
+              double lambda_sj = TransformationCoefficient(s, j);
+              tmp += m_aij(r, s) * lambda_sj;
+            }
+            bij(i, j) += tmp * lambda_ri;
+          }
+        }
+      }
+
+      return bij;
+
+    }
+
+   private:
+
+    /// This method computes the transformation coefficient.
+    double TransformationCoefficient(const int& lj, const int& kj) {
+      double lambda;
+      int ljkj_plus = lj + kj;
+      if (lj == 0 and kj == 0) {
+        lambda = 1.;
+      } else if (ljkj_plus % 2 == 1) { // (lj + kj) impair.
+        lambda = 0.;
+      } else { // (lj + kj) pair.
+        int floor_plus = floor(0.5 * ljkj_plus);
+        int floor_minus = floor(0.5 * (lj - kj));
+        lambda = pow(-1, floor_minus) * pow(2., kj - 1.) * lj * (Factorial<int, double>(floor_plus - 1) /
+                                                                 (Factorial<int, double>(floor_minus) * Factorial<int, double>(kj)));
+      }
+
+      return lambda;
+
+    }
+
    protected:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
@@ -220,7 +249,7 @@ namespace mathutils {
     double m_y_min;
 
     /// aij coefficients.
-    MatrixMN <T> m_aij;
+    MatrixMN<T> m_aij;
 
   };
 
