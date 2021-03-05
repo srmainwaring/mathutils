@@ -25,6 +25,15 @@ namespace mathutils {
                                  m_x_min(xmin), m_y_min(ymin) {
       m_order_x = bij.rows() - 1;
       m_order_y = bij.cols() - 1;
+
+      if(m_order_x > 18 or m_order_y > 18) {
+        std::cout << "The conversion Chebyshev to power series have large numerical inaccuracies for important order." << std::endl;
+        std::cout << "The maximum order in x and y is 18." << std::endl;
+        std::cout << "Order in x: " << m_order_x << std::endl;
+        std::cout << "Order in y: " << m_order_y << std::endl;
+        exit(0);
+      }
+
     }
 
     /// This method computes the double power series approximation.
