@@ -376,22 +376,6 @@ The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` and :math:`i \in [0, n]` a
 
 The computation of the Chebyshev polynomials is achieved in the functions ``Chebyshev_polynomial`` and ``Chebyshev_polynomial_next``.
 
-Bivariate Chebyshev polynomials
--------------------------------
-
-The bivariate Chebyshev polynomial is defined for :math:`(x, y) \in [-1, 1]^2` by:
-
-.. math::
-   T_{m,n}(x, y) = T_m(x)T_n(y)
-
-Trivariate Chebyshev polynomials
---------------------------------
-
-The trivariate Chebyshev polynomial is defined for :math:`(x, y, z) \in [-1, 1]^3` by:
-
-.. math::
-   T_{m,n,p}(x, y,z) = T_m(x)T_n(y)T_p(z)
-
 Double Chebyshev series approximation
 -------------------------------------
 
@@ -404,7 +388,9 @@ The double Chebyshev series approximation of order :math:`m\times n` of the func
 with:
 
 .. math::
-   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \\ a_{ij} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \in [-1, 1] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \in [-1, 1] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \in [x_{min}, x_{max}] \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \in [y_{min}, y_{max}] \end{cases}
+   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \\ a_{ij} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)}\sum_{r = 0}^m\sum_{s = 0}^nf(x_r, y_s)T_{i,j}(\tilde{x}_r, \tilde{y}_s) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \in [-1, 1] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \in [-1, 1] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \in [x_{min}, x_{max}] \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \in [y_{min}, y_{max}] \\ T_{i,j}(\tilde{x}, \tilde{y}) = T_i(\tilde{x})T_j(\tilde{y})\end{cases}
+
+:math:`T_i` represents the Chebyshev polynomial of order :math:`i`.
 
 The coefficients :math:`(a_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` must be computed in a first step before evaluating :eq:`Double_Chebyshev_approx` for any value of :math:`x` and :math:`y`. 
 
@@ -443,7 +429,9 @@ The triple Chebyshev series approximation of order :math:`m\times n\times p` of 
 with:
 
 .. math::
-   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{z} = \dfrac{2}{z_{max} - z_{min}}\left[z - \left(\dfrac{z_{max} + z_{min}}{2}\right)\right] \in [-1, 1] \\ a_{ijk} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j = 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k = 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k = 0 \end{cases}  \text{ or } \begin{cases} i = 0 \\ j = 0 \\ k \neq 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j \neq 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{8}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \in [-1, 1] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \in [-1, 1] \\ \tilde{z}_t = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2t+1}{p+1}\right)\right] \in [-1, 1] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \in [x_{min}, x_{max}] \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \in [y_{min}, y_{max}] \\ z_t = \left(\dfrac{z_{max}-z_{xmin}}{2}\right)\tilde{z}_t + \dfrac{z_{max}+z_{min}}{2} \in [z_{min}, z_{max}] \end{cases}
+   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{z} = \dfrac{2}{z_{max} - z_{min}}\left[z - \left(\dfrac{z_{max} + z_{min}}{2}\right)\right] \in [-1, 1] \\ a_{ijk} = \begin{cases} \displaystyle \dfrac{1}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j = 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{2}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k = 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k = 0 \end{cases}  \text{ or } \begin{cases} i = 0 \\ j = 0 \\ k \neq 0 \end{cases} \\ \displaystyle \dfrac{4}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ if } \begin{cases} i = 0 \\ j \neq 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j = 0 \\ k \neq 0 \end{cases} \text{ or } \begin{cases} i \neq 0 \\ j \neq 0 \\ k = 0 \end{cases} \\ \displaystyle \dfrac{8}{(m+1)(n+1)(p+1)}\sum_{r = 0}^m\sum_{s = 0}^n\sum_{t = 0}^pf(x_r, y_s, z_t)T_{i,j,k}(\tilde{x}_r, \tilde{y}_s, \tilde{z}_t) \text{ otherwise }\end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \in [-1, 1] \\ \tilde{y}_s = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2s+1}{n+1}\right)\right] \in [-1, 1] \\ \tilde{z}_t = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2t+1}{p+1}\right)\right] \in [-1, 1] \\ x_r = \left(\dfrac{x_{max}-x_{xmin}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \in [x_{min}, x_{max}] \\ y_s = \left(\dfrac{y_{max}-y_{xmin}}{2}\right)\tilde{y}_s + \dfrac{y_{max}+y_{min}}{2} \in [y_{min}, y_{max}] \\ z_t = \left(\dfrac{z_{max}-z_{xmin}}{2}\right)\tilde{z}_t + \dfrac{z_{max}+z_{min}}{2} \in [z_{min}, z_{max}] \\ T_{i,j,k}(\tilde{x}, \tilde{y},\tilde{z}) = T_i(\tilde{x})T_j(\tilde{y})T_k(\tilde{z})\end{cases}
+
+:math:`T_i` represents the Chebyshev polynomial of order :math:`i`.
 
 The coefficients :math:`(a_{ijk})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n \\ 0 \leqslant k \leqslant p}` must be computed in a first step before evaluating :eq:`Triple_Chebyshev_approx` for any value of :math:`x`, :math:`y` and :math:`z`. 
 
@@ -514,6 +502,8 @@ with:
 
 .. math::
    \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ \tilde{y} = \dfrac{2}{y_{max} - y_{min}}\left[y - \left(\dfrac{y_{max} + y_{min}}{2}\right)\right] \in [-1, 1] \end{cases}
+
+The series are evaluated using the Horner's method.
 
 The coefficients :math:`(b_{ij})_{0 \leqslant i \leqslant m \\ 0 \leqslant j \leqslant n}` are expressed by [Chen1993]_:
 
