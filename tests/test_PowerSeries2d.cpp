@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries2dClosed.Evaluate_derivative_x(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries2dClosed.Evaluate_derivate_x(x, y);
+  power = myPowerSeries2dClosed.Evaluate_derivative_x(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries2dClosed.Evaluate_derivative_y(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries2dClosed.Evaluate_derivate_y(x, y);
+  power = myPowerSeries2dClosed.Evaluate_derivative_y(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries2dOpened.Evaluate_derivative_x(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries2dOpened.Evaluate_derivate_x(x, y);
+  power = myPowerSeries2dOpened.Evaluate_derivative_x(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -154,7 +154,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries2dOpened.Evaluate_derivative_y(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries2dOpened.Evaluate_derivate_y(x, y);
+  power = myPowerSeries2dOpened.Evaluate_derivative_y(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -202,7 +202,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries2dMixed.Evaluate_derivative_x(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries2dMixed.Evaluate_derivate_x(x, y);
+  power = myPowerSeries2dMixed.Evaluate_derivative_x(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -215,7 +215,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries2dMixed.Evaluate_derivative_y(x, y);
   std::cout << "Double Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries2dMixed.Evaluate_derivate_y(x, y);
+  power = myPowerSeries2dMixed.Evaluate_derivative_y(x, y);
   std::cout << "Double Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));

@@ -49,7 +49,7 @@ namespace mathutils {
     }
 
     /// This method computes the x-derivative double power series approximation.
-    T Evaluate_derivate_x(const double &x, const double &y) const {
+    T Evaluate_derivative_x(const double &x, const double &y) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
@@ -70,7 +70,7 @@ namespace mathutils {
     }
 
     /// This method computes the y-derivative double power series approximation.
-    T Evaluate_derivate_y(const double &x, const double &y) const {
+    T Evaluate_derivative_y(const double &x, const double &y) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);

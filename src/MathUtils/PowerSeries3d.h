@@ -57,7 +57,7 @@ namespace mathutils {
     }
 
     /// This method computes the x-derivative triple power series approximation.
-    T Evaluate_derivate_x(const double &x, const double &y, const double &z) const {
+    T Evaluate_derivative_x(const double &x, const double &y, const double &z) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
@@ -84,7 +84,7 @@ namespace mathutils {
     }
 
     /// This method computes the y-derivative triple power series approximation.
-    T Evaluate_derivate_y(const double &x, const double &y, const double &z) const {
+    T Evaluate_derivative_y(const double &x, const double &y, const double &z) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
@@ -111,7 +111,7 @@ namespace mathutils {
     }
 
     /// This method computes the z-derivative triple power series approximation.
-    T Evaluate_derivate_z(const double &x, const double &y, const double &z) const {
+    T Evaluate_derivative_z(const double &x, const double &y, const double &z) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
@@ -197,21 +197,6 @@ namespace mathutils {
     }
 
    public:
-
-    /// Getter of m_x_max.
-    double x_max() {
-      return m_x_max;
-    }
-
-    /// Getter of m_y_max.
-    double y_max() {
-      return m_y_max;
-    }
-
-    /// Getter of m_z_max.
-    double z_max() {
-      return m_z_max;
-    }
 
    private:
 

@@ -267,18 +267,6 @@ namespace mathutils {
         ChebyshevSeries2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax), m_y_max(ymax) {
     }
 
-   public:
-
-    /// Getter of m_x_max.
-    double x_max() {
-      return m_x_max;
-    }
-
-    /// Getter of m_y_max.
-    double y_max() {
-      return m_y_max;
-    }
-
    private:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
@@ -381,13 +369,6 @@ namespace mathutils {
     ChebyshevSeries2dMixed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
                            const int &order_x, const int &order_y) :
         ChebyshevSeries2dBase<T>(F, xmin, ymin, order_x, order_y), m_x_max(xmax) {
-    }
-
-   public:
-
-    /// Getter of m_x_max.
-    double x_max() {
-      return m_x_max;
     }
 
    private:

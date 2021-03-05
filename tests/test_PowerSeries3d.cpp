@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dClosed.Evaluate_derivative_x(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dClosed.Evaluate_derivate_x(x, y, z);
+  power = myPowerSeries3dClosed.Evaluate_derivative_x(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dClosed.Evaluate_derivative_y(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dClosed.Evaluate_derivate_y(x, y, z);
+  power = myPowerSeries3dClosed.Evaluate_derivative_y(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dClosed.Evaluate_derivative_z(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dClosed.Evaluate_derivate_z(x, y, z);
+  power = myPowerSeries3dClosed.Evaluate_derivative_z(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dYZOpenedXClosed.Evaluate_derivative_x(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dYZOpenedXClosed.Evaluate_derivate_x(x, y, z);
+  power = myPowerSeries3dYZOpenedXClosed.Evaluate_derivative_x(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dYZOpenedXClosed.Evaluate_derivative_y(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dYZOpenedXClosed.Evaluate_derivate_y(x, y, z);
+  power = myPowerSeries3dYZOpenedXClosed.Evaluate_derivative_y(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -194,7 +194,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dYZOpenedXClosed.Evaluate_derivative_z(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dYZOpenedXClosed.Evaluate_derivate_z(x, y, z);
+  power = myPowerSeries3dYZOpenedXClosed.Evaluate_derivative_z(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -248,7 +248,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dZOpenedXYClosed.Evaluate_derivative_x(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivate_x(x, y, z);
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivative_x(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -261,7 +261,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dZOpenedXYClosed.Evaluate_derivative_y(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivate_y(x, y, z);
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivative_y(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
@@ -274,7 +274,7 @@ int main(int argc, char* argv[]) {
   chebyshev = myChebyshevSeries3dZOpenedXYClosed.Evaluate_derivative_z(x, y, z);
   std::cout << "Tripe Chebyshev series approximation: " << chebyshev << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((chebyshev - ana) / ana) << std::endl;
-  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivate_z(x, y, z);
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivative_z(x, y, z);
   std::cout << "Triple Power series approximation: " << power << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
