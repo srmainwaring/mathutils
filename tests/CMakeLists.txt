@@ -18,12 +18,17 @@ set(TESTS
         test_vectorN
 	    test_linear_system_solver
         test_integration2d
-        test_functions
-        test_ChebyshevSeries2d
-        test_ChebyshevSeries3d
         test_polynomial
-        test_ChebyshevToPowerSeries2d
         )
+
+IF (MATHUTILS_BOOST_VERSION)
+    list(APPEND TESTS
+            test_functions
+            test_ChebyshevSeries2d
+            test_ChebyshevSeries3d
+            test_ChebyshevToPowerSeries2d
+            )
+ENDIF(MATHUTILS_BOOST_VERSION)
 
 IF(MSVC)
     ADD_DEFINITIONS("/MP")
