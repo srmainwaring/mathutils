@@ -192,7 +192,7 @@ namespace mathutils {
 
     /// Contructor of the class.
     PowerSeries3dClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax, const double &ymin,
-                            const double &ymax, const double &zmin, const double &zmax) :
+                        const double &ymax, const double &zmin, const double &zmax) :
         PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax), m_y_max(ymax), m_z_max(zmax) {
     }
 
@@ -255,6 +255,115 @@ namespace mathutils {
 
     /// z maximum.
     double m_z_max;
+
+  };
+
+  /**
+* Class for computing the triple power series approximation of a function over [xmin, xmax] x [ymin, +infinity] x [zmin, +infinity].
+*/
+  template<typename T>
+  class PowerSeries3dYZOpenedXClosed : public PowerSeries3dBase<T> {
+
+   public:
+
+    /// Contructor of the class.
+    PowerSeries3dYZOpenedXClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax,
+                                 const double &ymin, const double &zmin) :
+    PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax) {
+    }
+
+   private:
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
+    double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
+      return (2. / (m_x_max - this->m_x_min)) * (xdomain - 0.5 * (m_x_max + this->m_x_min));
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
+    double AffineTransformationSegmentToUnit_y(const double &ydomain) const override {
+      return 1. - 2. * (this->m_y_min / ydomain);
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for z.
+    double AffineTransformationSegmentToUnit_z(const double &zdomain) const override {
+      return 1. - 2. * (this->m_z_min / zdomain);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
+    double CoefficientDerivative_x(const double &xdomain) const override {
+      return 2. / (m_x_max - this->m_x_min);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
+    double CoefficientDerivative_y(const double &ydomain) const override {
+      return 2. * this->m_y_min / (ydomain * ydomain);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt z.
+    double CoefficientDerivative_z(const double &zdomain) const override {
+      return 2. * this->m_z_min / (zdomain * zdomain);
+    }
+
+   private:
+
+    /// x maximum.
+    double m_x_max;
+
+  };
+
+  /**
+* Class for computing the triple power series approximation of a function over [xmin, xmax] x [ymin, ymx] x [zmin, +infinity].
+*/
+  template<typename T>
+  class PowerSeries3dZOpenedXYClosed : public PowerSeries3dBase<T> {
+
+   public:
+
+    /// Contructor of the class.
+    PowerSeries3dZOpenedXYClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax,
+                                 const double &ymin, const double &ymax, const double &zmin) :
+    PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax), m_y_max(ymax) {
+    }
+
+   private:
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
+    double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
+      return (2. / (m_x_max - this->m_x_min)) * (xdomain - 0.5 * (m_x_max + this->m_x_min));
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
+    double AffineTransformationSegmentToUnit_y(const double &ydomain) const override {
+      return (2. / (m_y_max - this->m_y_min)) * (ydomain - 0.5 * (m_y_max + this->m_y_min));
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for z.
+    double AffineTransformationSegmentToUnit_z(const double &zdomain) const override {
+      return 1. - 2. * (this->m_z_min / zdomain);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
+    double CoefficientDerivative_x(const double &xdomain) const override {
+      return 2. / (m_x_max - this->m_x_min);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
+    double CoefficientDerivative_y(const double &ydomain) const override {
+      return 2. / (m_y_max - this->m_y_min);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt z.
+    double CoefficientDerivative_z(const double &zdomain) const override {
+      return 2. * this->m_z_min / (zdomain * zdomain);
+    }
+
+   private:
+
+    /// x maximum.
+    double m_x_max;
+
+    /// y maximum.
+    double m_y_max;
 
   };
 
