@@ -1,0 +1,263 @@
+//
+// Created by pierre-yves on 04/03/2021.
+//
+
+#ifndef MATHUTILS_POWERSERIES3D_H
+#define MATHUTILS_POWERSERIES3D_H
+
+#include "Matrix.h"
+#include "Polynomial.h"
+#include "ChebyshevSeries2d.h"
+#include "Functions.h"
+
+namespace mathutils {
+
+/**
+* Class for handling and computing the triple power series approximation of a function.
+*/
+  template<typename T>
+  class PowerSeries3dBase {
+
+   public:
+
+    /// Contructor of the class.
+    PowerSeries3dBase(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &ymin, const double &zmin) : m_bijk(bijk),
+    m_x_min(xmin), m_y_min(ymin), m_z_min(zmin) {
+
+      m_order_x = bijk.at(0).rows() - 1;
+      m_order_y = bijk.at(0).cols() - 1;
+      m_order_z = bijk.size() - 1;
+    }
+
+    /// This method computes the triple power series approximation.
+    T Evaluate(const double &x, const double &y, const double &z) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
+
+      // Partial sum.
+      std::vector<double> rk;
+      rk.reserve(m_order_z + 1);
+      for (int k = 0; k <= m_order_z; ++k) {
+        std::vector<double> qi;
+        qi.reserve(m_order_x + 1);
+        for (int i = 0; i <= m_order_x; ++i) {
+          Eigen::VectorXd tmp = m_bijk.at(k).row(i);
+          std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
+          qi.push_back(Horner<double>(pj, yunit));
+        }
+        rk.push_back(Horner<double>(qi, xunit));
+      }
+      T result = Horner<double>(rk, zunit);
+
+      return result;
+
+    }
+
+    /// This method computes the x-derivative triple power series approximation.
+    T Evaluate_derivate_x(const double &x, const double &y, const double &z) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
+
+      // Partial sum.
+      std::vector<double> rk;
+      rk.reserve(m_order_z + 1);
+      for (int k = 0; k <= m_order_z; ++k) {
+        std::vector<double> qi;
+        qi.reserve(m_order_x + 1);
+        for (int i = 0; i <= m_order_x; ++i) {
+          Eigen::VectorXd tmp = m_bijk.at(k).row(i);
+          std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
+          qi.push_back(Horner<double>(pj, yunit));
+        }
+        rk.push_back(Horner_derivative<double>(qi, xunit));
+      }
+      T result = CoefficientDerivative_x(x) * Horner<double>(rk, zunit);
+
+      return result;
+
+    }
+
+    /// This method computes the y-derivative triple power series approximation.
+    T Evaluate_derivate_y(const double &x, const double &y, const double &z) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
+
+      // Partial sum.
+      std::vector<double> rk;
+      rk.reserve(m_order_z + 1);
+      for (int k = 0; k <= m_order_z; ++k) {
+        std::vector<double> qi;
+        qi.reserve(m_order_x + 1);
+        for (int i = 0; i <= m_order_x; ++i) {
+          Eigen::VectorXd tmp = m_bijk.at(k).row(i);
+          std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
+          qi.push_back(Horner_derivative<double>(pj, yunit));
+        }
+        rk.push_back(Horner<double>(qi, xunit));
+      }
+      T result = CoefficientDerivative_y(y) * Horner<double>(rk, zunit);
+
+      return result;
+
+    }
+
+    /// This method computes the z-derivative triple power series approximation.
+    T Evaluate_derivate_z(const double &x, const double &y, const double &z) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
+
+      // Partial sum.
+      std::vector<double> rk;
+      rk.reserve(m_order_z + 1);
+      for (int k = 0; k <= m_order_z; ++k) {
+        std::vector<double> qi;
+        qi.reserve(m_order_x + 1);
+        for (int i = 0; i <= m_order_x; ++i) {
+          Eigen::VectorXd tmp = m_bijk.at(k).row(i);
+          std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
+          qi.push_back(Horner<double>(pj, yunit));
+        }
+        rk.push_back(Horner<double>(qi, xunit));
+      }
+      T result = CoefficientDerivative_z(z) * Horner_derivative<double>(rk, zunit);
+
+      return result;
+
+    }
+
+   protected:
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
+    virtual double AffineTransformationSegmentToUnit_x(const double& xdomain) const = 0;
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
+    virtual double AffineTransformationSegmentToUnit_y(const double& ydomain) const = 0;
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for z.
+    virtual double AffineTransformationSegmentToUnit_z(const double& zdomain) const = 0;
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
+    virtual double CoefficientDerivative_x(const double& xdomain) const = 0;
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
+    virtual double CoefficientDerivative_y(const double& ydomain) const = 0;
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt z.
+    virtual double CoefficientDerivative_z(const double& zdomain) const = 0;
+
+   protected:
+
+    /// Order of the series approximation for x.
+    int m_order_x;
+
+    /// Order of the series approximation for y.
+    int m_order_y;
+
+    /// Order of the series approximation for z.
+    int m_order_z;
+
+    /// x minimum.
+    double m_x_min;
+
+    /// y minimum.
+    double m_y_min;
+
+    /// z minimum.
+    double m_z_min;
+
+    /// Pij coefficients.
+    std::vector<MatrixMN<T>> m_bijk;
+
+  };
+
+  /**
+ * Class for computing the triple power series approximation of a function over [xmin, xmax] x [ymin, ymax] x [zmin, zmax].
+ */
+  template<typename T>
+  class PowerSeries3dClosed : public PowerSeries3dBase<T> {
+
+   public:
+
+    /// Contructor of the class.
+    PowerSeries3dClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax, const double &ymin,
+                            const double &ymax, const double &zmin, const double &zmax) :
+        PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax), m_y_max(ymax), m_z_max(zmax) {
+    }
+
+   public:
+
+    /// Getter of m_x_max.
+    double x_max() {
+      return m_x_max;
+    }
+
+    /// Getter of m_y_max.
+    double y_max() {
+      return m_y_max;
+    }
+
+    /// Getter of m_z_max.
+    double z_max() {
+      return m_z_max;
+    }
+
+   private:
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
+    double AffineTransformationSegmentToUnit_x(const double &xdomain) const override {
+      return (2. / (m_x_max - this->m_x_min)) * (xdomain - 0.5 * (m_x_max + this->m_x_min));
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for y.
+    double AffineTransformationSegmentToUnit_y(const double &ydomain) const override {
+      return (2. / (m_y_max - this->m_y_min)) * (ydomain - 0.5 * (m_y_max + this->m_y_min));
+    }
+
+    /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for z.
+    double AffineTransformationSegmentToUnit_z(const double &zdomain) const override {
+      return (2. / (m_z_max - this->m_z_min)) * (zdomain - 0.5 * (m_z_max + this->m_z_min));
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt x.
+    double CoefficientDerivative_x(const double &xdomain) const override {
+      return 2. / (m_x_max - this->m_x_min);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt y.
+    double CoefficientDerivative_y(const double &ydomain) const override {
+      return 2. / (m_y_max - this->m_y_min);
+    }
+
+    /// This method gives the coefficient in front of the derivate of the  double Chebychev series wrt z.
+    double CoefficientDerivative_z(const double &zdomain) const override {
+      return 2. / (m_z_max - this->m_z_min);
+    }
+
+   private:
+
+    /// x maximum.
+    double m_x_max;
+
+    /// y maximum.
+    double m_y_max;
+
+    /// z maximum.
+    double m_z_max;
+
+  };
+
+}
+
+#endif //MATHUTILS_POWERSERIES3D_H

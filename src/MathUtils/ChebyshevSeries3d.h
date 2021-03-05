@@ -43,43 +43,6 @@ namespace mathutils {
       }
     }
 
-   public:
-
-    /// Getter of m_x_min.
-    double x_min() {
-      return m_x_min;
-    }
-
-    /// Getter of m_y_min.
-    double y_min() {
-      return m_y_min;
-    }
-
-    /// Getter of m_z_min.
-    double z_min() {
-      return m_z_min;
-    }
-
-    /// Getter of m_order_x.
-    int order_x() {
-      return m_order_x;
-    }
-
-    /// Getter of m_order_y.
-    int order_y() {
-      return m_order_y;
-    }
-
-    /// Getter of m_order_z.
-    int order_z() {
-      return m_order_z;
-    }
-
-    /// Getter of m_aij.
-    std::vector<MatrixMN<T>> aijk() {
-      return m_aijk;
-    }
-
     /// This method computes the coefficients aijk.
     void Compute_aijk() {
 
@@ -253,6 +216,73 @@ namespace mathutils {
 
     }
 
+    /// This method computes the bijk of the power series from the aijk of the Chebyshev series.
+    std::vector<MatrixMN<T>> Compute_bijk() {
+
+      if (m_order_x > 18 or m_order_y > 18 or m_order_z > 18) {
+        std::cout << "The conversion Chebyshev to power series have large numerical inaccuracies for important order."
+                  << std::endl;
+        std::cout << "The maximum order in x, y and z is 18." << std::endl;
+        std::cout << "Order in x: " << m_order_x << std::endl;
+        std::cout << "Order in y: " << m_order_y << std::endl;
+        std::cout << "Order in z: " << m_order_z << std::endl;
+        exit(0);
+      }
+
+      // Initialization.
+      std::vector<MatrixMN<T>> bijk;
+      bijk.reserve(m_order_z + 1);
+      for (int i = 0; i <= m_order_z; ++i) {
+        bijk.push_back(MatrixMN<T>::Zero(m_order_x + 1, m_order_y + 1));
+      }
+
+      // Computation.
+      for (int i = 0; i <= m_order_x; ++i) {
+        for (int j = 0; j <= m_order_y; ++j) {
+          for (int k = 0; k <= m_order_z; ++k) {
+            for (int r = i; r <= m_order_x; ++r) {
+              double lambda_ri = TransformationCoefficient(r, i);
+              double tmp_1 = 0.;
+              for (int s = j; s <= m_order_y; ++s) {
+                double lambda_sj = TransformationCoefficient(s, j);
+                double tmp_2 = 0.;
+                for (int t = k; t <= m_order_z; ++t) {
+                  double lambda_tk = TransformationCoefficient(t, k);
+                  tmp_2 += m_aijk.at(t)(r, s) * lambda_tk;
+                }
+                tmp_1 += tmp_2 * lambda_sj;
+              }
+              bijk.at(k)(i, j) += tmp_1 * lambda_ri;
+            }
+          }
+        }
+      }
+
+      return bijk;
+
+    }
+
+   private:
+
+    /// This method computes the transformation coefficient.
+    double TransformationCoefficient(const int& lj, const int& kj) {
+      double lambda;
+      int ljkj_plus = lj + kj;
+      if (lj == 0 and kj == 0) {
+        lambda = 1.;
+      } else if (ljkj_plus % 2 == 1) { // (lj + kj) impair.
+        lambda = 0.;
+      } else { // (lj + kj) pair.
+        int floor_plus = floor(0.5 * ljkj_plus);
+        int floor_minus = floor(0.5 * (lj - kj));
+        lambda = pow(-1, floor_minus) * pow(2., kj - 1.) * lj * (Factorial<int, double>(floor_plus - 1) /
+                                                                 (Factorial<int, double>(floor_minus) * Factorial<int, double>(kj)));
+      }
+
+      return lambda;
+
+    }
+
    protected:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
@@ -305,7 +335,7 @@ namespace mathutils {
     /// z minimum.
     double m_z_min;
 
-    /// aij coefficients.
+    /// aijk coefficients.
     std::vector<MatrixMN<T>> m_aijk;
 
   };
@@ -324,23 +354,6 @@ namespace mathutils {
                             const int &order_y, const int &order_z) :
         ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z),
         m_x_max(xmax), m_y_max(ymax), m_z_max(zmax) {
-    }
-
-   public:
-
-    /// Getter of m_x_max.
-    double x_max() {
-      return m_x_max;
-    }
-
-    /// Getter of m_y_max.
-    double y_max() {
-      return m_y_max;
-    }
-
-    /// Getter of m_z_max.
-    double z_max() {
-      return m_z_max;
     }
 
    private:
@@ -418,13 +431,6 @@ namespace mathutils {
         ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax) {
     }
 
-   public:
-
-    /// Getter of m_x_max.
-    double x_max() {
-      return m_x_max;
-    }
-
    private:
 
     /// This method applied an affine transformation from [-1, 1] to the domain of the approximation for x.
@@ -492,18 +498,6 @@ namespace mathutils {
                                      const double &ymax, const double &zmin, const int &order_x, const int &order_y,
                                      const int &order_z) :
         ChebyshevSeries3dBase<T>(F, xmin, ymin, zmin, order_x, order_y, order_z), m_x_max(xmax), m_y_max(ymax) {
-    }
-
-   public:
-
-    /// Getter of m_x_max.
-    double x_max() {
-      return m_x_max;
-    }
-
-    /// Getter of m_y_max.
-    double y_max() {
-      return m_y_max;
     }
 
    private:

@@ -35,6 +35,7 @@ if (MATHUTILS_BOOST_VERSION)
             ChebyshevSeries2d.h
             ChebyshevSeries3d.h
             PowerSeries2d.h
+            PowerSeries3d.h
             )
 endif()
 
