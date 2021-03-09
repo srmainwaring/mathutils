@@ -21,12 +21,19 @@ namespace mathutils {
    public:
 
     /// Contructor of the class.
-    PowerSeries3dBase(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &ymin, const double &zmin) : m_bijk(bijk),
-    m_x_min(xmin), m_y_min(ymin), m_z_min(zmin) {
+    PowerSeries3dBase(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &ymin, const double &zmin)
+    : m_bijk(bijk), m_x_min(xmin), m_y_min(ymin), m_z_min(zmin) {
 
       m_order_x = bijk.at(0).rows() - 1;
       m_order_y = bijk.at(0).cols() - 1;
       m_order_z = bijk.size() - 1;
+    }
+
+    /// Getter for the series coefficients.
+    std::vector<MatrixMN <T>> bijk() {
+
+      return m_bijk;
+
     }
 
     /// This method computes the triple power series approximation.
