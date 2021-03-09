@@ -31,9 +31,37 @@ namespace mathutils {
 
     /// Getter for the series coefficients.
     std::vector<MatrixMN <T>> bijk() {
-
       return m_bijk;
+    }
 
+    /// Getter of m_x_min.
+    double xmin() {
+      return m_x_min;
+    }
+
+    /// Getter of m_y_min.
+    double ymin() {
+      return m_y_min;
+    }
+
+    /// Getter of m_z_min.
+    double zmin() {
+      return m_z_min;
+    }
+
+    /// Getter of m_order_x.
+    int order_x() {
+      return m_order_x;
+    }
+
+    /// Getter of m_order_y.
+    int order_y() {
+      return m_order_y;
+    }
+
+    /// Getter of m_order_z.
+    int order_z() {
+      return m_order_z;
     }
 
     /// This method computes the triple power series approximation.
@@ -203,7 +231,20 @@ namespace mathutils {
         PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax), m_y_max(ymax), m_z_max(zmax) {
     }
 
-   public:
+    /// Getter of m_x_max.
+    double xmax() {
+      return m_x_max;
+    }
+
+    /// Getter of m_y_max.
+    double ymax() {
+      return m_y_max;
+    }
+
+    /// Getter of m_z_max.
+    double zmax() {
+      return m_z_max;
+    }
 
    private:
 
@@ -264,6 +305,11 @@ namespace mathutils {
     PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax) {
     }
 
+    /// Getter of m_x_max.
+    double xmax() {
+      return m_x_max;
+    }
+
    private:
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
@@ -317,6 +363,16 @@ namespace mathutils {
     PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax), m_y_max(ymax) {
     }
 
+    /// Getter of m_x_max.
+    double xmax() {
+      return m_x_max;
+    }
+
+    /// Getter of m_y_max.
+    double ymax() {
+      return m_y_max;
+    }
+    
    private:
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
