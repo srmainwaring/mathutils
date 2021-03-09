@@ -64,6 +64,11 @@ namespace mathutils {
       return m_order_z;
     }
 
+    /// Getter of m_order_z.
+    std::string type() {
+      return m_type;
+    }
+
     /// This method computes the triple power series approximation.
     T Evaluate(const double &x, const double &y, const double &z) const {
 
@@ -215,6 +220,9 @@ namespace mathutils {
     /// Pij coefficients.
     std::vector<MatrixMN<T>> m_bijk;
 
+    /// Type of approximation.
+    std::string m_type;
+
   };
 
   /**
@@ -229,6 +237,7 @@ namespace mathutils {
     PowerSeries3dClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax, const double &ymin,
                         const double &ymax, const double &zmin, const double &zmax) :
         PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax), m_y_max(ymax), m_z_max(zmax) {
+      this->m_type = "PowerSeries3dClosed";
     }
 
     /// Getter of m_x_max.
@@ -303,6 +312,7 @@ namespace mathutils {
     PowerSeries3dYZOpenedXClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax,
                                  const double &ymin, const double &zmin) :
     PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax) {
+      this->m_type = "PowerSeries3dYZOpenedXClosed";
     }
 
     /// Getter of m_x_max.
@@ -361,6 +371,7 @@ namespace mathutils {
     PowerSeries3dZOpenedXYClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax,
                                  const double &ymin, const double &ymax, const double &zmin) :
     PowerSeries3dBase<T>(bijk, xmin, ymin, zmin), m_x_max(xmax), m_y_max(ymax) {
+      this->m_type = "PowerSeries3dZOpenedXYClosed";
     }
 
     /// Getter of m_x_max.
@@ -372,7 +383,7 @@ namespace mathutils {
     double ymax() {
       return m_y_max;
     }
-    
+
    private:
 
     /// This method applied an affine transformation from the domain of the approximation to [-1, 1] for x.
