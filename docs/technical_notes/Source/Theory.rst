@@ -311,6 +311,11 @@ and
       c_3 = 0.52120508
    \end{cases}
 
+For :math:`x \to 0`, there is:
+
+.. math::
+   H_0(x) \sim \dfrac{2}{\pi}x
+
 The first-order Struve function is evaluted using:
 
 .. math::
@@ -347,12 +352,22 @@ and
 
 :math:`Y_0` and :math:`Y_1` represent the Bessel functions of second kind of order zero and one.
 
+For :math:`x \to 0`, there is:
+
+.. math::
+   H_1(x) \sim \dfrac{2}{3\pi}x^2
+
 The derivative of :math:`H_0` is given by [Abramowitz1964]_:
 
 .. math::
    H_0^{'}(x) = \dfrac{2}{\pi} - H_1(x)
 
 The computation of the zero-order and first-order of the Struve functions are achieved in the functions ``Struve_zero_order`` and ``Struve_first_order``. Regarding the derivative of :math:`H_0`, the function to use is ``Struve_zero_order_derivative``.
+
+For :math:`x \to 0`, there is:
+
+.. math::
+   H_0^{'}(x) \sim \dfrac{2}{\pi}
 
 .. _Chebyshev_polynomial:
 
