@@ -224,6 +224,16 @@ For a positive interger :math:`n`, it comes:
 
 The factorial may also be evaluated with the function ``Factorial``.
 
+A particular value is:
+
+.. math::
+   \Gamma\left(n + \dfrac{1}{1}\right) = \dfrac{(2n)!}{2^{2n}n!}\sqrt{\pi}
+
+For example:
+
+.. math::
+   \Gamma\left(\dfrac{1}{2}\right) &= \sqrt{\pi} \\ \Gamma\left(\dfrac{3}{2}\right) &= \dfrac{\sqrt{\pi}}{2} \\ \Gamma\left(\dfrac{5}{2}\right) &= \dfrac{3}{4}\sqrt{\pi}
+
 Exponential integral :math:`Ei`
 -------------------------------
 
