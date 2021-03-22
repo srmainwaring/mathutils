@@ -257,7 +257,7 @@ where :math:`x_0` is the zero of :math:`Ei` and :math:`T_j^{*}` is a shifted Che
 .. note::
    The prime summation :math:`\sum{}^{'}` indicates only half of the first term is included.
 
-The parameters :math:`x_0`, :math:`(p_j)_{0 \leqslant j \leqslant n}`, :math:`(q_j)_{0 \leqslant j \leqslant n}`, :math:`(\alphaj)_{0 \leqslant j \leqslant n}` and :math:`(\beta_j)_{0 \leqslant j \leqslant n-1}` are given in [Cody1969]_. 
+The parameters :math:`x_0`, :math:`(p_j)_{0 \leqslant j \leqslant n}`, :math:`(q_j)_{0 \leqslant j \leqslant n}`, :math:`(\alpha_j)_{0 \leqslant j \leqslant n}` and :math:`(\beta_j)_{0 \leqslant j \leqslant n-1}` are given in [Cody1969]_. 
 
 In **MathUtils**, the order is fixed to :math:`n = 9`.
 
