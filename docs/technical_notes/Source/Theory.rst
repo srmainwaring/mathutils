@@ -263,6 +263,11 @@ In **MathUtils**, the order is fixed to :math:`n = 9`.
 
 The computation of this approximation of :math:`Ei` is achieved in the function ``Ei_approximation``.
 
+The equivalent for :math:`x \to 0` is:
+
+.. math::
+   Ei(x) \sim \ln(x) + \gamma
+
 It may be necessary to evaluate the quantity :math:`e^{-x}Ei(x)` for large :math:`x`, for example with the finite-depth Green's function for large water depth. This becomes impossible numerically as :math:`Ei` tends to infinity for large :math:`x`. Nevertheless, from the previous approximation, it comes:
 
 .. math::
