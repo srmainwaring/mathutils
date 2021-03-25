@@ -217,8 +217,8 @@ int main(int argc, char* argv[]) {
   double integral_1_ana = Integral_3_351_3(n, mu);
 
   double xmin = 0;
-  double xmax = 1000;
-  int nPts = 10000;
+  double xmax = 10000;
+  int nPts = 10000000;
   auto x = mathutils::linspace<double>(xmin, xmax, nPts);
   std::vector<double> integrand_1;
   for (auto val : x) {
