@@ -154,6 +154,11 @@ namespace mathutils {
 
   // This function evaluates the integral 3.351.3 of 2007_GRADSHTEYN_Tables_of_integrals_series_and_products.
   double Integral_3_351_3(const int &n, const double &mu) {
+    if(mu <= 0){
+      std::cout << "Integral_3_351_3: mu must be strictly positive." << std::endl;
+      std::cout << "Mu = " << mu << std::endl;
+      exit(0);
+    }
     return mathutils::Factorial<int, double>(n) * pow(mu, -(n + 1));
   }
 
@@ -473,6 +478,12 @@ namespace mathutils {
 
   // This function evaluates the integral 3.353.5 of 2007_GRADSHTEYN_Tables_of_integrals_series_and_products.
   double Integral_3_353_5(const int &n, const double &beta, const double &mu) {
+
+    if(mu <= 0){
+      std::cout << "Integral_3_353_5: mu must be strictly positive." << std::endl;
+      std::cout << "Mu = " << mu << std::endl;
+      exit(0);
+    }
 
     double result = pow(-1, n - 1) * pow(beta, n) * expEi(-beta * mu);
 
