@@ -205,4 +205,52 @@ int main(int argc, char* argv[]) {
   std::cout << "Exact value: " << 80.*pow(0.25, 4.) - 60.*pow(0.25, 2.) + 5 << std::endl; // T'_5(x) = 80x^4 - 60x^2 + 5.
   assert(IsClose(value_Chebyshev_derivative_T5, 80.*pow(0.25, 4.) - 60.*pow(0.25, 2.) + 5));
 
+  // ========================================================================
+  //                           Integrals
+  // ========================================================================
+
+  // Integral 3.351.3.
+  PrintHeader("Integral 3.351.3");
+  std::cout << "" << std::endl;
+  int n = 5;
+  double mu = 3;
+  double integral_1_ana = Integral_3_351_3(n, mu);
+
+  double xmin = 0;
+  double xmax = 1000;
+  int nPts = 10000;
+  auto x = mathutils::linspace<double>(xmin, xmax, nPts);
+  std::vector<double> integrand_1;
+  for (auto val : x) {
+    integrand_1.push_back(pow(val, n) * exp(-mu * val));
+  }
+  auto myIntegratorVect_1 = mathutils::Integrate1d<double>(integrand_1, xmin, xmax, nPts);
+  double integral_1_num = myIntegratorVect_1.Get();
+
+  PrintInfo("Comparison of anaytical and numerical results");
+  std::cout << "Analytical: " << integral_1_ana << std::endl;
+  std::cout << "Numerical: " << integral_1_num << std::endl;
+  assert(IsClose(integral_1_ana, integral_1_num));
+
+  // Integral 3.353.5.
+  PrintHeader("Integral 3.353.5");
+  std::cout << "" << std::endl;
+  n = 5;
+  mu = 3;
+  double beta = 1.;
+  double integral_2_ana = Integral_3_353_5(n, beta, mu);
+
+  std::vector<double> integrand_2;
+  for (auto val : x) {
+    integrand_2.push_back(pow(val, n) * exp(-mu * val) / (val + beta));
+  }
+  auto myIntegratorVect_2 = mathutils::Integrate1d<double>(integrand_2, xmin, xmax, nPts);
+  double integral_2_num = myIntegratorVect_2.Get();
+
+  PrintInfo("Comparison of anaytical and numerical results");
+  std::cout << "Analytical: " << integral_2_ana << std::endl;
+  std::cout << "Numerical: " << integral_2_num << std::endl;
+  assert(IsClose(integral_2_ana, integral_2_num));
+
+
 }
