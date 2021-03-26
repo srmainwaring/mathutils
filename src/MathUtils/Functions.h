@@ -152,16 +152,6 @@ namespace mathutils {
     return boost::math::tgamma(n);
   }
 
-  // This function evaluates the integral 3.351.3 of 2007_GRADSHTEYN_Tables_of_integrals_series_and_products.
-  double Integral_3_351_3(const int &n, const double &mu) {
-    if(mu <= 0){
-      std::cout << "Integral_3_351_3: mu must be strictly positive." << std::endl;
-      std::cout << "Mu = " << mu << std::endl;
-      exit(0);
-    }
-    return Factorial<int, double>(n) * pow(mu, -(n + 1));
-  }
-
   // This function returns the zero-order Struve function at the point x.
   template <class T>
   T Struve_zero_order(const T x){
@@ -470,25 +460,6 @@ namespace mathutils {
       }
       fraction += alphaj.at(0); // First term.
       result = (1. / x) * (1. + (1. / x) * fraction);
-    }
-
-    return result;
-
-  }
-
-  // This function evaluates the integral 3.353.5 of 2007_GRADSHTEYN_Tables_of_integrals_series_and_products.
-  double Integral_3_353_5(const int &n, const double &beta, const double &mu) {
-
-    if(mu <= 0){
-      std::cout << "Integral_3_353_5: mu must be strictly positive." << std::endl;
-      std::cout << "Mu = " << mu << std::endl;
-      exit(0);
-    }
-
-    double result = pow(-1, n - 1) * pow(beta, n) * expEi(-beta * mu);
-
-    for(int k = 1; k <= n; k++) {
-      result += Factorial<int, double>(k - 1) * pow(-beta, n - k) * pow(mu, -k);
     }
 
     return result;
