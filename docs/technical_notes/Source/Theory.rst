@@ -570,17 +570,6 @@ with:
 
 These conversions are performed with the base classes ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
 
-Integrals
----------
-
-This section lists several integrals which may be evaluated analytically. They are named :math:`I_{n}` where :math:`n` represents their number in [Gradshteyn2007]_.
-
-.. math::
-   I_{3.351.3} = \displaystyle \int_0^{\infty} x^n e^{-\mu x} dx = \dfrac{n!}{\mu^{n + 1}} \text{ with } \Re(\mu) > 0
-
-.. math::
-   I_{3.353.5} = \displaystyle \int_0^{\infty} \dfrac{x^n e^{-\mu x}}{x + \beta} dx = \displaystyle (-1)^{n-1} \beta^n e^{\beta \mu} E_i(-\beta \mu) + \sum_{k = 1}^n (k-1)!\dfrac{(\beta)^{n - k}}{\mu^k}  \text{ with } \begin{cases} \Re(\mu) > 0 \\ \\ |Arg(\beta)| < \pi \end{cases}
-
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
 .. [Cody1969] Cody W. J. and Thacher H. C. Chebyshev Approximations for the Exponential Integral Ei(x). Mathematics of Computation, 23(106):289-303, 1969.
@@ -592,8 +581,6 @@ This section lists several integrals which may be evaluated analytically. They a
 .. [Chen1993] X. Chen. Evaluation de la fonction de Green du problème de diffraction / radiation en profondeur d’eau finie. Proceedings of the 4ème Journées de l’Hydrodynamique (JH1993), Nantes, France, 1993.
 
 .. [Boyd2002] J. P. Boyd. Computing zeros on a real interval through Chebyshev expansion and polynomial rootfinding. SIAM Journal on Numerical Analysis, 40(5):1666-1682, 2002.
-
-.. [Gradshteyn2007] I. S. Gradshteyn and I. M. Ryzhik. Table of Integrals, Series, and Products. Academic Press, 7th Edition.
 
 .. [Grivet2016] S. Grivet-Talocia and B. Gustavsen. Passive macromodeling. Theory and applications. 2016.
 
