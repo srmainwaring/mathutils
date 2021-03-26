@@ -159,7 +159,7 @@ namespace mathutils {
       std::cout << "Mu = " << mu << std::endl;
       exit(0);
     }
-    return mathutils::Factorial<int, double>(n) * pow(mu, -(n + 1));
+    return Factorial<int, double>(n) * pow(mu, -(n + 1));
   }
 
   // This function returns the zero-order Struve function at the point x.
@@ -488,7 +488,7 @@ namespace mathutils {
     double result = pow(-1, n - 1) * pow(beta, n) * expEi(-beta * mu);
 
     for(int k = 1; k <= n; k++) {
-      result += mathutils::Factorial<int, double>(k - 1) * pow(-beta, n - k) * pow(mu, -k);
+      result += Factorial<int, double>(k - 1) * pow(-beta, n - k) * pow(mu, -k);
     }
 
     return result;
