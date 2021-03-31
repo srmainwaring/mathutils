@@ -29,7 +29,8 @@ int main(int argc, char* argv[]) {
     // Instatiating a matrix with its dimensions (it is set to zeros by default)
     auto myMatrix = MatrixMN<double>(6, 3);
 
-//    // Displaying the matrix
+    // Displaying the matrix
+    PrintInfo("Initial Matrix");
     std::cout << myMatrix << "\n\n";
 
     // Getting dimensions of the matrix
@@ -42,7 +43,7 @@ int main(int argc, char* argv[]) {
     std::cout << myMatrix << "\n\n";
 
     // Getting individual coefficients (different means)
-    PrintInfo("Getting and setting individual coefficients by indices");
+    PrintInfo("Getting and setting some individual coefficients by indices");
     std::cout << "Get Coeff 0, 0 : " << myMatrix.at(0, 0) << "\n\n";
     std::cout << "Get Coeff 0, 2 : " << myMatrix.at(0, 2) << "\n\n";
     std::cout << "Get Coeff 0, 0 : " << myMatrix(0, 0) << "\n\n";
@@ -75,8 +76,6 @@ int main(int argc, char* argv[]) {
     std::cout << "Nb Rows : " << myMatrix.GetNbRows() << std::endl << std::endl;
     std::cout << "Nb Cols : " << myMatrix.GetNbCols() << std::endl << std::endl;
 
-    // TODO: montrer utilisation de la fonction transpose
-
     PrintInfo("Diagonal extraction");
     // Get the diagonal
     auto diag = myMatrix.GetDiag();
@@ -103,6 +102,17 @@ int main(int argc, char* argv[]) {
     std::cout << myMatrix << "\n\n";
 
     // ========================================================================
+    //    Matrix multiplication
+    // ========================================================================
+    PrintHeader("Multiplying matrix by matrix");
+    auto matrix2 = MatrixMN<double>(10, 10);
+    matrix2.Randomize();
+    auto matrix = MatrixMN<double>(10, 10);
+    matrix.Randomize();
+    MatrixMN<double> matrix3 = matrix * matrix2;
+    std::cout << matrix3 << "\n\n";
+
+    // ========================================================================
     //    Square matrix inversion
     // ========================================================================
 
@@ -123,11 +133,11 @@ int main(int argc, char* argv[]) {
     auto invMatrix = matSquare.GetInverse();
     std::cout << invMatrix << "\n\n"; // Must get back the initial matrix
 
-    PrintInfo("Verifications ( (A^-1)^-1 - A)");
+    PrintInfo("Verifications ( (A^-1)^-1 - A = 0)");
     std::cout << invMatrix - initialMatrix << "\n\n"; // Must be zero
     assert(invMatrix.IsEqual(initialMatrix));
 
-    PrintInfo("Verifications ( A^-1 * A)");
+    PrintInfo("Verifications (A^-1 * A = I)");
     std::cout << invMatrix * matSquare << "\n\n";   // Must be identity
 
 //    // Is the matrix positive semi definite
@@ -139,7 +149,7 @@ int main(int argc, char* argv[]) {
     // ========================================================================
 
     PrintHeader("Decompositions");
-    PrintHeader("QR Decomposition (A = QR)");
+    PrintHeader("Thin QR Decomposition (A = QR)");
     myMatrix.Transpose();
     myMatrix.Randomize();
 
@@ -147,16 +157,40 @@ int main(int argc, char* argv[]) {
     std::cout << myMatrix << "\n\n";
 
     // QR Decomposition
-    MatrixMN<double> Q, R;
-    myMatrix.GetQRDecomposition(Q, R);
+    MatrixMN<double> Qthin, Rthin;
+    myMatrix.GetQRDecomposition(Qthin, Rthin);
 
     PrintInfo("Q");
-    std::cout << Q << "\n\n";
+    std::cout << Qthin << "\n\n";
     PrintInfo("R");
-    std::cout << R << "\n\n";
+    std::cout << Rthin << "\n\n";
+    PrintInfo("Verification Q^t*Q = I)");
+    std::cout << Qthin.transpose() * Qthin << "\n\n";
     PrintInfo("Verification (A - Q*R)");
-    std::cout << myMatrix - Q*R << "\n\n";
-    assert(myMatrix.IsEqual(Q*R));
+    std::cout << myMatrix - Qthin * Rthin << "\n\n";
+    assert(myMatrix.IsEqual(Qthin * Rthin));
+
+    PrintHeader("Full QR Decomposition (A = QR)");
+
+    PrintInfo("The matrix A to decompose");
+    std::cout << myMatrix << "\n\n";
+
+    // QR Decomposition
+    MatrixMN<double> Qfull, Rfull;
+    myMatrix.GetFullQRDecomposition(Qfull, Rfull);
+
+    PrintInfo("Q");
+    std::cout << Qfull << "\n\n";
+    PrintInfo("R");
+    std::cout << Rfull << "\n\n";
+    PrintInfo("Verification Q^t*Q = I)");
+    std::cout << Qfull.transpose() * Qfull << "\n\n";
+    PrintInfo("Verification (A - Q*R)");
+    auto Rextended = MatrixMN<double>(6, 3);
+    Rextended.SetNull();
+    Rextended.block(0, 0, 3, 3) = Rfull;
+    std::cout << myMatrix - Qfull * Rextended << "\n\n";
+    assert(myMatrix.IsEqual(Qfull * Rextended));
 
     // ========================================================================
     //    LU Decomposition
@@ -259,7 +293,7 @@ int main(int argc, char* argv[]) {
     PrintInfo("A+");
     std::cout << matRect_pinv << "\n\n";
 
-    PrintInfo("Using the function version");
+    PrintInfo("Using the function inversion");
     // Fonction Pinv
     auto pinvMat = Pinv(matRect);
     std::cout << pinvMat << "\n\n";
@@ -270,6 +304,149 @@ int main(int argc, char* argv[]) {
 
     assert(ApA.IsIdentity());
 
+    // ========================================================================
+    //    Linear system solvers
+    // ========================================================================
+
+    PrintHeader("Linear system solvers for Ax = b with A square");
+
+    // Matrix A.
+    auto matA = MatrixMN<double>(5, 5);
+    matA.Randomize();
+    PrintInfo("The matrix A");
+    std::cout << matA << "\n\n";
+
+    // The right-hand side vector.
+    auto vectB = VectorN<double>(5);
+    vectB.Randomize();
+    PrintInfo("The right-hand side vector b");
+    std::cout << vectB << "\n\n";
+
+    // Solving using LU decomposition.
+    auto solLU = matA.LUSolver(vectB);
+    PrintInfo("The solution x from a LU decomposition");
+    std::cout << solLU << "\n\n";
+
+    // Solving using QR decomposition.
+    auto solQR = matA.QRSolver(vectB);
+    PrintInfo("The solution x from a QR decomposition");
+    std::cout << solQR << "\n\n";
+
+    PrintInfo("Verification (xLU - xQR = 0)");
+    std::cout << solLU - solQR << "\n\n";
+    assert(solLU.IsEqual(solQR));
+
+    PrintInfo("Verification (A * xLU - b = 0)");
+    std::cout << matA * solLU - vectB << "\n\n";
+    VectorN<double> AxLu = matA * solLU;
+    assert(AxLu.IsEqual(vectB));
+
+    // The right-hand side matrix.
+    auto matB = MatrixMN<double>(5, 2);
+    matB.Randomize();
+    PrintInfo("The right-hand side matrix B");
+    std::cout << matB << "\n\n";
+
+    // Solving using LU decomposition.
+    auto solmat = matA.LUSolver(matB);
+    PrintInfo("The solution x from with several right-hand side vectors");
+    std::cout << solmat << "\n\n";
+
+    PrintInfo("Verification with several right-hand side vectors (A * x - B = 0)");
+    std::cout << matA * solmat - matB << "\n\n";
+    MatrixMN<double> Ax = matA * solmat;
+    assert(Ax.IsEqual(matB));
+
+    // ========================================================================
+    //    Linear least square system solver
+    // ========================================================================
+
+    PrintHeader("Linear least square system solver for Ax = b with A rectangular");
+
+    // Matrix A.
+    auto matALS = MatrixMN<double>(10, 5);
+    matALS.Randomize();
+    PrintInfo("The matrix A");
+    std::cout << matALS << "\n\n";
+
+    // The right-hand side vector.
+    auto vectBLS = VectorN<double>(10);
+    vectBLS.Randomize();
+    PrintInfo("The right-hand side vector b");
+    std::cout << vectBLS << "\n\n";
+
+    // Solving using SVD decomposition.
+    auto solLS = matALS.LeastSquareSolver(vectBLS);
+    PrintInfo("The least square solution x from a SVD decomposition");
+    std::cout << solLS << "\n\n";
+
+    PrintInfo("Verification (x - pseudo_inv(A) * b = 0)");
+    auto matALS_inv = matALS.GetPseudoInverse();
+    std::cout << solLS - matALS_inv * vectBLS << "\n\n";
+    VectorN<double> AxLS = matALS * solLS;
+    assert(solLS.IsEqual(matALS_inv * vectBLS));
+    // It is normal that A * x - b != 0.
+
+    // ========================================================================
+    //    Linear least square system solver under constraint
+    // ========================================================================
+
+    PrintHeader("Linear least square system solver for Ax = b with A rectangular subject to the constraint Cx = d.");
+
+    // Matrix A.
+    PrintInfo("The matrix A");
+    std::cout << matALS << "\n\n";
+
+    // The right-hand side vector.
+    PrintInfo("The right-hand side vector b");
+    std::cout << vectBLS << "\n\n";
+
+    // Matrix C.
+    auto matC = MatrixMN<double>(4, 5);
+    matC.Randomize();
+    PrintInfo("The matrix C");
+    std::cout << matC << "\n\n";
+
+    // The vector d.
+    auto vectd = VectorN<double>(4);
+    vectd.Randomize();
+    PrintInfo("The vector d");
+    std::cout << vectd << "\n\n";
+
+    // Solving using SVD decomposition.
+    auto solLSConstraint = matALS.LeastSquareSolverConstraint(vectBLS, matC, vectd);
+    PrintInfo("The least square solution x subject to the constraint Cx = d");
+    std::cout << solLSConstraint << "\n\n";
+
+    PrintInfo("Verification (x - pseudo_inv(A) * b != 0)");
+    std::cout << solLSConstraint - matALS_inv * vectBLS << std::endl;
+    VectorN<double> AxLSConstraint = matALS * solLSConstraint;
+    std::cout << "Because of the constraint, the equation x = inv(A) * b is not satisfied anymore. Some errors appear." << "\n\n";
+    // It is normal that both A * x - b != 0 and x - pseudoinv(A) * b != 0.
+
+    PrintInfo("Verification (Cx - d = 0)");
+    std::cout << matC * solLSConstraint - vectd << "\n\n";
+    VectorN<double> Cx = matC * solLSConstraint;
+    assert(Cx.IsEqual(vectd));
+
+    // ========================================================================
+    //    Eigenvalues and eigenvectors.
+    // ========================================================================
+
+    PrintHeader("Eigenvalues and eigenvectors");
+
+    // Matrix A.
+    mathutils::MatrixMN<double> Avp(3, 3);
+    Avp << 3,1,1,-8,-3,-4,6,3,4;
+    PrintInfo("The matrix A");
+    std::cout << Avp << "\n\n";
+
+    // Computation of the eigenvalues.
+    mathutils::MatrixMN<std::complex<double>> vp;
+    vp = Avp.Eigenvalues();
+    PrintInfo("The eigenvalues of A");
+    std::cout << vp << "\n\n";
+    PrintInfo("The eigenvalues must be (2, 1, 1)");
 
     return 0;
 }

@@ -5,7 +5,7 @@
 #ifndef MATHUTILS_VECTOR2D_H
 #define MATHUTILS_VECTOR2D_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 
 #include "Unit.h"
 #include "Angles.h"
@@ -24,10 +24,12 @@ namespace mathutils {
     // Class Vector2d declaration
     // =================================================================================================================
 
-    template <class Scalar=double>
-    class Vector2d : public Eigen::Matrix<Scalar, 2, 1> {
+    template <class Scalar_T=double>
+    class Vector2d : public Eigen::Matrix<Scalar_T, 2, 1> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         Vector2d();
 
@@ -42,6 +44,8 @@ namespace mathutils {
         inline void Set(Scalar x, Scalar y);
 
         inline void SetNEDFromLocal(Scalar x, Scalar y, Scalar angle, ANGLE_UNIT unit=RAD);
+
+        bool IsEqual(const Vector2d<Scalar>& other, const Scalar& epsilon=1e-12);
 
         inline Scalar infNorm() const;
 
@@ -149,6 +153,11 @@ namespace mathutils {
     template <class Scalar>
     void Vector2d<Scalar>::SetNull() {
         Eigen::Matrix<Scalar, 2, 1>::setZero();
+    }
+
+    template <class Scalar>
+    bool Vector2d<Scalar>::IsEqual(const Vector2d<Scalar>& other, const Scalar& epsilon) {
+      return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>

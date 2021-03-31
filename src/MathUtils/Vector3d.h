@@ -5,7 +5,7 @@
 #ifndef MATHUTILS_VECTOR3D_H
 #define MATHUTILS_VECTOR3D_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 
 #include "Unit.h"
 #include "Matrix33.h"
@@ -21,10 +21,12 @@ namespace mathutils {
     // =================================================================================================================
     // =================================================================================================================
 
-    template <class Scalar=double>
-    class Vector3d : public Eigen::Matrix<Scalar, 3, 1> {
+    template <class Scalar_T=double>
+    class Vector3d : public Eigen::Matrix<Scalar_T, 3, 1> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         Vector3d();
 
@@ -48,6 +50,8 @@ namespace mathutils {
         inline void SetNull();
 
         inline void Set(Scalar x, Scalar y, Scalar z);
+
+        bool IsEqual(const Vector3d<Scalar>& other, const Scalar& epsilon=1e-12);
 
         inline Scalar infNorm() const;
 
@@ -117,6 +121,11 @@ namespace mathutils {
         this->operator[](0) = x;
         this->operator[](1) = y;
         this->operator[](2) = z;
+    }
+
+    template <class Scalar>
+    bool Vector3d<Scalar>::IsEqual(const Vector3d<Scalar>& other, const Scalar& epsilon) {
+      return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>

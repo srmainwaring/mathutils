@@ -5,7 +5,7 @@
 #ifndef MATHUTILS_VECTORN_H
 #define MATHUTILS_VECTORN_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 #include "Matrix.h"
 
 namespace mathutils {
@@ -14,10 +14,12 @@ namespace mathutils {
     // TODO: Rajouter methode Resize()
 
 
-    template <class Scalar>
-    class VectorN : public Eigen::Matrix<Scalar, Eigen::Dynamic, 1> {
+    template <class Scalar_T>
+    class VectorN : public Eigen::Matrix<Scalar_T, Eigen::Dynamic, 1> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         VectorN() {}
 
@@ -32,6 +34,8 @@ namespace mathutils {
 
         void SetNull();
 
+        void SetOnes();
+
         void Sort(bool ascending=true);
 
         void Reverse();
@@ -39,6 +43,8 @@ namespace mathutils {
         bool IsEqual(const VectorN<Scalar>& other, const Scalar& epsilon=1e-12);
 
         MatrixMN<Scalar> GetMatrixSquare() const;
+
+        MatrixMN<Scalar> GetDiagonalMatrix() const;
 
         inline Scalar infNorm() const;
 
@@ -75,6 +81,11 @@ namespace mathutils {
         return vector.transpose();
     }
 
+    template <class Scalar>
+    MatrixMN<Scalar> GetDiagonalMatrix(const VectorN<Scalar> vector) {
+      return vector.asDiagonal().toDenseMatrix();
+    }
+
 
     // =================================================================================================================
     // =================================================================================================================
@@ -103,6 +114,11 @@ namespace mathutils {
     }
 
     template <class Scalar>
+    void VectorN<Scalar>::SetOnes() {
+      this->setOnes();
+    }
+
+    template <class Scalar>
     void VectorN<Scalar>::Sort(bool ascending) {
         std::sort(this->data(), this->data()+this->size());
 
@@ -113,6 +129,11 @@ namespace mathutils {
     template <class Scalar>
     MatrixMN<Scalar> VectorN<Scalar>::GetMatrixSquare() const {
         return (*this) * ((*this).transpose());
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> VectorN<Scalar>::GetDiagonalMatrix() const {
+      return (*this).asDiagonal().toDenseMatrix();
     }
 
     template <class Scalar>

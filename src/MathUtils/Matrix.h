@@ -5,7 +5,7 @@
 #ifndef MATHUTILS_MATRIX_H
 #define MATHUTILS_MATRIX_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 #include "iostream"
 
 namespace mathutils {
@@ -16,10 +16,12 @@ namespace mathutils {
     // =================================================================================================================
 
 
-    template <class Scalar>
-    class MatrixMN : public Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> {
+    template <class Scalar_T>
+    class MatrixMN : public Eigen::Matrix<Scalar_T, Eigen::Dynamic, Eigen::Dynamic> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         // =====================================================================
         //  Constructors
@@ -88,7 +90,15 @@ namespace mathutils {
         // Various matrix decompositions
         // =====================================================================
 
+        // This methods applies a thin QR decomposition, for more information cf the technical notes.
+        // If your matrix is square, GetQRDecomposition and GetFullQRDecomposition will give the same result with
+        // the same performances.
         void GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const;
+
+        // This methods applies a full QR decomposition, for more information cf the technical notes.
+        // If your matrix is square, GetQRDecomposition and GetFullQRDecomposition will give the same result with
+        // the same performances.
+        void GetFullQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const;
 
         void GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const;
 
@@ -123,6 +133,33 @@ namespace mathutils {
             this->Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>::operator=(other);
             return *this;
         }
+
+      // =====================================================================
+      // Linear system solvers.
+      // =====================================================================
+
+      MatrixMN<Scalar> LUSolver(const MatrixMN<Scalar>& rhs) const;
+
+      MatrixMN<Scalar> QRSolver(const MatrixMN<Scalar>& rhs) const;
+
+      // =====================================================================
+      // Linear least square system solvers.
+      // =====================================================================
+
+      // This method solved a least square problem min||Ax - b|| from a SVD decomposition (bidiagonal divide and
+      // conquer SVD method).
+      MatrixMN<Scalar> LeastSquareSolver(const MatrixMN<Scalar>& b) const;
+
+      // This method solves a least square problem min||Ax - b||^2 subject to the equality constraint Cx = d.
+      MatrixMN<Scalar> LeastSquareSolverConstraint(const MatrixMN<Scalar>& b, const MatrixMN<Scalar>& C
+          , const MatrixMN<Scalar>& d) const;
+
+      // =====================================================================
+      // Eigenvalues and eigenvectors.
+      // =====================================================================
+
+      // This method computes the eigenvalues only.
+      MatrixMN<std::complex<double>> Eigenvalues() const;
 
     };
 
@@ -279,11 +316,12 @@ namespace mathutils {
 
     template <class Scalar>
     void MatrixMN<Scalar>::GetQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const {
+
         assert(this->rows() >= this->cols());
 
         auto QR = this->householderQr();
 
-        // Q
+        // Qthin
         auto Qfull = QR.householderQ();
         auto thinQ = MatrixMN<Scalar>::Identity(QR.rows(), QR.cols());
         Q = (MatrixMN<Scalar>)(Qfull * thinQ);
@@ -294,6 +332,24 @@ namespace mathutils {
         R = (MatrixMN<Scalar>)(Rfull.block(0, 0, QR.cols(), QR.cols()));  // TODO: verifier que c'est bien cols() cols()...
 
     }
+
+  template <class Scalar>
+  void MatrixMN<Scalar>::GetFullQRDecomposition(MatrixMN<Scalar>& Q, MatrixMN<Scalar>& R) const {
+
+      assert(this->rows() >= this->cols());
+
+      auto QR = this->householderQr();
+
+      // Qfull
+      Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Qfull = QR.householderQ();
+      Q = (MatrixMN<Scalar>)(Qfull);
+
+      // R
+      Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Rfull;
+      Rfull = QR.matrixQR().template triangularView<Eigen::Upper>();
+      R = (MatrixMN<Scalar>)(Rfull.block(0, 0, QR.cols(), QR.cols()));  // TODO: verifier que c'est bien cols() cols()...
+
+  }
 
     template <class Scalar>
     void MatrixMN<Scalar>::GetLUDecomposition(MatrixMN<Scalar>& P, MatrixMN<Scalar>& L, MatrixMN<Scalar>& U) const {
@@ -404,7 +460,92 @@ namespace mathutils {
         return V * S.asDiagonal() * U.adjoint();
     }
 
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::LUSolver(const MatrixMN<Scalar>& rhs) const {
+      return (this->fullPivLu().solve(rhs));
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::QRSolver(const MatrixMN<Scalar>& rhs) const {
+      return (this->fullPivHouseholderQr().solve(rhs));
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::LeastSquareSolver(const MatrixMN<Scalar>& b) const {
+      return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b));
+    }
+
+    template <class Scalar>
+    MatrixMN<Scalar> MatrixMN<Scalar>::LeastSquareSolverConstraint(const MatrixMN<Scalar>& b, const MatrixMN<Scalar>& C
+      , const MatrixMN<Scalar>& d) const {
+
+        // This method solves a least square problem min||Ax - b||^2 subject to the equality constraint Cx = d.
+
+        // Number of rows in A.
+        int m = this->GetNbRows();
+
+        // Number of columns in A.
+        int n = this->GetNbCols();
+
+        // Size of d.
+        int p = d.GetNbRows();
+
+        // Verifications of the sizes.
+        assert(n > p);
+        assert(m > n);
+        assert(b.GetNbRows() == m);
+        assert(C.GetNbCols() == n);
+        assert(C.GetNbRows() == p);
+
+        // Only a single vector for the right-hand sides.
+        assert(b.GetNbCols() == 1);
+        assert(d.GetNbCols() == 1);
+
+        // QR factorisation of transpose(C).
+        MatrixMN<Scalar> Q, R;
+        MatrixMN<Scalar> Ct = C;
+        Ct.Transpose();
+        Ct.GetFullQRDecomposition(Q, R);
+
+        // Solving transpose(R) * y = d.
+        R.Transpose(); // From now on, in the variable R there is the transpose of R.
+        auto y = R.LUSolver(d);
+
+        // Creation of A1 and A2.
+        MatrixMN<Scalar> AQ = *this * Q;
+        MatrixMN<Scalar> A1 = AQ.block(0, 0, m, p);
+        MatrixMN<Scalar> A2 = AQ.block(0, p, m, n - p);
+
+        // LS problem wrt z.
+        auto z = A2.LeastSquareSolver(b - A1 * y); // R has been transposed.
+
+        // Solution.
+        MatrixMN<Scalar> vect_y_z = MatrixMN<Scalar>(n, 1);
+        vect_y_z.block(0, 0, p, 1) = y;
+        vect_y_z.block(p, 0, n - p, 1) = z;
+        auto x = Q * vect_y_z;
+
+        return x;
+
+    };
+
+    template <class Scalar>
+    MatrixMN<std::complex<double>> MatrixMN<Scalar>::Eigenvalues() const{
+
+        // This method computes the eigenvalues only.
+
+        // Verification.
+        assert(this->GetNbRows() == this->GetNbCols());
+
+        // Object to computing eigenvalues and eigenvectors.
+        Eigen::EigenSolver<Eigen::MatrixXd> es(*this, false);
+
+        return MatrixMN<std::complex<double>>(es.eigenvalues());
+
+    }
+
 
 }  // end namespace mathutils
 
 #endif //MATHUTILS_MATRIX_H
+

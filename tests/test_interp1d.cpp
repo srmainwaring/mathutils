@@ -9,85 +9,102 @@
 
 using namespace mathutils;
 
-
 void testInterpDouble() {
-    // Building the x coords as a shared pointer
-    auto x = std::make_shared<std::vector<double>>(
-            linspace(M_PI, 4*M_PI, N-1)
-    );
 
-    // Building the data
-    auto y = std::make_shared<std::vector<double>>();
-    y->reserve(x->size());
-    double val;
-    for (unsigned long i = 0; i < x->size(); i++) {
-        val = sin(x->at(i));
-        y->push_back( val );
-    }
+  // Building the x coords as a shared pointer
+  auto x = std::make_shared<std::vector<double>>(
+      linspace(M_PI, 4 * M_PI, N - 1)
+  );
 
-    // Create the interpolation
-    Interp1dLinear<double, double> interpolator;
+  // Building the data
+  auto y = std::make_shared<std::vector<double>>();
+  y->reserve(x->size());
+  double val;
+  for (unsigned long i = 0; i < x->size(); i++) {
+    val = sin(x->at(i));
+    y->push_back(val);
+  }
 
-    interpolator.Initialize(x, y);
+  // Create the interpolation
+  Interp1dLinear<double, double> interpolator;
 
-    // Test of the Eval method for one scalar
-    auto y0 = interpolator.Eval(5.3333);
-    // Test of the call operator for one scalar
-    auto y1 = interpolator(5.3333);
+  interpolator.Initialize(x, y);
 
-    assert(IsClose(y0, y1));
+  // Test of the Eval method for one scalar
+  auto y0 = interpolator.Eval(5.3333);
+  // Test of the call operator for one scalar
+  auto y1 = interpolator(5.3333);
+
+  std::cout << "" << std::endl;
+  std::cout << "Test inter1d - Real" << std::endl;
+  std::cout << "Interpolation of sin(x) for x = 5.3333" << std::endl;
+  std::cout << "Analytical: " << sin(5.3333) << std::endl;
+  std::cout << "Eval method: " << y0 << " / Error (%): " << (abs(y0 - sin(5.3333)) / abs(sin(5.3333))) * 100
+            << std::endl;
+  std::cout << "Call operator: " << y1 << " / Error (%): " << (abs(y1 - sin(5.3333)) / abs(sin(5.3333))) * 100
+            << std::endl;
+  assert(IsClose(y0, y1));
 //    assert(IsClose(y0, -0.8133409832926298));
 
-    // Test for a vector of x coords
-    auto x_interp = linspace(M_PI, 4*M_PI, 1000*N);
-    // Using only the overloaded call operator for vector values
-    auto y_interp = interpolator(x_interp);
+  // Test for a vector of x coords
+  auto x_interp = linspace(M_PI, 4 * M_PI, 1000 * N);
+  // Using only the overloaded call operator for vector values
+  auto y_interp = interpolator(x_interp);
 
-
-    interpolator.PermissiveON();
-    auto y_interp_out = interpolator(5*M_PI);
+  // Test of the permission to access a value outside of the x-range.
+  interpolator.PermissiveON();
+  auto y_interp_out = interpolator(5 * M_PI);
 
 }
 
 void testInterpComplex() {
-    // Building the x coords as a shared pointer
-    auto x = std::make_shared<std::vector<double>>(
-            linspace(M_PI, 4*M_PI, N-1)
-    );
 
-    // Building the data
-    auto y = std::make_shared<std::vector<std::complex<double>>>();
-    y->reserve(x->size());
-    std::complex<double> val;
-    for (unsigned long i = 0; i < x->size(); i++) {
-        val = exp(MU_JJ * x->at(i));
-        y->push_back( val );
-    }
+  // Building the x coords as a shared pointer
+  auto x = std::make_shared<std::vector<double>>(
+      linspace(M_PI, 4 * M_PI, N - 1)
+  );
 
-    // Create the interpolation
-    Interp1dLinear<double, std::complex<double>> interpolator;
+  // Building the data
+  auto y = std::make_shared<std::vector<std::complex<double>>>();
+  y->reserve(x->size());
+  std::complex<double> val;
+  for (unsigned long i = 0; i < x->size(); i++) {
+    val = exp(MU_JJ * x->at(i));
+    y->push_back(val);
+  }
 
-    interpolator.Initialize(x, y);
+  // Create the interpolation
+  Interp1dLinear<double, std::complex<double>> interpolator;
 
-    // Test of the Eval method for one scalar
-    auto y0 = interpolator.Eval(5.3333);
-    // Test of the call operator for one scalar
-    auto y1 = interpolator(5.3333);
+  interpolator.Initialize(x, y);
 
-//    assert(IsClose(y0, y1));
+  // Test of the Eval method for one scalar
+  auto y0 = interpolator.Eval(5.3333);
+  // Test of the call operator for one scalar
+  auto y1 = interpolator(5.3333);
+
+  std::cout << "" << std::endl;
+  std::cout << "Test inter1d - Complex" << std::endl;
+  std::cout << "Interpolation of exp(ix) for x = 5.3333" << std::endl;
+  std::cout << "Analytical: " << exp(MU_JJ * 5.3333) << std::endl;
+  std::cout << "Eval method: " << y0 << " / Error (%): " << (abs(y0 - exp(MU_JJ * 5.3333)) / abs(exp(MU_JJ * 5.3333))) * 100
+            << std::endl;
+  std::cout << "Call operator: " << y1 << " / Error (%): " << (abs(y1 - exp(MU_JJ * 5.3333)) / abs(exp(MU_JJ * 5.3333))) * 100
+            << std::endl;
+  assert(IsClose(y0.real(), y1.real()));
+  assert(IsClose(y0.imag(), y1.imag()));
 //    assert(IsClose(y0, -0.8133409832926298));
 
-    // Test for a vector of x coords
-    auto x_interp = linspace(M_PI, 4*M_PI, 1000*N);
-    // Using only the overloaded call operator for vector values
-    auto y_interp = interpolator(x_interp);
+  // Test for a vector of x coords
+  auto x_interp = linspace(M_PI, 4 * M_PI, 1000 * N);
+  // Using only the overloaded call operator for vector values
+  auto y_interp = interpolator(x_interp);
 }
-
 
 int main(int argc, char* argv[]) {
 
-    testInterpDouble();
-    testInterpComplex();
+  testInterpDouble();
+  testInterpComplex();
 
-    return 0;
+  return 0;
 }

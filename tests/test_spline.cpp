@@ -27,7 +27,7 @@ int main(int argc, char const* argv[])
     int ni = 10000;
     auto xi = linspace<double>(0, 100, ni);
     std::vector<double> yi(ni);
-    for (uint i=0; i<ni; i++) {
+    for (unsigned int i=0; i<ni; i++) {
         yi[i] = s(xi[i]);
     }
 

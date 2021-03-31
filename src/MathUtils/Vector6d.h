@@ -5,10 +5,9 @@
 #ifndef MATHUTILS_VECTOR6D_H
 #define MATHUTILS_VECTOR6D_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 
 #include "Unit.h"
-//#include "Matrix.h"
 #include "Matrix66.h"
 
 namespace mathutils {
@@ -21,10 +20,12 @@ namespace mathutils {
     // =================================================================================================================
     // =================================================================================================================
 
-    template <class Scalar=double>
-    class Vector6d : public Eigen::Matrix<Scalar, 6, 1> {
+    template <class Scalar_T=double>
+    class Vector6d : public Eigen::Matrix<Scalar_T, 6, 1> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         Vector6d();
 
@@ -48,6 +49,8 @@ namespace mathutils {
         inline void SetNull();
 
         inline void Set(Scalar x0, Scalar x1, Scalar x2, Scalar x3, Scalar x4, Scalar x5);
+
+        bool IsEqual(const Vector6d<Scalar>& other, const Scalar& epsilon=1e-12);
 
         inline Scalar infNorm() const;
 
@@ -96,6 +99,11 @@ namespace mathutils {
         this->operator[](3) = x3;
         this->operator[](4) = x4;
         this->operator[](5) = x5;
+    }
+
+    template <class Scalar>
+    bool Vector6d<Scalar>::IsEqual(const Vector6d<Scalar>& other, const Scalar& epsilon) {
+      return this->isApprox(other, epsilon);
     }
 
     template <class Scalar>

@@ -16,9 +16,26 @@ set(TESTS
         test_convolution
         test_spline
         test_vectorN
-		test_geometry        
-		)
+	test_geometry        
+	 test_linear_system_solver
+        test_integration2d
+        test_polynomial
+        )
 
+IF (MATHUTILS_BOOST_VERSION)
+    list(APPEND TESTS
+            test_functions
+            test_ChebyshevSeries2d
+            test_ChebyshevSeries3d
+            test_PowerSeries2d
+            test_PowerSeries3d
+            )
+ENDIF(MATHUTILS_BOOST_VERSION)
+
+IF(MSVC)
+    ADD_DEFINITIONS("/MP")
+    MESSAGE(STATUS "MSVC /MP option activated")
+ENDIF(MSVC)
 
 foreach(test ${TESTS})
 

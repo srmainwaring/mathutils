@@ -5,7 +5,7 @@
 #ifndef FRYDOM_MATRIX33_H
 #define FRYDOM_MATRIX33_H
 
-#include "Eigen/Dense"
+#include "EigenDense.h"
 #include "iostream"
 
 namespace mathutils {
@@ -17,10 +17,12 @@ namespace mathutils {
     // =================================================================================================================
 
 
-    template <class Scalar>
-    class Matrix33 : public Eigen::Matrix<Scalar, 3, 3> {
+    template <class Scalar_T>
+    class Matrix33 : public Eigen::Matrix<Scalar_T, 3, 3> {
 
     public:
+
+        using Scalar = Scalar_T;
 
         // =====================================================================
         //  Constructors
@@ -85,6 +87,7 @@ namespace mathutils {
         // Various matrix decompositions
         // =====================================================================
 
+        // As a matrix 3x3 is square, there is no need of GetFullQRDecomposition.
         void GetQRDecomposition(Matrix33<Scalar>& Q, Matrix33<Scalar>& R) const;
 
         void GetLUDecomposition(Matrix33<Scalar>& P, Matrix33<Scalar>& L, Matrix33<Scalar>& U) const;
@@ -116,6 +119,44 @@ namespace mathutils {
             this->Eigen::Matrix<Scalar, 3, 3>::operator=(other);
             return *this;
         }
+
+      // =====================================================================
+      // Linear system solvers.
+      // =====================================================================
+
+      // A typename has to be used because the rhs is not necessary a Matrix33.
+      template<typename T>
+      T LUSolver(const T& rhs) const {
+        return (this->fullPivLu().solve(rhs));
+      }
+
+      // A typename has to be used because the rhs is not necessary a Matrix33.
+      template<typename T>
+      T QRSolver(const T& rhs) const {
+        return (this->fullPivHouseholderQr().solve(rhs));
+      }
+
+      // =====================================================================
+      // Linear least square system solver.
+      // =====================================================================
+
+      // This method solved a least square problem min||Ax - b|| from a SVD decomposition (bidiagonal divide and
+      // conquer SVD method).
+      // A typename has to be used because the rhs is not necessary a Matrix66.
+      template<typename T>
+      T LeastSquareSolver(const T& b) const {
+        return (this->bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b));
+      }
+
+      // No LeastSquareSolverContraint because it requires the structure MatrixMN for C and d, which is not available here.
+      // Consequently, use a MatrixMN of size 3x3 for accessing this method.
+
+      // =====================================================================
+      // Eigenvalues and eigenvectors.
+      // =====================================================================
+
+      // This method computes the eigenvalues only.
+      Matrix33<std::complex<double>> Eigenvalues() const;
 
     };
 
@@ -376,6 +417,20 @@ namespace mathutils {
     }
 
 
+    template <class Scalar>
+    Matrix33<std::complex<double>> Matrix33<Scalar>::Eigenvalues() const{
+
+      // This method computes the eigenvalues only.
+
+      // Verification.
+      assert(this->GetNbRows() == this->GetNbCols());
+
+      // Object to computing eigenvalues and eigenvectors.
+      Eigen::EigenSolver<Eigen::MatrixXd> es(*this, false);
+
+      return Matrix33<std::complex<double>>(es.eigenvalues());
+
+    }
 
 }  // end namesapce mathutils
 

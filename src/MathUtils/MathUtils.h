@@ -6,10 +6,6 @@
 #define MATHUTILS_H_H
 
 
-#include "Eigen/Dense"
-
-//#include "ceres/ceres.h"
-
 #include "Constants.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
@@ -36,5 +32,16 @@
 #include "StdVector.h"
 #include "Convolution.h"
 #include "Geometry.h"
+#include "Integration2d.h"
+#include "Integration2dTriangle.h"
+#include "QuadratureTables.h"
+#include "Integrand.h"
+#include "Polynomial.h"
+#ifdef H5_BOOST_VERSION
+#include "ChebyshevSeries2d.h"
+#include "ChebyshevSeries3d.h"
+#include "PowerSeries2d.h"
+#include "PowerSeries3d.h"
+#endif
 
 #endif //FRYDOM_MATHUTILS_H_H

@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     auto kernel = Sinc(tr);
 
     // Trailing zéros
-    for (unsigned i=200; i<n; i++) {
+    for (unsigned int i=200; i<n; i++) {
         kernel[i] = 0.;
     }
 
@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 
     // Implementing and populating a circular buffer in reverse order
     boost::circular_buffer<double> signal(m, m, 0.); // Circular buffer initialized with capacity m and m values set to 0 (buffer is full)
-    for (uint i=0; i<m; i++) {
+    for (unsigned int i=0; i<m; i++) {
         signal.push_front(
                 sin(MU_2PI * 0.05 * ts[i]) +
                 sin(MU_2PI * 2*0.05 * ts[i]) +

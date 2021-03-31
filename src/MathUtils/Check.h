@@ -26,6 +26,16 @@ namespace mathutils {
         return true;
     }
 
+    template<typename T>
+    inline bool is_odd(T val) {
+      return bool(val % 2);
+    }
+
+    template<typename T>
+    inline bool is_even(T val) {
+      return !is_odd<T>(val);
+    }
+
     template <class Real=double>
     void AssertIsClose(const Real a, const Real b, const Real rtol = 1e-5, const Real atol = 1e-8) {
         assert(IsClose(a, b, rtol, atol));

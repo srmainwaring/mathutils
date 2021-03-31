@@ -1,6 +1,9 @@
 
 .idea
 cmake-build-debug
-build
+cmake-build-release
+build*/
 
 *.pyc
+
+docs/technical_notes/_build
