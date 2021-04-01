@@ -1,6 +1,18 @@
 # MathUtils
 
-MathUtils is a mathematic library build upon Eigen.
+MathUtils is a mathematics library build upon Eigen.
+
+## Link
+
+Since MathUtils v1.5, boost have been remove, since MathUtils is header only.
+If you don't need boost within MathUtils, no modifications are required.
+
+If you need MathUtils with boost, you need to 
+* include first boost to your project, (check the Add_Boost.cmake used in this repo for the tests)
+* add Boost::boost to your targets,
+* use the MathUtils/MathUtilsBoost.h instead of the classic MathUtils/MathUtils.h
+
+For an example of use of MathUtils with boost, check the tests/CMakeFiles.txt and test_BoostFunctions.cpp
 
 ## Compilation
 

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "MathUtils/MathUtilsBoost.h"
+#include "gtest/gtest.h"
 
 using namespace mathutils;
 
@@ -17,7 +18,17 @@ void PrintInfo(std::string info) {
   std::cout << info << ":" << std::endl;
 }
 
-int main(int argc, char* argv[]) {
+TEST(BoostFunction, Cyl_Bessel_first_kind) {
+  double value_J0 = Cyl_Bessel_first_kind<int, double, double>(0, 1.2345);
+  EXPECT_NEAR(value_J0, 0.653792, 1E-6);
+}
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
+
+int old_main(int argc, char* argv[]) {
 
   // This test checks the computation of the special functions.
 
@@ -174,7 +185,7 @@ int main(int argc, char* argv[]) {
   value_expEi_approx = expEi<double>(2000.);
   std::cout << "Direct: Numerical overflow" << std::endl;
   std::cout << "Method expEi: " << value_expEi_approx << std::endl;
-  
+
   // ========================================================================
   //                       Chebyshev polynomials
   // ========================================================================
@@ -204,5 +215,5 @@ int main(int argc, char* argv[]) {
   std::cout << "Method Chebyshev_polynomial_derivative: " << value_Chebyshev_derivative_T5 << std::endl;
   std::cout << "Exact value: " << 80.*pow(0.25, 4.) - 60.*pow(0.25, 2.) + 5 << std::endl; // T'_5(x) = 80x^4 - 60x^2 + 5.
   assert(IsClose(value_Chebyshev_derivative_T5, 80.*pow(0.25, 4.) - 60.*pow(0.25, 2.) + 5));
-  
+
 }

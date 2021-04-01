@@ -40,22 +40,23 @@ foreach(test ${TESTS})
 endforeach()
 
 # tests with Boost dependency
+if (MATHUTILS_BUILD_BOOST_TESTS)
+    include(Add_Boost)
+    set(TESTS
+            test_BoostFunctions
+            test_ChebyshevSeries2d
+            test_ChebyshevSeries3d
+            test_convolution
+            )
 
-include(Add_Boost)
-set(TESTS
-        test_BoostFunctions
-        test_ChebyshevSeries2d
-        test_ChebyshevSeries3d
-        test_convolution
-        )
+    foreach(test ${TESTS})
 
-foreach(test ${TESTS})
+        message(STATUS "...add ${test}")
 
-    message(STATUS "...add ${test}")
+        add_executable(${test} ${test}.cpp)
+        target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen Boost::boost gtest_main)
 
-    add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen Boost::boost)
+        add_dependencies(mathutils_tests ${test})
 
-    add_dependencies(mathutils_tests ${test})
-
-endforeach()
+    endforeach()
+endif()
