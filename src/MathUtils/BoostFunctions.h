@@ -10,9 +10,9 @@
 #include <boost/math/special_functions/legendre.hpp>
 #include <boost/math/special_functions/factorials.hpp>
 #include <boost/math/special_functions/expint.hpp>
-#ifdef H5_BOOST_VERSION
+//#ifdef H5_BOOST_VERSION
 #include <boost/math/special_functions/chebyshev.hpp>
-#endif
+//#endif
 #include "VectorGeneration.h"
 
 namespace mathutils {
@@ -127,7 +127,6 @@ namespace mathutils {
     return (MU_2_PI - Struve_first_order<T>(x));
   }
 
-#ifdef H5_BOOST_VERSION
   // This function returns the derivative of the Legendre polynomial of order "order" at the point x.
   template <class Integer, class Real>
   Real Legendre_polynomial_derivative(const Integer& order, const Real x){
@@ -373,7 +372,6 @@ namespace mathutils {
 
   }
 
-#endif
 }  // end namespace mathutils
 
 #endif //MATHUTILS_BOOSTFUNCTIONS_H

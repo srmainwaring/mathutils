@@ -13,7 +13,6 @@ set(TESTS
         test_matrixMN
         test_integration1d
         test_fft
-        test_convolution
         test_spline
         test_vectorN
 	    test_geometry
@@ -47,6 +46,7 @@ set(TESTS
         test_BoostFunctions
         test_ChebyshevSeries2d
         test_ChebyshevSeries3d
+        test_convolution
         )
 
 foreach(test ${TESTS})

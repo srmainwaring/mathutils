@@ -7,7 +7,7 @@
 
 #include <memory>
 #include "Matrix.h"
-#include "Functions.h"
+#include "BoostFunctions.h"
 
 namespace mathutils {
 

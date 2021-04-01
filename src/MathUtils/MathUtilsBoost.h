@@ -10,5 +10,6 @@
 #include "ChebyshevSeries2d.h"
 #include "ChebyshevSeries3d.h"
 #include "BoostFunctions.h"
+#include "Convolution.h"
 
 #endif //MATHUTILS_MATHUTILSBOOST_H
