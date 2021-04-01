@@ -16,21 +16,13 @@ set(TESTS
         test_convolution
         test_spline
         test_vectorN
-	test_geometry        
-	 test_linear_system_solver
+	    test_geometry
+	    test_linear_system_solver
         test_integration2d
         test_polynomial
+        test_PowerSeries2d
+        test_PowerSeries3d
         )
-
-IF (MATHUTILS_BOOST_VERSION)
-    list(APPEND TESTS
-            test_functions
-            test_ChebyshevSeries2d
-            test_ChebyshevSeries3d
-            test_PowerSeries2d
-            test_PowerSeries3d
-            )
-ENDIF(MATHUTILS_BOOST_VERSION)
 
 IF(MSVC)
     ADD_DEFINITIONS("/MP")
@@ -43,6 +35,26 @@ foreach(test ${TESTS})
 
     add_executable(${test} ${test}.cpp)
     target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen)
+
+    add_dependencies(mathutils_tests ${test})
+
+endforeach()
+
+# tests with Boost dependency
+
+include(Add_Boost)
+set(TESTS
+        test_BoostFunctions
+        test_ChebyshevSeries2d
+        test_ChebyshevSeries3d
+        )
+
+foreach(test ${TESTS})
+
+    message(STATUS "...add ${test}")
+
+    add_executable(${test} ${test}.cpp)
+    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen Boost::boost)
 
     add_dependencies(mathutils_tests ${test})
 

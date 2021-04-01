@@ -7,7 +7,6 @@
 
 #include "Matrix.h"
 #include "Polynomial.h"
-#include "ChebyshevSeries2d.h"
 #include "Functions.h"
 
 namespace mathutils {

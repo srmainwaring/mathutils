@@ -23,26 +23,31 @@ set(MATHUTILS_HEADERS
         Functions.h
         Convolution.h
         VectorN.h
-	Geometry.h
+	    Geometry.h
         Integration2d.h
         Integration2dTriangle.h
         QuadratureTables.h
         Integrand.h
         Polynomial.h
+        BoostFunctions.h
+        ChebyshevSeries2d.h
+        ChebyshevSeries3d.h
+        PowerSeries2d.h
+        PowerSeries3d.h
         )
 
-if (MATHUTILS_BOOST_VERSION)
-    list( APPEND MATHUTILS_HEADERS
-            ChebyshevSeries2d.h
-            ChebyshevSeries3d.h
-            PowerSeries2d.h
-            PowerSeries3d.h
-            )
-endif()
+#if (MATHUTILS_BOOST_VERSION)
+#    list( APPEND MATHUTILS_HEADERS
+#            ChebyshevSeries2d.h
+#            ChebyshevSeries3d.h
+#            PowerSeries2d.h
+#            PowerSeries3d.h
+#            )
+#endif()
 
 # Building target
 add_library(MathUtils INTERFACE)
-target_link_libraries(MathUtils INTERFACE Eigen3::Eigen Boost::boost)
+target_link_libraries(MathUtils INTERFACE Eigen3::Eigen)
 
 add_library(MathUtils::MathUtils ALIAS MathUtils)
 
@@ -53,9 +58,9 @@ target_include_directories(MathUtils INTERFACE
 #        ${PROJECT_SOURCE_DIR}/src
 #        )
 
-if (MATHUTILS_BOOST_VERSION)
-    target_compile_definitions(MathUtils INTERFACE -DH5_BOOST_VERSION)
-endif()
+#if (MATHUTILS_BOOST_VERSION)
+#    target_compile_definitions(MathUtils INTERFACE -DH5_BOOST_VERSION)
+#endif()
 
 #set_target_properties(MathUtils PROPERTIES
 #        VERSION ${MathUtils_VERSION})

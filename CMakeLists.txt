@@ -28,7 +28,7 @@ set(MathUtils_VERSION
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/URL.conf.cmake)
 
 #BOOST
-include(Add_Boost)
+#include(Add_Boost)
 
 # MathUtils depends on Eigen3 library
 include(Add_Eigen3)

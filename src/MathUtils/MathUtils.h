@@ -37,11 +37,7 @@
 #include "QuadratureTables.h"
 #include "Integrand.h"
 #include "Polynomial.h"
-#ifdef H5_BOOST_VERSION
-#include "ChebyshevSeries2d.h"
-#include "ChebyshevSeries3d.h"
 #include "PowerSeries2d.h"
 #include "PowerSeries3d.h"
-#endif
 
 #endif //FRYDOM_MATHUTILS_H_H
