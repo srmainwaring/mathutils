@@ -19,8 +19,6 @@ set(TESTS
 	    test_linear_system_solver
         test_integration2d
         test_polynomial
-        test_PowerSeries2d
-        test_PowerSeries3d
         )
 
 IF(MSVC)
@@ -47,6 +45,8 @@ if (MATHUTILS_BUILD_BOOST_TESTS)
             test_ChebyshevSeries2d
             test_ChebyshevSeries3d
             test_convolution
+            test_PowerSeries2d
+            test_PowerSeries3d
             )
 
     foreach(test ${TESTS})
