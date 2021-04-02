@@ -8,7 +8,7 @@ Since MathUtils v1.5, boost have been remove, since MathUtils is header only.
 If you don't need boost within MathUtils, no modifications are required.
 
 If you need MathUtils with boost, you need to 
-* include first boost to your project, (check the Add_Boost.cmake used in this repo for the tests)
+* include first boost to your project, (check the Add_Boost.cmake used in this repo for the tests) minimum version required is 1.66
 * add Boost::boost to your targets,
 * use the MathUtils/MathUtilsBoost.h instead of the classic MathUtils/MathUtils.h
 

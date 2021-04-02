@@ -14,8 +14,8 @@ This file should be kept up to date following [these guidelines](https://keepach
 ### Fixed
 
 
-## [1.4] - 2021-03-01
-><(((°>      ><(((°>       ><(((°>       ><(((°>
+## [1.5] - 2021-04-01
+`><(((°>      ><(((°>       ><(((°>       ><(((°>`
 
 ### Major changes
 - Boost::boost removed from MathUtils dependencies
