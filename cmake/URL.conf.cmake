@@ -13,3 +13,6 @@ set(units_TAG v2.3.1)
 # GoogleTest
 set(googletest_URL https://github.com/google/googletest.git)
 set(googletest_TAG release-1.10.0)
+
+# Boost
+set(boost_TAG 1.66)

@@ -1,5 +1,4 @@
 
-
 include(FetchContent)
 
 FetchContent_Declare(Eigen3
@@ -9,7 +8,7 @@ FetchContent_Declare(Eigen3
 
 FetchContent_GetProperties(Eigen3)
 if(NOT eigen3_POPULATED)
-    message(STATUS "Downloading, Configuring and Generating 'Eigen' dependency")
+    message(STATUS "******* FETCHING Eigen3 dependency from ${PROJECT_NAME} (requested version: ${eigen_TAG}) *******")
     FetchContent_Populate(Eigen3)
     add_library(eigen INTERFACE)
     target_include_directories(eigen INTERFACE ${eigen3_SOURCE_DIR})

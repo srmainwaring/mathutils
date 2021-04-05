@@ -1,6 +1,7 @@
 
 # HEADER_FILES
 set(MATHUTILS_HEADERS
+		${CMAKE_CURRENT_BINARY_DIR}/version.h
         Constants.h
         Angles.h
         Unit.h
@@ -36,37 +37,23 @@ set(MATHUTILS_HEADERS
         PowerSeries3d.h
         )
 
-#if (MATHUTILS_BOOST_VERSION)
-#    list( APPEND MATHUTILS_HEADERS
-#            ChebyshevSeries2d.h
-#            ChebyshevSeries3d.h
-#            PowerSeries2d.h
-#            PowerSeries3d.h
-#            )
-#endif()
-
 # Building target
 add_library(MathUtils INTERFACE)
+add_dependencies(MathUtils check_git_${PROJECT_NAME}) # For git_watcher to fetch git informations before effective build
 target_link_libraries(MathUtils INTERFACE Eigen3::Eigen)
 
 add_library(MathUtils::MathUtils ALIAS MathUtils)
 
+list(APPEND MATHUTILS_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/..")
+
 target_include_directories(MathUtils INTERFACE
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${MATHUTILS_INCLUDE_DIRS}>
         $<INSTALL_INTERFACE:include>)
-#target_include_directories(MathUtils INTERFACE
-#        ${PROJECT_SOURCE_DIR}/src
-#        )
 
-#if (MATHUTILS_BOOST_VERSION)
-#    target_compile_definitions(MathUtils INTERFACE -DH5_BOOST_VERSION)
-#endif()
-
-#set_target_properties(MathUtils PROPERTIES
-#        VERSION ${MathUtils_VERSION})
+target_include_directories(MathUtils INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>)
 
 include(GNUInstallDirs)
-#message(${CMAKE_INSTALL_LIBDIR})
 install(TARGETS MathUtils EXPORT MathUtils-targets
         DESTINATION ${CMAKE_INSTALL_LIBDIR})
 

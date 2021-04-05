@@ -2,6 +2,7 @@
 add_custom_target(mathutils_tests)
 
 set(TESTS
+        test_get_version
         test_unit
         test_angles
         test_interp1d

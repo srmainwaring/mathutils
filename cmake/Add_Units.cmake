@@ -6,7 +6,7 @@ FetchContent_Declare(units
 )
 FetchContent_GetProperties(units)
 if(NOT units_POPULATED)
-  message(STATUS "Downloading, Configuring and Generating 'Units' dependency")
+  message(STATUS "******* FETCHING units dependency from ${PROJECT_NAME} (requested version: ${units_TAG}) *******")
   set(BUILD_TESTS OFF CACHE BOOL "")
   set(BUILD_DOCS OFF CACHE BOOL "")
   FetchContent_Populate(units)
