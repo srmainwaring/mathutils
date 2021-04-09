@@ -10,9 +10,9 @@ set(units_URL https://github.com/nholthaus/units.git)
 set(units_TAG v2.3.1)
 
 # Boost
-set(boost_URL https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.gz)
-set(boost_TAG 1.66 CACHE STRING "Boost version")
-set(boost_FIND_TAG 1.71 CACHE STRING "Minimal version of Boost to find on the system")
+set(boost_URL https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.gz)
+set(boost_TAG 1.75 CACHE STRING "Boost version")
+set(boost_FIND_TAG 1.66 CACHE STRING "Minimal version of Boost to find on the system")
 
 # GoogleTest
 set(googletest_URL https://github.com/google/googletest.git)
