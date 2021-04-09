@@ -36,6 +36,8 @@ foreach(test ${TESTS})
 
     add_dependencies(mathutils_tests ${test})
 
+    add_test(NAME ${test} COMMAND ${test})
+
 endforeach()
 
 # tests with Boost dependency
@@ -58,6 +60,8 @@ if (MATHUTILS_BUILD_BOOST_TESTS)
         target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen Boost::boost gtest_main)
 
         add_dependencies(mathutils_tests ${test})
+
+        add_test(NAME ${test} COMMAND ${test})
 
     endforeach()
 endif()
