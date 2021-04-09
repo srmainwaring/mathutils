@@ -4,7 +4,7 @@ endif ()
 
 message(STATUS "******* FINDING BOOST dependency on the system from ${PROJECT_NAME} (requested minimal version: ${boost_FIND_TAG}) *******")
 
-find_package(Boost ${boost_FIND_TAG} REQUIRED)
+find_package(Boost ${boost_FIND_TAG})
 if (Boost_FOUND)
     message(STATUS "Boost found with version ${Boost_VERSION_STRING}")
 ##    INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
