@@ -23,9 +23,9 @@ copyright = u'2019, D-ICE Engineering'
 author = u'D-ICE Engineering'
 
 # The short X.Y version
-version = u''
+version = u'GIT_TAG_VERSION'
 # The full version, including alpha/beta/rc tags
-release = u''
+release = u'GIT_TAG_VERSION'
 
 
 # -- General configuration ---------------------------------------------------

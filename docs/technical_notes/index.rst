@@ -1,6 +1,6 @@
-==========================
-Theory manual of MathUtils
-==========================
+======================================
+Theory manual of MathUtils (|version|)
+======================================
 
 .. toctree::
    :maxdepth: 5

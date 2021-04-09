@@ -24,6 +24,8 @@ upload-doc:
 
   script:
     - cd docs/technical_notes
+    - tag=$(git describe --tags)
+    - sed -i "s/GIT_TAG_VERSION/$tag/g" conf.py
     - make html
     - aws s3 rm --recursive s3://developer-internal.d-ice.net/$CI_PROJECT_NAME
     - aws s3 cp --recursive _build/html s3://developer-internal.d-ice.net/$CI_PROJECT_NAME
