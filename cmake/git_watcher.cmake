@@ -107,6 +107,7 @@ macro(RunGitCommand)
         RESULT_VARIABLE exit_code
         OUTPUT_VARIABLE output
         ERROR_QUIET
+        ENCODING UTF8
         OUTPUT_STRIP_TRAILING_WHITESPACE)
     if(NOT exit_code EQUAL 0)
         set(ENV{GIT_RETRIEVED_STATE} "false")
