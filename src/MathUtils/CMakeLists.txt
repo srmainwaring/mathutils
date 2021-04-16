@@ -53,9 +53,9 @@ target_include_directories(MathUtils INTERFACE
 target_include_directories(MathUtils INTERFACE
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>)
 
-include(GNUInstallDirs)
-install(TARGETS MathUtils EXPORT MathUtils-targets
-        DESTINATION ${CMAKE_INSTALL_LIBDIR})
-
-install(FILES ${MATHUTILS_HEADERS}
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/MathUtils)
+#include(GNUInstallDirs)
+#install(TARGETS MathUtils EXPORT MathUtils-targets
+#        DESTINATION ${CMAKE_INSTALL_LIBDIR})
+#
+#install(FILES ${MATHUTILS_HEADERS}
+#        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/MathUtils)

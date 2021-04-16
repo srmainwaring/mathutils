@@ -6,13 +6,6 @@
 #define MATHUTILS_FUNCTIONS_H
 
 #include "StdVector.h"
-#include <boost/math/special_functions/bessel.hpp>
-#include <boost/math/special_functions/legendre.hpp>
-#include <boost/math/special_functions/factorials.hpp>
-#include <boost/math/special_functions/expint.hpp>
-#ifdef H5_BOOST_VERSION
-#include <boost/math/special_functions/chebyshev.hpp>
-#endif
 #include "VectorGeneration.h"
 
 namespace mathutils {
