@@ -154,14 +154,16 @@ namespace mathutils {
     }
 
     // EXPRESSING IN NEW UNIT
+    Real out;
     switch (new_unit) {
       case MS:
-        return new_vel;
+        out = new_vel;
       case KMH:
-        return MS2KMH(new_vel);
+        out = MS2KMH(new_vel);
       case KNOT:
-        return MS2KNOT(new_vel);
+        out = MS2KNOT(new_vel);
     }
+    return out;
 
   }
 
