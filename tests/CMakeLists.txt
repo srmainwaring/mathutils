@@ -49,6 +49,7 @@ if (MATHUTILS_BUILD_BOOST_TESTS)
             test_ChebyshevSeries2d
             test_ChebyshevSeries3d
             test_convolution
+            test_PowerSeries1d
             test_PowerSeries2d
             test_PowerSeries3d
             )

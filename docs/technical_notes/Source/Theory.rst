@@ -597,6 +597,16 @@ where :math:`[x]` represents the floor function.
 .. warning::
    This algorithm presents numerical inaccuracies for large orders. Consequently, each order must be **lower or equal to 18** [Boyd2002]_.
 
+If the function :math:`f` is approximated by a single Chebyshev series, then:
+
+.. math::
+   \displaystyle f(x) \approx \sum_{i = 0}^m a_{i}T_{i}(\tilde{x}) \approx \sum_{i = 0}^m b_{i}\tilde{x}^i
+
+with:
+
+.. math::
+   \displaystyle b_{i} = \sum_{r = i}^m a_{r}\lambda_{ri}
+
 If the function :math:`f` is approximated by a triple Chebyshev series, then:
 
 .. math::
@@ -607,7 +617,7 @@ with:
 .. math::
    \displaystyle b_{ijk} = \sum_{r = i}^m\sum_{s = j}^n\sum_{t = k}^p a_{rst}\lambda_{ri}\lambda_{sj}\lambda_{tk}
 
-These conversions are performed with the base classes ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
+These conversions are performed with the base classes ``PowerSeries1dBase``, ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 

@@ -36,6 +36,7 @@
 #include "QuadratureTables.h"
 #include "Integrand.h"
 #include "Polynomial.h"
+#include "PowerSeries1d.h"
 #include "PowerSeries2d.h"
 #include "PowerSeries3d.h"
 
