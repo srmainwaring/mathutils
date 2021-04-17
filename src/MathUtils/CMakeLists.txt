@@ -31,6 +31,7 @@ set(MATHUTILS_HEADERS
         Integrand.h
         Polynomial.h
         BoostFunctions.h
+		ChebyshevSeries1d.h
         ChebyshevSeries2d.h
         ChebyshevSeries3d.h
         PowerSeries2d.h

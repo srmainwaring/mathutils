@@ -45,6 +45,7 @@ if (MATHUTILS_BUILD_BOOST_TESTS)
     include(Add_Boost)
     set(TESTS
             test_BoostFunctions
+            test_ChebyshevSeries1d
             test_ChebyshevSeries2d
             test_ChebyshevSeries3d
             test_convolution
