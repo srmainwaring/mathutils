@@ -406,6 +406,45 @@ The zeros of :math:`T_{n+1}` for :math:`x \in [a, b]` and :math:`i \in [0, n]` a
 
 The computation of the Chebyshev polynomials is achieved in the functions ``Chebyshev_polynomial`` and ``Chebyshev_polynomial_next``.
 
+Single Chebyshev series approximation
+-------------------------------------
+
+The single Chebyshev series approximation of order :math:`m` of the function :math:`f` defined over :math:`[x_{min}, x_{max}]` is expressed by [Basu1973]_:
+
+.. math::
+   \displaystyle f(x) \approx \sum_{i = 0}^m a_{i}T_{i}(\tilde{x})
+   :label: Single_Chebyshev_approx
+
+with:
+
+.. math::
+   \begin{cases} \tilde{x} = \dfrac{2}{x_{max} - x_{min}}\left[x - \left(\dfrac{x_{max} + x_{min}}{2}\right)\right] \in [-1, 1] \\ a_{i} = \begin{cases} \displaystyle \dfrac{1}{m+1}\sum_{r = 0}^m f(x_r)T_{i}(\tilde{x}_r) \text{ if } i = 0 \\ \displaystyle \dfrac{2}{m+1}\sum_{r = 0}^m f(x_r)T_{i}(\tilde{x}_r) \text{ if } i \neq 0 \end{cases} \\ \tilde{x}_r = \cos\left[\dfrac{\pi}{2}\left(\dfrac{2r+1}{m+1}\right)\right] \in [-1, 1] \\ x_r = \left(\dfrac{x_{max}-x_{min}}{2}\right)\tilde{x}_r + \dfrac{x_{max}+x_{min}}{2} \in [x_{min}, x_{max}]
+   \end{cases}
+
+:math:`T_i` represents the Chebyshev polynomial of order :math:`i`.
+
+The coefficients :math:`(a_{i})_{0 \leqslant i \leqslant m}` must be computed in a first step before evaluating :eq:`Single_Chebyshev_approx` for any value of :math:`x`. 
+
+At the points :math:`(x_r)_{0 \leqslant r \leqslant m}`, by definition, it yields:
+
+.. math::
+   \displaystyle f(x_r) = \sum_{i = 0}^m a_{i}T_{i}(\tilde{x}_r)
+
+Regarding the derivative, it comes:
+
+.. math::
+   \displaystyle \dfrac{\partial f}{\partial x}(x) \approx \left(\dfrac{2}{x_{max} - x_{min}}\right)\sum_{i = 0}^m a_{i}\dfrac{\partial T_i}{\partial x}(\tilde{x})
+
+.. note::
+   If the function :math:`f` is defined over a half-open line segment :math:`[x_{min}, +\infty[`, then the following modifications are necessary [Chen1993]_:
+
+      .. math::
+          \begin{cases}
+              \tilde{x} = 1 - 2\dfrac{x_{min}}{x} \in [-1, 1] \\ x_r = 2\dfrac{x_{min}}{1 - \tilde{x}_r} \in [x_{min}, +\infty[ \\ \displaystyle \dfrac{\partial f}{\partial x}(x) \approx \dfrac{2x_{min}}{x^2}\sum_{i = 0}^m a_{i}\dfrac{\partial T_i}{\partial x}(\tilde{x})
+          \end{cases}
+
+The single Chebyshev series approximation is performed with the base class ``ChebyshevSeries1dBase`` and its derived classes.
+
 Double Chebyshev series approximation
 -------------------------------------
 
@@ -558,6 +597,16 @@ where :math:`[x]` represents the floor function.
 .. warning::
    This algorithm presents numerical inaccuracies for large orders. Consequently, each order must be **lower or equal to 18** [Boyd2002]_.
 
+If the function :math:`f` is approximated by a single Chebyshev series, then:
+
+.. math::
+   \displaystyle f(x) \approx \sum_{i = 0}^m a_{i}T_{i}(\tilde{x}) \approx \sum_{i = 0}^m b_{i}\tilde{x}^i
+
+with:
+
+.. math::
+   \displaystyle b_{i} = \sum_{r = i}^m a_{r}\lambda_{ri}
+
 If the function :math:`f` is approximated by a triple Chebyshev series, then:
 
 .. math::
@@ -568,7 +617,7 @@ with:
 .. math::
    \displaystyle b_{ijk} = \sum_{r = i}^m\sum_{s = j}^n\sum_{t = k}^p a_{rst}\lambda_{ri}\lambda_{sj}\lambda_{tk}
 
-These conversions are performed with the base classes ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
+These conversions are performed with the base classes ``PowerSeries1dBase``, ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
