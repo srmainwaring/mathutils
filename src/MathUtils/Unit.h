@@ -151,6 +151,7 @@ namespace mathutils {
         break;
       case KNOT:
         new_vel = KNOT2MS(velocity);
+        break;
     }
 
     // EXPRESSING IN NEW UNIT
@@ -158,10 +159,13 @@ namespace mathutils {
     switch (new_unit) {
       case MS:
         out = new_vel;
+        break;
       case KMH:
         out = MS2KMH(new_vel);
+        break;
       case KNOT:
         out = MS2KNOT(new_vel);
+        break;
     }
     return out;
 
@@ -275,16 +279,22 @@ namespace mathutils {
     switch (target_unit) {
       case RADS:
         out = HZ2RADS(piv);
+        break;
       case S:
         out = HZ2S(piv);
+        break;
       case HERTZ:
         out = piv;
+        break;
       case DEGS:
         out = RADS2DEGS(HZ2RADS(piv));
+        break;
       case DEGM:
         out = RADS2DEGM(HZ2RADS(piv));
+        break;
       case RPM:
         out = RADS2RPM(HZ2RADS(piv));
+        break;
     }
     return out;
   }
