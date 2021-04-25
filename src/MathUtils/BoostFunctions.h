@@ -372,6 +372,12 @@ namespace mathutils {
 
   }
 
+  // This function returns the exponential integral E1 at the point x.
+  template <class T>
+  T E1(const T x){
+    return boost::math::expint(1, x);
+  }
+
 }  // end namespace mathutils
 
 #endif //MATHUTILS_BOOSTFUNCTIONS_H
