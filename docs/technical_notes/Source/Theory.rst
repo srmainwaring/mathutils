@@ -240,7 +240,7 @@ Exponential integral :math:`Ei`
 The exponential integral :math:`Ei` is defined by [Abramowitz1964]_:
 
 .. math::
-   Ei(x) = \displaystyle -\int_{-x}^{\infty}\dfrac{e^{-x}}{x} \text{ for } x > 0
+   Ei(x) = \displaystyle -\int_{-x}^{+\infty}\dfrac{e^{-t}}{t} dt \text{ for } x > 0
 
 This integral is evaluated in the function ``Ei``.
 
@@ -267,6 +267,11 @@ The equivalent for :math:`x \to 0` is:
 
 .. math::
    Ei(x) \sim \ln(x) + \gamma
+
+The equivalent for :math:`x \to +\infty` is:
+
+.. math::
+   Ei(x) \sim \dfrac{e^{x}}{x}
 
 It may be necessary to evaluate the quantity :math:`e^{-x}Ei(x)` for large :math:`x`, for example with the finite-depth Green's function for large water depth. This becomes impossible numerically as :math:`Ei` tends to infinity for large :math:`x`. Nevertheless, from the previous approximation, it comes:
 
