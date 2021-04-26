@@ -14,6 +14,7 @@
 #include <boost/math/special_functions/chebyshev.hpp>
 //#endif
 #include "VectorGeneration.h"
+#include "Polynomial.h"
 
 namespace mathutils {
 
