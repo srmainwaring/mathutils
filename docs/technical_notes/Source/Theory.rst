@@ -300,7 +300,7 @@ For :math:`x > 0`:
 An approximation of order :math:`n` of this function was given by [Cody1968]_:
 
 .. math::
-   Ei(x) \approx \begin{cases} -\ln(x) + \dfrac{\displaystyle\sum_{j = 0}^n p_jx^j}{\displaystyle\sum_{j = 0}^n q_jx^j} \text{ for } 0 < x \leqslant 1 \\ e^{-x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}  \text{ for } 1 < x \leqslant 4 \\ \dfrac{e^{-x}}{x}\left[1 + \dfrac{1}{x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}\right] \text{ for } x > 4 \end{cases}
+   E_1(x) \approx \begin{cases} -\ln(x) + \dfrac{\displaystyle\sum_{j = 0}^n p_jx^j}{\displaystyle\sum_{j = 0}^n q_jx^j} \text{ for } 0 < x \leqslant 1 \\ e^{-x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}  \text{ for } 1 < x \leqslant 4 \\ \dfrac{e^{-x}}{x}\left[1 + \dfrac{1}{x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}\right] \text{ for } x > 4 \end{cases}
 
 The coefficients :math:`(p_j)_{0 \leqslant j \leqslant n}` and :math:`(q_j)_{0 \leqslant j \leqslant n}` for each domain are given in [Cody1968]_. 
 
