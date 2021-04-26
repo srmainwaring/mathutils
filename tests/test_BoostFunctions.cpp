@@ -111,7 +111,7 @@ TEST(BoostFunctions, Exponential_integral) {
   EXPECT_NEAR(value_Ei, 1.89511781, 1e-5);
 
   double value_Ei_approx = Ei_approximation<double>(1.);
-  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "Method Ei_approximation: " << value_Ei_approx << std::endl;
   std::cout << "Exact value: 1.89511781" << std::endl;
   EXPECT_NEAR(value_Ei_approx, 1.89511781, 1e-5);
 
@@ -120,7 +120,7 @@ TEST(BoostFunctions, Exponential_integral) {
   value_Ei = Ei<double>(3.);
   value_Ei_approx = Ei_approximation<double>(3.);
   std::cout << "Method Ei: " << value_Ei << std::endl;
-  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "Method Ei_approximation: " << value_Ei_approx << std::endl;
   std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
   EXPECT_NEAR(abs(value_Ei - value_Ei_approx), 0., 1e-10);
 
@@ -128,7 +128,7 @@ TEST(BoostFunctions, Exponential_integral) {
   value_Ei = Ei<double>(9.);
   value_Ei_approx = Ei_approximation<double>(9.);
   std::cout << "Method Ei: " << value_Ei << std::endl;
-  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "Method Ei_approximation: " << value_Ei_approx << std::endl;
   std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
   EXPECT_NEAR(abs(value_Ei - value_Ei_approx), 0., 1e-9);
 
@@ -136,7 +136,7 @@ TEST(BoostFunctions, Exponential_integral) {
   value_Ei = Ei<double>(18.);
   value_Ei_approx = Ei_approximation<double>(18.);
   std::cout << "Method Ei: " << value_Ei << std::endl;
-  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "Method Ei_approximation: " << value_Ei_approx << std::endl;
   std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
   EXPECT_NEAR(abs(value_Ei - value_Ei_approx), 0., 1e-10);
 
@@ -144,7 +144,7 @@ TEST(BoostFunctions, Exponential_integral) {
   value_Ei = Ei<double>(30.);
   value_Ei_approx = Ei_approximation<double>(30.);
   std::cout << "Method Ei: " << value_Ei << std::endl;
-  std::cout << "Method Ei_Chebyshev_approximation: " << value_Ei_approx << std::endl;
+  std::cout << "Method Ei_approximation: " << value_Ei_approx << std::endl;
   std::cout << "|Delta| = " << abs(value_Ei - value_Ei_approx) << std::endl;
   EXPECT_NEAR(abs(value_Ei - value_Ei_approx), 0., 1e-10);
 }
@@ -193,6 +193,37 @@ TEST(BoostFunctions, Exponential_integral_E1) {
   std::cout << "Method E1: " << value_E1 << std::endl;
   std::cout << "Exact value: 0.219383934" << std::endl;
   EXPECT_NEAR(value_E1, 0.219383934, 1e-5);
+
+  double value_E1_approx = E1_approximation<double>(1.);
+  std::cout << "Method E1_approximation: " << value_E1_approx << std::endl;
+  std::cout << "Exact value: 0.219383934" << std::endl;
+  EXPECT_NEAR(value_E1_approx, 0.219383934, 1e-5);
+
+  PrintInfo("\nComparison of the value returned by the two methods for evaluating Ei");
+  PrintInfo("x = 0.5");
+  value_E1 = E1<double>(0.5);
+  value_E1_approx = E1_approximation<double>(0.5);
+  std::cout << "Method E1: " << value_E1 << std::endl;
+  std::cout << "Method E1_approximation: " << value_E1_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_E1 - value_E1_approx) << std::endl;
+  EXPECT_NEAR(abs(value_E1 - value_E1_approx), 0., 1e-8);
+
+  PrintInfo("x = 3");
+  value_E1 = E1<double>(3.);
+  value_E1_approx = E1_approximation<double>(3.);
+  std::cout << "Method E1: " << value_E1 << std::endl;
+  std::cout << "Method E1_approximation: " << value_E1_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_E1 - value_E1_approx) << std::endl;
+  EXPECT_NEAR(abs(value_E1 - value_E1_approx), 0., 1e-8);
+
+  PrintInfo("x = 20");
+  value_E1 = E1<double>(20.);
+  value_E1_approx = E1_approximation<double>(20.);
+  std::cout << "Method E1: " << value_E1 << std::endl;
+  std::cout << "Method E1_approximation: " << value_E1_approx << std::endl;
+  std::cout << "|Delta| = " << abs(value_E1 - value_E1_approx) << std::endl;
+  EXPECT_NEAR(abs(value_E1 - value_E1_approx), 0., 1e-8);
+
 }
 
 // ========================================================================
