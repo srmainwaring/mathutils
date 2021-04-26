@@ -282,6 +282,42 @@ Which may be evaluated numerically without difficulty.
 
 The computation of :math:`e^{-x}Ei(x)` is achieved in the function ``expEi``.
 
+Exponential integral :math:`E_1`
+--------------------------------
+
+The exponential integral :math:`E_1` is defined by [Abramowitz1964]_:
+
+.. math::
+   E_1(x) = \displaystyle \int_{x}^{+\infty}\dfrac{e^{-t}}{t} dt \text{ for } x > 0
+
+This integral is evaluated in the function ``E1``.
+
+For :math:`x > 0`:
+
+.. math::
+   E_1(x) = -Ei(-x)
+
+An approximation of order :math:`n` of this function was given by [Cody1968]_:
+
+.. math::
+   Ei(x) \approx \begin{cases} -\ln(x) + \dfrac{\displaystyle\sum_{j = 0}^n p_jx^j}{\displaystyle\sum_{j = 0}^n q_jx^j} \text{ for } 0 < x \leqslant 1 \\ e^{-x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}  \text{ for } 1 < x \leqslant 4 \\ \dfrac{e^{-x}}{x}\left[1 + \dfrac{1}{x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}\right] \text{ for } x > 4 \end{cases}
+
+The coefficients :math:`(p_j)_{0 \leqslant j \leqslant n}` and :math:`(q_j)_{0 \leqslant j \leqslant n}` for each domain are given in [Cody1968]_. 
+
+In **MathUtils**, the order is fixed to :math:`n = 6`, :math:`n = 8` and :math:`n = 9` for the three domains.
+
+The computation of this approximation of :math:`E_1` is achieved in the function ``E1_approximation``.
+
+The equivalent for :math:`x \to 0` is:
+
+.. math::
+   E_1(x) \sim -\ln(x) - \gamma
+
+The equivalent for :math:`x \to +\infty` is:
+
+.. math::
+   E_1(x) \sim \dfrac{e^{-x}}{x}
+
 Struve functions
 ----------------
 
@@ -626,7 +662,9 @@ These conversions are performed with the base classes ``PowerSeries1dBase``, ``P
 
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
-.. [Cody1969] Cody W. J. and Thacher H. C. Chebyshev Approximations for the Exponential Integral Ei(x). Mathematics of Computation, 23(106):289-303, 1969.
+.. [Cody1968] Cody W. J. and Thacher H. C. Rational Chebyshev Approximations for the Exponential Integral :math:`E_1(x)`. Mathematics of Computation, 22(103):641-649, 1968.
+
+.. [Cody1969] Cody W. J. and Thacher H. C. Chebyshev Approximations for the Exponential Integral :math:`Ei(x)`. Mathematics of Computation, 23(106):289-303, 1969.
 
 .. [Basu1973] N. K. Basu. On double Chebyshev series approximation. SIAM Journal on Numerical Analysis, 10(3):493-505, 1973.
 
