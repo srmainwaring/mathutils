@@ -102,6 +102,18 @@ namespace mathutils {
 
     }
 
+    /// This method computes the triple power series approximation for z tending to +infinity.
+    T Evaluate_zinf(const double &x, const double &y) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = 1.;
+
+      return Evaluate_unit(xunit, yunit, zunit);
+
+    }
+
     /// This method computes the x-derivative triple power series approximation for unit coordinates.
     T Evaluate_derivative_x_unit(const double &x, const double &xunit, const double &yunit, const double &zunit) const {
 
@@ -136,6 +148,18 @@ namespace mathutils {
 
     }
 
+    /// This method computes the x-derivative triple power series approximation for z tending to +infinity.
+    T Evaluate_derivative_x_zinf(const double &x, const double &y) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = 1.;
+
+      return Evaluate_derivative_x_unit(x, xunit, yunit, zunit);
+
+    }
+
     /// This method computes the y-derivative triple power series approximation for unit coordinates.
     T Evaluate_derivative_y_unit(const double &y, const double &xunit, const double &yunit, const double &zunit) const {
 
@@ -165,6 +189,18 @@ namespace mathutils {
       double xunit = AffineTransformationSegmentToUnit_x(x);
       double yunit = AffineTransformationSegmentToUnit_y(y);
       double zunit = AffineTransformationSegmentToUnit_z(z);
+
+      return Evaluate_derivative_y_unit(y, xunit, yunit, zunit);
+
+    }
+
+    /// This method computes the y-derivative triple power series approximation for z tending to +infinity.
+    T Evaluate_derivative_y_zinf(const double &x, const double &y) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = 1.;
 
       return Evaluate_derivative_y_unit(y, xunit, yunit, zunit);
 

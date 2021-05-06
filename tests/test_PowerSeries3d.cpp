@@ -48,6 +48,22 @@ int main(int argc, char* argv[]) {
     double Evaluate_derivative_z(const double &x, const double &y, const double &z) const {
       return -4. / pow(2. * x + 3. * y + 4. * z, 2.);
     }
+
+    /// This method evaluates the function at the point (x, y) for z tending to +infinity.
+    double Evaluate_zinf(const double &x, const double &y) const {
+      return 1.;
+    }
+
+    /// This method evaluates the x-derivative of the function at the point (x, y) for z tending to +infinity.
+    double Evaluate_derivative_x_zinf(const double &x, const double &y) const {
+      return 0.;
+    }
+
+    /// This method evaluates the y-derivative of the function at the point (x, y) for z tending to +infinity.
+    double Evaluate_derivative_y_zinf(const double &x, const double &y) const {
+      return 0.;
+    }
+
   };
 
   // aij coefficients.
@@ -279,5 +295,32 @@ int main(int argc, char* argv[]) {
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
   assert(IsClose(ana, power, 10e-3));
+
+  PrintHeader("XY closed, Z open - Function for z tending to +infinity.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction3d.Evaluate_zinf(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_zinf(x, y);
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+
+  PrintHeader("XY closed, Z open - x derivative. for z tending to +infinity.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_x_zinf(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivative_x_zinf(x, y);
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Absolute error (%): " << 100 * abs(power - ana) << std::endl; // Relative error infinite because ana = 0.
+  assert(IsClose(abs(power - ana), 0., 10e-3, 10e-3));
+
+  PrintHeader("XY closed, Z open - y derivative. for z tending to +infinity.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_y_zinf(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivative_y_zinf(x, y);
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Absolute error (%): " << 100 * abs(power - ana) << std::endl; // Relative error infinite because ana = 0.
+  assert(IsClose(abs(power - ana), 0., 10e-3, 10e-3));
 
 }
