@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
    public:
     /// This method evaluates the function at the point (x, y, z).
     double Evaluate(const double &x, const double &y, const double &z) const override {
-      return 1. / (2. * x + 3. * y + 4. * z);
+      return 1. + 1. / (2. * x + 3. * y + 4. * z);
     }
 
     /// This method evaluates the x-derivative of the function at the point (x, y, z).
