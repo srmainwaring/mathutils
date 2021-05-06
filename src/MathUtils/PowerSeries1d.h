@@ -24,11 +24,8 @@ namespace mathutils {
       m_order_x = bi.rows() - 1;
     }
 
-    /// This method computes the single power series approximation.
-    T Evaluate(const double &x) const {
-
-      // Parameters.
-      double xunit = AffineTransformationSegmentToUnit_x(x);
+    /// This method computes the single power series approximation for unit coordinates.
+    T Evaluate_unit(const double &xunit) const {
 
       // Partial sum.
       std::vector<double> qi;
@@ -42,11 +39,18 @@ namespace mathutils {
 
     }
 
-    /// This method computes the x-derivative single power series approximation.
-    T Evaluate_derivative_x(const double &x) const {
+    /// This method computes the single power series approximation.
+    T Evaluate(const double &x) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
+
+      return Evaluate_unit(xunit);
+
+    }
+
+    /// This method computes the x-derivative single power series approximation for unit coordinates.
+    T Evaluate_derivative_x_unit(const double &x, const double &xunit) const {
 
       // Partial sum.
       std::vector<double> qi;
@@ -57,6 +61,16 @@ namespace mathutils {
       T result = CoefficientDerivative_x(x) * Horner_derivative<double>(qi, xunit);
 
       return result;
+
+    }
+
+    /// This method computes the x-derivative single power series approximation.
+    T Evaluate_derivative_x(const double &x) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+
+      return Evaluate_derivative_x_unit(x, xunit);
 
     }
 
