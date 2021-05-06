@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
   order_x = 18;
   order_y = 18;
   x = 15;
-  y = 15;
+  y = 16;
   auto myChebyshevSeries2dOpened = ChebyshevSeries2dOpened<double>(&myFunction2d, xmin, ymin, order_x, order_y);
   myChebyshevSeries2dOpened.Compute_aij();
 
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]) {
   order_x = 10;
   order_y = 18;
   x = 3;
-  y = 3;
+  y = 4;
   auto myChebyshevSeries2dMixed = ChebyshevSeries2dMixed<double>(&myFunction2d, xmin, xmax, ymin, order_x, order_y);
   myChebyshevSeries2dMixed.Compute_aij();
 

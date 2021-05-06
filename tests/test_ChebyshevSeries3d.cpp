@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
   order_y = 30;
   order_z = 30;
   x = 10;
-  y = 50;
+  y = 45;
   z = 50;
   auto myChebyshevApprox3dYZOpenedXClosed = ChebyshevSeries3dYZOpenedXClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      zmin, order_x, order_y, order_z);
@@ -192,7 +192,7 @@ int main(int argc, char* argv[]) {
   order_y = 15;
   order_z = 30;
   x = 10;
-  y = 10;
+  y = 8;
   z = 50;
   auto myChebyshevApprox3dZOpenedXYClosed = ChebyshevSeries3dZOpenedXYClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      ymax, zmin, order_x, order_y,

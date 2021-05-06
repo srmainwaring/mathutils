@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
   ymin = 1.;
   order_x = 50;
   order_y = 50;
-  x = 150;
+  x = 130;
   y = 150;
   auto myChebyshevApprox2dOpened = ChebyshevSeries2dOpened<double>(&myFunction2d, xmin, ymin, order_x, order_y);
   myChebyshevApprox2dOpened.Compute_aij();
