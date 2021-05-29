@@ -660,6 +660,19 @@ with:
 
 These conversions are performed with the base classes ``PowerSeries1dBase``, ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
 
+.. note::
+   Let us consider a triple power series with a constant value of :math:`z`, the summation over :math:`k` may be made prior to the evaluations of :math:`f` for any values of :math:`x` and :math:`y`, such as:
+   
+   .. math::
+      \displaystyle f(x,y,z) \approx \sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p b_{ijk}\tilde{x}^i\tilde{y}^j\tilde{z}^k \approx \sum_{i = 0}^m\sum_{j = 0}^n c_{ij}\tilde{x}^i\tilde{y}^j
+      
+   with:
+   
+   .. math::
+      c_{ij} = \sum_{k = 0}^p b_{ijk}\tilde{z}^k
+      
+   In this case, triple power series become double power series.
+
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
 .. [Cody1968] Cody W. J. and Thacher H. C. Rational Chebyshev Approximations for the Exponential Integral :math:`E_1(x)`. Mathematics of Computation, 22(103):641-649, 1968.
