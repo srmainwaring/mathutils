@@ -71,7 +71,7 @@ namespace mathutils {
     /// This method computes the triple power series approximation for unit coordinates.
     T Evaluate_unit(const double &xunit, const double &yunit, const double &zunit) const {
 
-      // Partial sum.
+      // Partial sums.
       std::vector<double> rk;
       rk.reserve(m_order_z + 1);
       for (int k = 0; k <= m_order_z; ++k) {
@@ -117,7 +117,7 @@ namespace mathutils {
     /// This method computes the x-derivative triple power series approximation for unit coordinates.
     T Evaluate_derivative_x_unit(const double &x, const double &xunit, const double &yunit, const double &zunit) const {
 
-      // Partial sum.
+      // Partial sums.
       std::vector<double> rk;
       rk.reserve(m_order_z + 1);
       for (int k = 0; k <= m_order_z; ++k) {
@@ -163,7 +163,7 @@ namespace mathutils {
     /// This method computes the y-derivative triple power series approximation for unit coordinates.
     T Evaluate_derivative_y_unit(const double &y, const double &xunit, const double &yunit, const double &zunit) const {
 
-      // Partial sum.
+      // Partial sums.
       std::vector<double> rk;
       rk.reserve(m_order_z + 1);
       for (int k = 0; k <= m_order_z; ++k) {
@@ -209,7 +209,7 @@ namespace mathutils {
     /// This method computes the z-derivative triple power series approximation for unit coordinates.
     T Evaluate_derivative_z_unit(const double &z, const double &xunit, const double &yunit, const double &zunit) const {
 
-      // Partial sum.
+      // Partial sums.
       std::vector<double> rk;
       rk.reserve(m_order_z + 1);
       for (int k = 0; k <= m_order_z; ++k) {
@@ -237,6 +237,64 @@ namespace mathutils {
       double zunit = AffineTransformationSegmentToUnit_z(z);
 
       return Evaluate_derivative_z_unit(z, xunit, yunit, zunit);
+
+    }
+
+    /// This method computes the cij when the last unit coordinate is assumed constant for any computation.
+    MatrixMN<T> Compute_cij_unit(const double &zunit) const {
+
+      MatrixMN<T> cij = MatrixMN<T>::Zero(m_order_x + 1, m_order_y + 1);
+
+      for (int i = 0; i <= m_order_x; ++i) {
+        for (int j = 0; j <= m_order_y; ++j) {
+          // Sum over k.
+          std::vector<double> rk;
+          rk.reserve(m_order_z + 1);
+          for (int k = 0; k <= m_order_z; ++k) {
+            rk.push_back(m_bijk.at(k)(i, j));
+          }
+          cij(i, j) = Horner<double>(rk, zunit);
+        }
+      }
+
+      return cij;
+
+    }
+
+    /// This method computes the cij when the last coordinate is assumed constant for any computation.
+    MatrixMN<T> Compute_cij(const double &z) const {
+
+      double zunit = AffineTransformationSegmentToUnit_z(z);
+
+      return Compute_cij_unit(zunit);
+
+    }
+
+    /// This method computes the triple power series approximation for unit coordinates for a predefined z.
+    T Evaluate_unit_zunit_predefined(const double &xunit, const double &yunit, const MatrixMN<T> cij) const {
+
+      // Partial sums.
+      std::vector<double> qi;
+      qi.reserve(m_order_x + 1);
+      for (int i = 0; i <= m_order_x; ++i) {
+        Eigen::VectorXd tmp = cij.row(i);
+        std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
+        qi.push_back(Horner<double>(pj, yunit));
+      }
+      T result = Horner<double>(qi, xunit);
+
+      return result;
+
+    }
+
+    /// This method computes the triple power series approximation for a predefined z.
+    T Evaluate_z_predefined(const double &x, const double &y, const MatrixMN<T> cij) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+
+      return Evaluate_unit_zunit_predefined(xunit, yunit, cij);
 
     }
 
@@ -280,7 +338,7 @@ namespace mathutils {
     /// z minimum.
     double m_z_min;
 
-    /// Pij coefficients.
+    /// bijk coefficients.
     std::vector<MatrixMN<T>> m_bijk;
 
     /// Type of approximation.
