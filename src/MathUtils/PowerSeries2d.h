@@ -29,7 +29,7 @@ namespace mathutils {
     /// This method computes the double power series approximation for unit coordinates.
     T Evaluate_unit(const double &xunit, const double &yunit) const {
 
-      // Partial sum.
+      // Partial sums.
       std::vector<double> qi;
       qi.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
@@ -57,7 +57,7 @@ namespace mathutils {
     /// This method computes the x-derivative double power series approximation for unit coordinates.
     T Evaluate_derivative_x_unit(const double &x, const double &xunit, const double &yunit) const {
 
-      // Partial sum.
+      // Partial sums.
       std::vector<double> qi;
       qi.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {
@@ -85,7 +85,7 @@ namespace mathutils {
     /// This method computes the y-derivative double power series approximation for unit coordinates.
     T Evaluate_derivative_y_unit(const double &y, const double &xunit, const double &yunit) const {
 
-      // Partial sum.
+      // Partial sums.
       std::vector<double> qi;
       qi.reserve(m_order_x + 1);
       for (int i = 0; i <= m_order_x; ++i) {

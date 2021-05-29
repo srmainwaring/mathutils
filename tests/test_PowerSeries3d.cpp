@@ -140,6 +140,10 @@ int main(int argc, char* argv[]) {
   assert(IsClose(ana, power, 10e-3));
   std::cout << "\n" << std::endl;
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                          Closed segments - Predefined z
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   PrintHeader("Closed segments - Function - Predefined z.");
   std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
   ana = myFunction3d.Evaluate(x, y, z);
@@ -156,10 +160,48 @@ int main(int argc, char* argv[]) {
   std::cout << "Triple Power series approximation with predefined z: " << power_predefined_z << std::endl;
   std::cout << "Relative error (%): " << 100 * abs((power_predefined_z - ana) / ana) << std::endl;
   assert(IsClose(ana, power_predefined_z, 10e-3));
-  std::cout << "Triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
-  std::cout << "Double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
   std::cout << "\n" << std::endl;
 
+  PrintHeader("Closed segments - x derivative - Predefined z.");
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_x(x, y, z);
+  std::cout << "Analytical: " << ana << std::endl;
+  t_3d = clock();
+  power = myPowerSeries3dClosed.Evaluate_derivative_x(x, y, z);
+  t_3d = clock() - t_3d;
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  t_2d = clock();
+  power_predefined_z = myPowerSeries3dClosed.Evaluate_derivative_x_z_predefined(x, y, cij);
+  t_2d = clock() - t_2d;
+  std::cout << "Triple Power series approximation with predefined z: " << power_predefined_z << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power_predefined_z - ana) / ana) << std::endl;
+  assert(IsClose(ana, power_predefined_z, 10e-3));
+  std::cout << "CPU time triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "\n" << std::endl;
+
+  PrintHeader("Closed segments - y derivative - Predefined z.");
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_y(x, y, z);
+  std::cout << "Analytical: " << ana << std::endl;
+  t_3d = clock();
+  power = myPowerSeries3dClosed.Evaluate_derivative_y(x, y, z);
+  t_3d = clock() - t_3d;
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  t_2d = clock();
+  power_predefined_z = myPowerSeries3dClosed.Evaluate_derivative_y_z_predefined(x, y, cij);
+  t_2d = clock() - t_2d;
+  std::cout << "Triple Power series approximation with predefined z: " << power_predefined_z << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power_predefined_z - ana) / ana) << std::endl;
+  assert(IsClose(ana, power_predefined_z, 10e-3));
+  std::cout << "CPU time triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "\n" << std::endl;
+  
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                          Mixed half-open and closed segments
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
