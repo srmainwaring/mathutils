@@ -180,7 +180,7 @@ namespace mathutils {
     }
 
     /// This method computes the triple power series approximation for unit coordinates for a predefined z.
-    T Evaluate_unit_zunit_predefined(const double &xunit, const double &yunit, const MatrixMN<T> cij) const {
+    T Evaluate_unit_zunit_predefined(const double &xunit, const double &yunit, const MatrixMN<T> &cij) const {
 
       // Partial sums.
       std::vector<double> qi;
@@ -198,7 +198,7 @@ namespace mathutils {
 
     /// This method computes the x-derivative of the triple power series approximation for unit coordinates for a predefined z.
     T Evaluate_derivative_x_unit_zunit_predefined(const double &x, const double &xunit, const double &yunit,
-                                                  const MatrixMN<T> cij) const {
+                                                  const MatrixMN<T> &cij) const {
 
       // Partial sums.
       std::vector<double> qi;
@@ -216,7 +216,7 @@ namespace mathutils {
 
     /// This method computes the y-derivative of the triple power series approximation for unit coordinates for a predefined z.
     T Evaluate_derivative_y_unit_zunit_predefined(const double &y, const double &xunit, const double &yunit,
-                                                  const MatrixMN<T> cij) const {
+                                                  const MatrixMN<T> &cij) const {
 
       // Partial sums.
       std::vector<double> qi;
@@ -229,6 +229,31 @@ namespace mathutils {
       T result = CoefficientDerivative_y(y) * Horner<double>(qi, xunit);
 
       return result;
+
+    }
+
+    /// This method computes the triple power series approximation and its x and y derivatives for unit coordinates for a predefined z.
+    void Evaluate_f_dfdx_dfdy_unit_zunit_predefined(const double &x, const double &y, const double &xunit,
+                                                    const double &yunit, const MatrixMN<T> &cij, T &f, T &dfdx, T &dfdy) const {
+
+      // Initialization.
+      f = 0.;
+      dfdx = 0.;
+      dfdy = 0.;
+
+      // Partial sums.
+      std::vector<double> qi, qi_derivative;
+      qi.reserve(m_order_x + 1);
+      qi_derivative.reserve(m_order_x + 1);
+      for (int i = 0; i <= m_order_x; ++i) {
+        Eigen::VectorXd tmp = cij.row(i);
+        std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
+        qi.push_back(Horner<double>(pj, yunit));
+        qi_derivative.push_back(Horner_derivative<double>(pj, yunit));
+      }
+      f = Horner<double>(qi, xunit);
+      dfdx = CoefficientDerivative_x(x) * Horner_derivative<double>(qi, xunit);
+      dfdy = CoefficientDerivative_y(y) * Horner<double>(qi_derivative, xunit);
 
     }
 
@@ -337,7 +362,7 @@ namespace mathutils {
     }
 
     /// This method computes the triple power series approximation for a predefined z.
-    T Evaluate_z_predefined(const double &x, const double &y, const MatrixMN<T> cij) const {
+    T Evaluate_z_predefined(const double &x, const double &y, const MatrixMN<T> &cij) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
@@ -348,7 +373,7 @@ namespace mathutils {
     }
 
     /// This method computes the x-derivative of the triple power series approximation for a predefined z.
-    T Evaluate_derivative_x_z_predefined(const double &x, const double &y, const MatrixMN<T> cij) const {
+    T Evaluate_derivative_x_z_predefined(const double &x, const double &y, const MatrixMN<T> &cij) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
@@ -359,13 +384,24 @@ namespace mathutils {
     }
 
     /// This method computes the y-derivative of the triple power series approximation for a predefined z.
-    T Evaluate_derivative_y_z_predefined(const double &x, const double &y, const MatrixMN<T> cij) const {
+    T Evaluate_derivative_y_z_predefined(const double &x, const double &y, const MatrixMN<T> &cij) const {
 
       // Parameters.
       double xunit = AffineTransformationSegmentToUnit_x(x);
       double yunit = AffineTransformationSegmentToUnit_y(y);
 
       return Evaluate_derivative_y_unit_zunit_predefined(x, xunit, yunit, cij);
+
+    }
+
+    /// This method computes the triple power series approximation and its x and y derivatives for a predefined z.
+    void Evaluate_f_dfdx_dfdy_z_predefined(const double &x, const double &y, const MatrixMN<T> &cij, T &f, T &dfdx, T &dfdy) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+
+      Evaluate_f_dfdx_dfdy_unit_zunit_predefined(x, y, xunit, yunit, cij, f, dfdx, dfdy);
 
     }
 

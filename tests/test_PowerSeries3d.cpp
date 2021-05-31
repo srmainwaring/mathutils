@@ -201,7 +201,34 @@ int main(int argc, char* argv[]) {
   std::cout << "CPU time triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
   std::cout << "CPU time double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
   std::cout << "\n" << std::endl;
-  
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                          Closed segments - Factorization - Predefined z
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  PrintHeader("Closed segments - Factorization Predefined z.");
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  cij = myPowerSeries3dClosed.Compute_cij(z);
+  clock_t t_no_factorization = clock();
+  double f_no_factorization = myPowerSeries3dClosed.Evaluate(x, y, z);
+  double dfdx_no_factorization = myPowerSeries3dClosed.Evaluate_derivative_x(x, y, z);
+  double dfdy_no_factorization = myPowerSeries3dClosed.Evaluate_derivative_y(x, y, z);
+  t_no_factorization = clock() - t_no_factorization;
+  std::cout << "f, dfdx, dfdy without factorization = " << " " << f_no_factorization << " " << dfdx_no_factorization << " " << dfdy_no_factorization << std::endl;
+  cij = myPowerSeries3dClosed.Compute_cij(z);
+  clock_t t_with_factorization = clock();
+  double f_with_factorization, dfdx_with_factorization, dfdy_with_factorization;
+  myPowerSeries3dClosed.Evaluate_f_dfdx_dfdy_z_predefined(x, y, cij, f_with_factorization, dfdx_with_factorization, dfdy_with_factorization);
+  t_with_factorization = clock() - t_with_factorization;
+  std::cout << "f, dfdx, dfdy with factorization = " << " " << f_with_factorization << " " << dfdx_with_factorization << " " << dfdy_with_factorization << std::endl;
+  assert(IsClose(f_no_factorization, f_with_factorization, 10e-3));
+  assert(IsClose(dfdx_no_factorization, dfdx_with_factorization, 10e-3));
+  assert(IsClose(dfdy_no_factorization, dfdy_with_factorization, 10e-3));
+  std::cout << "CPU time without factorization (s) : " << ((float)t_no_factorization/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time with factorization (s) : " << ((float)t_with_factorization/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "\n" << std::endl;
+  exit(0);
+
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                          Mixed half-open and closed segments
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
