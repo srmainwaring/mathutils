@@ -42,6 +42,9 @@ namespace mathutils {
 
         static Interp1d<XReal, YScalar>* MakeInterp1d(INTERP_METHOD method);
 
+        XReal GetXmin() const { return xmin; }
+        XReal GetXmax() const { return xmax; }
+
         void PermissiveON() { m_permissive = true; }
         void PermissiveOFF() { m_permissive = false; }
         void SetPermissive(bool permissive) { m_permissive = permissive; }
