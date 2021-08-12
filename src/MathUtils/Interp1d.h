@@ -21,9 +21,6 @@ namespace mathutils {
         XReal xmin;
         XReal xmax;
 
-        // This boolean enables the possibility to apply the interpolation outside the x-range (if true) or not (if false).
-        bool m_permissive = false;
-
     public:
         // TODO: voir a separer l'implementation et la mettre en fin de fichier (pas directement dans le corps de la classe)
 
@@ -41,10 +38,6 @@ namespace mathutils {
         std::vector<YScalar> operator() (const std::vector<XReal>& xvector) const { return Eval(xvector); }
 
         static Interp1d<XReal, YScalar>* MakeInterp1d(INTERP_METHOD method);
-
-        void PermissiveON() { m_permissive = true; }
-        void PermissiveOFF() { m_permissive = false; }
-        void SetPermissive(bool permissive) { m_permissive = permissive; }
     };
 
     template <class XReal, class YScalar>
@@ -124,19 +117,12 @@ namespace mathutils {
     YScalar Interp1dLinear<XReal, YScalar>::Eval(const XReal x) const {
         // TODO: il faut que le type de retour soit compatible avec real et complex !!!
 
-        if (this->m_permissive) {
-            if (x < this->xmin) {
-                return Eval(this->xmin);
-            }
-            if (x > this->xmax) {
-                return Eval(this->xmax);
-            }
-
-        } else {
-            assert(x >= this->xmin && x <= this->xmax);
+        assert(x >= this->xmin && x <= this->xmax);
+        if ( x < this->xmin or x > this->xmax ) {
+          throw std::runtime_error(
+              "Interpolation evaluated for value" + std::to_string(x) + ", outside of the range : ["
+              + std::to_string(this->xmin) + ',' + std::to_string(this->xmax) + ']');
         }
-
-
         // First, binary search on the x coords
         auto upper = std::lower_bound(this->xcoord->begin(), this->xcoord->end(), x);
         auto index = std::distance(this->xcoord->begin(), upper);
