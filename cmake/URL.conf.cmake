@@ -10,7 +10,7 @@ set(units_URL https://github.com/nholthaus/units.git)
 set(units_TAG v2.3.1 CACHE STRING "units version")
 
 # Boost
-set(boost_URL https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.gz)
+set(boost_URL https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_1_75_0.tar.gz)
 set(boost_TAG 1.75 CACHE STRING "Boost version")
 set(boost_FIND_TAG 1.66 CACHE STRING "Minimal version of Boost to find on the system")
 
