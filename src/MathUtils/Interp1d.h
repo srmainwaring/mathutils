@@ -121,11 +121,10 @@ namespace mathutils {
     YScalar Interp1dLinear<XReal, YScalar>::Eval(const XReal x) const {
         // TODO: il faut que le type de retour soit compatible avec real et complex !!!
 
-        assert(x >= this->xmin && x <= this->xmax);
         if ( x < this->xmin or x > this->xmax ) {
           throw std::runtime_error(
-              "Interpolation evaluated for value" + std::to_string(x) + ", outside of the range : ["
-              + std::to_string(this->xmin) + ',' + std::to_string(this->xmax) + ']');
+              "Interpolation evaluated for value " + std::to_string(x) + ", outside of the range : ["
+              + std::to_string(this->xmin) + ", " + std::to_string(this->xmax) + "]");
         }
         // First, binary search on the x coords
         auto upper = std::lower_bound(this->xcoord->begin(), this->xcoord->end(), x);
