@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
    public:
     /// This method evaluates the function at the point (x, y, z).
     double Evaluate(const double &x, const double &y, const double &z) const override {
-      return 1. / (2. * x + 3. * y + 4. * z);
+      return 1. + 1. / (2. * x + 3. * y + 4. * z);
     }
 
     /// This method evaluates the x-derivative of the function at the point (x, y, z).
@@ -48,6 +48,22 @@ int main(int argc, char* argv[]) {
     double Evaluate_derivative_z(const double &x, const double &y, const double &z) const {
       return -4. / pow(2. * x + 3. * y + 4. * z, 2.);
     }
+
+    /// This method evaluates the function at the point (x, y) for z tending to +infinity.
+    double Evaluate_zinf(const double &x, const double &y) const {
+      return 1.;
+    }
+
+    /// This method evaluates the x-derivative of the function at the point (x, y) for z tending to +infinity.
+    double Evaluate_derivative_x_zinf(const double &x, const double &y) const {
+      return 0.;
+    }
+
+    /// This method evaluates the y-derivative of the function at the point (x, y) for z tending to +infinity.
+    double Evaluate_derivative_y_zinf(const double &x, const double &y) const {
+      return 0.;
+    }
+
   };
 
   // aij coefficients.
@@ -125,6 +141,95 @@ int main(int argc, char* argv[]) {
   std::cout << "\n" << std::endl;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                          Closed segments - Predefined z
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  PrintHeader("Closed segments - Function - Predefined z.");
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  ana = myFunction3d.Evaluate(x, y, z);
+  std::cout << "Analytical: " << ana << std::endl;
+  clock_t t_3d = clock();
+  power = myPowerSeries3dClosed.Evaluate(x, y, z);
+  t_3d = clock() - t_3d;
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  auto cij = myPowerSeries3dClosed.Compute_cij(z);
+  clock_t t_2d = clock();
+  double power_predefined_z = myPowerSeries3dClosed.Evaluate_z_predefined(x, y, cij);
+  t_2d = clock() - t_2d;
+  std::cout << "Triple Power series approximation with predefined z: " << power_predefined_z << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power_predefined_z - ana) / ana) << std::endl;
+  assert(IsClose(ana, power_predefined_z, 10e-3));
+  std::cout << "CPU time triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "\n" << std::endl;
+
+  PrintHeader("Closed segments - x derivative - Predefined z.");
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_x(x, y, z);
+  std::cout << "Analytical: " << ana << std::endl;
+  t_3d = clock();
+  power = myPowerSeries3dClosed.Evaluate_derivative_x(x, y, z);
+  t_3d = clock() - t_3d;
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  t_2d = clock();
+  power_predefined_z = myPowerSeries3dClosed.Evaluate_derivative_x_z_predefined(x, y, cij);
+  t_2d = clock() - t_2d;
+  std::cout << "Triple Power series approximation with predefined z: " << power_predefined_z << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power_predefined_z - ana) / ana) << std::endl;
+  assert(IsClose(ana, power_predefined_z, 10e-3));
+  std::cout << "CPU time triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "\n" << std::endl;
+
+  PrintHeader("Closed segments - y derivative - Predefined z.");
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_y(x, y, z);
+  std::cout << "Analytical: " << ana << std::endl;
+  t_3d = clock();
+  power = myPowerSeries3dClosed.Evaluate_derivative_y(x, y, z);
+  t_3d = clock() - t_3d;
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  t_2d = clock();
+  power_predefined_z = myPowerSeries3dClosed.Evaluate_derivative_y_z_predefined(x, y, cij);
+  t_2d = clock() - t_2d;
+  std::cout << "Triple Power series approximation with predefined z: " << power_predefined_z << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power_predefined_z - ana) / ana) << std::endl;
+  assert(IsClose(ana, power_predefined_z, 10e-3));
+  std::cout << "CPU time triple power series (s) : " << ((float)t_3d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time double power series with predefined z (s) : " << ((float)t_2d/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "\n" << std::endl;
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                          Closed segments - Factorization - Predefined z
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  PrintHeader("Closed segments - Factorization Predefined z.");
+  std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+  cij = myPowerSeries3dClosed.Compute_cij(z);
+  clock_t t_no_factorization = clock();
+  double f_no_factorization = myPowerSeries3dClosed.Evaluate(x, y, z);
+  double dfdx_no_factorization = myPowerSeries3dClosed.Evaluate_derivative_x(x, y, z);
+  double dfdy_no_factorization = myPowerSeries3dClosed.Evaluate_derivative_y(x, y, z);
+  t_no_factorization = clock() - t_no_factorization;
+  std::cout << "f, dfdx, dfdy without factorization = " << " " << f_no_factorization << " " << dfdx_no_factorization << " " << dfdy_no_factorization << std::endl;
+  cij = myPowerSeries3dClosed.Compute_cij(z);
+  clock_t t_with_factorization = clock();
+  double f_with_factorization, dfdx_with_factorization, dfdy_with_factorization;
+  myPowerSeries3dClosed.Evaluate_f_dfdx_dfdy_z_predefined(x, y, cij, f_with_factorization, dfdx_with_factorization, dfdy_with_factorization);
+  t_with_factorization = clock() - t_with_factorization;
+  std::cout << "f, dfdx, dfdy with factorization = " << " " << f_with_factorization << " " << dfdx_with_factorization << " " << dfdy_with_factorization << std::endl;
+  assert(IsClose(f_no_factorization, f_with_factorization, 10e-3));
+  assert(IsClose(dfdx_no_factorization, dfdx_with_factorization, 10e-3));
+  assert(IsClose(dfdy_no_factorization, dfdy_with_factorization, 10e-3));
+  std::cout << "CPU time without factorization (s) : " << ((float)t_no_factorization/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "CPU time with factorization (s) : " << ((float)t_with_factorization/CLOCKS_PER_SEC) << std::endl;
+  std::cout << "\n" << std::endl;
+  exit(0);
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                          Mixed half-open and closed segments
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -138,7 +243,7 @@ int main(int argc, char* argv[]) {
   order_z = 18;
   x = 10;
   y = 15;
-  z = 15;
+  z = 14;
   auto myChebyshevSeries3dYZOpenedXClosed = ChebyshevSeries3dYZOpenedXClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      zmin, order_x, order_y, order_z);
   myChebyshevSeries3dYZOpenedXClosed.Compute_aijk();
@@ -216,7 +321,7 @@ int main(int argc, char* argv[]) {
   order_y = 15;
   order_z = 18;
   x = 10;
-  y = 10;
+  y = 9;
   z = 15;
   auto myChebyshevSeries3dZOpenedXYClosed = ChebyshevSeries3dZOpenedXYClosed<double>(&myFunction3d, xmin, xmax, ymin,
                                                                                      ymax, zmin, order_x, order_y,
@@ -279,5 +384,32 @@ int main(int argc, char* argv[]) {
   std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
   assert(IsClose(ana, chebyshev, 10e-3));
   assert(IsClose(ana, power, 10e-3));
+
+  PrintHeader("XY closed, Z open - Function for z tending to +infinity.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction3d.Evaluate_zinf(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_zinf(x, y);
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Relative error (%): " << 100 * abs((power - ana) / ana) << std::endl;
+  assert(IsClose(ana, power, 10e-3));
+
+  PrintHeader("XY closed, Z open - x derivative. for z tending to +infinity.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_x_zinf(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivative_x_zinf(x, y);
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Absolute error (%): " << 100 * abs(power - ana) << std::endl; // Relative error infinite because ana = 0.
+  assert(IsClose(abs(power - ana), 0., 10e-3, 10e-3));
+
+  PrintHeader("XY closed, Z open - y derivative. for z tending to +infinity.");
+  std::cout << "Point: (x, y) = (" << x << ", " << y << ")" << std::endl;
+  ana = myFunction3d.Evaluate_derivative_y_zinf(x, y);
+  std::cout << "Analytical: " << ana << std::endl;
+  power = myPowerSeries3dZOpenedXYClosed.Evaluate_derivative_y_zinf(x, y);
+  std::cout << "Triple Power series approximation: " << power << std::endl;
+  std::cout << "Absolute error (%): " << 100 * abs(power - ana) << std::endl; // Relative error infinite because ana = 0.
+  assert(IsClose(abs(power - ana), 0., 10e-3, 10e-3));
 
 }

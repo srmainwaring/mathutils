@@ -14,6 +14,7 @@
 #include <boost/math/special_functions/chebyshev.hpp>
 //#endif
 #include "VectorGeneration.h"
+#include "Polynomial.h"
 
 namespace mathutils {
 
@@ -175,7 +176,7 @@ namespace mathutils {
 
     T Ei = 0.;
 
-    if(IsClose(x, 0.)) {
+    if(IsClose(x, 0.) or x < 0.) {
       std::cout << "Ei_Chebyshev_approximation: Ei is not defined for x = 0." << std::endl;
       exit(0);
     }
@@ -369,6 +370,130 @@ namespace mathutils {
     }
 
     return result;
+
+  }
+
+  // This function returns the exponential integral E1 at the point x.
+  template <class T>
+  T E1(const T x){
+    return boost::math::expint(1, x);
+  }
+
+  // This function returns the exponential integral E1 at the point x evaluated by rational approximation.
+  template <class T>
+  T E1_approximation(const T x){
+
+    // This approximation comes from the following article.
+    // Cody W. J. and Thacher H. C. Rational Chebyshev Approximations for the Exponential Integral E1(x), Mathematics of Computation, 22(103): 641-649, 1968.
+    // doi: 10.2307/2004423.
+
+    T E1 = 0.;
+
+    if(IsClose(x, 0.) or x < 0.) {
+      std::cout << "E1_Chebyshev_approximation: E1 is not defined for x = 0." << std::endl;
+      exit(0);
+    }
+
+    if(x > 0. and x < 1.){
+
+      // Parameters.
+      int n = 6;
+      std::vector<double> pj = {-1.4815102102575750838086e5,
+                                1.5026059476436982420737e5,
+                                8.9904972007457256553251e4,
+                                1.5924175980637303639884e4,
+                                2.1500672908092918123209e3,
+                                1.1669552669734461083368e2,
+                                5.0196785185439843791020e0};
+      std::vector<double> qj = {2.5666493484897117319268e5,
+                                1.8434070063353677359298e5,
+                                5.2440529172056355429883e4,
+                                8.1258035174768735759866e3,
+                                7.5043163907103936624165e2,
+                                4.0205465640027706061433e1,
+                                1.0000000000000000000000e0};
+      assert (pj.size() == qj.size());
+
+      // Evaluation.
+      T numerator = Horner<double>(pj, x);
+      T denominator = Horner<double>(qj, x);
+      E1 = -log(x) + (numerator / denominator);
+
+    }
+    else if(x >= 1. and x < 4.) {
+
+      // Parameters.
+      int n = 8;
+      std::vector<double> pj = {1.737331760720576030932e-8,
+                                9.999989642347613068437e-1,
+                                1.487967702840464066613e1,
+                                7.633628873405946890896e1,
+                                1.698106763764238382705e2,
+                                1.700632978311516129328e2,
+                                7.246689782858597021199e1,
+                                1.10732662778631743809e1,
+                                3.828573121022477169108e-1};
+      std::vector<double> qj = {1.000000000000000000000e0,
+                                1.587964570758947927903e1,
+                                9.021658450529372642314e1,
+                                2.342573504717625153053e2,
+                                2.953136335677908517423e2,
+                                1.775728186717289799677e2,
+                                4.662179610356861756812e1,
+                                4.344836335509282083360e0,
+                                8.258160008564488034698e-2};
+      assert (pj.size() == qj.size());
+
+      T numerator = 0.;
+      T denominator = 0.;
+      double xn = 1.;
+      for (int j = 0; j <= n; ++j){
+        numerator += pj.at(j) * xn;
+        denominator += qj.at(j) * xn;
+        xn /= x;
+      }
+      E1 = exp(-x) * (numerator / denominator);
+
+    }
+    else { // x >= 4.
+
+      // Parameters.
+      int n = 9;
+      std::vector<double> pj = {-9.9999999999999999087819e-1,
+                                -5.2199632588522572481039e1,
+                                -1.0611777263550331766871e3,
+                                -1.0816852399095915622498e4,
+                                -5.9346841538837119172356e4,
+                                -1.7503273087497081314708e5,
+                                -2.6181454937205639647381e5,
+                                -1.7283375773777593926828e5,
+                                -3.5846198743996904308695e4,
+                                -1.3276881505637444622987e2};
+      std::vector<double> qj = {1.0000000000000000000000e0,
+                                5.4199632588522559414924e1,
+                                1.1635769915320848035459e3,
+                                1.2842808586627297365998e4,
+                                7.9231787645279043698718e4,
+                                2.7858134710520842139357e5,
+                                5.4616842050691155735758e5,
+                                5.5903756210022864003380e5,
+                                5.5989762083608489777411e5,
+                                3.9147856245556345627078e4};
+      assert (pj.size() == qj.size());
+
+      T numerator = 0.;
+      T denominator = 0.;
+      double xn = 1.;
+      for (int j = 0; j <= n; ++j){
+        numerator += pj.at(j) * xn;
+        denominator += qj.at(j) * xn;
+        xn /= x;
+      }
+      E1 = (exp(-x) / x) * (1. + (1. / x) * numerator / denominator);
+
+    }
+
+    return E1;
 
   }
 

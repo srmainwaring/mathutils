@@ -38,6 +38,10 @@ namespace mathutils {
         std::vector<YScalar> operator() (const std::vector<XReal>& xvector) const { return Eval(xvector); }
 
         static Interp1d<XReal, YScalar>* MakeInterp1d(INTERP_METHOD method);
+
+        XReal GetXmin() const { return xmin; }
+        XReal GetXmax() const { return xmax; }
+
     };
 
     template <class XReal, class YScalar>

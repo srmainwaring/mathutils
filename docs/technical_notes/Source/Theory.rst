@@ -240,7 +240,7 @@ Exponential integral :math:`Ei`
 The exponential integral :math:`Ei` is defined by [Abramowitz1964]_:
 
 .. math::
-   Ei(x) = \displaystyle -\int_{-x}^{\infty}\dfrac{e^{-x}}{x} \text{ for } x > 0
+   Ei(x) = \displaystyle -\int_{-x}^{+\infty}\dfrac{e^{-t}}{t} dt \text{ for } x > 0
 
 This integral is evaluated in the function ``Ei``.
 
@@ -268,6 +268,11 @@ The equivalent for :math:`x \to 0` is:
 .. math::
    Ei(x) \sim \ln(x) + \gamma
 
+The equivalent for :math:`x \to +\infty` is:
+
+.. math::
+   Ei(x) \sim \dfrac{e^{x}}{x}
+
 It may be necessary to evaluate the quantity :math:`e^{-x}Ei(x)` for large :math:`x`, for example with the finite-depth Green's function for large water depth. This becomes impossible numerically as :math:`Ei` tends to infinity for large :math:`x`. Nevertheless, from the previous approximation, it comes:
 
 .. math::
@@ -276,6 +281,42 @@ It may be necessary to evaluate the quantity :math:`e^{-x}Ei(x)` for large :math
 Which may be evaluated numerically without difficulty.
 
 The computation of :math:`e^{-x}Ei(x)` is achieved in the function ``expEi``.
+
+Exponential integral :math:`E_1`
+--------------------------------
+
+The exponential integral :math:`E_1` is defined by [Abramowitz1964]_:
+
+.. math::
+   E_1(x) = \displaystyle \int_{x}^{+\infty}\dfrac{e^{-t}}{t} dt \text{ for } x > 0
+
+This integral is evaluated in the function ``E1``.
+
+For :math:`x > 0`:
+
+.. math::
+   E_1(x) = -Ei(-x)
+
+An approximation of order :math:`n` of this function was given by [Cody1968]_:
+
+.. math::
+   E_1(x) \approx \begin{cases} -\ln(x) + \dfrac{\displaystyle\sum_{j = 0}^n p_jx^j}{\displaystyle\sum_{j = 0}^n q_jx^j} \text{ for } 0 < x \leqslant 1 \\ e^{-x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}  \text{ for } 1 < x \leqslant 4 \\ \dfrac{e^{-x}}{x}\left[1 + \dfrac{1}{x}\dfrac{\displaystyle\sum_{j = 0}^n p_jx^{-j}}{\displaystyle\sum_{j = 0}^n q_jx^{-j}}\right] \text{ for } x > 4 \end{cases}
+
+The coefficients :math:`(p_j)_{0 \leqslant j \leqslant n}` and :math:`(q_j)_{0 \leqslant j \leqslant n}` for each domain are given in [Cody1968]_. 
+
+In **MathUtils**, the order is fixed to :math:`n = 6`, :math:`n = 8` and :math:`n = 9` for the three domains.
+
+The computation of this approximation of :math:`E_1` is achieved in the function ``E1_approximation``.
+
+The equivalent for :math:`x \to 0` is:
+
+.. math::
+   E_1(x) \sim -\ln(x) - \gamma
+
+The equivalent for :math:`x \to +\infty` is:
+
+.. math::
+   E_1(x) \sim \dfrac{e^{-x}}{x}
 
 Struve functions
 ----------------
@@ -619,9 +660,24 @@ with:
 
 These conversions are performed with the base classes ``PowerSeries1dBase``, ``PowerSeries2dBase`` and ``PowerSeries3dBase`` and their derived classes.
 
+.. note::
+   Let us consider a triple power series with a constant value of :math:`z`, the summation over :math:`k` may be made prior to the evaluations of :math:`f` for any values of :math:`x` and :math:`y`, such as:
+   
+   .. math::
+      \displaystyle f(x,y,z) \approx \sum_{i = 0}^m\sum_{j = 0}^n\sum_{k = 0}^p b_{ijk}\tilde{x}^i\tilde{y}^j\tilde{z}^k \approx \sum_{i = 0}^m\sum_{j = 0}^n c_{ij}\tilde{x}^i\tilde{y}^j
+      
+   with:
+   
+   .. math::
+      c_{ij} = \sum_{k = 0}^p b_{ijk}\tilde{z}^k
+      
+   In this case, triple power series become double power series.
+
 .. [Abramowitz1964] M. Abramowitz and I. A. Stegun. Handbook of Mathematical functions with formulas, graphs and mathematical tables. Government Printing Office, Washington and Dover, New York, 1964.
 
-.. [Cody1969] Cody W. J. and Thacher H. C. Chebyshev Approximations for the Exponential Integral Ei(x). Mathematics of Computation, 23(106):289-303, 1969.
+.. [Cody1968] Cody W. J. and Thacher H. C. Rational Chebyshev Approximations for the Exponential Integral :math:`E_1(x)`. Mathematics of Computation, 22(103):641-649, 1968.
+
+.. [Cody1969] Cody W. J. and Thacher H. C. Chebyshev Approximations for the Exponential Integral :math:`Ei(x)`. Mathematics of Computation, 23(106):289-303, 1969.
 
 .. [Basu1973] N. K. Basu. On double Chebyshev series approximation. SIAM Journal on Numerical Analysis, 10(3):493-505, 1973.
 
