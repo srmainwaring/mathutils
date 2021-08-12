@@ -51,10 +51,6 @@ void testInterpDouble() {
   // Using only the overloaded call operator for vector values
   auto y_interp = interpolator(x_interp);
 
-  // Test of the permission to access a value outside of the x-range.
-  interpolator.PermissiveON();
-  auto y_interp_out = interpolator(5 * M_PI);
-
 }
 
 void testInterpComplex() {

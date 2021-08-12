@@ -30,10 +30,6 @@ int main(int argc, char* argv[]) {
 
     }
 
-    // Eval LUT out of bound
-    lookup.PermissiveON();
-    lookup.Eval("cx", 200);
-
 
     return 0;
 }
