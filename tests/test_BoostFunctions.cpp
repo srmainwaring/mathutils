@@ -64,6 +64,16 @@ TEST(BoostFunctions, Cyl_modified_Bessel_second_kind) {
   std::cout << "Exact value: 0.32823" << std::endl;
   EXPECT_NEAR(value_K05, 0.32823, 1e-6);
 }
+
+TEST(BoostFunctions, Cyl_Hankel_first_kind) {
+  PrintInfo("Comparison of the value returned by the method and an exact value for n = 0 and x = 1.2345");
+  std::complex<double> value_H0 = Cyl_Hankel_first_kind<int, double>(0, 1.2345);
+  std::cout << "Method Cyl_Hankel_first_kind: " << value_H0 << std::endl;
+  std::cout << "Exact value: 0.653792 + 0.249072i" << std::endl;
+  EXPECT_NEAR(value_H0.real(), 0.653792, 1e-6);
+  EXPECT_NEAR(value_H0.imag(), 0.249072, 1e-6);
+}
+
 // ========================================================================
 //                       Legendre polynomials
 // ========================================================================

@@ -7,6 +7,7 @@
 
 #include "StdVector.h"
 #include <boost/math/special_functions/bessel.hpp>
+#include <boost/math/special_functions/hankel.hpp>
 #include <boost/math/special_functions/legendre.hpp>
 #include <boost/math/special_functions/factorials.hpp>
 #include <boost/math/special_functions/expint.hpp>
@@ -40,6 +41,12 @@ namespace mathutils {
   template <class T1, class T2, class Tresults>
   Tresults Cyl_modified_Bessel_second_kind(const T1& order, const T2 x){
     return boost::math::cyl_bessel_k(order, x);
+  }
+
+  // This function returns the Hankel function of the first kind of order "order" at the point x.
+  template <class T1, class T2>
+  std::complex<double> Cyl_Hankel_first_kind(const T1& order, const T2 x){
+    return boost::math::cyl_hankel_1(order, x);
   }
 
   // This function returns the Legendre polynomial of order "order" at the point x.
