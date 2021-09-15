@@ -19,34 +19,84 @@
 
 namespace mathutils {
 
-  // This function returns the Bessel function of the first kind of order "order" at the point x.
+  // This function returns the Bessel function of the first kind of order "order" at the point x, J_{order}(x).
   template <class T1, class T2, class Tresults>
   Tresults Cyl_Bessel_first_kind(const T1& order, const T2 x){
       return boost::math::cyl_bessel_j(order, x);
   }
 
-  // This function returns the Bessel function of the second kind of order "order" at the point x.
+  // This function returns the derivative of the Bessel function of the first kind of order "order" at the point x, dJ_{order}/dx(x).
+  template <class T1, class T2, class Tresults>
+  Tresults Cyl_Bessel_first_kind_derivative(const T1& order, const T2 x){
+    if(order == 0) {
+      return -boost::math::cyl_bessel_j(1, x); // J0' = -J1.
+    } else {
+      return boost::math::cyl_bessel_j(order - 1, x) - (order / x) * boost::math::cyl_bessel_j(order, x);
+    }
+  }
+
+  // This function returns the Bessel function of the second kind of order "order" at the point x, Y_{order}(x).
   template <class T1, class T2, class Tresults>
   Tresults Cyl_Bessel_second_kind(const T1& order, const T2 x){
     return boost::math::cyl_neumann(order, x);
   }
 
-  // This function returns the modified Bessel function of the first kind of order "order" at the point x.
+  // This function returns the derivative of the Bessel function of the second kind of order "order" at the point x, dY_{order}/dx(x).
+  template <class T1, class T2, class Tresults>
+  Tresults Cyl_Bessel_second_kind_derivative(const T1& order, const T2 x){
+    if(order == 0) {
+      return -boost::math::cyl_neumann(1, x); // Y0' = -Y1.
+    } else {
+      return boost::math::cyl_neumann(order - 1, x) - (order / x) * boost::math::cyl_neumann(order, x);
+    }
+  }
+
+  // This function returns the modified Bessel function of the first kind of order "order" at the point x, I_{order}(x).
   template <class T1, class T2, class Tresults>
   Tresults Cyl_modified_Bessel_first_kind(const T1& order, const T2 x){
     return boost::math::cyl_bessel_i(order, x);
   }
 
-  // This function returns the modified Bessel function of the second kind of order "order" at the point x.
+  // This function returns the derivative of the modified Bessel function of the first kind of order "order" at the point x, dI_{order}/dx(x).
+  template <class T1, class T2, class Tresults>
+  Tresults Cyl_modified_Bessel_first_kind_derivative(const T1& order, const T2 x){
+    if(order == 0) {
+      return boost::math::cyl_bessel_i(1, x); // I0' = I1.
+    } else {
+      return boost::math::cyl_bessel_i(order - 1, x) - (order / x) * boost::math::cyl_bessel_i(order, x);
+    }
+  }
+
+  // This function returns the modified Bessel function of the second kind of order "order" at the point x, K_{order}(x).
   template <class T1, class T2, class Tresults>
   Tresults Cyl_modified_Bessel_second_kind(const T1& order, const T2 x){
     return boost::math::cyl_bessel_k(order, x);
+  }
+
+  // This function returns the derivative of the modified Bessel function of the second kind of order "order" at the point x, dK_{order}/dx(x).
+  template <class T1, class T2, class Tresults>
+  Tresults Cyl_modified_Bessel_second_kind_derivative(const T1& order, const T2 x){
+    if(order == 0) {
+      return -boost::math::cyl_bessel_k(1, x); // K0' = -K1.
+    } else {
+      return -boost::math::cyl_bessel_k(order - 1, x) - (order / x) * boost::math::cyl_bessel_k(order, x);
+    }
   }
 
   // This function returns the Hankel function of the first kind of order "order" at the point x.
   template <class T1, class T2>
   std::complex<double> Cyl_Hankel_first_kind(const T1& order, const T2 x){
     return boost::math::cyl_hankel_1(order, x);
+  }
+
+  // This function returns the derivative of the Hankel function of the first kind of order "order" at the point x.
+  template <class T1, class T2>
+  std::complex<double> Cyl_Hankel_first_kind_derivative(const T1& order, const T2 x){
+    if(order == 0) {
+      return -boost::math::cyl_hankel_1(1, x); // H0' = -H1.
+    } else {
+      return boost::math::cyl_hankel_1(order - 1, x) - (order / x) * boost::math::cyl_hankel_1(order, x);
+    }
   }
 
   // This function returns the Legendre polynomial of order "order" at the point x.
