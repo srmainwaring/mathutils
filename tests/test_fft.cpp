@@ -5,8 +5,10 @@
 #include "MathUtils/MathUtils.h"
 //#include "matplotlibcpp.h"
 
-using namespace mathutils;
+#include <gtest/gtest.h>
 
+
+using namespace mathutils;
 
 
 template <class Scalar>
@@ -31,8 +33,7 @@ std::vector<Scalar> MakeData(const std::vector<Scalar> &timeVector, double freq)
 }
 
 
-int main(int argc, char* argv[]) {
-
+TEST(Fft, Simple) {
 //    auto y = Heaviside<double>(-20, 20, 0, 0.01);
 
 //    matplotlibcpp::plot(y);
@@ -81,7 +82,5 @@ int main(int argc, char* argv[]) {
     std::vector<double> timeVectRebuild;
     fft.ifft(timeVectRebuild, freqVect);
 
-    AssertIsClose(timeVector, timeVectRebuild);
-
-    return 0;
+    EXPECT_TRUE(IsClose(timeVector, timeVectRebuild));
 }

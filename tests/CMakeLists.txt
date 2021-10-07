@@ -32,11 +32,11 @@ foreach(test ${TESTS})
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen gtest_main)
+    target_link_libraries(${test} MathUtils::MathUtils gtest_main)
 
     add_dependencies(mathutils_tests ${test})
 
-    add_test(NAME ${test} COMMAND ${test})
+    gtest_discover_tests(${test})
 
 endforeach()
 
@@ -59,11 +59,11 @@ if (MATHUTILS_BUILD_BOOST_TESTS)
         message(STATUS "...add ${test}")
 
         add_executable(${test} ${test}.cpp)
-        target_link_libraries(${test} MathUtils::MathUtils Eigen3::Eigen Boost::boost gtest_main)
+        target_link_libraries(${test} MathUtils::MathUtils Boost::boost gtest_main)
 
         add_dependencies(mathutils_tests ${test})
 
-        add_test(NAME ${test} COMMAND ${test})
+        gtest_discover_tests(${test})
 
     endforeach()
 endif()

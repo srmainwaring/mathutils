@@ -49,6 +49,7 @@ add_subdirectory(src/MathUtils)
 #=============================================================================
 if (${MATHUTILS_BUILD_TESTS})
     enable_testing()
+    include(GoogleTest)
     include(Add_googletest)
     add_subdirectory(tests)
 endif()

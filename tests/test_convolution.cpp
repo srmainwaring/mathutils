@@ -7,8 +7,13 @@
 
 //#include "boost/circular_buffer.hpp"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
 
+
+// TODO delete this unused class
 template <class Real>
 void ZeroPad(std::vector<Real>& vector, unsigned int n) {
     assert(n >= vector.size());
@@ -20,9 +25,8 @@ void ZeroPad(std::vector<Real>& vector, unsigned int n) {
 }
 
 
-
-
-int main(int argc, char* argv[]) {
+TEST(Convolution, Simple) {
+    // TODO Add assertions
 
     unsigned int n = 500;
     unsigned int m = 500;
@@ -67,9 +71,4 @@ int main(int argc, char* argv[]) {
 
 //    matplotlibcpp::plot(ts, sv);
 //    matplotlibcpp::show();
-
-
-
-
-    return 0;
 }
