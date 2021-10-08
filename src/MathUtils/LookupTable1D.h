@@ -140,12 +140,12 @@ namespace mathutils {
 
     template <class Xscalar, class Yscalar>
     Yscalar LookupTable1D<Xscalar, Yscalar>::Eval(const std::string name, const Xscalar x) const {
-        return interpolators.at(GetIndex(name))->Eval(x);
+        return interpolators.at(GetIndex(name))->Eval(x, false);
     }
 
     template <class Xscalar, class Yscalar>
     std::vector<Yscalar> LookupTable1D<Xscalar, Yscalar>::Eval(const std::string name, const std::vector<Xscalar>& xvect) const {
-        return interpolators.at(GetIndex(name))->Eval(xvect);
+        return interpolators.at(GetIndex(name))->Eval(xvect, false);
     }
 
     template <class Xscalar, class Yscalar>
@@ -162,7 +162,7 @@ namespace mathutils {
             name = elt.first;
             idx = elt.second;
 
-            out[name] = interpolators[idx]->Eval(x);
+            out[name] = interpolators[idx]->Eval(x, false);
 
         }
         return out;

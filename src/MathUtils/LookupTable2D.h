@@ -131,17 +131,17 @@ namespace mathutils {
 
     template <class Real>
     Real LookupTable2d<Real>::Eval(const std::string name, const Real x, const Real y) const {
-        return interpolators.at(GetIndex(name))->Eval(x, y);
+        return interpolators.at(GetIndex(name))->Eval(x, false);
     }
 
     template <class Real>
     Real LookupTable2d<Real>::Eval(const std::string name, const std::vector<Real> coord) const {
-        return interpolators.at(GetIndex(name))->Eval(coord);
+        return interpolators.at(GetIndex(name))->Eval(coord, false);
     }
 
     template <class Real>
     std::vector<Real> LookupTable2d<Real>::Eval(const std::string name, const std::vector<std::vector<Real>>& vcoord) const {
-        return interpolators.at(GetIndex(name))->Eval(vcoord);
+        return interpolators.at(GetIndex(name))->Eval(vcoord, false);
     }
 
     template <class Real>

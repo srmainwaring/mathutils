@@ -13,7 +13,7 @@ void testInterpDouble() {
 
   // Building the x coords as a shared pointer
   auto x = std::make_shared<std::vector<double>>(
-      linspace(M_PI, 4 * M_PI, N - 1)
+      linspace(M_PI_2, 4 * M_PI, N - 1)
   );
 
   // Building the data
@@ -47,9 +47,23 @@ void testInterpDouble() {
 //    assert(IsClose(y0, -0.8133409832926298));
 
   // Test for a vector of x coords
-  auto x_interp = linspace(M_PI, 4 * M_PI, 1000 * N);
+  auto x_interp = linspace(M_PI_2, 4 * M_PI, 1000 * N);
   // Using only the overloaded call operator for vector values
   auto y_interp = interpolator(x_interp);
+
+  try {
+    interpolator(0);
+  } catch (std::runtime_error& err) {
+    std::cout<<err.what()<<std::endl;
+  }
+
+  y0 = interpolator(MU_PI_2);
+  y1 = interpolator(0, true);
+  assert(IsClose(y0, y1));
+
+  y0 = interpolator(4*MU_PI);
+  y1 = interpolator(5*MU_PI, true);
+  assert(IsClose(y0, y1));
 
 }
 
