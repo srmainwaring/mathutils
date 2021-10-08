@@ -80,6 +80,8 @@ namespace mathutils {
 
         bool IsIdentity() const;
 
+        bool IsIdentity(const Scalar& epsilon) const;
+
         bool IsSquare() const;
 
         bool IsOrthogonal() const;
@@ -297,6 +299,11 @@ namespace mathutils {
     template <class Scalar>
     bool MatrixMN<Scalar>::IsIdentity() const {
         return this->isIdentity();
+    }
+
+    template <class Scalar>
+    bool MatrixMN<Scalar>::IsIdentity(const Scalar& epsilon) const {
+        return this->isIdentity(epsilon);
     }
 
     template <class Scalar>
