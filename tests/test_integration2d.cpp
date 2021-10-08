@@ -12,7 +12,7 @@ using namespace std;
 using namespace mathutils;
 
 
-TEST(Integration2d, Simple) {
+TEST(Integration2d, OldMain) {
     // This test checks the integration of a function over a triangle.
     // This function returns a VectorN because it is more difficult when the size is not fixed.
 

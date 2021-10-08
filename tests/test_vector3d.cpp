@@ -4,16 +4,15 @@
 //
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
 
-int main(int argc, char* argv[]) {
 
+TEST(Vector3d, OldMain) {
+    // TODO
     Vector3d<double> vector;
 
     std::cout << vector;
-
-
-
-
-    return 0;
 }

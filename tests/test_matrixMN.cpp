@@ -4,6 +4,9 @@
 
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
 
 
@@ -18,9 +21,7 @@ void PrintInfo(std::string info) {
 }
 
 
-int main(int argc, char* argv[]) {
-
-
+TEST(MatrixMN, OldMain) {
     // ========================================================================
     //    Matrix creation, initialization and extractions (indexing)
     // ========================================================================
@@ -135,10 +136,12 @@ int main(int argc, char* argv[]) {
 
     PrintInfo("Verifications ( (A^-1)^-1 - A = 0)");
     std::cout << invMatrix - initialMatrix << "\n\n"; // Must be zero
-    assert(invMatrix.IsEqual(initialMatrix));
+    EXPECT_TRUE(invMatrix.IsEqual(initialMatrix));
 
     PrintInfo("Verifications (A^-1 * A = I)");
-    std::cout << invMatrix * matSquare << "\n\n";   // Must be identity
+    MatrixMN<double> multInvInit = matSquare * initialMatrix;
+    std::cout << multInvInit << "\n\n";   // Must be identity
+    EXPECT_TRUE(multInvInit.IsIdentity(1e-8));
 
 //    // Is the matrix positive semi definite
 //    auto isPSD = matSquare.IsPositiveSemiDefinite();
@@ -165,10 +168,12 @@ int main(int argc, char* argv[]) {
     PrintInfo("R");
     std::cout << Rthin << "\n\n";
     PrintInfo("Verification Q^t*Q = I)");
-    std::cout << Qthin.transpose() * Qthin << "\n\n";
+    MatrixMN<double> Q_transpose_mult_Q = Qthin.transpose() * Qthin;
+    std::cout << Q_transpose_mult_Q << "\n\n";
+    EXPECT_TRUE(Q_transpose_mult_Q.IsIdentity(1e-8));
     PrintInfo("Verification (A - Q*R)");
     std::cout << myMatrix - Qthin * Rthin << "\n\n";
-    assert(myMatrix.IsEqual(Qthin * Rthin));
+    EXPECT_TRUE(myMatrix.IsEqual(Qthin * Rthin));
 
     PrintHeader("Full QR Decomposition (A = QR)");
 
@@ -184,13 +189,16 @@ int main(int argc, char* argv[]) {
     PrintInfo("R");
     std::cout << Rfull << "\n\n";
     PrintInfo("Verification Q^t*Q = I)");
-    std::cout << Qfull.transpose() * Qfull << "\n\n";
+    MatrixMN<double> Q_transpose_mult_Q_02 = Qfull.transpose() * Qfull;
+    std::cout << Q_transpose_mult_Q_02 << "\n\n";
+    EXPECT_TRUE(Q_transpose_mult_Q_02.IsIdentity(1e-8));
+    std::cout << Q_transpose_mult_Q_02 << "\n\n";
     PrintInfo("Verification (A - Q*R)");
     auto Rextended = MatrixMN<double>(6, 3);
     Rextended.SetNull();
     Rextended.block(0, 0, 3, 3) = Rfull;
     std::cout << myMatrix - Qfull * Rextended << "\n\n";
-    assert(myMatrix.IsEqual(Qfull * Rextended));
+    EXPECT_TRUE(myMatrix.IsEqual(Qfull * Rextended));
 
     // ========================================================================
     //    LU Decomposition
@@ -214,7 +222,7 @@ int main(int argc, char* argv[]) {
     PrintInfo("Verification (P*A - L*U)");
     MatrixMN<double> PA = P * matSquare;
     std::cout << PA - L*U << "\n\n"; // Must be null !
-    assert(PA.IsEqual(L*U));
+    EXPECT_TRUE(PA.IsEqual(L*U));
 
     // ========================================================================
     //    Cholesky Decomposition
@@ -238,7 +246,7 @@ int main(int argc, char* argv[]) {
 //    std::cout << myMatrix << "\n\n";
     PrintInfo("Verification (A - L * L^T)");
     std::cout << symMatrix - Lchol * Transpose(Lchol) << "\n\n";  // FIXME: ne donne pas le bon resultat !!!
-    assert(symMatrix.IsEqual(Lchol * Transpose(Lchol)));
+    EXPECT_TRUE(symMatrix.IsEqual(Lchol * Transpose(Lchol)));
 //    std::cout << myMatrix - L * Transpose(L) << "\n\n";
 
     auto myVector = MatrixMN<double>(6, 1);
@@ -278,7 +286,7 @@ int main(int argc, char* argv[]) {
 
     PrintInfo("Verification (A - U * Sdiag * V*)");
     std::cout << myMatrix - Usvd * SingVal.asDiagonal() * Vsvd.adjoint() << "\n\n";
-    assert(myMatrix.IsEqual(Usvd * SingVal.asDiagonal() * Vsvd.adjoint()));
+    EXPECT_TRUE(myMatrix.IsEqual(Usvd * SingVal.asDiagonal() * Vsvd.adjoint()));
 
     // ========================================================================
     //    Pseudo inverse computation
@@ -302,7 +310,7 @@ int main(int argc, char* argv[]) {
     MatrixMN<double> ApA = matRect_pinv * matRect;
     std::cout << ApA << "\n\n";
 
-    assert(ApA.IsIdentity());
+    EXPECT_TRUE(ApA.IsIdentity());
 
     // ========================================================================
     //    Linear system solvers
@@ -334,12 +342,12 @@ int main(int argc, char* argv[]) {
 
     PrintInfo("Verification (xLU - xQR = 0)");
     std::cout << solLU - solQR << "\n\n";
-    assert(solLU.IsEqual(solQR));
+    EXPECT_TRUE(solLU.IsEqual(solQR));
 
     PrintInfo("Verification (A * xLU - b = 0)");
     std::cout << matA * solLU - vectB << "\n\n";
     VectorN<double> AxLu = matA * solLU;
-    assert(AxLu.IsEqual(vectB));
+    EXPECT_TRUE(AxLu.IsEqual(vectB));
 
     // The right-hand side matrix.
     auto matB = MatrixMN<double>(5, 2);
@@ -355,7 +363,7 @@ int main(int argc, char* argv[]) {
     PrintInfo("Verification with several right-hand side vectors (A * x - B = 0)");
     std::cout << matA * solmat - matB << "\n\n";
     MatrixMN<double> Ax = matA * solmat;
-    assert(Ax.IsEqual(matB));
+    EXPECT_TRUE(Ax.IsEqual(matB));
 
     // ========================================================================
     //    Linear least square system solver
@@ -384,7 +392,7 @@ int main(int argc, char* argv[]) {
     auto matALS_inv = matALS.GetPseudoInverse();
     std::cout << solLS - matALS_inv * vectBLS << "\n\n";
     VectorN<double> AxLS = matALS * solLS;
-    assert(solLS.IsEqual(matALS_inv * vectBLS));
+    EXPECT_TRUE(solLS.IsEqual(matALS_inv * vectBLS));
     // It is normal that A * x - b != 0.
 
     // ========================================================================
@@ -427,7 +435,7 @@ int main(int argc, char* argv[]) {
     PrintInfo("Verification (Cx - d = 0)");
     std::cout << matC * solLSConstraint - vectd << "\n\n";
     VectorN<double> Cx = matC * solLSConstraint;
-    assert(Cx.IsEqual(vectd));
+    EXPECT_TRUE(Cx.IsEqual(vectd));
 
     // ========================================================================
     //    Eigenvalues and eigenvectors.
@@ -448,5 +456,19 @@ int main(int argc, char* argv[]) {
     std::cout << vp << "\n\n";
     PrintInfo("The eigenvalues must be (2, 1, 1)");
 
-    return 0;
+    int m_1 = 0, m_2 = 0;
+    for (int i = 0; i < 3; i++) {
+        double re = vp.at(i, 0).real();
+        double im = vp.at(i, 0).imag();
+        if (re < 1.5) {
+            EXPECT_NEAR(re, 1.0, 1e-8);
+            m_1 += 1;
+        } else {
+            EXPECT_NEAR(re, 2.0, 1e-8);
+            m_2 += 1;
+        }
+        EXPECT_NEAR(im, 0.0, 1e-8);
+    }
+    EXPECT_EQ(m_1, 2);
+    EXPECT_EQ(m_2, 1);
 }

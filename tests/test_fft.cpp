@@ -33,7 +33,7 @@ std::vector<Scalar> MakeData(const std::vector<Scalar> &timeVector, double freq)
 }
 
 
-TEST(Fft, Simple) {
+TEST(Fft, OldMain) {
 //    auto y = Heaviside<double>(-20, 20, 0, 0.01);
 
 //    matplotlibcpp::plot(y);

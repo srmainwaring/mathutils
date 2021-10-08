@@ -5,14 +5,16 @@
 #include <iostream>
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
 
-int main(int argc, char* argv[]) {
 
-    assert(180. * DEG2RAD == M_PI);
-    assert(M_PI * RAD2DEG == 180);
+TEST(Unit, OldMain) {
+
+    EXPECT_NEAR(180. * DEG2RAD, M_PI, 1e-8);
+    EXPECT_NEAR(M_PI * RAD2DEG, 180, 1e-8);
 
     // Pas tres utilse de tout faire...
-
-    return 0;
 }

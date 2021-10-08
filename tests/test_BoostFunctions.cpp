@@ -18,11 +18,6 @@ void PrintInfo(std::string info) {
   std::cout << info << ":" << std::endl;
 }
 
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
-
 // This test checks the computation of the special functions.
 
 // ========================================================================

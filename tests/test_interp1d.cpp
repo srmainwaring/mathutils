@@ -6,9 +6,14 @@
 #include "MathUtils/MathUtils.h"
 #include "gtest/gtest.h"
 
+#include <gtest/gtest.h>
+
+
 #define N 100
 
+
 using namespace mathutils;
+
 
 TEST(Interp1d, Double) {
 
@@ -60,6 +65,7 @@ TEST(Interp1d, Double) {
 
 }
 
+
 TEST(Interp1d, Complex) {
 
   // Building the x coords as a shared pointer
@@ -90,9 +96,4 @@ TEST(Interp1d, Complex) {
   auto x_interp = linspace(M_PI, 4 * M_PI, 1000 * N);
   // Using only the overloaded call operator for vector values
   auto y_interp = interpolator(x_interp);
-}
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

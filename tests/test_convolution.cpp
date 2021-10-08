@@ -25,7 +25,7 @@ void ZeroPad(std::vector<Real>& vector, unsigned int n) {
 }
 
 
-TEST(Convolution, Simple) {
+TEST(Convolution, OldMain) {
     // TODO Add assertions
 
     unsigned int n = 500;

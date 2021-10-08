@@ -26,7 +26,7 @@ double myFunction(double x) {
 }
 
 
-TEST(Integration1d, Simple) {
+TEST(Integration1d, OldMain) {
     // This test checks the numerical integration of a one-variable function.
     double expectedValue = 0.946083;
     PrintHeader("Computation of the integral of sinc(x) between 0 and 1.");
