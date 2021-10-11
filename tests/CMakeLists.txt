@@ -1,5 +1,5 @@
 
-if (MATHUTILS_TEST_COVERAGE)
+if (${MATHUTILS_TEST_COVERAGE})
     add_compile_options("--coverage" "-O0")
     add_link_options("--coverage")
 endif()
@@ -37,7 +37,7 @@ foreach(test ${TESTS})
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    if(MATHUTILS_SKIP_LONG_TESTS)
+    if(${MATHUTILS_SKIP_LONG_TESTS})
         target_compile_definitions(${test} PUBLIC
                 SKIP_LONG_TESTS)
     endif()
@@ -68,7 +68,7 @@ if (MATHUTILS_BUILD_BOOST_TESTS)
         message(STATUS "...add ${test}")
 
         add_executable(${test} ${test}.cpp)
-        if(MATHUTILS_SKIP_LONG_TESTS)
+        if(${MATHUTILS_SKIP_LONG_TESTS})
             target_compile_definitions(${test} PUBLIC
                     SKIP_LONG_TESTS)
         endif()
