@@ -3,7 +3,7 @@
 # CMake configuration file for the MathUtils project
 #
 #=============================================================================
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.13)
 
 project(MathUtils LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
@@ -15,7 +15,8 @@ cmake_policy(SET CMP0077 NEW)
 
 option(MATHUTILS_BUILD_TESTS "Build the MathUtils tests" ON)
 option(MATHUTILS_BUILD_BOOST_TESTS "Build the MathUtils tests requiring Boost" ON)
-option(MATHUTILS_SKIP_LONG_TESTS "Skip tests longer than 1 sec" ON)  # TODO PUT OFF before commit
+option(MATHUTILS_SKIP_LONG_TESTS "Skip tests longer than 1 sec" OFF)
+option(MATHUTILS_TEST_COVERAGE "Build for coverage" OFF)
 
 #=============================================================================
 # Retrieving the current Git revision
