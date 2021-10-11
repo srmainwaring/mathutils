@@ -32,6 +32,10 @@ foreach(test ${TESTS})
     message(STATUS "...add ${test}")
 
     add_executable(${test} ${test}.cpp)
+    if(MATHUTILS_SKIP_LONG_TESTS)
+        target_compile_definitions(${test} PUBLIC
+                SKIP_LONG_TESTS)
+    endif()
     target_link_libraries(${test} MathUtils::MathUtils gtest_main)
 
     add_dependencies(mathutils_tests ${test})
@@ -59,6 +63,10 @@ if (MATHUTILS_BUILD_BOOST_TESTS)
         message(STATUS "...add ${test}")
 
         add_executable(${test} ${test}.cpp)
+        if(MATHUTILS_SKIP_LONG_TESTS)
+            target_compile_definitions(${test} PUBLIC
+                    SKIP_LONG_TESTS)
+        endif()
         target_link_libraries(${test} MathUtils::MathUtils Boost::boost gtest_main)
 
         add_dependencies(mathutils_tests ${test})

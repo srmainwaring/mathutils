@@ -11,7 +11,10 @@
 using namespace mathutils;
 
 
-TEST(Spline, HeavisideTIMECONSUMING) {
+TEST(Spline, Heaviside) {
+#ifdef SKIP_LONG_TESTS
+    GTEST_SKIP() << "Skipped because too long.";
+#endif
     int n = 1000;
     auto x = linspace<double>(0, 100, n);
 

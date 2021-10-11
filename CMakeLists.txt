@@ -15,6 +15,7 @@ cmake_policy(SET CMP0077 NEW)
 
 option(MATHUTILS_BUILD_TESTS "Build the MathUtils tests" ON)
 option(MATHUTILS_BUILD_BOOST_TESTS "Build the MathUtils tests requiring Boost" ON)
+option(MATHUTILS_SKIP_LONG_TESTS "Skip tests longer than 1 sec" ON)  # TODO PUT OFF before commit
 
 #=============================================================================
 # Retrieving the current Git revision

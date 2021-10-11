@@ -130,7 +130,10 @@ TEST(ChebyshevSeries3d, ClosedSegments) {
 }
 
 
-TEST(ChebyshevSeries3d, MixedHalfOpenAndClosedSegmentsTIMECONSUMING) {
+TEST(ChebyshevSeries3d, MixedHalfOpenAndClosedSegments) {
+#ifdef SKIP_LONG_TESTS
+    GTEST_SKIP() << "Skipped because too long.";
+#endif
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          Mixed half-open and closed segments
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,7 +195,10 @@ TEST(ChebyshevSeries3d, MixedHalfOpenAndClosedSegmentsTIMECONSUMING) {
 }
 
 
-TEST(ChebyshevSeries3d, MixedHalfOpenAndClosedSegmentsBisTIMECONSUMING) {
+TEST(ChebyshevSeries3d, MixedHalfOpenAndClosedSegmentsBis) {
+#ifdef SKIP_LONG_TESTS
+    GTEST_SKIP() << "Skipped because too long.";
+#endif
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          Mixed half-open and closed segments
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

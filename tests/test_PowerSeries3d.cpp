@@ -291,7 +291,10 @@ TEST(PowerSeries3d, ClosedSegmentsFactorizationPredefinedZ) {
 }
 
 
-TEST(PowerSeries3d, MixedHalfOpenAndClosedSegmentsTIMECONSUMING) {
+TEST(PowerSeries3d, MixedHalfOpenAndClosedSegments) {
+#ifdef SKIP_LONG_TESTS
+    GTEST_SKIP() << "Skipped because too long.";
+#endif
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          Mixed half-open and closed segments
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -373,7 +376,10 @@ TEST(PowerSeries3d, MixedHalfOpenAndClosedSegmentsTIMECONSUMING) {
 }
 
 
-TEST(PowerSeries3d, MixedHalfOpenAndClosedSegmentsBisTIMECONSUMING) {
+TEST(PowerSeries3d, MixedHalfOpenAndClosedSegmentsBis) {
+#ifdef SKIP_LONG_TESTS
+    GTEST_SKIP() << "Skipped because too long.";
+#endif
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          Mixed half-open and closed segments
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
