@@ -12,10 +12,12 @@
 
 namespace mathutils {
 
-    enum INTERP_METHOD {
-        LINEAR,
-        BSPLINE
-    };
+  enum INTERP_METHOD {
+    LINEAR,
+    LINEAR_EXTRAPOLATE,
+    LINEAR_SATURATE,
+    BSPLINE
+  };
 
 }  // end namespace mathutils
 

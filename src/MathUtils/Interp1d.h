@@ -7,6 +7,7 @@
 
 #include "Interp.h"
 #include "Spline.h"
+#include <iostream>
 
 namespace mathutils {
 
@@ -27,16 +28,16 @@ namespace mathutils {
     virtual void Initialize(std::shared_ptr<const std::vector<XReal>> x,
                             std::shared_ptr<const std::vector<YScalar>> y);
 
-    virtual YScalar Eval(XReal x, bool permissive = false) const = 0;
+    virtual YScalar Eval(XReal x) const = 0;
 
-    virtual std::vector<YScalar> Eval(const std::vector<XReal> &xvector, bool permissive = false) const = 0;
+    virtual std::vector<YScalar> Eval(const std::vector<XReal> &xvector) const = 0;
 
-    YScalar operator()(const XReal x, bool permissive = false) const {
-      return Eval(x, permissive);
+    YScalar operator()(const XReal x) const {
+      return Eval(x);
     }
 
-    std::vector<YScalar> operator()(const std::vector<XReal> &xvector, bool permissive = false) const {
-      return Eval(xvector, permissive);
+    std::vector<YScalar> operator()(const std::vector<XReal> &xvector) const {
+      return Eval(xvector);
     }
 
     static Interp1d<XReal, YScalar> *MakeInterp1d(INTERP_METHOD method);
@@ -65,7 +66,7 @@ namespace mathutils {
 
 
   template<class XReal, class YScalar>
-  class Interp1dLinear : public Interp1d<XReal, YScalar> {
+  class Interp1dLinearBase : public Interp1d<XReal, YScalar> {
 
    private:
     std::vector<YScalar> a;
@@ -76,9 +77,39 @@ namespace mathutils {
     void Initialize(std::shared_ptr<const std::vector<XReal>> x,
                     std::shared_ptr<const std::vector<YScalar>> y) override;
 
-    YScalar Eval(XReal x, bool permissive=false) const override;
+    YScalar Eval(XReal x) const override;
 
-    std::vector<YScalar> Eval(const std::vector<XReal> &xvector, bool permissive=false) const override;
+    std::vector<YScalar> Eval(const std::vector<XReal> &xvector) const override;
+
+  };
+
+
+  template<class XReal, class YScalar>
+  class Interp1dLinear : public Interp1dLinearBase<XReal, YScalar> {
+
+   public:
+
+    YScalar Eval(XReal x) const override;
+
+  };
+
+
+  template<class XReal, class YScalar>
+  class Interp1dLinearExtrapolate : public Interp1dLinearBase<XReal, YScalar> {
+
+   public:
+
+    YScalar Eval(XReal x) const override;
+
+  };
+
+
+  template<class XReal, class YScalar>
+  class Interp1dLinearSaturate : public Interp1dLinearBase<XReal, YScalar> {
+
+   public:
+
+    YScalar Eval(XReal x) const override;
 
   };
 
@@ -94,8 +125,8 @@ namespace mathutils {
 
 
   template<class XReal, class YScalar>
-  void Interp1dLinear<XReal, YScalar>::Initialize(const std::shared_ptr<const std::vector<XReal>> x,
-                                                  const std::shared_ptr<const std::vector<YScalar>> y) {
+  void Interp1dLinearBase<XReal, YScalar>::Initialize(const std::shared_ptr<const std::vector<XReal>> x,
+                                                      const std::shared_ptr<const std::vector<YScalar>> y) {
 
     Interp1d<XReal, YScalar>::Initialize(x, y);
 
@@ -121,20 +152,11 @@ namespace mathutils {
   }
 
   template<class XReal, class YScalar>
-  YScalar Interp1dLinear<XReal, YScalar>::Eval(const XReal x, bool permissive) const {
+  YScalar Interp1dLinearBase<XReal, YScalar>::Eval(const XReal x) const {
     // TODO: il faut que le type de retour soit compatible avec real et complex !!!
 
-    double x_tmp = x;
-    if (x < this->xmin or x > this->xmax) {
-      if (permissive) {
-        x < this->xmin ? x_tmp = this->xmin : x_tmp = this->xmax;
-      } else {
-        std::cerr << "Interpolation evaluated for value " << x << ", outside of the range : [" << this->xmin << ", "
-                  << this->xmax << "]" << std::endl;
-      }
-    }
     // First, binary search on the x coords
-    auto upper = std::lower_bound(this->xcoord->begin(), this->xcoord->end(), x_tmp);
+    auto upper = std::lower_bound(this->xcoord->begin(), this->xcoord->end(), x);
     auto index = std::distance(this->xcoord->begin(), upper);
 
     if (index == 0) index = 1;  // Bug fix for x == xmin
@@ -142,11 +164,40 @@ namespace mathutils {
     YScalar a_ = a.at(index - 1);
     YScalar b_ = b.at(index - 1);
 
-    return a_ * x_tmp + b_;
+    return a_ * x + b_;
   }
 
   template<class XReal, class YScalar>
-  std::vector<YScalar> Interp1dLinear<XReal, YScalar>::Eval(const std::vector<XReal> &xvector, bool permissive) const {
+  YScalar Interp1dLinear<XReal, YScalar>::Eval(const XReal x) const {
+
+    if (x < this->xmin or x > this->xmax) {
+      std::cerr << "Interpolation evaluated for value " << x << ", outside of the range : [" << this->xmin << ", "
+                << this->xmax << "]" << std::endl;
+      exit(1);
+    }
+
+    return Interp1dLinearBase<XReal, YScalar>::Eval(x);
+
+  }
+
+  template<class XReal, class YScalar>
+  YScalar Interp1dLinearExtrapolate<XReal, YScalar>::Eval(const XReal x) const {
+    return Interp1dLinearBase<XReal, YScalar>::Eval(x);
+  }
+
+  template<class XReal, class YScalar>
+  YScalar Interp1dLinearSaturate<XReal, YScalar>::Eval(const XReal x) const {
+
+    auto x_tmp = x;
+    if (x < this->xmin or x > this->xmax) {
+      x < this->xmin ? x_tmp = this->xmin : x_tmp = this->xmax;
+    }
+    return Interp1dLinearBase<XReal, YScalar>::Eval(x_tmp);
+
+  }
+
+  template<class XReal, class YScalar>
+  std::vector<YScalar> Interp1dLinearBase<XReal, YScalar>::Eval(const std::vector<XReal> &xvector) const {
 
     auto n = xvector.size();
 
@@ -154,7 +205,7 @@ namespace mathutils {
     out.reserve(n);
 
     for (int i = 0; i < n; i++) {
-      out.push_back(Eval(xvector[i], permissive));
+      out.push_back(Eval(xvector[i]));
     }
     return out;
   }
@@ -162,18 +213,26 @@ namespace mathutils {
   /// Factory method to create 1D interpolation classes
   template<class XReal, class YScalar>
   Interp1d<XReal, YScalar> *Interp1d<XReal, YScalar>::MakeInterp1d(INTERP_METHOD method) {
+    Interp1d<XReal, YScalar> *interp1D;
     switch (method) {
       case LINEAR:
-        return new Interp1dLinear<XReal, YScalar>;
+        interp1D = new Interp1dLinear<XReal, YScalar>;
+        break;
+      case LINEAR_EXTRAPOLATE:
+        interp1D = new Interp1dLinearExtrapolate<XReal, YScalar>;
+        break;
+      case LINEAR_SATURATE:
+        interp1D = new Interp1dLinearSaturate<XReal, YScalar>;
         break;
       case BSPLINE:
 //        return new Interp1dBSpline<XReal, YScalar>;
         std::cerr << "no B-Slpine interpolator available yet" << std::endl;
-        break;
+        exit(1);
       default:
-        std::cerr <<"1D INTERPOLATION METHOD DOES NOT EXIST" << std::endl;
-        break;
+        std::cerr << "1D INTERPOLATION METHOD DOES NOT EXIST" << std::endl;
+        exit(1);
     }
+    return interp1D;
   }
 
 }  // end namespace mathutils
