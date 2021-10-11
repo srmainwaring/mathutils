@@ -4,12 +4,13 @@
 
 #include <iostream>
 #include "MathUtils/MathUtils.h"
+#include "gtest/gtest.h"
 
 #define N 100
 
 using namespace mathutils;
 
-void testInterpDouble() {
+TEST(Interp1d, Double) {
 
   // Building the x coords as a shared pointer
   auto x = std::make_shared<std::vector<double>>(
@@ -25,49 +26,41 @@ void testInterpDouble() {
     y->push_back(val);
   }
 
-  // Create the interpolation
+  // Create the linear interpolator
   Interp1dLinear<double, double> interpolator;
-
   interpolator.Initialize(x, y);
 
   // Test of the Eval method for one scalar
-  auto y0 = interpolator.Eval(5.3333);
-  // Test of the call operator for one scalar
-  auto y1 = interpolator(5.3333);
+  EXPECT_EQ(interpolator.Eval(5.3333), interpolator(5.3333));
+  EXPECT_NEAR(sin(5.3333), interpolator(5.3333), 1E-2);
 
-  std::cout << "" << std::endl;
-  std::cout << "Test inter1d - Real" << std::endl;
-  std::cout << "Interpolation of sin(x) for x = 5.3333" << std::endl;
-  std::cout << "Analytical: " << sin(5.3333) << std::endl;
-  std::cout << "Eval method: " << y0 << " / Error (%): " << (abs(y0 - sin(5.3333)) / abs(sin(5.3333))) * 100
-            << std::endl;
-  std::cout << "Call operator: " << y1 << " / Error (%): " << (abs(y1 - sin(5.3333)) / abs(sin(5.3333))) * 100
-            << std::endl;
-  assert(IsClose(y0, y1));
-//    assert(IsClose(y0, -0.8133409832926298));
+  // Test exit if outside of ranges
+  EXPECT_EXIT(interpolator(0.), ::testing::ExitedWithCode(1), ".*");
 
   // Test for a vector of x coords
   auto x_interp = linspace(M_PI_2, 4 * M_PI, 1000 * N);
   // Using only the overloaded call operator for vector values
   auto y_interp = interpolator(x_interp);
 
-  try {
-    interpolator(0);
-  } catch (std::runtime_error& err) {
-    std::cout<<err.what()<<std::endl;
-  }
+  // Interpolator saturates outside of the ranges
+  Interp1dLinearSaturate<double, double> saturator;
+  saturator.Initialize(x, y);
 
-  y0 = interpolator(MU_PI_2);
-  y1 = interpolator(0, true);
-  assert(IsClose(y0, y1));
+  EXPECT_EQ(saturator(MU_PI_2), saturator(0.));
+  EXPECT_EQ(saturator(4 * MU_PI), saturator(5 * MU_PI));
 
-  y0 = interpolator(4*MU_PI);
-  y1 = interpolator(5*MU_PI, true);
-  assert(IsClose(y0, y1));
+  // Linear extrapolator
+  Interp1dLinearExtrapolate<double, double> extrapolator;
+  extrapolator.Initialize(x, y);
+
+  auto a = (sin(x->at(1)) - sin(x->at(0))) / (x->at(1) - x->at(0));
+  auto b = sin(x->at(0)) - a * x->at(0);
+
+  EXPECT_NEAR(b, extrapolator(0.), 1E-8);
 
 }
 
-void testInterpComplex() {
+TEST(Interp1d, Complex) {
 
   // Building the x coords as a shared pointer
   auto x = std::make_shared<std::vector<double>>(
@@ -89,21 +82,9 @@ void testInterpComplex() {
   interpolator.Initialize(x, y);
 
   // Test of the Eval method for one scalar
-  auto y0 = interpolator.Eval(5.3333);
-  // Test of the call operator for one scalar
-  auto y1 = interpolator(5.3333);
-
-  std::cout << "" << std::endl;
-  std::cout << "Test inter1d - Complex" << std::endl;
-  std::cout << "Interpolation of exp(ix) for x = 5.3333" << std::endl;
-  std::cout << "Analytical: " << exp(MU_JJ * 5.3333) << std::endl;
-  std::cout << "Eval method: " << y0 << " / Error (%): " << (abs(y0 - exp(MU_JJ * 5.3333)) / abs(exp(MU_JJ * 5.3333))) * 100
-            << std::endl;
-  std::cout << "Call operator: " << y1 << " / Error (%): " << (abs(y1 - exp(MU_JJ * 5.3333)) / abs(exp(MU_JJ * 5.3333))) * 100
-            << std::endl;
-  assert(IsClose(y0.real(), y1.real()));
-  assert(IsClose(y0.imag(), y1.imag()));
-//    assert(IsClose(y0, -0.8133409832926298));
+  EXPECT_EQ(interpolator.Eval(5.3333), interpolator(5.3333));
+  EXPECT_NEAR(exp(MU_JJ * 5.3333).real(), interpolator(5.3333).real(), 1E-2);
+  EXPECT_NEAR(exp(MU_JJ * 5.3333).imag(), interpolator(5.3333).imag(), 1E-2);
 
   // Test for a vector of x coords
   auto x_interp = linspace(M_PI, 4 * M_PI, 1000 * N);
@@ -111,10 +92,7 @@ void testInterpComplex() {
   auto y_interp = interpolator(x_interp);
 }
 
-int main(int argc, char* argv[]) {
-
-  testInterpDouble();
-  testInterpComplex();
-
-  return 0;
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

@@ -25,7 +25,7 @@ namespace mathutils {
     interpolators;
 
    public:
-    LookupTable1D(INTERP_METHOD interp_method = LINEAR);
+    LookupTable1D(INTERP_METHOD interp_method);
 
     ~LookupTable1D() {};
 
@@ -56,9 +56,6 @@ namespace mathutils {
           assoc(std::move(table.assoc)),
           Ydata(std::move(table.Ydata)),
           interpolators(std::move(table.interpolators)) {};
-
-    /// Set interpolation method
-    void SetInterpolationMethod(INTERP_METHOD method);
 
     /// Set the X vector of the lookup table
     void SetX(const std::vector<Xscalar> X);
@@ -97,17 +94,6 @@ namespace mathutils {
   LookupTable1D<Xscalar, Yscalar>::LookupTable1D(INTERP_METHOD interp_method):
       interp_method(interp_method) {
 
-      }
-
-  template<class Xscalar, class Yscalar>
-  void LookupTable1D<Xscalar, Yscalar>::SetInterpolationMethod(INTERP_METHOD method) {
-    // 2 cas: si on a deja des donnees dans Ydata (on reinitialise tous les interpolateurs)
-
-    if (GetNbSeries() > 0) {
-      // TODO: Reinitialiser tous les interpolateurs existants pour les adapter a la nouvelle methode
-      std::cout << "TODO: reinitialiser tous les interpolateurs" << std::endl;
-    }
-    interp_method = method;
   }
 
   template<class Xscalar, class Yscalar>

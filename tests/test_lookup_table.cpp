@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     auto cx = linspace<double>(10, 90, 100);
     auto cy = linspace<double>(0.2, 87., 100);
 
-    auto lookup = LookupTable1D<double>();
+    auto lookup = LookupTable1D<double>(LINEAR);
     lookup.SetX(x);
     lookup.AddY("cx", cx);
     lookup.AddY("cy", cy);
