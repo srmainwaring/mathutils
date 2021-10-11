@@ -25,7 +25,7 @@ unitary-tests:
     - apt-get install -y python3.9-distutils
     - apt-get install -y python3-pip
     - pip3 --version
-    - pip3 install awscli cmake
+    - pip3 install awscli cmake gcovr
     - cmake --version
 
     # check this out: https://docs.gitlab.com/ee/ci/ssh_keys/
