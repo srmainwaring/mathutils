@@ -19,6 +19,14 @@ option(MATHUTILS_SKIP_LONG_TESTS "Skip tests longer than 1 sec" OFF)
 option(MATHUTILS_TEST_COVERAGE "Build for coverage" OFF)
 
 #=============================================================================
+# Compilation settings
+#=============================================================================
+if (${MATHUTILS_TEST_COVERAGE})
+    add_compile_options("--coverage" "-O0")
+    add_link_options("--coverage")
+endif()
+
+#=============================================================================
 # Retrieving the current Git revision
 #=============================================================================
 set(PRE_CONFIGURE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/MathUtils/version.h.in CACHE FILEPATH "" FORCE)
