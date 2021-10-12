@@ -19,7 +19,7 @@ unitary-tests:
     - DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata  # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
     - apt-get install -y build-essential libssl-dev libcurl4-openssl-dev libboost-all-dev uuid-dev wget python3.9 git gcc-9 g++-9
     - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9
-    - update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov 100
+    - update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-9 100
     - update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 100
     - which git
     - python3 --version
