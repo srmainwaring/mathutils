@@ -44,7 +44,7 @@ unitary-tests:
     - cmake .. -DMATHUTILS_TEST_COVERAGE=ON
     - make -j 6
     - ctest --output-junit unit_test_report.xml
-    - gcovr . --xml coverage.xml --xml-pretty --exclude-unreachable-branches --print-summary --root ${CI_PROJECT_DIR}/src
+    - gcovr . --xml coverage.xml --xml-pretty --exclude-unreachable-branches --print-summary --root ${CI_PROJECT_DIR} --filter ${CI_PROJECT_DIR}/src -j 6
 
   coverage: /^\s*lines:\s*\d+.\d+\%/
 
