@@ -22,15 +22,32 @@ namespace mathutils {
     XReal xmin;
     XReal xmax;
 
+   protected:
+
+    virtual YScalar PrivEval(XReal x) const = 0;
+
+   public:
+
+    YScalar Eval(XReal x) const {return PrivEval(x);};
+
+    std::vector<YScalar> Eval(const std::vector<XReal> &xvector) const {
+
+      auto n = xvector.size();
+
+      std::vector<YScalar> out;
+      out.reserve(n);
+
+      for (int i = 0; i < n; i++) {
+        out.push_back(Eval(xvector[i]));
+      }
+      return out;
+    }
+
    public:
     // TODO: voir a separer l'implementation et la mettre en fin de fichier (pas directement dans le corps de la classe)
 
     virtual void Initialize(std::shared_ptr<const std::vector<XReal>> x,
                             std::shared_ptr<const std::vector<YScalar>> y);
-
-    virtual YScalar Eval(XReal x) const = 0;
-
-    virtual std::vector<YScalar> Eval(const std::vector<XReal> &xvector) const = 0;
 
     YScalar operator()(const XReal x) const {
       return Eval(x);
@@ -77,9 +94,10 @@ namespace mathutils {
     void Initialize(std::shared_ptr<const std::vector<XReal>> x,
                     std::shared_ptr<const std::vector<YScalar>> y) override;
 
-    YScalar Eval(XReal x) const override;
+   protected:
+    YScalar PrivEval(XReal x) const override;
 
-    std::vector<YScalar> Eval(const std::vector<XReal> &xvector) const override;
+//    std::vector<YScalar> Eval(const std::vector<XReal> &xvector) const override;
 
   };
 
@@ -87,9 +105,9 @@ namespace mathutils {
   template<class XReal, class YScalar>
   class Interp1dLinear : public Interp1dLinearBase<XReal, YScalar> {
 
-   public:
+   protected:
 
-    YScalar Eval(XReal x) const override;
+    YScalar PrivEval(XReal x) const override;
 
   };
 
@@ -97,9 +115,9 @@ namespace mathutils {
   template<class XReal, class YScalar>
   class Interp1dLinearExtrapolate : public Interp1dLinearBase<XReal, YScalar> {
 
-   public:
+   protected:
 
-    YScalar Eval(XReal x) const override;
+    YScalar PrivEval(XReal x) const override;
 
   };
 
@@ -107,9 +125,9 @@ namespace mathutils {
   template<class XReal, class YScalar>
   class Interp1dLinearSaturate : public Interp1dLinearBase<XReal, YScalar> {
 
-   public:
+   protected:
 
-    YScalar Eval(XReal x) const override;
+    YScalar PrivEval(XReal x) const override;
 
   };
 
@@ -152,7 +170,7 @@ namespace mathutils {
   }
 
   template<class XReal, class YScalar>
-  YScalar Interp1dLinearBase<XReal, YScalar>::Eval(const XReal x) const {
+  YScalar Interp1dLinearBase<XReal, YScalar>::PrivEval(const XReal x) const {
     // TODO: il faut que le type de retour soit compatible avec real et complex !!!
 
     // First, binary search on the x coords
@@ -168,7 +186,7 @@ namespace mathutils {
   }
 
   template<class XReal, class YScalar>
-  YScalar Interp1dLinear<XReal, YScalar>::Eval(const XReal x) const {
+  YScalar Interp1dLinear<XReal, YScalar>::PrivEval(const XReal x) const {
 
     if (x < this->xmin or x > this->xmax) {
       std::cerr << "Interpolation evaluated for value " << x << ", outside of the range : [" << this->xmin << ", "
@@ -176,39 +194,28 @@ namespace mathutils {
       exit(1);
     }
 
-    return Interp1dLinearBase<XReal, YScalar>::Eval(x);
+    return Interp1dLinearBase<XReal, YScalar>::PrivEval(x);
 
   }
 
   template<class XReal, class YScalar>
-  YScalar Interp1dLinearExtrapolate<XReal, YScalar>::Eval(const XReal x) const {
-    return Interp1dLinearBase<XReal, YScalar>::Eval(x);
+  YScalar Interp1dLinearExtrapolate<XReal, YScalar>::PrivEval(const XReal x) const {
+    return Interp1dLinearBase<XReal, YScalar>::PrivEval(x);
   }
 
   template<class XReal, class YScalar>
-  YScalar Interp1dLinearSaturate<XReal, YScalar>::Eval(const XReal x) const {
+  YScalar Interp1dLinearSaturate<XReal, YScalar>::PrivEval(const XReal x) const {
 
     auto x_tmp = x;
     if (x < this->xmin or x > this->xmax) {
       x < this->xmin ? x_tmp = this->xmin : x_tmp = this->xmax;
     }
-    return Interp1dLinearBase<XReal, YScalar>::Eval(x_tmp);
+    return Interp1dLinearBase<XReal, YScalar>::PrivEval(x_tmp);
 
   }
-
-  template<class XReal, class YScalar>
-  std::vector<YScalar> Interp1dLinearBase<XReal, YScalar>::Eval(const std::vector<XReal> &xvector) const {
-
-    auto n = xvector.size();
-
-    std::vector<YScalar> out;
-    out.reserve(n);
-
-    for (int i = 0; i < n; i++) {
-      out.push_back(Eval(xvector[i]));
-    }
-    return out;
-  }
+//
+//  template<class XReal, class YScalar>
+//  std::vector<YScalar> Interp1d<XReal, YScalar>::Eval(const std::vector<XReal> &xvector) const
 
   /// Factory method to create 1D interpolation classes
   template<class XReal, class YScalar>

@@ -137,7 +137,7 @@ namespace mathutils {
 
   template<class Xscalar, class Yscalar>
   Yscalar LookupTable1D<Xscalar, Yscalar>::Eval(const std::string name, const Xscalar x) const {
-    return interpolators.at(GetIndex(name))->Eval(x);
+    return (*interpolators.at(GetIndex(name)))(x);
   }
 
   template<class Xscalar, class Yscalar>
