@@ -67,6 +67,8 @@ unitary-tests:
 
 
 upload-doc:
+  only:
+    - tags
 
   script:
     - cd docs/technical_notes
