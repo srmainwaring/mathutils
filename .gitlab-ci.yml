@@ -20,13 +20,13 @@ unitary-tests:
     - apt-get update
 
     - DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata  # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
-    - apt-get install -y build-essential libssl-dev libcurl4-openssl-dev libboost-all-dev uuid-dev wget python3.9 git gcc-9 g++-9
+    - apt-get install -y build-essential libssl-dev libcurl4-openssl-dev libboost-all-dev uuid-dev wget python3.8 git gcc-9 g++-9
     - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9
     - update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-9 100
-    - update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 100
+    - update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 100
     - which git
     - python3 --version
-    - apt-get install -y python3.9-distutils
+    - apt-get install -y python3.8-distutils
     - apt-get install -y python3-pip
     - pip3 --version
     - pip3 install awscli cmake gcovr badges-gitlab==0.8.2
