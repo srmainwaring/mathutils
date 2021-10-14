@@ -2,13 +2,16 @@
 // Created by frongere on 16/11/17.
 //
 
-#include <iostream>
 #include "MathUtils/MathUtils.h"
+
+#include <gtest/gtest.h>
+
 
 using namespace mathutils;
 
-int main(int argc, char* argv[]) {
 
+TEST(Angles, Normalize)
+{
     assert(Normalize__PI_PI(3*MU_PI_2) == -MU_PI_2);
     assert(Normalize__PI_PI(7*MU_PI_2) == -MU_PI_2);
     assert(Normalize__PI_PI(-3*MU_PI_2) == MU_PI_2);
@@ -34,6 +37,4 @@ int main(int argc, char* argv[]) {
     assert(Normalize_0_360(-180) == 180);
     assert(Normalize_0_360(0) == 0);
     assert(Normalize_0_360(360) == 0);
-
-    return 0;
 }

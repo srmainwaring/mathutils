@@ -4,7 +4,11 @@
 
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
+
 
 template <class Scalar>
 void print(std::string msg, Vector2d<Scalar> &vector) {
@@ -12,13 +16,15 @@ void print(std::string msg, Vector2d<Scalar> &vector) {
               << vector << std::endl << std::endl;
 }
 
+
 template <class Scalar>
 void print(Vector2d<Scalar> &vector) {
     print("", vector);
 }
 
 
-int main(int argc, char* argv[]) {
+TEST(Vector2d, OldMain) {
+    // TODO Add assertions.
 
     Vector2d<double> a, b, c;
 
@@ -115,6 +121,4 @@ int main(int argc, char* argv[]) {
     vel.TransportAtPoint(velTransport, point, 2, DEGS);
     // FIXME: le point est la position relative du point B par rapport au point A dans le repere d'expression du vecteur...
     print("TransportAtPoint() copy version", velTransport);
-
-    return 0;
 }

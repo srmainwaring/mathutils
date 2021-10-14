@@ -6,10 +6,13 @@
 //#include <iostream>
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
 
-int main(int argc, char* argv[]) {
 
+TEST(LookupTable, OldMain) {
     auto x = linspace<double>(0, 100, 100);
     auto cx = linspace<double>(10, 90, 100);
     auto cy = linspace<double>(0.2, 87., 100);
@@ -25,11 +28,8 @@ int main(int argc, char* argv[]) {
 
     for (auto xi : xInterp) {
 
-        lookup.Eval("cx", xi);
-        lookup.Eval("cy", xi);
+        ASSERT_NEAR(10 + 80 * xi/100, lookup.Eval("cx", xi), 1e-8);
+        ASSERT_NEAR(0.2 + 86.8 * xi/100, lookup.Eval("cy", xi), 1e-8);
 
     }
-
-
-    return 0;
 }

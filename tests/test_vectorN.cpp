@@ -4,6 +4,9 @@
 
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
 
 
@@ -13,13 +16,13 @@ void PrintHeader(std::string title) {
     std::cout << "=====================================================================" << std::endl;
 }
 
+
 void PrintInfo(std::string info) {
     std::cout << info << ":" << std::endl;
 }
 
 
-int main(int argc, char* argv[]) {
-
+TEST(VectorN, OldMain) {
     // ========================================================================
     //    Initialization.
     // ========================================================================
@@ -69,7 +72,7 @@ int main(int argc, char* argv[]) {
 
     VectorN<double> vec1 = matrix * vec;
     std::cout << vec1.transpose() << "\n\n";
-    assert(vec.IsEqual(vec1));
+    EXPECT_TRUE(vec.IsEqual(vec1));
 
     matrix.Randomize();
     VectorN<double> vec2 = matrix * vec;
@@ -97,7 +100,7 @@ int main(int argc, char* argv[]) {
     PrintInfo("Square matrix by method:");
     auto squareMat_method = vec3.GetMatrixSquare();
     std::cout << squareMat_method << "\n\n";
-    assert(squareMat_function.IsEqual(squareMat_method));
+    EXPECT_TRUE(squareMat_function.IsEqual(squareMat_method));
 
     PrintInfo("Diagonal to use:");
     std::cout << vec3.transpose() << "\n\n";
@@ -109,7 +112,5 @@ int main(int argc, char* argv[]) {
     PrintInfo("Diagonal matrix by method:");
     auto diagMat_method = vec3.GetDiagonalMatrix();
     std::cout << diagMat_method << "\n\n";
-    assert(diagMat_function.IsEqual(diagMat_method));
-
-    return 0;
+    EXPECT_TRUE(diagMat_function.IsEqual(diagMat_method));
 }

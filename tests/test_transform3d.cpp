@@ -5,12 +5,13 @@
 #include <iostream>
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 using namespace mathutils;
 
-int main(int argc, char* argv[]) {
 
+TEST(Transform3d, OldMain) {
+    // TODO
 //    auto transform = Transform3d<double>();
-
-
-
 }

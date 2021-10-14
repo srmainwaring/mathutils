@@ -5,11 +5,17 @@
 #include <fstream>
 #include "MathUtils/MathUtils.h"
 
+#include <gtest/gtest.h>
+
+
 #define N 101
+
 
 using namespace mathutils;
 
-int main(int argc, char* argv[]) {
+
+TEST(Interp2d, OldMain) {
+    // TODO Add more assertions.
 
     unsigned long it;
 
@@ -91,12 +97,15 @@ int main(int argc, char* argv[]) {
 
     interpolator.Initialize(x, y, data);
 
+    double yExpected = sin(5.333) * sin(5.000);
     auto y0 = interpolator.Eval(5.333, 5.000);
 
     std::cout << "" << std::endl;
     std::cout << "Test with large amount of data" << std::endl;
-    std::cout << "Analytical : " << sin(5.333) * sin(5.000) << std::endl;
+    std::cout << "Analytical : " << yExpected << std::endl;
     std::cout << "Eval : " << y0 << std::endl;
+
+    EXPECT_NEAR(yExpected, y0, 1e-3);
 
     auto x_interp = linspace(M_PI, 4 * M_PI, 3 * (N - 1));
     auto y_interp = linspace(M_PI, 4 * M_PI, 3 * (N - 1));
@@ -155,5 +164,4 @@ int main(int argc, char* argv[]) {
     }
 
     myfile2.close();
-
 }
