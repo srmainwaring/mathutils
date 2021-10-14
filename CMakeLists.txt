@@ -24,6 +24,7 @@ option(MATHUTILS_TEST_COVERAGE "Build for coverage" OFF)
 if (${MATHUTILS_TEST_COVERAGE})
     add_compile_options("--coverage" "-O0")
     add_link_options("--coverage")
+    add_custom_target(coverage gcovr . --root ../src --exclude-unreachable-branches --print-summary --html cov_report/ --html-details --xml coverage.xml --xml-pretty -j 4)
 endif()
 
 #=============================================================================
