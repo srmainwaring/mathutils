@@ -6,6 +6,9 @@ unitary-tests:
     - develop
     - feature/BM_CI_unit_test  # TODO remove this
 
+  variables:
+    PRIVATE_TOKEN: $ACCESS_TOKEN
+
   image: ubuntu:18.04
 
   before_script:
@@ -26,7 +29,7 @@ unitary-tests:
     - apt-get install -y python3.9-distutils
     - apt-get install -y python3-pip
     - pip3 --version
-    - pip3 install awscli cmake gcovr
+    - pip3 install awscli cmake gcovr badges-gitlab==0.8.2
     - cmake --version
 
     # check this out: https://docs.gitlab.com/ee/ci/ssh_keys/
@@ -46,6 +49,11 @@ unitary-tests:
     - make -j 6
     - ctest --output-junit unit_test_report.xml
     - gcovr . --xml coverage.xml --xml-pretty --exclude-unreachable-branches --print-summary --root ${CI_PROJECT_DIR} --filter ${CI_PROJECT_DIR}/src -j 6
+    - cd ..
+
+  after_script:
+    - badges-gitlab --junit-xml build/unit_test_report.xml
+    - ls public/badges
 
   coverage: /^\s*lines:\s*\d+.\d+\%/
 
@@ -54,6 +62,8 @@ unitary-tests:
     reports:
       junit: build/unit_test_report.xml
       cobertura: build/coverage.xml
+    paths:
+      - public/badges/*.svg
 
 
 upload-doc:
