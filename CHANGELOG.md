@@ -13,6 +13,21 @@ This file should be kept up to date following [these guidelines](https://keepach
 
 ### Fixed
 
+
+## [1.8.2] - 2021-10-14
+
+### Added
+- Adding an optional epsilon argument to IsIdentity().
+- Add a mechanism for skipping test longer than one second.
+- Add coverage options and custom command.
+- Add unit test and coverage report in gitlab CI.
+- Add badge generation for unit test in gitlab CI.
+
+### Changed
+- Upgrading all unit tests with Google Test.
+- Generating documentation in gitlab CI only for tags.
+
+
 ## [1.8.1] - 2021-10-12
 ### Fixed
 - Bug in Interp1d Eval on std::vector
