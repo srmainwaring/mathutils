@@ -12,6 +12,7 @@ This file should be kept up to date following [these guidelines](https://keepach
 
 
 ### Fixed
+- LookUpTable1D::GetXmin and GetXmax methods
 
 
 ## [1.8.2] - 2021-10-14
