@@ -62,9 +62,9 @@ namespace mathutils {
 
     std::vector<Xscalar> GetX() const { return *Xcoords.get(); }
 
-    Xscalar GetXmin() const { return interpolators->GetXmin(); }
+    Xscalar GetXmin(const std::string &name) const { return interpolators.at(GetIndex(name))->GetXmin(); }
 
-    Xscalar GetXmax() const { return interpolators->GetXmax(); }
+    Xscalar GetXmax(const std::string &name) const { return interpolators.at(GetIndex(name))->GetXmax(); }
 
     /// Get the number of series
     unsigned long GetNbSeries() const { return Ydata.size(); }
