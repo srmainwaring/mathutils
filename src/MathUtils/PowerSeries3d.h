@@ -158,6 +158,40 @@ namespace mathutils {
 
     }
 
+    /// This method computes the triple power series approximation and its x and y derivatives for unit coordinates.
+    void Evaluate_f_dfdx_dfdy_unit(const double &x, const double &y, const double &a, const double &xunit,
+                                   const double &yunit, const double &zunit, T &f, T &dfdx, T &dfdy) const {
+
+      // Initialization.
+      f = 0.;
+      dfdx = 0.;
+      dfdy = 0.;
+
+      // Partial sums.
+      std::vector<double> rk, rk_derivative, rk_derivative_2;
+      rk.reserve(m_order_z + 1);
+      rk_derivative.reserve(m_order_z + 1);
+      rk_derivative_2.reserve(m_order_z + 1);
+      for (int k = 0; k <= m_order_z; ++k) {
+        std::vector<double> qi, qi_derivative;
+        qi.reserve(m_order_x + 1);
+        qi_derivative.reserve(m_order_x + 1);
+        for (int i = 0; i <= m_order_x; ++i) {
+          Eigen::VectorXd tmp = m_bijk.at(k).row(i);
+          std::vector<double> pj(tmp.data(), tmp.data() + tmp.size());
+          qi.push_back(Horner<double>(pj, yunit));
+          qi_derivative.push_back(Horner_derivative<double>(pj, yunit));
+        }
+        rk.push_back(Horner<double>(qi, xunit));
+        rk_derivative.push_back(Horner_derivative<double>(qi, xunit));
+        rk_derivative_2.push_back(Horner<double>(qi_derivative, xunit));
+      }
+      f = Horner<double>(rk, zunit);
+      dfdx = CoefficientDerivative_x(x) * Horner<double>(rk_derivative, zunit);
+      dfdy = CoefficientDerivative_y(y) * Horner<double>(rk_derivative_2, zunit);
+
+    }
+
     /// This method computes the cij when the last unit coordinate is assumed constant for any computation.
     MatrixMN<T> Compute_cij_unit(const double &zunit) const {
 
@@ -340,6 +374,18 @@ namespace mathutils {
       double zunit = AffineTransformationSegmentToUnit_z(z);
 
       return Evaluate_derivative_z_unit(z, xunit, yunit, zunit);
+
+    }
+
+    /// This method computes the triple power series approximation and its x and y derivatives.
+    void Evaluate_f_dfdx_dfdy(const double &x, const double &y, const double &z, T &f, T &dfdx, T &dfdy) const {
+
+      // Parameters.
+      double xunit = AffineTransformationSegmentToUnit_x(x);
+      double yunit = AffineTransformationSegmentToUnit_y(y);
+      double zunit = AffineTransformationSegmentToUnit_z(z);
+
+      Evaluate_f_dfdx_dfdy_unit(x, y, z, xunit, yunit, zunit, f, dfdx, dfdy);
 
     }
 

@@ -268,9 +268,9 @@ TEST(PowerSeries3d, ClosedSegmentsFactorizationPredefinedZ) {
     std::cout << "Point: (x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
     auto cij = myPowerSeries3dClosed.Compute_cij(z);
     clock_t t_no_factorization = clock();
-    double f_no_factorization = myPowerSeries3dClosed.Evaluate(x, y, z);
-    double dfdx_no_factorization = myPowerSeries3dClosed.Evaluate_derivative_x(x, y, z);
-    double dfdy_no_factorization = myPowerSeries3dClosed.Evaluate_derivative_y(x, y, z);
+    double f_no_factorization, dfdx_no_factorization, dfdy_no_factorization;
+    myPowerSeries3dClosed.Evaluate_f_dfdx_dfdy(x, y, z, f_no_factorization, dfdx_no_factorization,
+                                               dfdy_no_factorization);
     t_no_factorization = clock() - t_no_factorization;
     std::cout << "f, dfdx, dfdy without factorization = " << " " << f_no_factorization << " " << dfdx_no_factorization
               << " " << dfdy_no_factorization << std::endl;
