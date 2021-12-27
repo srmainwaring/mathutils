@@ -2,8 +2,6 @@
 // Created by frongere on 27/12/2021.
 //
 
-//#include <random>
-
 #include "MathUtils/RegularGridInterpolator.h"
 #include "MathUtils/VectorGeneration.h"
 
@@ -17,9 +15,8 @@ inline double func(const double &x,
   return x + 2 * std::pow(y, 2) + 3 * std::pow(z, 3);
 }
 
-double frand(double f_min, double f_max)
-{
-  double f = (double)rand() / RAND_MAX;
+double frand(double f_min, double f_max) {
+  double f = (double) rand() / RAND_MAX;
   return f_min + f * (f_max - f_min);
 }
 
@@ -46,7 +43,6 @@ TEST(RegularGridInterpolator, test_regular_grid_interpolator) {
   auto zcoord = linspace<double>(zmin, zmax, nz);
 
   Array3D var(boost::extents[nx][ny][nz]);
-//  Array3D val2(boost::extents[n][n][n]);
 
   for (index ix = 0; ix < nx; ++ix) {
     for (index iy = 0; iy < ny; ++iy) {
@@ -65,7 +61,6 @@ TEST(RegularGridInterpolator, test_regular_grid_interpolator) {
 
   interpolator.AddVar(var);
 
-
   int ntest = 1000000;
   for (int i = 0; i < ntest; ++i) {
     double x = frand(xmin, xmax);
@@ -75,8 +70,6 @@ TEST(RegularGridInterpolator, test_regular_grid_interpolator) {
     ASSERT_NEAR(interpolator.Interp({x, y, z}), func(x, y, z), 1e-1);
 
   }
-
-
 }
 
 
