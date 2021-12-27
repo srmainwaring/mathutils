@@ -37,6 +37,7 @@ set(MATHUTILS_HEADERS
 		PowerSeries1d.h
         PowerSeries2d.h
         PowerSeries3d.h
+		RegularGridInterpolator.h
         )
 
 # Building target

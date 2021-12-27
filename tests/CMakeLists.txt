@@ -20,6 +20,7 @@ set(TESTS
 	    test_linear_system_solver
         test_integration2d
         test_polynomial
+        test_regular_grid_interpolator
         )
 
 IF(MSVC)
