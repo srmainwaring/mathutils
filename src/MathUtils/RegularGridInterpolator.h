@@ -52,6 +52,8 @@ namespace mathutils {
 
     Real Interp(const std::array<Real, _dim> &point) const;
 
+    bool IsValid() const;
+
    private:
 
     void _BuildInterpolator();
@@ -149,6 +151,11 @@ namespace mathutils {
   template<typename Real, size_t _dim>
   size_t RegularGridInterpolator<Real, _dim>::GetDimension() const {
     return _dim;
+  }
+
+  template<typename Real, size_t _dim>
+  bool RegularGridInterpolator<Real, _dim>::IsValid() const {
+    return c_interpolator != nullptr;
   }
 
 }  // end namespace mathutils
