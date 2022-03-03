@@ -48,6 +48,11 @@ namespace mathutils {
 
     void AddVar(const NDArray &ndarray);
 
+    std::vector<Real> GetCoord(unsigned int idx) const;
+
+    double GetCoordMinVal(unsigned int idx) const;
+    double GetCoordMaxVal(unsigned int idx) const;
+
     size_t GetDimension() const;
 
     Real Interp(const std::array<Real, _dim> &point) const;
@@ -156,6 +161,33 @@ namespace mathutils {
   template<typename Real, size_t _dim>
   bool RegularGridInterpolator<Real, _dim>::IsValid() const {
     return c_interpolator != nullptr;
+  }
+
+  template<typename Real, size_t _dim>
+  std::vector<Real> RegularGridInterpolator<Real, _dim>::GetCoord(unsigned int idx) const {
+    if (idx >= _dim) {
+      std::cerr << "In RegularGridInterpolator, requesting a coordinate with index that is out of dimension" << std::endl;
+      exit(EXIT_FAILURE);
+    }
+    return m_grid_list[idx];
+  }
+
+  template<typename Real, size_t _dim>
+  double RegularGridInterpolator<Real, _dim>::GetCoordMaxVal(unsigned int idx) const {
+    if (idx >= _dim) {
+      std::cerr << "In RegularGridInterpolator, requesting a coordinate with index that is out of dimension" << std::endl;
+      exit(EXIT_FAILURE);
+    }
+    return *std::max_element(std::begin(m_grid_list[idx]), std::end(m_grid_list[idx]));
+  }
+
+  template<typename Real, size_t _dim>
+  double RegularGridInterpolator<Real, _dim>::GetCoordMinVal(unsigned int idx) const {
+    if (idx >= _dim) {
+      std::cerr << "In RegularGridInterpolator, requesting a coordinate with index that is out of dimension" << std::endl;
+      exit(EXIT_FAILURE);
+    }
+    return *std::min_element(std::begin(m_grid_list[idx]), std::end(m_grid_list[idx]));
   }
 
 }  // end namespace mathutils
