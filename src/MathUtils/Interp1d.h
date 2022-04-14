@@ -188,7 +188,7 @@ namespace mathutils {
   template<class XReal, class YScalar>
   YScalar Interp1dLinear<XReal, YScalar>::PrivEval(const XReal x) const {
 
-    if (x < this->xmin or x > this->xmax) {
+    if (x < this->xmin || x > this->xmax) {
       std::cerr << "Interpolation evaluated for value " << x << ", outside of the range : [" << this->xmin << ", "
                 << this->xmax << "]" << std::endl;
       exit(1);
@@ -207,7 +207,7 @@ namespace mathutils {
   YScalar Interp1dLinearSaturate<XReal, YScalar>::PrivEval(const XReal x) const {
 
     auto x_tmp = x;
-    if (x < this->xmin or x > this->xmax) {
+    if (x < this->xmin || x > this->xmax) {
       x < this->xmin ? x_tmp = this->xmin : x_tmp = this->xmax;
     }
     return Interp1dLinearBase<XReal, YScalar>::PrivEval(x_tmp);
