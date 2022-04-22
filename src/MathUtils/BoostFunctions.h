@@ -233,12 +233,12 @@ namespace mathutils {
 
     T Ei = 0.;
 
-    if(IsClose(x, 0.) or x < 0.) {
+    if(IsClose(x, 0.) || x < 0.) {
       std::cout << "Ei_Chebyshev_approximation: Ei is not defined for x = 0." << std::endl;
       exit(0);
     }
 
-    if(x > 0. and x < 6.){
+    if(x > 0. && x < 6.){
 
       // Parameters.
       int n = 9;
@@ -276,7 +276,7 @@ namespace mathutils {
       Ei += (x - x0) * (numerator / denominator);
 
     }
-    else if(x >= 6. and x < 12.) {
+    else if(x >= 6. && x < 12.) {
 
       // Parameters.
       int n = 9;
@@ -310,7 +310,7 @@ namespace mathutils {
       Ei = (exp(x) / x) * fraction;
 
     }
-    else if(x >= 12. and x < 24.) {
+    else if(x >= 12. && x < 24.) {
 
       // Parameters.
       int n = 9;
@@ -446,12 +446,12 @@ namespace mathutils {
 
     T E1 = 0.;
 
-    if(IsClose(x, 0.) or x < 0.) {
+    if(IsClose(x, 0.) || x < 0.) {
       std::cout << "E1_Chebyshev_approximation: E1 is not defined for x = 0." << std::endl;
       exit(0);
     }
 
-    if(x > 0. and x < 1.){
+    if(x > 0. && x < 1.){
 
       // Parameters.
       int n = 6;
@@ -477,7 +477,7 @@ namespace mathutils {
       E1 = -log(x) + (numerator / denominator);
 
     }
-    else if(x >= 1. and x < 4.) {
+    else if(x >= 1. && x < 4.) {
 
       // Parameters.
       int n = 8;

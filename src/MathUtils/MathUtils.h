@@ -39,6 +39,5 @@
 #include "PowerSeries1d.h"
 #include "PowerSeries2d.h"
 #include "PowerSeries3d.h"
-#include "RegularGridInterpolator.h"
 
 #endif //FRYDOM_MATHUTILS_H_H
