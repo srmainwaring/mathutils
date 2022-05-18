@@ -34,7 +34,7 @@ namespace mathutils {
   class RegularGridInterpolator {
 
     using GridType = std::vector<std::vector<Real>>;
-    using NDArray = boost::multi_array<double, _dim>;
+    using NDArray = boost::multi_array<Real, _dim>;
 
    public:
 
