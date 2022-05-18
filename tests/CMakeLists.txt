@@ -21,6 +21,7 @@ set(TESTS
         test_integration2d
         test_polynomial
         test_regular_grid_interpolator
+        test_regular_nearest
         )
 
 IF(MSVC)

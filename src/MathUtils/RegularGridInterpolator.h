@@ -34,7 +34,7 @@ namespace mathutils {
   class RegularGridInterpolator {
 
     using GridType = std::vector<std::vector<Real>>;
-    using NDArray = boost::multi_array<double, _dim>;
+    using NDArray = boost::multi_array<Real, _dim>;
 
    public:
 
@@ -50,8 +50,8 @@ namespace mathutils {
 
     std::vector<Real> GetCoord(unsigned int idx) const;
 
-    double GetCoordMinVal(unsigned int idx) const;
-    double GetCoordMaxVal(unsigned int idx) const;
+    Real GetCoordMinVal(unsigned int idx) const;
+    Real GetCoordMaxVal(unsigned int idx) const;
 
     size_t GetDimension() const;
 
@@ -173,7 +173,7 @@ namespace mathutils {
   }
 
   template<typename Real, size_t _dim>
-  double RegularGridInterpolator<Real, _dim>::GetCoordMaxVal(unsigned int idx) const {
+  Real RegularGridInterpolator<Real, _dim>::GetCoordMaxVal(unsigned int idx) const {
     if (idx >= _dim) {
       std::cerr << "In RegularGridInterpolator, requesting a coordinate with index that is out of dimension" << std::endl;
       exit(EXIT_FAILURE);
@@ -182,7 +182,7 @@ namespace mathutils {
   }
 
   template<typename Real, size_t _dim>
-  double RegularGridInterpolator<Real, _dim>::GetCoordMinVal(unsigned int idx) const {
+  Real RegularGridInterpolator<Real, _dim>::GetCoordMinVal(unsigned int idx) const {
     if (idx >= _dim) {
       std::cerr << "In RegularGridInterpolator, requesting a coordinate with index that is out of dimension" << std::endl;
       exit(EXIT_FAILURE);
