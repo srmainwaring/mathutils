@@ -72,40 +72,4 @@ TEST(RegularGridInterpolator, test_regular_grid_interpolator) {
   }
 }
 
-//TEST(RegularGridInterpolator, test_regular_grid_nearest_double) {
-//
-//  using Array = boost::multi_array<double, 2>;
-//  Array var(boost::extents[3][3]);
-//
-//  std::vector<double> xcoord = {0, 1, 2};
-//  std::vector<double> ycoord = {0, 1, 2};
-//
-//  var[0][0] = 0;
-//  var[0][1] = 1;
-//  var[0][2] = 2;
-//  var[1][0] = 1;
-//  var[1][1] = 2;
-//  var[1][2] = 3;
-//  var[2][0] = 2;
-//  var[2][1] = 3;
-//  var[2][2] = 4;
-//
-//  RegularGridInterpolator<double, 2> interpolator;
-//
-//  interpolator.AddCoord(xcoord);
-//  interpolator.AddCoord(ycoord);
-//
-//  interpolator.AddVar(var);
-//
-//  std::cout << interpolator.Interp({0.26, 0.25}) << std::endl;
-//  std::cout << interpolator.Interp({0.9, 1.9}) << std::endl;
-////  std::cout << interpolator.Nearest({0.26, 0.25}) << std::endl;
-////  std::cout << interpolator.Nearest({0.9, 1.9}) << std::endl;
-//
-//
-//  // Attention, si on depasse les ranges de l'interpolateur, on est clamp et ça dit rien de special...
-//
-////  std::cout << interpolator.Nearest({0.5, 0.5}) << std::endl;
-//
-//
-//}
+
