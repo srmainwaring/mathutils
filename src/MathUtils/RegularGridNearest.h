@@ -13,6 +13,24 @@
 
 namespace mathutils {
 
+  template<typename Data_t, size_t _dim, typename Coord_t=double>
+  struct GridNode {
+   public:
+    GridNode(const std::array<Coord_t, _dim> &coords, const Data_t &val) :
+        m_coords(coords),
+        m_val(val) {}
+
+    std::array<Coord_t, _dim> coords() const { return m_coords; }
+
+    Data_t val() const { return m_val; }
+
+   private:
+    std::array<Coord_t, _dim> m_coords;
+    Data_t m_val;
+
+  };
+
+
   // TODO: beaucoup de recoupement a factoriser avec RegularGridInterpolation -> classe de base a mettre en place
 
   template<typename Data_t, size_t _dim, typename Coord_t=double>
@@ -41,7 +59,7 @@ namespace mathutils {
 
     size_t GetDimension() const;
 
-    Data_t Nearest(const std::array<Coord_t, _dim> &point) const;
+    GridNode<Data_t, _dim, Coord_t> Nearest(const std::array<Coord_t, _dim> &point) const;
 
     bool IsValid() const;
 
@@ -136,11 +154,13 @@ namespace mathutils {
   }
 
   template<typename Data_t, size_t _dim, typename Coord_t>
-  Data_t RegularGridNearest<Data_t, _dim, Coord_t>::Nearest(const std::array<Coord_t, _dim> &point) const {
+  GridNode<Data_t, _dim, Coord_t>
+  RegularGridNearest<Data_t, _dim, Coord_t>::Nearest(const std::array<Coord_t, _dim> &point) const {
     // TODO !!
-    Data_t val;
+//    Data_t val;
 
     std::array<unsigned int, _dim> indices;
+    std::array<Coord_t, _dim> coords;
 
     for (unsigned int i = 0; i < _dim; ++i) {
       auto xi = point[i];
@@ -159,7 +179,7 @@ namespace mathutils {
         auto i_upper = std::upper_bound(coord.begin(), coord.end(), xi);
         icell = i_upper - coord.begin() - 1;
 
-        if (xi >= 0.5 * (coord[icell+1] + coord[icell])) {
+        if (xi >= 0.5 * (coord[icell + 1] + coord[icell])) {
           ++icell;
         }
 
@@ -167,11 +187,12 @@ namespace mathutils {
 
       }
       indices[i] = icell;
-
+      coords[i] = coord[icell];
     }
 
-    return m_data(indices);
-//    return val;
+    Data_t val = m_data(indices);
+    return GridNode<Data_t, _dim, Coord_t>(coords, val);
+//    return m_data(indices);
   }
 
   template<typename Data_t, size_t _dim, typename Coord_t>
