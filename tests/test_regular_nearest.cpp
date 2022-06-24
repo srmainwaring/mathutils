@@ -34,8 +34,6 @@ TEST(RegularGridNearest, test_regular_grid_nearest) {
 
   nearest.AddVar(var);
 
-//  auto a = nearest.Nearest({0., 0.});
-
   ASSERT_EQ(nearest.Nearest({0., 0.}).val(), 0);
   ASSERT_EQ(nearest.Nearest({0.25, 0.25}).val(), 0);
   ASSERT_EQ(nearest.Nearest({0.5, 0.25}).val(), 1);
@@ -84,5 +82,11 @@ TEST(RegularGridNearest, test_get_surrounding_nodes) {
 
   nearest.AddVar(var);
 
+  auto nodes = nearest.GetSurroundingGridNodes({1.5, 1.5});
+
+  ASSERT_EQ(nodes[0].val(), 2);
+  ASSERT_EQ(nodes[1].val(), 3);
+  ASSERT_EQ(nodes[2].val(), 3);
+  ASSERT_EQ(nodes[3].val(), 4);
 
 }

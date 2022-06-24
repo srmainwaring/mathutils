@@ -13,9 +13,16 @@
 
 namespace mathutils {
 
+  namespace internal {
+
+
+  }  // mathutils::internal
+
   template<typename Data_t, size_t _dim, typename Coord_t=double>
   struct GridNode {
    public:
+    GridNode() = default;
+
     GridNode(const std::array<Coord_t, _dim> &coords, const Data_t &val) :
         m_coords(coords),
         m_val(val) {}
@@ -61,7 +68,15 @@ namespace mathutils {
 
     GridNode<Data_t, _dim, Coord_t> Nearest(const std::array<Coord_t, _dim> &point) const;
 
+    std::vector<GridNode<Data_t, _dim, Coord_t>> GetSurroundingGridNodes(const std::array<Coord_t, _dim> &point) const;
+
     bool IsValid() const;
+
+   private:
+    GridNode<Data_t, _dim, Coord_t> GetNode(const std::array<size_t, _dim> &cell_index, unsigned int v) const;
+
+    GridNode<Data_t, _dim, Coord_t> GetNode(const std::array<size_t, _dim> &cell_index,
+                                            const std::array<size_t, _dim> &v_index) const;
 
    private:
     GridType m_grid_list;
@@ -196,8 +211,83 @@ namespace mathutils {
   }
 
   template<typename Data_t, size_t _dim, typename Coord_t>
+  std::vector<GridNode<Data_t, _dim, Coord_t>>
+  RegularGridNearest<Data_t, _dim, Coord_t>::GetSurroundingGridNodes(const std::array<Coord_t, _dim> &point) const {
+
+    std::vector<GridNode<Data_t, _dim, Coord_t>> nodes;
+    nodes.reserve(1 << _dim);
+
+    // Get the cell origin lower indices
+    std::array<size_t, _dim> indices;
+
+    for (unsigned int dim = 0; dim < _dim; ++dim) {
+      auto xi = point[dim];
+
+      unsigned int icell;
+
+      // Looking for the cell in which the xi point lies
+      const auto &coord = m_grid_list[dim];
+      if (xi < *coord.begin()) {
+        icell = -1;
+        // TODO
+      } else if (xi >= (*(coord.end() - 1))) {
+        icell = coord.size() - 1;
+        // TODO
+      } else {
+        icell = std::upper_bound(coord.begin(), coord.end(), xi) - coord.begin() - 1;
+      }
+
+      indices[dim] = icell;
+    }
+
+    // Loop over vertices of the hypercube
+    for (unsigned int v = 0; v < (1 << _dim); ++v) {
+      nodes.push_back(GetNode(indices, v));
+    }
+
+    return nodes;
+  }
+
+  template<typename Data_t, size_t _dim, typename Coord_t>
   bool RegularGridNearest<Data_t, _dim, Coord_t>::IsValid() const {
     return true;
+  }
+
+  template<typename Data_t, size_t _dim, typename Coord_t>
+  GridNode<Data_t, _dim, Coord_t>
+  RegularGridNearest<Data_t, _dim, Coord_t>::GetNode(const std::array<size_t, _dim> &cell_index, unsigned int v) const {
+    std::array<size_t, _dim> v_index;
+    for (unsigned int dim = 0; dim < _dim; ++dim) {
+      v_index[dim] = (v >> (_dim - dim - 1)) & 1;  // test if the i-th bit is set
+    }
+    return GetNode(cell_index, v_index);
+  }
+
+  template<typename Data_t, size_t _dim, typename Coord_t>
+  GridNode<Data_t, _dim, Coord_t>
+  RegularGridNearest<Data_t, _dim, Coord_t>::GetNode(const std::array<size_t, _dim> &cell_index,
+                                                     const std::array<size_t, _dim> &v_index) const {
+
+    std::array<size_t, _dim> indices;
+    std::array<Coord_t, _dim> node_coords;
+
+    for (unsigned int i = 0; i < _dim; ++i) {
+      const auto &coord = m_grid_list[i];
+
+      if (cell_index[i] < 0) {
+        indices[i] = 0;
+      } else if (cell_index[i] >= coord.size() - 1) {
+        indices[i] = m_grid_list[i].size() - 1;
+      } else {
+        indices[i] = cell_index[i] + v_index[i];
+      }
+
+      node_coords[i] = coord[indices[i]];
+    }
+
+    Data_t val = m_data(indices);
+
+    return GridNode<Data_t, _dim, Coord_t>(node_coords, val);
   }
 
 }  // mathutils
