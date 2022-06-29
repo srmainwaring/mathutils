@@ -70,6 +70,16 @@ TEST(RegularGridInterpolator, test_regular_grid_interpolator) {
     ASSERT_NEAR(interpolator.Interp({x, y, z}), func(x, y, z), 1e-1);
 
   }
+
+  ASSERT_EQ(interpolator.GetCoordMinVal(0), xmin);
+  ASSERT_EQ(interpolator.GetCoordMaxVal(0), xmax);
+  ASSERT_EQ(interpolator.GetCoordMinVal(1), ymin);
+  ASSERT_EQ(interpolator.GetCoordMaxVal(1), ymax);
+  ASSERT_EQ(interpolator.GetCoordMinVal(2), zmin);
+  ASSERT_EQ(interpolator.GetCoordMaxVal(2), zmax);
+
+  EXPECT_THROW(interpolator.Interp({-2, 0, 0}, true), std::runtime_error);
+
 }
 
 
