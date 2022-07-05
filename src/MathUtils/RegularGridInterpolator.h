@@ -73,6 +73,8 @@ class RegularGridInterpolator {
 
   Real Interp(const std::array<Real, _dim> &point, bool bound_check=false) const;
 
+  Real EvalAtIndice(const std::array<size_t, _dim> &indice) const;
+
   bool IsValid() const;
 
  private:
@@ -195,6 +197,11 @@ Real RegularGridInterpolator<Real, _dim>::Interp(const std::array<Real, _dim> &p
 
   return c_interpolator->interp(point);
 }
+
+  template<typename Real, size_t _dim>
+  Real RegularGridInterpolator<Real, _dim>::EvalAtIndice(const std::array<size_t, _dim> &indice) const {
+    return m_data(indice);
+  }
 
 template<typename Real, size_t _dim>
 size_t RegularGridInterpolator<Real, _dim>::GetDimension() const {

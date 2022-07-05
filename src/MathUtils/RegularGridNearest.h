@@ -23,15 +23,21 @@ namespace mathutils {
    public:
     GridNode() = default;
 
-    GridNode(const std::array<Coord_t, _dim> &coords, const Data_t &val) :
+    GridNode(const std::array<size_t, _dim> &indices,
+             const std::array<Coord_t, _dim> &coords,
+             const Data_t &val) :
+        m_indices(indices),
         m_coords(coords),
         m_val(val) {}
+
+    std::array<size_t, _dim> indices() const { return m_indices; }
 
     std::array<Coord_t, _dim> coords() const { return m_coords; }
 
     Data_t val() const { return m_val; }
 
    private:
+    std::array<size_t, _dim> m_indices;
     std::array<Coord_t, _dim> m_coords;
     Data_t m_val;
 
@@ -67,6 +73,8 @@ namespace mathutils {
     size_t GetDimension() const;
 
     GridNode<Data_t, _dim, Coord_t> Nearest(const std::array<Coord_t, _dim> &point) const;
+
+    Data_t GetData(const std::array<Coord_t, _dim> &point) const;
 
     std::vector<GridNode<Data_t, _dim, Coord_t>> GetSurroundingGridNodes(const std::array<Coord_t, _dim> &point) const;
 
@@ -169,12 +177,20 @@ namespace mathutils {
   }
 
   template<typename Data_t, size_t _dim, typename Coord_t>
+  Data_t
+  RegularGridNearest<Data_t, _dim, Coord_t>::GetData(const std::array<Coord_t, _dim> &point) const {
+
+  }
+
+
+
+  template<typename Data_t, size_t _dim, typename Coord_t>
   GridNode<Data_t, _dim, Coord_t>
   RegularGridNearest<Data_t, _dim, Coord_t>::Nearest(const std::array<Coord_t, _dim> &point) const {
     // TODO !!
 //    Data_t val;
 
-    std::array<unsigned int, _dim> indices;
+    std::array<size_t, _dim> indices;
     std::array<Coord_t, _dim> coords;
 
     for (unsigned int i = 0; i < _dim; ++i) {
@@ -206,7 +222,7 @@ namespace mathutils {
     }
 
     Data_t val = m_data(indices);
-    return GridNode<Data_t, _dim, Coord_t>(coords, val);
+    return GridNode<Data_t, _dim, Coord_t>(indices, coords, val);
 //    return m_data(indices);
   }
 
@@ -287,7 +303,7 @@ namespace mathutils {
 
     Data_t val = m_data(indices);
 
-    return GridNode<Data_t, _dim, Coord_t>(node_coords, val);
+    return GridNode<Data_t, _dim, Coord_t>(indices, node_coords, val);
   }
 
 }  // mathutils
