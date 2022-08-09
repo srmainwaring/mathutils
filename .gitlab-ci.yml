@@ -29,6 +29,7 @@ unitary-tests:
     - apt-get install -y python3.8-distutils
     - apt-get install -y python3-pip
     - pip3 --version
+    - pip3 install --upgrade pip3
     - pip3 install awscli cmake gcovr badges-gitlab==0.8.3
     - cmake --version
 
