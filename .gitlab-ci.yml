@@ -61,7 +61,9 @@ unitary-tests:
     when: always
     reports:
       junit: build/unit_test_report.xml
-      cobertura: build/coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: build/coverage.xml
     paths:
       - public/badges/*.svg
 
