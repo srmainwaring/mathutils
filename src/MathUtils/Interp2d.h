@@ -48,6 +48,14 @@ namespace mathutils {
 
         static Interp2d<Real>* MakeInterp2d(INTERP_METHOD method);
 
+        Real GetXmin() const { return xmin; }
+
+        Real GetXmax() const { return xmax; }
+
+        Real GetYmin() const { return ymin; }
+
+        Real GetYmax() const { return ymax; }
+
     };
 
 
