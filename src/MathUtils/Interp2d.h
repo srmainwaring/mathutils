@@ -167,6 +167,7 @@ namespace mathutils {
     Real Interp2dLinear<Real>::Eval(const Real x, const Real y) const {
 
         assert (x >= this->xmin && x <= this->xmax);
+        assert (y >= this->ymin && y <= this->ymax);
 
         auto upper_x = std::lower_bound(this->xcoord->begin(), this->xcoord->end(), x);
         auto ix = std::distance(this->xcoord->begin(), upper_x);
