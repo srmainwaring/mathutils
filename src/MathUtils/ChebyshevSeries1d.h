@@ -18,6 +18,7 @@ namespace mathutils {
   class Function1d {
 
    public:
+    virtual ~Function1d() {}
 
     /// This function evaluates the function at the point x.
     virtual T Evaluate(const double &x) const = 0;
@@ -31,6 +32,7 @@ namespace mathutils {
   class ChebyshevSeries1dBase {
 
    public:
+    virtual ~ChebyshevSeries1dBase() {}
 
     /// Contructor of the class.
     ChebyshevSeries1dBase(Function1d<T> *F, const double &xmin, const int &order_x) : m_function(F), m_x_min(xmin),
@@ -187,6 +189,7 @@ namespace mathutils {
   class ChebyshevSeries1dClosed : public ChebyshevSeries1dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries1dClosed() {}
 
     /// Contructor of the class.
     ChebyshevSeries1dClosed(Function1d<T> *F, const double &xmin, const double &xmax, const int &order_x) :
@@ -224,6 +227,7 @@ namespace mathutils {
   class ChebyshevSeries1dOpened : public ChebyshevSeries1dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries1dOpened() {}
 
     /// Contructor of the class.
     ChebyshevSeries1dOpened(Function1d<T> *F, const double &xmin, const int &order_x) :

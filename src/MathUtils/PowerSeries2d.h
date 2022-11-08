@@ -18,6 +18,7 @@ namespace mathutils {
   class PowerSeries2dBase {
 
    public:
+    virtual ~PowerSeries2dBase() {}
 
     /// Contructor of the class.
     PowerSeries2dBase(const MatrixMN <T> &bij, const double &xmin, const double &ymin) : m_bij(bij),
@@ -150,6 +151,7 @@ namespace mathutils {
   class PowerSeries2dClosed : public PowerSeries2dBase<T> {
 
    public:
+    virtual ~PowerSeries2dClosed() {}
 
     /// Contructor of the class.
     PowerSeries2dClosed(const MatrixMN <T> &bij, const double &xmin, const double &xmax, const double &ymin,
@@ -194,6 +196,7 @@ namespace mathutils {
   class PowerSeries2dOpened : public PowerSeries2dBase<T> {
 
    public:
+    virtual ~PowerSeries2dOpened() {}
 
     /// Contructor of the class.
     PowerSeries2dOpened(const MatrixMN <T> &bij, const double &xmin, const double &ymin) :
@@ -230,6 +233,7 @@ namespace mathutils {
   class PowerSeries2dMixed : public PowerSeries2dBase<T> {
 
    public:
+    virtual ~PowerSeries2dMixed() {}
 
     /// Contructor of the class.
     PowerSeries2dMixed(const MatrixMN <T> &bij, const double &xmin, const double &xmax, const double &ymin) :

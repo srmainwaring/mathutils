@@ -18,6 +18,7 @@ namespace mathutils {
   class PowerSeries3dBase {
 
    public:
+    virtual ~PowerSeries3dBase() {}
 
     /// Contructor of the class.
     PowerSeries3dBase(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &ymin, const double &zmin)
@@ -506,6 +507,7 @@ namespace mathutils {
   class PowerSeries3dClosed : public PowerSeries3dBase<T> {
 
    public:
+    virtual ~PowerSeries3dClosed() {}
 
     /// Contructor of the class.
     PowerSeries3dClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax, const double &ymin,
@@ -581,6 +583,7 @@ namespace mathutils {
   class PowerSeries3dYZOpenedXClosed : public PowerSeries3dBase<T> {
 
    public:
+    virtual ~PowerSeries3dYZOpenedXClosed() {}
 
     /// Contructor of the class.
     PowerSeries3dYZOpenedXClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax,
@@ -640,6 +643,7 @@ namespace mathutils {
   class PowerSeries3dZOpenedXYClosed : public PowerSeries3dBase<T> {
 
    public:
+    virtual ~PowerSeries3dZOpenedXYClosed() {}
 
     /// Contructor of the class.
     PowerSeries3dZOpenedXYClosed(const std::vector<MatrixMN <T>> &bijk, const double &xmin, const double &xmax,

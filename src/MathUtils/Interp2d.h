@@ -27,8 +27,7 @@ namespace mathutils {
         unsigned long ndata = 0;
 
     public:
-//        Interp2d() {};
-//        ~Interp2d() {};
+        virtual ~Interp2d() {};
 
         virtual void Initialize(std::shared_ptr<const std::vector<Real>> x,
                                 std::shared_ptr<const std::vector<Real>> y,
@@ -95,6 +94,8 @@ namespace mathutils {
         std::vector<Real> a4;
 
     public:
+        virtual ~Interp2dLinear() {};
+
         void Initialize(const std::shared_ptr<const std::vector<Real>> x,
                         const std::shared_ptr<const std::vector<Real>> y,
                         const std::shared_ptr<const std::vector<Real>> data) override;

@@ -18,6 +18,7 @@ namespace mathutils {
   class Function3d {
 
    public:
+    virtual ~Function3d() {}
 
     /// This function evaluates the function at the point (x, y, z).
     virtual T Evaluate(const double &x, const double &y, const double &z) const = 0;
@@ -31,6 +32,7 @@ namespace mathutils {
   class ChebyshevSeries3dBase {
 
    public:
+    virtual ~ChebyshevSeries3dBase() {}
 
     /// Contructor of the class.
     ChebyshevSeries3dBase(Function3d<T> *F, const double &xmin, const double &ymin, const double &zmin,
@@ -347,6 +349,7 @@ namespace mathutils {
   class ChebyshevSeries3dClosed : public ChebyshevSeries3dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries3dClosed() {}
 
     /// Contructor of the class.
     ChebyshevSeries3dClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
@@ -424,6 +427,7 @@ namespace mathutils {
   class ChebyshevSeries3dYZOpenedXClosed : public ChebyshevSeries3dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries3dYZOpenedXClosed() {}
 
     /// Contructor of the class.
     ChebyshevSeries3dYZOpenedXClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,
@@ -492,6 +496,7 @@ namespace mathutils {
   class ChebyshevSeries3dZOpenedXYClosed : public ChebyshevSeries3dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries3dZOpenedXYClosed() {}
 
     /// Contructor of the class.
     ChebyshevSeries3dZOpenedXYClosed(Function3d<T> *F, const double &xmin, const double &xmax, const double &ymin,

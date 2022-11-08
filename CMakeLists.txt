@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 17)
 cmake_policy(SET CMP0077 NEW)
 
 option(MATHUTILS_BUILD_TESTS "Build the MathUtils tests" ON)
-option(MATHUTILS_BUILD_BOOST_TESTS "Build the MathUtils tests requiring Boost" ON)
+option(MATHUTILS_BUILD_BOOST_TESTS "Build the MathUtils tests requiring Boost" OFF)
 option(MATHUTILS_SKIP_LONG_TESTS "Skip tests longer than 1 sec" OFF)
 option(MATHUTILS_TEST_COVERAGE "Build for coverage" OFF)
 

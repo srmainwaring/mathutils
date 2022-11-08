@@ -18,6 +18,7 @@ namespace mathutils {
   class Function2d {
 
    public:
+    virtual ~Function2d() {}
 
     /// This function evaluates the function at the point (x, y).
     virtual T Evaluate(const double &x, const double &y) const = 0;
@@ -31,6 +32,7 @@ namespace mathutils {
   class ChebyshevSeries2dBase {
 
    public:
+    virtual ~ChebyshevSeries2dBase() {}
 
     /// Contructor of the class.
     ChebyshevSeries2dBase(Function2d<T> *F, const double &xmin, const double &ymin, const int &order_x,
@@ -260,6 +262,7 @@ namespace mathutils {
   class ChebyshevSeries2dClosed : public ChebyshevSeries2dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries2dClosed() {}
 
     /// Contructor of the class.
     ChebyshevSeries2dClosed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,
@@ -316,6 +319,7 @@ namespace mathutils {
   class ChebyshevSeries2dOpened : public ChebyshevSeries2dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries2dOpened() {}
 
     /// Contructor of the class.
     ChebyshevSeries2dOpened(Function2d<T> *F, const double &xmin, const double &ymin, const int &order_x,
@@ -364,6 +368,7 @@ namespace mathutils {
   class ChebyshevSeries2dMixed : public ChebyshevSeries2dBase<T> {
 
    public:
+    virtual ~ChebyshevSeries2dMixed() {}
 
     /// Contructor of the class.
     ChebyshevSeries2dMixed(Function2d<T> *F, const double &xmin, const double &xmax, const double &ymin,

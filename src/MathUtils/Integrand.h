@@ -14,6 +14,7 @@ namespace mathutils {
   class Integrand {
 
    public:
+    virtual ~Integrand() {}
 
     /// This function evalutes the integrand at the point x.
     virtual T Evaluate(const Vector3d<double> &x) const = 0;

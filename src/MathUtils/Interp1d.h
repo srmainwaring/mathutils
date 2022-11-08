@@ -27,6 +27,7 @@ namespace mathutils {
     virtual YScalar PrivEval(XReal x) const = 0;
 
    public:
+    virtual ~Interp1d() {}
 
     YScalar Eval(XReal x) const {return PrivEval(x);};
 
@@ -90,6 +91,7 @@ namespace mathutils {
     std::vector<YScalar> b;
 
    public:
+    virtual ~Interp1dLinearBase() {}
 
     void Initialize(std::shared_ptr<const std::vector<XReal>> x,
                     std::shared_ptr<const std::vector<YScalar>> y) override;
@@ -104,6 +106,8 @@ namespace mathutils {
 
   template<class XReal, class YScalar>
   class Interp1dLinear : public Interp1dLinearBase<XReal, YScalar> {
+   public:
+    virtual ~Interp1dLinear() {}
 
    protected:
 
@@ -114,6 +118,8 @@ namespace mathutils {
 
   template<class XReal, class YScalar>
   class Interp1dLinearExtrapolate : public Interp1dLinearBase<XReal, YScalar> {
+   public:
+    virtual ~Interp1dLinearExtrapolate() {}
 
    protected:
 
@@ -124,6 +130,8 @@ namespace mathutils {
 
   template<class XReal, class YScalar>
   class Interp1dLinearSaturate : public Interp1dLinearBase<XReal, YScalar> {
+   public:
+    virtual ~Interp1dLinearSaturate() {}
 
    protected:
 
@@ -134,6 +142,9 @@ namespace mathutils {
 
   template<class XReal, class YScalar>
   class Interp1dBSpline : public Interp1d<XReal, YScalar> {
+   public:
+    virtual ~Interp1dBSpline() {}
+
    private:
 //        Spline m_spline;
 

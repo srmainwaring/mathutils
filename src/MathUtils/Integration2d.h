@@ -19,6 +19,7 @@ namespace mathutils {
   class Integration2d {
 
    public:
+    virtual ~Integration2d() {}
 
     /// Contructor of the class.
     Integration2d(Integrand<T>* F, const int& order) : m_order(order), m_integrand(F) {

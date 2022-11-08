@@ -18,6 +18,7 @@ namespace mathutils {
   class PowerSeries1dBase {
 
    public:
+    virtual ~PowerSeries1dBase() {}
 
     /// Contructor of the class.
     PowerSeries1dBase(const VectorN<T> &bi, const double &xmin) : m_bi(bi), m_x_min(xmin) {
@@ -102,6 +103,7 @@ namespace mathutils {
   class PowerSeries1dClosed : public PowerSeries1dBase<T> {
 
    public:
+    virtual ~PowerSeries1dClosed() {}
 
     /// Contructor of the class.
     PowerSeries1dClosed(const VectorN<T> &bi, const double &xmin, const double &xmax) :
@@ -133,6 +135,7 @@ namespace mathutils {
   class PowerSeries1dOpened : public PowerSeries1dBase<T> {
 
    public:
+    virtual ~PowerSeries1dOpened() {}
 
     /// Contructor of the class.
     PowerSeries1dOpened(const VectorN<T> &bi, const double &xmin) : PowerSeries1dBase<T>(bi, xmin) {}

@@ -16,12 +16,12 @@ set(TESTS
         test_fft
         test_spline
         test_vectorN
-	    test_geometry
-	    test_linear_system_solver
+        test_geometry
+        test_linear_system_solver
         test_integration2d
         test_polynomial
-        test_regular_grid_interpolator
-        test_regular_nearest
+        # test_regular_grid_interpolator
+        # test_regular_nearest
         )
 
 IF(MSVC)

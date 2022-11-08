@@ -24,20 +24,20 @@ set(MATHUTILS_HEADERS
         Functions.h
         Convolution.h
         VectorN.h
-	    Geometry.h
+        Geometry.h
         Integration2d.h
         Integration2dTriangle.h
         QuadratureTables.h
         Integrand.h
         Polynomial.h
         BoostFunctions.h
-		ChebyshevSeries1d.h
+        ChebyshevSeries1d.h
         ChebyshevSeries2d.h
         ChebyshevSeries3d.h
-		PowerSeries1d.h
+        PowerSeries1d.h
         PowerSeries2d.h
         PowerSeries3d.h
-		RegularGridInterpolator.h
+        # RegularGridInterpolator.h
         )
 
 # Building target

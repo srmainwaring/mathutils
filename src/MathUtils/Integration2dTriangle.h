@@ -16,6 +16,7 @@ namespace mathutils {
   class Integration2dTriangle : public Integration2d<T> {
 
    public:
+    virtual ~Integration2dTriangle() {}
 
     /// Contructor of the class.
     Integration2dTriangle(Integrand<T>* F, const int &order)

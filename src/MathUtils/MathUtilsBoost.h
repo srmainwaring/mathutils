@@ -12,7 +12,7 @@
 #include "ChebyshevSeries3d.h"
 #include "BoostFunctions.h"
 #include "Convolution.h"
-#include "RegularGridInterpolator.h"
-#include "RegularGridNearest.h"
+// #include "RegularGridInterpolator.h"
+// #include "RegularGridNearest.h"
 
 #endif //MATHUTILS_MATHUTILSBOOST_H
