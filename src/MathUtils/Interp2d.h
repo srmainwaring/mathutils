@@ -100,11 +100,11 @@ namespace mathutils {
                         const std::shared_ptr<const std::vector<Real>> y,
                         const std::shared_ptr<const std::vector<Real>> data) override;
 
-        Real Eval(const Real x, const Real y) const;
+        virtual Real Eval(const Real x, const Real y) const override;
 
         //Real Eval(const std::vector<Real> coord) const;
 
-        std::vector<Real> Eval(const std::vector<std::vector<Real>> vcoord) const;
+        virtual std::vector<Real> Eval(const std::vector<std::vector<Real>> vcoord) const override;
 
     };
 
